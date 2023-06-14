@@ -1,5 +1,6 @@
 import { twMerge } from "tailwind-merge";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Footer({ className }: { className?: string }) {
   return (
@@ -27,15 +28,15 @@ export default function Footer({ className }: { className?: string }) {
         <div className="flex flex-col gap-10">
           <div>
             <span className="block mb-5 font-bold">หน้าแรก</span>
-            <a href="/">กลับไปที่หน้าแรก</a>
+            <Link href="/">กลับไปที่หน้าแรก</Link>
           </div>
           <div>
             <span className="block mb-5 font-bold">ข้อมูลบุคคล</span>
-            <a href="/">ดูหน้าข้อมูลบุคคล</a>
+            <Link href="/individual">ดูหน้าข้อมูลบุคคล</Link>
           </div>
           <div>
             <span className="block mb-5 font-bold">ข้อมูลเงินบริจาค</span>
-            <a href="/">ดูหน้าข้อมูลเงินบริจาค</a>
+            <Link href="/donation">ดูหน้าข้อมูลเงินบริจาค</Link>
           </div>
         </div>
         <div>
