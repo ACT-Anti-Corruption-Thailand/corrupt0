@@ -37,12 +37,7 @@ const Spotlight = () => {
             <div className="text-center pt-[40px]">
             <p className="text-14 text-gray-3">ร่วมพัฒนาโดย ACT / HAND SE / PUNCH UP</p>
             <p className="text-20 text-gray-3 opacity-50">อัปเดตล่าสุด: 00/00/255</p>
-
             </div>
-            
-
-            
-            
         </>
     );
 
