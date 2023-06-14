@@ -1,11 +1,13 @@
 import Image from "next/image";
 
+import Navbar from "@/components/Navbar";
 import Sharer from "@/components/Sharer";
 import Footer from "@/components/Footer";
 
 export default function Home() {
   return (
     <>
+      <Navbar floating />
       <main className="text-center py-50">
         <p>
           ACT Ai จึงถูกพัฒนาขึ้น เพื่อเป็นฐานข้อมูลความโปร่งใส
