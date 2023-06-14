@@ -45,7 +45,7 @@ export default function Home() {
           <span>Powered by</span>
           <Image
             className="w-auto h-20"
-            src="/logos/actai-k.svg"
+            src="./logos/actai-k.svg"
             width={26.8}
             height={20}
             alt="act ai"
@@ -55,14 +55,14 @@ export default function Home() {
           <span>Co-Developed by</span>
           <Image
             className="w-auto h-10"
-            src="/logos/pu.svg"
+            src="./logos/pu.svg"
             width={50.12}
             height={14.5}
             alt="punch up"
           />
           <Image
             className="w-auto h-10"
-            src="/logos/hand.svg"
+            src="./logos/hand.svg"
             width={43.68}
             height={16}
             alt="hand"

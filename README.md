@@ -30,6 +30,10 @@ pnpm build
 
 หากไม่มีความจำเป็น ไม่แนะนำให้จิ้มด้วย class ด้านบนโดยตรง แต่ให้ใช้จาก utility class แทน
 
+## Images
+
+ให้ใช้เป็น Relative Path จาก root เช่น `/images/...` -> `./images/...`
+
 ## Utilities Class
 
 - Typescale มีให้ใช้ตามใน Figma (`.h1`–`.h4`, `.b1`–`.b7`)
