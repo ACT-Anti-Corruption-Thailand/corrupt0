@@ -11,7 +11,7 @@ export default function Navbar<NavbarProps>({ floating = false }) {
     <>
       <nav
         className={clsx(
-          "h-50 flex items-center px-10 gap-5 z-10",
+          "h-50 flex items-center px-10 gap-5 z-10 b5",
           floating ? "-mb-50" : "bg-black border-b border-b-gray-4"
         )}
       >
@@ -34,7 +34,7 @@ export default function Navbar<NavbarProps>({ floating = false }) {
           className="border border-gray-4 rounded-full p-8 inline-flex items-center justify-center"
           href="/search"
         >
-          <Image src="/icons/search.svg" width={13} height={13} alt="ค้นหา" />
+          <Image src="/icons/search.svg" width={18} height={18} alt="ค้นหา" />
         </a>
       </nav>
       {!floating && <BackButton />}

@@ -5,7 +5,7 @@ import Image from "next/image";
 export default function BackButton() {
   return (
     <button
-      className="flex w-auto mr-auto px-15 h-32 gap-5 items-center"
+      className="flex w-auto mr-auto px-15 h-32 gap-5 items-center b4 font-bold"
       type="button"
       onClick={() => window.history.back()}
     >
