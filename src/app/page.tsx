@@ -3,12 +3,14 @@ import Image from "next/image";
 import Navbar from "@/components/Navbar";
 import Sharer from "@/components/Sharer";
 import Footer from "@/components/Footer";
+import Spotlight from "@/components/Spotlight";
 
 export default function Home() {
   return (
     <>
       <Navbar floating />
       <main className="text-center py-50">
+        <Spotlight/>
         <p>
           ACT Ai จึงถูกพัฒนาขึ้น เพื่อเป็นฐานข้อมูลความโปร่งใส
           ของนักการเมืองและเจ้าหน้าที่รัฐ ที่ประชาชนทุกคนสามารถค้นหา
