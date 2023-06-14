@@ -1,34 +1,40 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Corrupt0 — ACT AI
 
-## Getting Started
+ไฟล์นี้จะเอาไว้ Log Feature หรือวิธีการทำสิ่งต่างๆ เพื่อให้สามารถ dev ได้อย่างราบรื่น
 
-First, run the development server:
+## Dev & Build
+
+โปรเจกต์นี้ใช้ [pnpm](https://pnpm.io/) ดังนั้นเราจะ dev ด้วยคำสั่ง:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
 pnpm dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+และสามารถ build ได้ด้วยคำสั่ง:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+pnpm build
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+ไฟล์จะอยู่ในโฟล์เดอร์ `/out`
 
-## Learn More
+## Font
 
-To learn more about Next.js, take a look at the following resources:
+จากไฟล์ฟอนต์ จะมีรูปแบบความกว้าง (ปกติ/บีบ/ขยาย) และน้ำหนักตามตาราง
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+|                      | ปกติ | บีบ<br>`.font-condensed` | ขยาย<br>`.font-expanded` |
+| -------------------- | ---- | ------------------------ | ------------------------ |
+| 300<br>`.font-light` | -    | ✅                       | -                        |
+| 400                  | ✅   | เหมือน 300               | ✅                       |
+| 700<br>`.font-bold`  | ✅   | ✅                       | เหมือน 900               |
+| 900<br>`.font-black` | -    | -                        | ✅                       |
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+เพื่อความสะดวก:
 
-## Deploy on Vercel
+- `.font-condensed` (ที่ไม่คู่กับ `.font-bold`) จะเหมือน `.font-condensed.font-light`
+- `.font-expanded.font-bold` จะเหมือน `.font-expanded.font-black`
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Utilities Class
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- สามารถใช้ `.nobr` แทน `.whitespace-nowrap` ได้
+- `.text-center` จะ apply `text-wrap: balance;` ไปด้วย ถ้าไม่ต้องการให้ข้อความวางเสมอกัน ให้ใช้เป็น `.text-center.no-balance`

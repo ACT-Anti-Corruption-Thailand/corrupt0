@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    @apply relative;
+  }
+
+  html {
+    @apply overflow-x-hidden scroll-smooth;
+  }
+}
+
+@layer utilities {
+  .nobr {
+    @apply whitespace-nowrap;
+  }
+
+  .text-center:not(.no-balance) {
+    text-wrap: balance;
+  }
+}
