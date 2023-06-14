@@ -10,8 +10,52 @@
   }
 
   html {
-    @apply overflow-x-hidden scroll-smooth bg-black;
+    @apply overflow-x-hidden scroll-smooth bg-black /* B5 */ text-20 md:text-24 font-body;
     color-scheme: dark;
+  }
+
+  .h1 {
+    @apply text-40 md:text-65 font-header font-black;
+  }
+
+  .h2 {
+    @apply text-35 md:text-50 font-header font-black;
+  }
+
+  .h3 {
+    @apply text-30 md:text-38 font-header font-black;
+  }
+
+  .h4 {
+    @apply text-27 md:text-30 font-header font-black;
+  }
+
+  .b1 {
+    @apply text-30 md:text-38 font-body;
+  }
+
+  .b2 {
+    @apply text-27 md:text-34 font-body;
+  }
+
+  .b3 {
+    @apply text-24 md:text-30 font-body;
+  }
+
+  .b4 {
+    @apply text-22 md:text-27 font-body;
+  }
+
+  .b5 {
+    @apply text-20 md:text-24 font-body;
+  }
+
+  .b6 {
+    @apply text-18 md:text-22 font-body;
+  }
+
+  .b7 {
+    @apply text-14 md:text-20 font-body;
   }
 }
 
@@ -20,6 +64,7 @@
     @apply whitespace-nowrap;
   }
 
+  .text-balance,
   .text-center:not(.no-balance) {
     text-wrap: balance;
   }
