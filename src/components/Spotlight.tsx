@@ -34,7 +34,7 @@ const Spotlight = () => {
                 {/* <p className="text-white fixed bg-black">{JSON.stringify(mousePos)}</p> */}
                 <p className="text-black text-center text-24 mt-20">ค้นหาและตรวจสอบข้อมูล<br/>ความโปร่งใสของนักการเมือง<br/>และเจ้าหน้าที่รัฐ</p> 
             </div>
-            <div className="text-center pt-[40px]">
+            <div className="text-center pt-40">
             <p className="text-14 text-gray-3">ร่วมพัฒนาโดย ACT / HAND SE / PUNCH UP</p>
             <p className="text-20 text-gray-3 opacity-50">อัปเดตล่าสุด: 00/00/255</p>
             </div>
