@@ -19,6 +19,7 @@ module.exports = {
       38: ["38px", "1.2"],
       35: ["35px", "1.2"],
       34: ["34px", "1.2"],
+      32: ["32px", "1.2"],
       30: ["30px", "1.2"],
       27: ["27px", "1.2"],
       24: ["24px", "1.2"],
@@ -112,6 +113,10 @@ module.exports = {
         "2eq": "1fr 1fr",
         "3eq": "repeat(3,1fr)",
         "4eq": "repeat(4,1fr)",
+      },
+      backgroundImage: {
+        "council": "url('./images/council.png')",
+        "donation": "url('./images/donation.png')",
       },
     },
   },
