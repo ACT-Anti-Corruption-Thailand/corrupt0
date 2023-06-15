@@ -28,7 +28,7 @@ const Card = (props: CardProps) => {
             </div>
             <div className="w-[120px] border-solid border-1 border-gray-3 self-center mt-20 mb-10"></div>
             <p className="text-22">{props.amount}</p>
-            <button className="my-10 bg-white rounded-10 text-black w-[65px] h-[25px] self-center">ดูข้อมูล</button>
+            <button className="my-10 bg-white rounded-10 text-black w-[65px] h-[25px] self-center flex flex-row justify-center">ดูข้อมูล<img src="./icons/triangle.svg" className="my-auto ml-2" /></button>
         </div>
     )
 
