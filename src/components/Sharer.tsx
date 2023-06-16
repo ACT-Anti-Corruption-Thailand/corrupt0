@@ -24,7 +24,7 @@ export default function Sharer() {
       >
         <Image
           className="w-20"
-          src="./logos/share-fb.svg"
+          src="/logos/share-fb.svg"
           width={20}
           height={20}
           alt="Facebook"
@@ -37,7 +37,7 @@ export default function Sharer() {
       >
         <Image
           className="w-20"
-          src="./logos/share-tw.svg"
+          src="/logos/share-tw.svg"
           width={20}
           height={20}
           alt="Twitter"
@@ -50,7 +50,7 @@ export default function Sharer() {
       >
         <Image
           className="w-20"
-          src="./logos/share-line.svg"
+          src="/logos/share-line.svg"
           width={20}
           height={20}
           alt="Line messenger"

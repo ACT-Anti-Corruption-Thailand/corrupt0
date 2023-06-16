@@ -9,7 +9,7 @@ export default function BackButton() {
       type="button"
       onClick={() => window.history.back()}
     >
-      <Image src="./icons/arr-l.svg" width={18} height={16} alt="" />
+      <Image src="/icons/arr-l.svg" width={18} height={16} alt="" />
       <span>กลับ</span>
     </button>
   );

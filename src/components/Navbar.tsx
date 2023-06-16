@@ -19,7 +19,7 @@ export default function Navbar<NavbarProps>({ floating = false }) {
         <Link className="mr-auto" href="/">
           <Image
             className="w-auto h-[23px]"
-            src="./logos/actai-w.svg"
+            src="/logos/actai-w.svg"
             width={26.8}
             height={20}
             alt="Act AI"
@@ -41,7 +41,7 @@ export default function Navbar<NavbarProps>({ floating = false }) {
           className="border border-gray-6 bg-black rounded-full p-8 inline-flex items-center justify-center"
           href="/search"
         >
-          <Image src="./icons/search.svg" width={18} height={18} alt="ค้นหา" />
+          <Image src="/icons/search.svg" width={18} height={18} alt="ค้นหา" />
         </Link>
       </nav>
       {!floating && <BackButton />}
