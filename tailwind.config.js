@@ -115,10 +115,6 @@ module.exports = {
         "3eq": "repeat(3,1fr)",
         "4eq": "repeat(4,1fr)",
       },
-      backgroundImage: {
-        council: "url('./images/council.png')",
-        donation: "url('./images/donation.png')",
-      },
     },
   },
   plugins: [],
