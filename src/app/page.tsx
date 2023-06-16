@@ -4,6 +4,7 @@ import Navbar from "@/components/Navbar";
 import Sharer from "@/components/Sharer";
 import Footer from "@/components/Footer";
 import Spotlight from "@/components/Spotlight";
+import ImgCard from "@/components/ImgCard";
 
 export default function Home() {
   return (
@@ -11,6 +12,15 @@ export default function Home() {
       <Navbar floating />
       <Spotlight />
       <main className="text-center py-50">
+        <p className="text-white text-30 mb-20 font-black ">มีอะไรให้ดูในเว็บไซต์นี้?</p>
+        <section className="py-20 px-10 bg-white rounded-10 mb-10">
+          <ImgCard  title="ดูข้อมูลนักการเมืองเเละเจ้าหน้าที่รัฐ" topic={["สถานะทางการเงินเเละการยื่นบัญชีทรัพย์สินฯ", "ความเกี่ยวข้องกับธุรกิจและโครงการภาครัฐ", "เงินบริจาคพรรคการเมือง", "ความเกี่ยวข้องกับคดีความ"]} imgPath="./images/council.png" />
+          <p className="text-black text-24 my-10">ข้อมูลที่น่าสนใจ</p>
+        </section>
+        <section className="py-20 px-10 bg-white rounded-10 mb-10">
+          <ImgCard  title="ดูข้อมูลเงินบริจาคพรรคการเมือง" topic={["ยอดบริจาคที่น่าสังเกตของบุคคล/นิติบุคคล"]} imgPath="./images/council.png" />
+          <p className="text-black text-24 my-10">ข้อมูลที่น่าสนใจ</p>
+        </section>
         <section className="mb-20 b5 px-10">
           <p className="mb-20">
             ความโปร่งใสทางการเมือง (Political Transparency)
