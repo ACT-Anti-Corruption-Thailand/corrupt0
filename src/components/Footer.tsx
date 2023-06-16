@@ -18,7 +18,7 @@ export default function Footer({ className }: { className?: string }) {
       >
         <Image
           className="w-auto h-20"
-          src="./logos/actai-k.svg"
+          src="/logos/actai-k.svg"
           width={26.8}
           height={20}
           alt="go to actai.co"
@@ -71,7 +71,7 @@ export default function Footer({ className }: { className?: string }) {
               <a href="/" target="_blank" rel="nofollow noopener noreferrer">
                 <Image
                   className="w-10"
-                  src="./logos/fb.svg"
+                  src="/logos/fb.svg"
                   width={10}
                   height={10}
                   alt="Facebook"
@@ -82,7 +82,7 @@ export default function Footer({ className }: { className?: string }) {
               <a href="/" target="_blank" rel="nofollow noopener noreferrer">
                 <Image
                   className="w-10"
-                  src="./logos/tw.svg"
+                  src="/logos/tw.svg"
                   width={10}
                   height={10}
                   alt="Twitter"
@@ -93,7 +93,7 @@ export default function Footer({ className }: { className?: string }) {
               <a href="/" target="_blank" rel="nofollow noopener noreferrer">
                 <Image
                   className="w-10"
-                  src="./logos/ig.svg"
+                  src="/logos/ig.svg"
                   width={10}
                   height={10}
                   alt="Instagram"
@@ -116,21 +116,21 @@ export default function Footer({ className }: { className?: string }) {
         <span className="text-[#92989F]">Co-Developed by</span>
         <Image
           className="w-auto h-15"
-          src="./logos/act.png"
+          src="/logos/act.png"
           width={15}
           height={15}
           alt=""
         />
         <Image
           className="w-auto h-10"
-          src="./logos/hand.svg"
+          src="/logos/hand.svg"
           width={27.3}
           height={10}
           alt=""
         />
         <Image
           className="w-auto h-10"
-          src="./logos/pu.svg"
+          src="/logos/pu.svg"
           width={34.56}
           height={10}
           alt=""
