@@ -32,7 +32,7 @@ pnpm build
 
 ## Images
 
-ให้ใช้เป็น Relative Path จาก root เช่น `/images/...` -> `./images/...`
+ให้ใช้เป็น Absolute Path จาก root เช่น `/images/...`
 
 ## Utilities Class
 
