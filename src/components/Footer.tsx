@@ -103,7 +103,7 @@ export default function Footer({ className }: { className?: string }) {
           </ul>
         </div>
       </div>
-      <hr className="border-gray-1 w-4/5 mx-auto mix-blend-multiply" />
+      <hr className="border-gray-2 w-4/5 mx-auto mix-blend-multiply" />
       <a
         className="inline-block mx-auto"
         href="https://docs.google.com/document/d/1OfjTnljRZTppFzriPyKLbARAD--Dm-bZqi60AHuubTA"

@@ -22,11 +22,11 @@ const Card = (props: CardProps) => {
             <div className="flex flex-row m-10">
                 <Image src={props.icon!} width={25} height={25} alt="icon" />
                 <div className="text-left ml-5">
-                    <p className="text-gray-3 text-14">{props.type}</p>
+                    <p className="text-gray-5 text-14">{props.type}</p>
                     <p className="">{props.name}</p>
                 </div>
             </div>
-            <div className="w-[120px] border-solid border-1 border-gray-3 self-center mt-20 mb-10"></div>
+            <div className="w-[120px] border-solid border-1 border-gray-5 self-center mt-20 mb-10" />
             <p className="text-22">{props.amount}</p>
             <button className="my-10 bg-white rounded-10 text-black w-[65px] h-[25px] self-center flex flex-row justify-center">ดูข้อมูล<img src="./icons/triangle.svg" className="my-auto ml-2" /></button>
         </div>

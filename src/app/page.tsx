@@ -69,7 +69,7 @@ export default function Home() {
           />
         </div>
       </section>
-      <Footer className="bg-gray-1 !rounded-0" />
+      <Footer className="bg-gray-2 !rounded-0" />
     </>
   );
 }
