@@ -12,14 +12,14 @@ interface CardProps {
 
 const Card = (props: CardProps) => {
   return (
-    <div className="rounded-5 w-[180px] bg-black flex flex-col text-white text-20">
+    <div className="rounded-10 min-w-[180px] bg-black flex flex-col text-white text-20 keen-slider__slide">
       <div
         style={
           {
             "--color": `${props.color}`,
           } as React.CSSProperties
         }
-        className="w-[180px] rounded-t-5 bg-[var(--color)] py-12"
+        className="w-[180px] rounded-t-10 bg-[var(--color)] py-12"
       >
         {props.title}
       </div>
@@ -34,7 +34,7 @@ const Card = (props: CardProps) => {
       <p className="text-22">{props.amount}</p>
       <button className="my-10 bg-white rounded-10 text-black w-[65px] h-[25px] self-center flex flex-row justify-center">
         ดูข้อมูล
-        <Image src="/icons/triangle.svg" alt="" className="my-auto ml-2" />
+        <Image src="/icons/triangle.svg" alt="" className="my-auto ml-2" width={8} height={5}/>
       </button>
     </div>
   );
