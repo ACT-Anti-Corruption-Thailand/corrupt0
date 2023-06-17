@@ -5,6 +5,8 @@ import Sharer from "@/components/Sharer";
 import Footer from "@/components/Footer";
 import Spotlight from "@/components/Spotlight";
 import ImgCard from "@/components/ImgCard";
+import Slider from "@/components/Slider";
+import Card from "@/components/Card";
 
 export default function Home() {
   return (
@@ -16,10 +18,24 @@ export default function Home() {
         <section className="py-20 px-10 bg-white rounded-10 mb-10">
           <ImgCard  title="ดูข้อมูลนักการเมืองเเละเจ้าหน้าที่รัฐ" topic={["สถานะทางการเงินเเละการยื่นบัญชีทรัพย์สินฯ", "ความเกี่ยวข้องกับธุรกิจและโครงการภาครัฐ", "เงินบริจาคพรรคการเมือง", "ความเกี่ยวข้องกับคดีความ"]} imgPath="./images/council.png" />
           <p className="text-black text-24 my-10">ข้อมูลที่น่าสนใจ</p>
+          <Slider >
+            <Card title="พรรคที่ได้รับบริจาคมากที่สุด" color="#9B8CCD" type="พรรค" name="พลังประชารัฐ" amount="500 ล้านบาท" icon="./icons/person.svg"/>
+            <Card title="พรรคที่ได้รับบริจาคมากที่สุด" color="#9B8CCD" type="พรรค" name="พลังประชารัฐ" amount="500 ล้านบาท" icon="./icons/person.svg"/>
+            <Card title="พรรคที่ได้รับบริจาคมากที่สุด" color="#9B8CCD" type="พรรค" name="พลังประชารัฐ" amount="500 ล้านบาท" icon="./icons/person.svg"/>
+            <Card title="พรรคที่ได้รับบริจาคมากที่สุด" color="#9B8CCD" type="พรรค" name="พลังประชารัฐ" amount="500 ล้านบาท" icon="./icons/person.svg"/>
+            <Card title="พรรคที่ได้รับบริจาคมากที่สุด" color="#9B8CCD" type="พรรค" name="พลังประชารัฐ" amount="500 ล้านบาท" icon="./icons/person.svg"/>
+          </Slider>
         </section>
         <section className="py-20 px-10 bg-white rounded-10 mb-10">
           <ImgCard  title="ดูข้อมูลเงินบริจาคพรรคการเมือง" topic={["ยอดบริจาคที่น่าสังเกตของบุคคล/นิติบุคคล"]} imgPath="./images/council.png" />
           <p className="text-black text-24 my-10">ข้อมูลที่น่าสนใจ</p>
+          <Slider >
+            <Card title="พรรคที่ได้รับบริจาคมากที่สุด" color="#9B8CCD" type="พรรค" name="พลังประชารัฐ" amount="500 ล้านบาท" icon="./icons/person.svg"/>
+            <Card title="พรรคที่ได้รับบริจาคมากที่สุด" color="#9B8CCD" type="พรรค" name="พลังประชารัฐ" amount="500 ล้านบาท" icon="./icons/person.svg"/>
+            <Card title="พรรคที่ได้รับบริจาคมากที่สุด" color="#9B8CCD" type="พรรค" name="พลังประชารัฐ" amount="500 ล้านบาท" icon="./icons/person.svg"/>
+            <Card title="พรรคที่ได้รับบริจาคมากที่สุด" color="#9B8CCD" type="พรรค" name="พลังประชารัฐ" amount="500 ล้านบาท" icon="./icons/person.svg"/>
+            <Card title="พรรคที่ได้รับบริจาคมากที่สุด" color="#9B8CCD" type="พรรค" name="พลังประชารัฐ" amount="500 ล้านบาท" icon="./icons/person.svg"/>
+          </Slider>
         </section>
         <section className="mb-20 b5 px-10">
           <p className="mb-20">
