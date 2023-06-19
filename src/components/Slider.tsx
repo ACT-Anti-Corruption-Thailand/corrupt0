@@ -49,7 +49,7 @@ const Slider = (props: Props) => {
                       "--dot-color": `${currentSlide === idx ? "#000" : "#AAAAAA"}`,
                     } as React.CSSProperties
                   }
-                className="border-none w-10 h-10 rounded-[50%] my-5 mx-2 p-5 cursor-pointer focus:outline-none bg-[var(--dot-color)]"
+                className="border-none w-10 h-10 rounded-[50%] mb-5 mt-20 mx-2 p-5 cursor-pointer focus:outline-none bg-[var(--dot-color)]"
               ></button>
             );
           })}
