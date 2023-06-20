@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Sharer from "@/components/Sharer";
 import InfoGoTop from "@/components/InfoGoTop";
+import Accordion from "@/components/Accordion";
 
 export async function generateStaticParams() {
   return [{ name: "_test" }];
@@ -10,6 +11,8 @@ export default function Person() {
   return (
     <main>
       <InfoGoTop name="สุชาติ ภิญโญ" />
+
+      {/* Basic Information */}
       <section className="flex flex-col gap-5 bg-white text-black text-center py-15 px-30 mb-2">
         <span className="b6 text-gray-5">
           อัปเดตข้อมูลเมื่อวันที่ {new Date().toLocaleDateString("th")}
@@ -39,13 +42,32 @@ export default function Person() {
               <span className="font-bold">สมาชิกสภาผู้แทนราษฎร</span>{" "}
               <span>(2562-2566)</span>
             </span>
-            <details>
-              <summary className="b6 text-gray-5">ดูตำแหน่งที่ผ่านมา</summary>
-              LOL
-            </details>
+            <Accordion
+              trigger={
+                <div className="flex b6 text-gray-5 items-center">
+                  <span>ดูตำแหน่งที่ผ่านมา</span>
+                  <Image
+                    className="group-aria-expanded/accordion:rotate-180 ml-2"
+                    src="/icons/caret-d-g.svg"
+                    width={10}
+                    height={10}
+                    alt=""
+                  />
+                </div>
+              }
+            >
+              <div className="rounded-5 bg-gray-2 b7 text-gray-5 p-5">
+                <ul className="flex flex-col gap-5 list-disc">
+                  <li>สมาชิกสภาผู้แทนราษฎร (2500-2500)</li>
+                  <li>สมาชิกสภาผู้แทนราษฎร (2500-2500)</li>
+                </ul>
+              </div>
+            </Accordion>
           </div>
         </div>
       </section>
+
+      {/* Jumpnav */}
       <section className="p-10 bg-white mb-10">
         <a className="block p-10 bg-black border-b border-b-gray-6" href="#money">
           <span className="flex gap-5 items-center mb-5">
@@ -485,9 +507,10 @@ export default function Person() {
           <span className="w-auto">ข้อมูลคดีความ</span>
         </header>
         <div className="mb-10 p-10 flex flex-col gap-5">
-          <details className="group py-10 px-15 bg-white-20 rounded-5">
-            <summary className="no-arrow b6">
-              <span className="flex items-center">
+          <Accordion
+            className="py-10 px-15 bg-white-20 rounded-5"
+            trigger={
+              <div className="b6 flex items-center leading-1">
                 <span className="bg-white-10 border border-gray-5 rounded-5 py-2 px-8">
                   ป.ป.ช.
                 </span>
@@ -495,14 +518,15 @@ export default function Person() {
                   วันที่ปรับปรุงข้อมูล 03/08/2564
                 </span>
                 <Image
-                  className="group-open:rotate-180"
+                  className="group-aria-expanded/accordion:rotate-180"
                   src="/icons/caret-d-g.svg"
                   width={13}
                   height={13}
                   alt=""
                 />
-              </span>
-            </summary>
+              </div>
+            }
+          >
             <div className="mt-5 b6">
               <span className="block b5 font-bold">ข้อกล่าวหา</span>
               <p>
@@ -513,7 +537,7 @@ export default function Person() {
                 ผู้เสนอราคาบางรายให้เป็นผู้มีสิทธิทำสัญญา
               </p>
             </div>
-          </details>
+          </Accordion>
         </div>
       </section>
 
