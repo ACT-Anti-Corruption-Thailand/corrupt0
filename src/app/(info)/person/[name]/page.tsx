@@ -81,7 +81,7 @@ export default function Person() {
       <section className="p-10 bg-white mb-10">
         <a className="block p-10 bg-black border-b border-b-gray-6" href="#financial">
           <span className="flex gap-5 items-center mb-5">
-            <Image src="/icons/placeholder.svg" alt="" width={18} height={18} />
+            <Image src="/icons/financial.svg" alt="" width={20} height={20} />
             <span>
               <span className="b4 font-bold">สถานะการเงินปี 25xx</span>{" "}
               <span className="b7 text-gray-5">(ปีล่าสุดที่มีข้อมูลในระบบ)</span>
@@ -125,7 +125,7 @@ export default function Person() {
         </a>
         <a className="block p-10 bg-black border-b border-b-gray-6" href="#business">
           <span className="flex gap-5 items-center">
-            <Image src="/icons/placeholder.svg" alt="" width={18} height={18} />
+            <Image src="/icons/business.svg" alt="" width={20} height={20} />
             <span>
               <span className="b3 font-bold">เกี่ยวข้องกับ 5 ธุรกิจ</span>
             </span>
@@ -143,7 +143,7 @@ export default function Person() {
         </a>
         <a className="block p-10 bg-black border-b border-b-gray-6" href="#donation">
           <span className="flex gap-5 items-center">
-            <Image src="/icons/placeholder.svg" alt="" width={18} height={18} />
+            <Image src="/icons/donate.svg" alt="" width={20} height={20} />
             <span>
               <span className="b3 font-bold">เคยบริจาคให้ 4 พรรคการเมือง</span>
             </span>
@@ -159,7 +159,7 @@ export default function Person() {
         </a>
         <a className="block p-10 bg-black border-b border-b-gray-6" href="#lawsuit">
           <span className="flex gap-5 items-center">
-            <Image src="/icons/placeholder.svg" alt="" width={18} height={18} />
+            <Image src="/icons/lawsuit.svg" alt="" width={20} height={20} />
             <span className="b4 font-bold">เกี่ยวข้องกับ 4 คดี</span>
             <Image
               className="ml-auto"
@@ -172,7 +172,7 @@ export default function Person() {
         </a>
         <a className="block p-10 bg-black" href="#relative">
           <span className="flex gap-5 items-center">
-            <Image src="/icons/placeholder.svg" alt="" width={18} height={18} />
+            <Image src="/icons/relative.svg" alt="" width={20} height={20} />
             <span>
               <span className="b3 font-bold">มีเครือญาติ 5 คน</span>
             </span>
@@ -191,7 +191,7 @@ export default function Person() {
       {/* สถานะทางการเงิน */}
       <section id="financial">
         <header className="py-8 flex gap-10 h4 justify-center items-center bg-gray-6 mb-10">
-          <Image src="/icons/placeholder.svg" alt="" width={18} height={18} />
+          <Image src="/icons/financial.svg" alt="" width={30} height={30} />
           <span>สถานะทางการเงิน</span>
         </header>
 
@@ -449,7 +449,7 @@ export default function Person() {
       {/* ความเกี่ยวข้องกับธุรกิจและโครงการภาครัฐ */}
       <section id="business">
         <header className="py-8 flex gap-10 h4 justify-center items-center bg-gray-6 mb-10 text-balance">
-          <Image src="/icons/placeholder.svg" alt="" width={30} height={30} />
+          <Image src="/icons/business.svg" alt="" width={30} height={30} />
           <span className="w-auto">
             ความเกี่ยวข้องกับธุรกิจ
             <br />
@@ -513,7 +513,7 @@ export default function Person() {
       {/* ข้อมูลคดีความ */}
       <section id="lawsuit">
         <header className="py-8 flex gap-10 h4 justify-center items-center bg-gray-6 text-balance">
-          <Image src="/icons/placeholder.svg" alt="" width={30} height={30} />
+          <Image src="/icons/lawsuit.svg" alt="" width={30} height={30} />
           <span className="w-auto">ข้อมูลคดีความ</span>
         </header>
         <div className="mb-10 p-10 flex flex-col gap-5">
@@ -554,7 +554,7 @@ export default function Person() {
       {/* เครือญาติที่เปิดเผยในบัญชีทรัพย์สิน */}
       <section id="relative">
         <header className="py-8 flex gap-10 h4 justify-center items-center bg-gray-6 mb-10 text-balance">
-          <Image src="/icons/placeholder.svg" alt="" width={30} height={30} />
+          <Image src="/icons/relative.svg" alt="" width={30} height={30} />
           <span className="w-auto">
             เครือญาติที่เปิดเผย
             <br />
