@@ -13,7 +13,7 @@ export default function Home() {
     <>
       <Navbar floating />
       <Spotlight />
-      <main className="text-center py-50">
+      <main className="text-center pt-50">
         <p className="text-white text-30 mb-20 font-black ">มีอะไรให้ดูในเว็บไซต์นี้?</p>
         <section className="py-20 px-10 bg-white rounded-10 mb-10">
           <ImgCard  title="ดูข้อมูลนักการเมืองเเละเจ้าหน้าที่รัฐ" topic={["สถานะทางการเงินเเละการยื่นบัญชีทรัพย์สินฯ", "ความเกี่ยวข้องกับธุรกิจและโครงการภาครัฐ", "เงินบริจาคพรรคการเมือง", "ความเกี่ยวข้องกับคดีความ"]} imgPath="./images/asset_politician.png" />
@@ -54,6 +54,14 @@ export default function Home() {
             นอกจากนี้ คุณยังสามารถช่วยสร้างฐานข้อมูลนี้ ด้วยการช่วยแปลงข้อมูลเป็นดิจิทัล
             ข้อมูลในฐานข้อมูล ความโปร่งใสของ ACT Ai
           </p>
+          <div style={{
+            backgroundImage: `url('./images/asset_digital_data.png')`,
+        } as React.CSSProperties} className="my-30 py-10 px-20 rounded-10 relative bg-cover bg-center bg-no-repeat flex flex-col text-white justify-start mx-20">
+            <div className="flex flex-row justify-center items-center p-20">
+                <p className="text-32 self-start text-left">ร่วมแปลงข้อมูลเป็นดิจิตอล</p>
+                <img src="./icons/external-w.svg" className="w-[25px] h-[22px] pl-10" />
+            </div>
+        </div>
         </section>
       </main>
 
