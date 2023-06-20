@@ -421,7 +421,13 @@ export default function Person({ params }: PersonPageProps) {
             <header className="py-[17px] px-10 bg-asset_explore bg-center bg-cover">
               <div className="flex justify-between h3">
                 <span>เจาะลึกทรัพย์สิน</span>
-                <span>→</span>
+                <Image
+                  className="-rotate-90"
+                  src="/icons/arr-w.svg"
+                  alt=""
+                  width={16}
+                  height={16}
+                />
               </div>
             </header>
             <div className="p-10 text-left">
