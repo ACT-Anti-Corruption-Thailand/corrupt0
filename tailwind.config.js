@@ -59,6 +59,10 @@ module.exports = {
       act: "#EC1C24",
       red: "#f00",
       purple: "#9B8CCD",
+      yellow: {
+        DEFAULT: "#EAEF00",
+        10: "rgba(234,239,0,0.1)",
+      },
       value: {
         "positive-text": "#00C8C8",
         "negative-text": "#FF543D",
@@ -109,6 +113,9 @@ module.exports = {
       full: "9999px",
     },
     extend: {
+      backgroundImage: {
+        asset_explore: "url(/images/asset_explore.png)",
+      },
       gridTemplateRows: {},
       gridTemplateColumns: {
         "2eq": "1fr 1fr",

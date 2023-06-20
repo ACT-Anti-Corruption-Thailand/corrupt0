@@ -68,4 +68,12 @@
   .text-center:not(.no-balance) {
     text-wrap: balance;
   }
+
+  summary.no-arrow {
+    list-style: none;
+  }
+
+  summary.no-arrow::-webkit-details-marker {
+    display: none;
+  }
 }

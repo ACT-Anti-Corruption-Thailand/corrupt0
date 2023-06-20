@@ -9,7 +9,7 @@ export default function Person() {
   return (
     <main>
       <section className="flex flex-col gap-5 bg-white text-black text-center py-15 px-30 mb-2">
-        <span className="b6">
+        <span className="b6 text-gray-5">
           อัปเดตข้อมูลเมื่อวันที่ {new Date().toLocaleDateString("th")}
         </span>
         <span className="h2">สุชาติ ภิญโญ</span>
@@ -153,6 +153,8 @@ export default function Person() {
           <span className="b5 text-gray-5 ml-[21px]">ที่เปิดเผยในบัญชีทรัพย์สิน</span>
         </a>
       </section>
+
+      {/* สถานะทางการเงิน */}
       <section>
         <header className="py-8 flex gap-10 h4 justify-center items-center bg-gray-6 mb-10">
           <Image src="/icons/placeholder.svg" alt="" width={18} height={18} />
@@ -164,11 +166,13 @@ export default function Person() {
             <span className="b3 font-bold inline-block mr-2">ปีที่ยื่นบัญชี</span>
             <span className="b5">(กรณีที่ยื่น)</span>
           </div>
+          {/* select compare */}
           <div className="flex mb-15">
             <div className="flex-1">1</div>
             <div className="flex-1">2</div>
           </div>
-          <div className="rounded-10 bg-white p-10 text-black">
+          {/* การ์ดเงิน */}
+          <div className="rounded-10 bg-white p-10 text-black mb-15">
             <div className="flex gap-10 items-center justify-center b6 py-5 mb-5">
               <label className="flex gap-5 items-center">
                 <input type="checkbox" />
@@ -366,6 +370,198 @@ export default function Person() {
                 </div>
               </section>
             </div>
+          </div>
+          {/* เจาะลึกทรัพย์สิน */}
+          <div className="rounded-10 bg-white border border-white overflow-hidden mb-15">
+            <header className="py-[17px] px-10 bg-asset_explore bg-center bg-cover">
+              <div className="flex justify-between h3">
+                <span>เจาะลึกทรัพย์สิน</span>
+                <span>→</span>
+              </div>
+            </header>
+            <div className="p-10 text-left">
+              <span className="b4 text-gray-4 font-bold block mb-10">
+                ทรัพย์สินที่แพงที่สุด
+              </span>
+              <div className="flex gap-5 items-start">
+                <Image src="/icons/placeholder.svg" alt="" width={40} height={40} />
+                <div className="flex-1 text-black">
+                  <span className="block b5">ห้องชุดเพนท์เฮาส์</span>
+                  <span className="block b3 font-bold">92.12 ล้านบาท</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          {/* ปุ่มเอกสาร */}
+          <div className="flex gap-5">
+            <button
+              type="button"
+              className="b4 flex-1 flex gap-5 p-5 items-center border border-gray-6 justify-center rounded-5"
+            >
+              <Image src="/icons/pdf.svg" alt="" width={20} height={20} />
+              <span>ดูเอกสารจริง</span>
+            </button>
+            <button
+              type="button"
+              className="b4 flex-1 flex gap-5 p-5 items-center border border-gray-6 justify-center rounded-5"
+            >
+              <Image src="/icons/sheet.svg" alt="" width={20} height={20} />
+              <span>ดาวน์โหลดข้อมูล</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* ความเกี่ยวข้องกับธุรกิจและโครงการภาครัฐ */}
+      <section>
+        <header className="py-8 flex gap-10 h4 justify-center items-center bg-gray-6 mb-10 text-balance">
+          <Image src="/icons/placeholder.svg" alt="" width={30} height={30} />
+          <span className="w-auto">
+            ความเกี่ยวข้องกับธุรกิจ
+            <br />
+            และโครงการภาครัฐ
+          </span>
+        </header>
+        <div className="mt-5 px-15 flex flex-col gap-5">
+          <article className="rounded-5 bg-white-10 p-10 flex flex-col gap-5">
+            <div className="flex justify-between">
+              <span className="b3 font-bold">บริษัท ทีเอ พีเอ็น เปเปอร์ จำกัด</span>
+              <span>
+                <Image src="/icons/new_tab.svg" alt="" width={15} height={15} />
+              </span>
+            </div>
+            <ul className="b6 -mt-5">
+              <li>
+                <span className="opacity-50">ประเภทธุรกิจ</span> <span>อสังหาทรัพย์</span>
+              </li>
+              <li>
+                <span className="opacity-50">ตำแหน่ง</span> <span>ผู้ถือหุ้น</span>
+              </li>
+            </ul>
+            <div className="rounded-full b7 text-yellow bg-yellow-10 py-1 px-5 mr-auto leading-1">
+              1 ใน 10 อันดับ นิติบุคคลที่บริจาคเงินให้พรรคการเมืองมากที่สุด
+            </div>
+            <hr className="border-t-gray-5" />
+            <div className="flex justify-between">
+              <span className="b5 opacity-50">พรรคที่บริจาคให้บ่อยที่สุด</span>
+              <span className="b4 font-bold">พลังปะชารัฐ</span>
+            </div>
+            <div className="flex justify-between -mt-5">
+              <span className="b5 opacity-50">รวมยอดบริจาค</span>
+              <span className="b4">
+                <span className="font-bold">000</span> ล้านบาท
+              </span>
+            </div>
+          </article>
+          <article className="rounded-5 bg-white-10 p-10 flex flex-col gap-5">
+            <div className="flex justify-between">
+              <span className="b3 font-bold">บริษัท ทีอาร์ อัลเคมิสท์ กรุ๊ป จำกัด</span>
+              <span>
+                <Image src="/icons/new_tab.svg" alt="" width={15} height={15} />
+              </span>
+            </div>
+            <ul className="b6 -mt-5">
+              <li>
+                <span className="opacity-50">ประเภทธุรกิจ</span> <span>อสังหาทรัพย์</span>
+              </li>
+              <li>
+                <span className="opacity-50">ตำแหน่ง</span> <span>ผู้ถือหุ้น</span>
+              </li>
+            </ul>
+          </article>
+        </div>
+        <footer className="flex gap-2 items-center justify-center text-gray-5 mt-8 mb-10">
+          <span>Credit:</span>
+          <Image src="/logos/creden.svg" alt="" width={56} height={11} />
+        </footer>
+      </section>
+
+      {/* ข้อมูลคดีความ */}
+      <section>
+        <header className="py-8 flex gap-10 h4 justify-center items-center bg-gray-6 text-balance">
+          <Image src="/icons/placeholder.svg" alt="" width={30} height={30} />
+          <span className="w-auto">ข้อมูลคดีความ</span>
+        </header>
+        <div className="mb-10 p-10 flex flex-col gap-5">
+          <details className="group py-10 px-15 bg-white-20 rounded-5">
+            <summary className="no-arrow b6">
+              <span className="flex items-center">
+                <span className="bg-white-10 border border-gray-5 rounded-5 py-2 px-8">
+                  ป.ป.ช.
+                </span>
+                <span className="ml-auto text-gray-5 mr-4">
+                  วันที่ปรับปรุงข้อมูล 03/08/2564
+                </span>
+                <Image
+                  className="group-open:rotate-180"
+                  src="/icons/caret-d-g.svg"
+                  width={13}
+                  height={13}
+                  alt=""
+                />
+              </span>
+            </summary>
+            <div className="mt-5 b6">
+              <span className="block b5 font-bold">ข้อกล่าวหา</span>
+              <p>
+                สั่งการและอนุมัติให้จัดจ้างโครงการที่ได้รับ จัดสรรจาก งบประมาณรายจ่ายประจำ
+                ปีงบประมาณ พ.ศ.2554 งบเงินอุดหนุน เงินอุดหนุนเฉพาะกิจของเทศบาล
+                ตำบลโพนสวรรค์ ด้วยวิธีพิเศษ เมื่อปีงบประมาณ พ.ศ.2554 จำนวน 5 โครงการ
+                โดยมุ่งหมายมิให้มีการ- แข่งขันราคาอย่างเป็นธรรม เอื้ออำนวยแก่
+                ผู้เสนอราคาบางรายให้เป็นผู้มีสิทธิทำสัญญา
+              </p>
+            </div>
+          </details>
+        </div>
+      </section>
+
+      {/* เครือญาติที่เปิดเผยในบัญชีทรัพย์สิน */}
+      <section>
+        <header className="py-8 flex gap-10 h4 justify-center items-center bg-gray-6 mb-10 text-balance">
+          <Image src="/icons/placeholder.svg" alt="" width={30} height={30} />
+          <span className="w-auto">
+            เครือญาติที่เปิดเผย
+            <br />
+            ในบัญชีทรัพย์สิน
+          </span>
+        </header>
+        <div className="mt-5 px-15 flex flex-col mb-20">
+          <div className="flex b6 text-gray-5">
+            <span>ชื่อ นามสกุล</span>
+            <span className="ml-auto">ความเกี่ยวข้อง</span>
+          </div>
+          <div className="flex py-10 items-center border-b border-b-gray-6">
+            <div className="b4 font-bold leading-1">ชื่อ นามสกุล</div>
+            <div className="text-center ml-auto">
+              <div className="b5 font-bold">คู่สมรส</div>
+            </div>
+            <Image
+              className="ml-5"
+              src="/icons/new_tab.svg"
+              alt=""
+              width={15}
+              height={15}
+            />
+          </div>
+          <div className="flex py-10 items-center border-b border-b-gray-6">
+            <div className="b4 font-bold leading-1">ชื่อ นามสกุล</div>
+            <div className="text-center ml-auto">
+              <div className="b5 font-bold">บุตร</div>
+            </div>
+            <div className="ml-5 w-15 h-15" />
+          </div>
+          <div className="flex py-10 items-center border-b border-b-gray-6">
+            <div className="b4 font-bold leading-1">ชื่อ นามสกุล</div>
+            <div className="text-center ml-auto">
+              <div className="b5 font-bold">บุตร</div>
+            </div>
+            <Image
+              className="ml-5"
+              src="/icons/new_tab.svg"
+              alt=""
+              width={15}
+              height={15}
+            />
           </div>
         </div>
       </section>
