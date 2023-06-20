@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import Sharer from "@/components/Sharer";
 import InfoGoTop from "@/components/InfoGoTop";
 import Accordion from "@/components/Accordion";
@@ -7,7 +8,13 @@ export async function generateStaticParams() {
   return [{ name: "_test" }];
 }
 
-export default function Person() {
+interface PersonPageProps {
+  params: Awaited<ReturnType<typeof generateStaticParams>>[number];
+}
+
+export default function Person({ params }: PersonPageProps) {
+  const { name } = params;
+
   return (
     <main>
       <InfoGoTop name="สุชาติ ภิญโญ" />
@@ -406,7 +413,10 @@ export default function Person() {
             </div>
           </div>
           {/* เจาะลึกทรัพย์สิน */}
-          <div className="rounded-10 bg-white border border-white overflow-hidden mb-15">
+          <Link
+            href={`${name}/property`}
+            className="block rounded-10 bg-white border border-white overflow-hidden mb-15"
+          >
             <header className="py-[17px] px-10 bg-asset_explore bg-center bg-cover">
               <div className="flex justify-between h3">
                 <span>เจาะลึกทรัพย์สิน</span>
@@ -425,7 +435,7 @@ export default function Person() {
                 </div>
               </div>
             </div>
-          </div>
+          </Link>
           {/* ปุ่มเอกสาร */}
           <div className="flex gap-5">
             <button
