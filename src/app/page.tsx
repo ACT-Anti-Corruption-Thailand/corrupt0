@@ -16,28 +16,117 @@ export default function Home() {
       <main className="text-center pt-50">
         <p className="text-white text-30 mb-20 font-black ">มีอะไรให้ดูในเว็บไซต์นี้?</p>
         <section className="py-20 px-10 bg-white rounded-10 mb-10">
-          <ImgCard  title="ดูข้อมูลนักการเมืองเเละเจ้าหน้าที่รัฐ" topic={["สถานะทางการเงินเเละการยื่นบัญชีทรัพย์สินฯ", "ความเกี่ยวข้องกับธุรกิจและโครงการภาครัฐ", "เงินบริจาคพรรคการเมือง", "ความเกี่ยวข้องกับคดีความ"]} imgPath="./images/asset_politician.png" />
+          <ImgCard
+            title="ดูข้อมูลนักการเมืองเเละเจ้าหน้าที่รัฐ"
+            topic={[
+              "สถานะทางการเงินเเละการยื่นบัญชีทรัพย์สินฯ",
+              "ความเกี่ยวข้องกับธุรกิจและโครงการภาครัฐ",
+              "เงินบริจาคพรรคการเมือง",
+              "ความเกี่ยวข้องกับคดีความ",
+            ]}
+            imgPath="/images/asset_politician.png"
+          />
           <p className="text-black text-24 my-10">ข้อมูลที่น่าสนใจ</p>
-          <Slider >
-            <Card title="มีทรัพย์สินมากที่สุด" color="#ED1C24" type="พรรค" name="พลังประชารัฐ" amount="500 ล้านบาท" icon="./icons/person.svg"/>
-            <Card title="พรรคที่ได้รับบริจาคมากที่สุด" color="#ED1C24" type="พรรค" name="พลังประชารัฐ" amount="500 ล้านบาท" icon="./icons/person.svg"/>
-            <Card title="พรรคที่ได้รับบริจาคมากที่สุด" color="#ED1C24" type="พรรค" name="พลังประชารัฐ" amount="500 ล้านบาท" icon="./icons/person.svg"/>
-            <Card title="พรรคที่ได้รับบริจาคมากที่สุด" color="#ED1C24" type="พรรค" name="พลังประชารัฐ" amount="500 ล้านบาท" icon="./icons/person.svg"/>
-            <Card title="พรรคที่ได้รับบริจาคมากที่สุด" color="#ED1C24" type="พรรค" name="พลังประชารัฐ" amount="500 ล้านบาท" icon="./icons/person.svg"/>
+          <Slider>
+            <Card
+              title="มีทรัพย์สินมากที่สุด"
+              color="#ED1C24"
+              type="พรรค"
+              name="พลังประชารัฐ"
+              amount="500 ล้านบาท"
+              icon="/icons/person.svg"
+            />
+            <Card
+              title="พรรคที่ได้รับบริจาคมากที่สุด"
+              color="#ED1C24"
+              type="พรรค"
+              name="พลังประชารัฐ"
+              amount="500 ล้านบาท"
+              icon="/icons/person.svg"
+            />
+            <Card
+              title="พรรคที่ได้รับบริจาคมากที่สุด"
+              color="#ED1C24"
+              type="พรรค"
+              name="พลังประชารัฐ"
+              amount="500 ล้านบาท"
+              icon="/icons/person.svg"
+            />
+            <Card
+              title="พรรคที่ได้รับบริจาคมากที่สุด"
+              color="#ED1C24"
+              type="พรรค"
+              name="พลังประชารัฐ"
+              amount="500 ล้านบาท"
+              icon="/icons/person.svg"
+            />
+            <Card
+              title="พรรคที่ได้รับบริจาคมากที่สุด"
+              color="#ED1C24"
+              type="พรรค"
+              name="พลังประชารัฐ"
+              amount="500 ล้านบาท"
+              icon="/icons/person.svg"
+            />
           </Slider>
         </section>
         <section className="py-20 px-10 bg-white rounded-10 mb-10">
-          <ImgCard  title="ดูข้อมูลเงินบริจาคพรรคการเมือง" topic={["ยอดบริจาคที่น่าสังเกตของบุคคล/นิติบุคคล"]} imgPath="./images/asset_donation.png" />
+          <ImgCard
+            title="ดูข้อมูลเงินบริจาคพรรคการเมือง"
+            topic={["ยอดบริจาคที่น่าสังเกตของบุคคล/นิติบุคคล"]}
+            imgPath="/images/asset_donation.png"
+          />
           <p className="text-black text-24 my-10">ข้อมูลที่น่าสนใจ</p>
-          <Slider >
-            <Card title="พรรคที่ได้รับบริจาคมากที่สุด" color="#9B8CCD" type="พรรค" name="พลังประชารัฐ" amount="500 ล้านบาท" icon="./icons/person.svg"/>
-            <Card title="พรรคที่ได้รับบริจาคมากที่สุด" color="#9B8CCD" type="พรรค" name="พลังประชารัฐ" amount="500 ล้านบาท" icon="./icons/person.svg"/>
-            <Card title="พรรคที่ได้รับบริจาคมากที่สุด" color="#9B8CCD" type="พรรค" name="พลังประชารัฐ" amount="500 ล้านบาท" icon="./icons/person.svg"/>
-            <Card title="พรรคที่ได้รับบริจาคมากที่สุด" color="#9B8CCD" type="พรรค" name="พลังประชารัฐ" amount="500 ล้านบาท" icon="./icons/person.svg"/>
-            <Card title="พรรคที่ได้รับบริจาคมากที่สุด" color="#9B8CCD" type="พรรค" name="พลังประชารัฐ" amount="500 ล้านบาท" icon="./icons/person.svg"/>
+          <Slider>
+            <Card
+              title="พรรคที่ได้รับบริจาคมากที่สุด"
+              color="#9B8CCD"
+              type="พรรค"
+              name="พลังประชารัฐ"
+              amount="500 ล้านบาท"
+              icon="/icons/person.svg"
+            />
+            <Card
+              title="พรรคที่ได้รับบริจาคมากที่สุด"
+              color="#9B8CCD"
+              type="พรรค"
+              name="พลังประชารัฐ"
+              amount="500 ล้านบาท"
+              icon="/icons/person.svg"
+            />
+            <Card
+              title="พรรคที่ได้รับบริจาคมากที่สุด"
+              color="#9B8CCD"
+              type="พรรค"
+              name="พลังประชารัฐ"
+              amount="500 ล้านบาท"
+              icon="/icons/person.svg"
+            />
+            <Card
+              title="พรรคที่ได้รับบริจาคมากที่สุด"
+              color="#9B8CCD"
+              type="พรรค"
+              name="พลังประชารัฐ"
+              amount="500 ล้านบาท"
+              icon="/icons/person.svg"
+            />
+            <Card
+              title="พรรคที่ได้รับบริจาคมากที่สุด"
+              color="#9B8CCD"
+              type="พรรค"
+              name="พลังประชารัฐ"
+              amount="500 ล้านบาท"
+              icon="/icons/person.svg"
+            />
           </Slider>
         </section>
-        <Image className="h-[380px] object-cover" src="./images/asset_political_transparency.png" width={1281} height={500} alt="political-transparency" />
+        <Image
+          className="h-[380px] object-cover"
+          src="/images/asset_political_transparency.png"
+          width={1281}
+          height={500}
+          alt="political-transparency"
+        />
         <section className="mb-20 b5 px-10">
           <p className="mb-20">
             ความโปร่งใสทางการเมือง (Political Transparency)
@@ -54,14 +143,25 @@ export default function Home() {
             นอกจากนี้ คุณยังสามารถช่วยสร้างฐานข้อมูลนี้ ด้วยการช่วยแปลงข้อมูลเป็นดิจิทัล
             ข้อมูลในฐานข้อมูล ความโปร่งใสของ ACT Ai
           </p>
-          <div style={{
-            backgroundImage: `url('./images/asset_digital_data.png')`,
-        } as React.CSSProperties} className="my-30 py-10 px-20 rounded-10 relative bg-cover bg-center bg-no-repeat flex flex-col text-white justify-start mx-20">
+          <div
+            style={
+              {
+                backgroundImage: `url('/images/asset_digital_data.png')`,
+              } as React.CSSProperties
+            }
+            className="my-30 py-10 px-20 rounded-10 relative bg-cover bg-center bg-no-repeat flex flex-col text-white justify-start mx-20"
+          >
             <div className="flex flex-row justify-center items-center p-20">
-                <p className="text-32 self-start text-left">ร่วมแปลงข้อมูลเป็นดิจิตอล</p>
-                <img src="./icons/external-w.svg" className="w-[25px] h-[22px] pl-10" />
+              <p className="text-32 self-start text-left">ร่วมแปลงข้อมูลเป็นดิจิตอล</p>
+              <Image
+                src="/icons/external-w.svg"
+                className="w-[25px] h-[22px] pl-10"
+                width={25}
+                height={22}
+                alt=""
+              />
             </div>
-        </div>
+          </div>
         </section>
       </main>
 

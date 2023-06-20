@@ -56,7 +56,7 @@ export default function Person({ params }: PersonPageProps) {
                   <span>ดูตำแหน่งที่ผ่านมา</span>
                   <Image
                     className="group-aria-expanded/accordion:rotate-180 ml-2"
-                    src="/icons/caret-d-g.svg"
+                    src="/icons/caret-g.svg"
                     width={10}
                     height={10}
                     alt=""
@@ -96,7 +96,7 @@ export default function Person({ params }: PersonPageProps) {
             </span>
             <Image
               className="ml-auto"
-              src="/icons/arr-d-g.svg"
+              src="/icons/arr-g.svg"
               alt=""
               width={16}
               height={16}
@@ -139,7 +139,7 @@ export default function Person({ params }: PersonPageProps) {
             </span>
             <Image
               className="ml-auto"
-              src="/icons/arr-d-g.svg"
+              src="/icons/arr-g.svg"
               alt=""
               width={16}
               height={16}
@@ -157,7 +157,7 @@ export default function Person({ params }: PersonPageProps) {
             </span>
             <Image
               className="ml-auto"
-              src="/icons/arr-d-g.svg"
+              src="/icons/arr-g.svg"
               alt=""
               width={16}
               height={16}
@@ -171,7 +171,7 @@ export default function Person({ params }: PersonPageProps) {
             <span className="b4 font-bold">เกี่ยวข้องกับ 4 คดี</span>
             <Image
               className="ml-auto"
-              src="/icons/arr-d-g.svg"
+              src="/icons/arr-g.svg"
               alt=""
               width={16}
               height={16}
@@ -186,7 +186,7 @@ export default function Person({ params }: PersonPageProps) {
             </span>
             <Image
               className="ml-auto"
-              src="/icons/arr-d-g.svg"
+              src="/icons/arr-g.svg"
               alt=""
               width={16}
               height={16}
@@ -569,7 +569,7 @@ export default function Person({ params }: PersonPageProps) {
                     <Image src="/icons/new_tab.svg" alt="" width={15} height={15} />
                     <Image
                       className="group-aria-expanded/accordion:rotate-180 ml-auto"
-                      src="/icons/caret-d-g.svg"
+                      src="/icons/caret-g.svg"
                       width={12}
                       height={12}
                       alt=""
@@ -635,7 +635,7 @@ export default function Person({ params }: PersonPageProps) {
                   </span>
                   <Image
                     className="group-aria-expanded/accordion:rotate-180"
-                    src="/icons/caret-d-g.svg"
+                    src="/icons/caret-g.svg"
                     width={13}
                     height={13}
                     alt=""

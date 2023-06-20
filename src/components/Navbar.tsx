@@ -1,13 +1,13 @@
 import clsx from "clsx";
 import Image from "next/image";
 import Link from "next/link";
-import BackButton from "./BackButton";
+import BackButton from "@/components/BackButton";
 
 interface NavbarProps {
   floating?: boolean;
 }
 
-export default function Navbar<NavbarProps>({ floating = false }) {
+export default function Navbar({ floating = false }: NavbarProps) {
   return (
     <>
       <nav

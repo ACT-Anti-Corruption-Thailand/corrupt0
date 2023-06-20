@@ -34,7 +34,13 @@ const Card = (props: CardProps) => {
       <p className="text-22">{props.amount}</p>
       <button className="my-10 bg-white rounded-10 text-black w-[65px] h-[25px] self-center flex flex-row justify-center">
         ดูข้อมูล
-        <Image src="/icons/triangle.svg" alt="" className="my-auto ml-2" width={8} height={5}/>
+        <Image
+          src="/icons/caret-k.svg"
+          alt=""
+          className="my-auto ml-2 -rotate-90 w-8 h-8"
+          width={8}
+          height={8}
+        />
       </button>
     </div>
   );
