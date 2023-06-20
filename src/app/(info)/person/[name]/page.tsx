@@ -28,7 +28,7 @@ export default function Person() {
               alt=""
             />
             <span className="block b7 mb-2">แชร์โปรไฟล์นี้</span>
-            <div className="flex gap-4">
+            <div className="flex gap-4 justify-center">
               <Sharer />
             </div>
           </div>
@@ -38,9 +38,9 @@ export default function Person() {
             <span className="block b6 text-gray-5">สังกัดล่าสุด</span>
             <span className="block b4 font-bold">พลังประชารัฐ</span>
             <span className="block b6 text-gray-5">ตำแหน่งปัจจุบัน</span>
-            <span className="block b4">
+            <span className="block b4 no-balance">
               <span className="font-bold">สมาชิกสภาผู้แทนราษฎร</span>{" "}
-              <span>(2562-2566)</span>
+              <span className="nobr">(2562-2566)</span>
             </span>
             <Accordion
               trigger={

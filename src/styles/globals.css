@@ -65,8 +65,12 @@
   }
 
   .text-balance,
-  .text-center:not(.no-balance) {
+  .text-center {
     text-wrap: balance;
+  }
+
+  .no-balance {
+    text-wrap: wrap;
   }
 
   summary.no-arrow {
