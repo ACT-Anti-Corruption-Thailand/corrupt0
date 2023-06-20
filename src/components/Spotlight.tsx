@@ -33,7 +33,7 @@ const Spotlight = () => {
             "--rec-x": `calc(var(--x) + 50%)`,
           } as React.CSSProperties
         }
-        className="bg-black flex flex-col justify-center items-center h-[50vh] pt-[10vh] relative overflow-hidden"
+        className="bg-black flex flex-col justify-center items-center h-[50vh] pt-[10vh] relative overflow-hidden pb-60"
       >
         <div className="bg-white opacity-50 w-[150vmax] h-[320px] blur-sm -rotate-45 absolute origin-[0%_50%] translate-x-[--rec-x] translate-y-[--y]" />
         <div className="bg-white w-[320px] h-[320px] rounded-full blur-sm absolute translate-x-[--x] translate-y-[--y]" />
@@ -61,7 +61,7 @@ const Spotlight = () => {
           และเจ้าหน้าที่รัฐ
         </p>
       </div>
-      <div className="text-center pt-40">
+      <div className="text-center">
         <p className="text-14 text-gray-5">ร่วมพัฒนาโดย ACT / HAND SE / PUNCH UP</p>
         <p className="text-20 text-gray-5 opacity-50">อัปเดตล่าสุด: 00/00/255</p>
       </div>
