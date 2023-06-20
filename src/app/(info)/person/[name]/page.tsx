@@ -3,6 +3,7 @@ import Link from "next/link";
 import Sharer from "@/components/Sharer";
 import InfoGoTop from "@/components/InfoGoTop";
 import Accordion from "@/components/Accordion";
+import PersonChart from "@/components/PersonChart";
 
 export async function generateStaticParams() {
   return [{ name: "_test" }];
@@ -520,6 +521,101 @@ export default function Person({ params }: PersonPageProps) {
         </footer>
       </section>
 
+      {/* ประวัติการบริจาคเงินให้พรรคการเมือง */}
+      <section id="donation">
+        <header className="py-8 flex gap-10 h4 justify-center items-center bg-gray-6 text-balance">
+          <Image src="/icons/donate.svg" alt="" width={30} height={30} />
+          <span className="w-auto">
+            ประวัติการบริจาคเงิน
+            <br />
+            ให้พรรคการเมือง
+          </span>
+        </header>
+        <div className="p-10">
+          <div className="flex gap-10 items-center justify-center mb-8">
+            <div className="flex gap-5 items-center">
+              <span>ดู</span>
+              <select className="w-[110px]">
+                <option value="all">ทุกปี</option>
+              </select>
+            </div>
+            <div className="flex gap-5 items-center">
+              <span>ดู</span>
+              <select className="w-[110px]">
+                <option value="all">ทุกพรรค</option>
+              </select>
+            </div>
+          </div>
+          <p className="text-center mb-8">
+            <span className="b4 font-bold">รวมบริจาคให้พรรคการเมือง</span>
+            <br />
+            <span className="b2">000 ล้านบาท</span>
+          </p>
+          <PersonChart />
+          <div className="flex gap-4 flex-col mt-10">
+            <Accordion
+              className="bg-white-10 py-5 px-10 rounded-5"
+              trigger={
+                <div className="text-left flex flex-col gap-5">
+                  <div className="flex gap-5 items-center">
+                    <Image
+                      className="border border-black rounded-full"
+                      src="/placeholders/party.png"
+                      alt=""
+                      width={25}
+                      height={25}
+                    />
+                    <span className="b2 font-bold">พลังประชารัฐ</span>
+                    <Image src="/icons/new_tab.svg" alt="" width={15} height={15} />
+                    <Image
+                      className="group-aria-expanded/accordion:rotate-180 ml-auto"
+                      src="/icons/caret-d-g.svg"
+                      width={12}
+                      height={12}
+                      alt=""
+                    />
+                  </div>
+                  <hr className="border-t-[3px] border-t-[rgb(73,147,254)] mb-5" />
+                  <div className="rounded-full b7 text-yellow bg-yellow-10 py-1 px-5 mr-auto leading-1">
+                    1 ใน 10 อันดับ นิติบุคคลที่บริจาคเงินให้พรรคการเมืองมากที่สุด
+                  </div>
+                  <div className="flex gap-5 items-center leading-1 b4 -mt-5">
+                    <span className="font-bold">รวมยอดบริจาค</span>
+                    <span className="font-bold b1 ml-auto">000</span>
+                    <span>ล้านบาท</span>
+                  </div>
+                  <div className="flex gap-5 items-center leading-1 b4 -mt-10">
+                    <span className="font-bold">บริจาคจำนวน</span>
+                    <span className="font-bold b1 ml-auto">00</span>
+                    <span>ครั้ง</span>
+                  </div>
+                </div>
+              }
+            >
+              <div className="border-t border-t-gray-6 pt-5 mt-4">
+                <div className="flex justify-between items-baseline b5 text-gray-5 -mb-4">
+                  <span>วันที่บริจาค</span>
+                  <span>จำนวน (บาท)</span>
+                </div>
+                <div className="flex justify-between items-baseline -mb-4">
+                  <span className="b6 font-bold">00/00/2566</span>
+                  <span className="b3">000</span>
+                </div>
+                <div className="flex justify-between items-baseline -mb-4">
+                  <span className="b6 font-bold">00/00/2566</span>
+                  <span className="b3">000</span>
+                </div>
+                <div className="flex justify-between items-baseline -mb-4">
+                  <span className="b6 font-bold">00/00/2566</span>
+                  <span className="b3">000</span>
+                </div>
+                <div className="h-4" />
+              </div>
+            </Accordion>
+          </div>
+        </div>
+      </section>
+
       {/* ข้อมูลคดีความ */}
       <section id="lawsuit">
         <header className="py-8 flex gap-10 h4 justify-center items-center bg-gray-6 text-balance">
@@ -528,35 +624,38 @@ export default function Person({ params }: PersonPageProps) {
         </header>
         <div className="mb-10 p-10 flex flex-col gap-5">
           <Accordion
-            className="py-10 px-15 bg-white-20 rounded-5"
             trigger={
-              <div className="b6 flex items-center leading-1">
-                <span className="bg-white-10 border border-gray-5 rounded-5 py-2 px-8">
-                  ป.ป.ช.
-                </span>
-                <span className="ml-auto text-gray-5 mr-4">
-                  วันที่ปรับปรุงข้อมูล 03/08/2564
-                </span>
-                <Image
-                  className="group-aria-expanded/accordion:rotate-180"
-                  src="/icons/caret-d-g.svg"
-                  width={13}
-                  height={13}
-                  alt=""
-                />
+              <div className="p-10 bg-white-20 rounded-5 text-left group-aria-expanded/accordion:rounded-b-0">
+                <div className="b6 flex items-center leading-1">
+                  <span className="bg-white-10 border border-gray-5 rounded-5 py-2 px-8">
+                    ป.ป.ช.
+                  </span>
+                  <span className="ml-auto text-gray-5 mr-4">
+                    วันที่ปรับปรุงข้อมูล 03/08/2564
+                  </span>
+                  <Image
+                    className="group-aria-expanded/accordion:rotate-180"
+                    src="/icons/caret-d-g.svg"
+                    width={13}
+                    height={13}
+                    alt=""
+                  />
+                </div>
+                <div className="mt-5 b6">
+                  <span className="block b5 font-bold">ข้อกล่าวหา</span>
+                  <p className="text-gray-3">
+                    สั่งการและอนุมัติให้จัดจ้างโครงการที่ได้รับ จัดสรรจาก
+                    งบประมาณรายจ่ายประจำ ปีงบประมาณ พ.ศ.2554 งบเงินอุดหนุน
+                    เงินอุดหนุนเฉพาะกิจของเทศบาล ตำบลโพนสวรรค์ ด้วยวิธีพิเศษ
+                    เมื่อปีงบประมาณ พ.ศ.2554 จำนวน 5 โครงการ โดยมุ่งหมายมิให้มีการ-
+                    แข่งขันราคาอย่างเป็นธรรม เอื้ออำนวยแก่
+                    ผู้เสนอราคาบางรายให้เป็นผู้มีสิทธิทำสัญญา
+                  </p>
+                </div>
               </div>
             }
           >
-            <div className="mt-5 b6">
-              <span className="block b5 font-bold">ข้อกล่าวหา</span>
-              <p>
-                สั่งการและอนุมัติให้จัดจ้างโครงการที่ได้รับ จัดสรรจาก งบประมาณรายจ่ายประจำ
-                ปีงบประมาณ พ.ศ.2554 งบเงินอุดหนุน เงินอุดหนุนเฉพาะกิจของเทศบาล
-                ตำบลโพนสวรรค์ ด้วยวิธีพิเศษ เมื่อปีงบประมาณ พ.ศ.2554 จำนวน 5 โครงการ
-                โดยมุ่งหมายมิให้มีการ- แข่งขันราคาอย่างเป็นธรรม เอื้ออำนวยแก่
-                ผู้เสนอราคาบางรายให้เป็นผู้มีสิทธิทำสัญญา
-              </p>
-            </div>
+            <div className="bg-white-10 p-10 rounded-b-5 b6">เนื้อหาเยอะๆ จุกๆ</div>
           </Accordion>
         </div>
       </section>
