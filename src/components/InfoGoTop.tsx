@@ -11,13 +11,18 @@ export default function InfoGoTop({ name }: { name: string }) {
 
   useEffect(() => {
     if (elHitbox.current) {
+      document.documentElement.style.scrollPaddingTop = "50px";
+
       const stop = inView(elHitbox.current, () => {
         setShowGoTopBar(() => false);
 
         return () => setShowGoTopBar(() => true);
       });
 
-      return stop;
+      return () => {
+        document.documentElement.style.scrollPaddingTop = "";
+        stop();
+      };
     }
   }, [elHitbox]);
 

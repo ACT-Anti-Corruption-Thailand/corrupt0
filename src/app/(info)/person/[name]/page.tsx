@@ -79,7 +79,7 @@ export default function Person() {
 
       {/* Jumpnav */}
       <section className="p-10 bg-white mb-10">
-        <a className="block p-10 bg-black border-b border-b-gray-6" href="#money">
+        <a className="block p-10 bg-black border-b border-b-gray-6" href="#financial">
           <span className="flex gap-5 items-center mb-5">
             <Image src="/icons/placeholder.svg" alt="" width={18} height={18} />
             <span>
@@ -189,7 +189,7 @@ export default function Person() {
       </section>
 
       {/* สถานะทางการเงิน */}
-      <section>
+      <section id="financial">
         <header className="py-8 flex gap-10 h4 justify-center items-center bg-gray-6 mb-10">
           <Image src="/icons/placeholder.svg" alt="" width={18} height={18} />
           <span>สถานะทางการเงิน</span>
@@ -447,7 +447,7 @@ export default function Person() {
       </section>
 
       {/* ความเกี่ยวข้องกับธุรกิจและโครงการภาครัฐ */}
-      <section>
+      <section id="business">
         <header className="py-8 flex gap-10 h4 justify-center items-center bg-gray-6 mb-10 text-balance">
           <Image src="/icons/placeholder.svg" alt="" width={30} height={30} />
           <span className="w-auto">
@@ -511,7 +511,7 @@ export default function Person() {
       </section>
 
       {/* ข้อมูลคดีความ */}
-      <section>
+      <section id="lawsuit">
         <header className="py-8 flex gap-10 h4 justify-center items-center bg-gray-6 text-balance">
           <Image src="/icons/placeholder.svg" alt="" width={30} height={30} />
           <span className="w-auto">ข้อมูลคดีความ</span>
@@ -552,7 +552,7 @@ export default function Person() {
       </section>
 
       {/* เครือญาติที่เปิดเผยในบัญชีทรัพย์สิน */}
-      <section>
+      <section id="relative">
         <header className="py-8 flex gap-10 h4 justify-center items-center bg-gray-6 mb-10 text-balance">
           <Image src="/icons/placeholder.svg" alt="" width={30} height={30} />
           <span className="w-auto">
