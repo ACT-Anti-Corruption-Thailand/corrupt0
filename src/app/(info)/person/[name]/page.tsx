@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Sharer from "@/components/Sharer";
+import InfoGoTop from "@/components/InfoGoTop";
 
 export async function generateStaticParams() {
   return [{ name: "_test" }];
@@ -8,6 +9,7 @@ export async function generateStaticParams() {
 export default function Person() {
   return (
     <main>
+      <InfoGoTop name="สุชาติ ภิญโญ" />
       <section className="flex flex-col gap-5 bg-white text-black text-center py-15 px-30 mb-2">
         <span className="b6 text-gray-5">
           อัปเดตข้อมูลเมื่อวันที่ {new Date().toLocaleDateString("th")}
