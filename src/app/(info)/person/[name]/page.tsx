@@ -74,14 +74,14 @@ export default function Person({ params }: PersonPageProps) {
           </div>
         </div>
         <a
-          href="www.theyworkforus.wevis.info"
+          href="https://theyworkforus.wevis.info/"
           className="py-4 px-10 b7 border border-gray-2 rounded-5 block mx-auto"
         >
           <span className="flex gap-2 items-center justify-center">
             <span>ดูประวัติการทำงานในรัฐสภา</span>
             <Image src="/icons/external.svg" alt="" width={12} height={12} />
           </span>
-          <span className="block text-gray-4">www.theyworkforus.wevis.info</span>
+          <span className="block text-gray-4">theyworkforus.wevis.info</span>
         </a>
       </section>
 
