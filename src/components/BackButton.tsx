@@ -9,7 +9,13 @@ export default function BackButton() {
       type="button"
       onClick={() => window.history.back()}
     >
-      <Image src="/icons/arr-l.svg" width={18} height={16} alt="" />
+      <Image
+        className="w-auto h-[16px] rotate-90"
+        src="/icons/arr-w.svg"
+        width={18}
+        height={16}
+        alt=""
+      />
       <span>กลับ</span>
     </button>
   );
