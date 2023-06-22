@@ -31,7 +31,7 @@ export default function Home() {
                 alt="arrow"
               />
             </div>
-            <ul className="list-inside list-disc text-left">
+            <ul className="list-outside ml-[2ch] list-disc text-left">
               <li>สถานะทางการเงินเเละการยื่นบัญชีทรัพย์สินฯ</li>
               <li>ความเกี่ยวข้องกับธุรกิจและโครงการภาครัฐ</li>
               <li>เงินบริจาคพรรคการเมือง</li>
@@ -96,7 +96,7 @@ export default function Home() {
                 alt="arrow"
               />
             </div>
-            <ul className="list-inside list-disc text-left">
+            <ul className="list-outside ml-[2ch] list-disc text-left">
               <li>ยอดบริจาคที่น่าสังเกตของบุคคล/นิติบุคคล</li>
             </ul>
           </ImgCard>

@@ -19,7 +19,7 @@ const Card = (props: CardProps) => {
             "--color": `${props.color}`,
           } as React.CSSProperties
         }
-        className="w-[180px] rounded-t-10 bg-[var(--color)] py-12"
+        className="w-full rounded-t-10 bg-[var(--color)] py-12"
       >
         {props.title}
       </div>
