@@ -59,7 +59,7 @@ export default function Home() {
         } as React.CSSProperties} className="my-30 py-10 px-20 rounded-10 relative bg-cover bg-center bg-no-repeat flex flex-col text-white justify-start mx-20">
             <div className="flex flex-row justify-center items-center p-20">
                 <p className="text-32 self-start text-left">ร่วมแปลงข้อมูลเป็นดิจิตอล</p>
-                <img src="./icons/external-w.svg" className="w-[25px] h-[22px] pl-10" />
+                <img src="./icons/external-w.svg" className="w-[30px] pl-10" />
             </div>
         </div>
         </section>
