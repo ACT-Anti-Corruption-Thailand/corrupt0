@@ -66,18 +66,35 @@
   }
 
   .person-scrollbar::-webkit-scrollbar {
-    width: 8px;
+    @apply w-[8px];
   }
 
   .person-scrollbar::-webkit-scrollbar-track {
-    background: #000;
-    border-radius: 4px;
+    @apply bg-black;
   }
 
   .person-scrollbar::-webkit-scrollbar-thumb {
-    background: #808080;
-    border-radius: 4px;
+    @apply rounded-[4px] bg-gray-5;
   }
+}
+
+/* Recharts */
+.recharts-cartesian-grid line {
+  @apply stroke-gray-6 stroke-2 opacity-50;
+  stroke-linecap: round;
+}
+
+.recharts-cartesian-grid-vertical > line {
+  stroke-dasharray: 2 2;
+}
+
+.recharts-cartesian-axis-line {
+  @apply stroke-white stroke-2;
+  stroke-linecap: round;
+}
+
+.recharts-line path {
+  stroke-linecap: round;
 }
 
 @layer utilities {

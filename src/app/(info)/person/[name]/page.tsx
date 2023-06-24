@@ -7,6 +7,15 @@ import PersonChart from "@/components/PersonChart";
 
 import { ReactNode } from "react";
 
+const DATA = [
+  { x: "2558", y1: 1, y2: 3 },
+  { x: "2559", y1: 2, y2: 2 },
+  { x: "2560", y1: 3, y2: 1 },
+  { x: "2561", y1: 4, y2: 2 },
+  { x: "2562", y1: 3, y2: 3 },
+  { x: "2563", y1: 2, y2: 4 },
+];
+
 export async function generateStaticParams() {
   return [{ name: "_test" }];
 }
@@ -610,7 +619,12 @@ export default function Person({ params }: PersonPageProps) {
               <br />
               <span className="b2">000 ล้านบาท</span>
             </p>
-            <PersonChart />
+            <PersonChart
+              x="x"
+              y={["y1", "y2"]}
+              yColors={["#6DD4FF", "#4993FE"]}
+              data={DATA}
+            />
             <div className="flex gap-4 flex-col mt-10">
               <Accordion
                 className="bg-white-10 py-5 px-10 rounded-5"
