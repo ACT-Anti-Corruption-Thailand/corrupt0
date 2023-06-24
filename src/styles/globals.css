@@ -59,6 +59,27 @@
   }
 }
 
+@layer components {
+  .person-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: #808080 #000;
+  }
+
+  .person-scrollbar::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  .person-scrollbar::-webkit-scrollbar-track {
+    background: #000;
+    border-radius: 4px;
+  }
+
+  .person-scrollbar::-webkit-scrollbar-thumb {
+    background: #808080;
+    border-radius: 4px;
+  }
+}
+
 @layer utilities {
   .nobr {
     @apply whitespace-nowrap;

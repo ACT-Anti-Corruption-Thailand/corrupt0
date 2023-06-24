@@ -36,7 +36,7 @@ export default function InfoGoTop({ name }: { name: string }) {
       <button
         type="button"
         className={clsx(
-          "fixed top-0 left-0 bg-black w-full flex items-center justify-between py-10 px-15 transition-transform z-10",
+          "fixed top-0 lg:hidden left-0 bg-black w-full flex items-center justify-between py-10 px-15 transition-transform z-10",
           !showGoTopBar && "-translate-y-full"
         )}
         onClick={() => {
