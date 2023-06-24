@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ChartYearDropdown, ChartPartyDropdown } from "@/components/ChartDropdown";
 import FinancialDropdowns from "@/components/FinancialDropdowns";
+import FinancialCheckboxes from "@/components/FinancialCheckboxes";
 
 import { ReactNode } from "react";
 
@@ -261,20 +262,7 @@ export default function Person({ params }: PersonPageProps) {
             <FinancialDropdowns />
             {/* การ์ดเงิน */}
             <div className="rounded-10 bg-white p-10 text-black mb-15">
-              <div className="flex gap-10 items-center justify-center b6 py-5 mb-5">
-                <label className="flex gap-5 items-center">
-                  <input type="checkbox" />
-                  <span>ผู้ยื่น</span>
-                </label>
-                <label className="flex gap-5 items-center">
-                  <input type="checkbox" />
-                  <span>คู่สมรส</span>
-                </label>
-                <label className="flex gap-5 items-center">
-                  <input type="checkbox" />
-                  <span>บุตรที่ยังไม่บรรลุนิติภาวะ</span>
-                </label>
-              </div>
+              <FinancialCheckboxes />
               <div className="py-5 mb-5 ml-10">
                 <button type="button" className="flex items-center gap-2 text-gray-5 b6">
                   <Image src="/icons/thinking.png" alt="" width={14} height={14} />
