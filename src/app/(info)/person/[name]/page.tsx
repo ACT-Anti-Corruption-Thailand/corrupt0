@@ -1,9 +1,10 @@
+import Accordion from "@/components/Accordion";
+import InfoGoTop from "@/components/InfoGoTop";
+import PersonChart from "@/components/PersonChart";
+import Sharer from "@/components/Sharer";
 import Image from "next/image";
 import Link from "next/link";
-import Sharer from "@/components/Sharer";
-import InfoGoTop from "@/components/InfoGoTop";
-import Accordion from "@/components/Accordion";
-import PersonChart from "@/components/PersonChart";
+import { ChartYearDropdown, ChartPartyDropdown } from "@/components/ChartDropdown";
 
 import { ReactNode } from "react";
 
@@ -82,7 +83,7 @@ export default function Person({ params }: PersonPageProps) {
                       <div className="flex b6 text-gray-5 items-center">
                         <span>ดูตำแหน่งที่ผ่านมา</span>
                         <Image
-                          className="group-aria-expanded/accordion:rotate-180 ml-2"
+                          className="ui-open:rotate-180 ml-2"
                           src="/icons/caret-g.svg"
                           width={10}
                           height={10}
@@ -600,18 +601,14 @@ export default function Person({ params }: PersonPageProps) {
             </span>
           </header>
           <div className="p-10">
-            <div className="flex gap-10 items-center justify-center mb-8">
+            <div className="flex gap-10 items-center justify-center mb-8 b4">
               <div className="flex gap-5 items-center">
                 <span>ดู</span>
-                <select className="w-[110px]">
-                  <option value="all">ทุกปี</option>
-                </select>
+                <ChartYearDropdown />
               </div>
               <div className="flex gap-5 items-center">
                 <span>ดู</span>
-                <select className="w-[110px]">
-                  <option value="all">ทุกพรรค</option>
-                </select>
+                <ChartPartyDropdown />
               </div>
             </div>
             <p className="text-center mb-8">
@@ -641,7 +638,7 @@ export default function Person({ params }: PersonPageProps) {
                       <span className="b2 font-bold">พลังประชารัฐ</span>
                       <Image src="/icons/new_tab.svg" alt="" width={15} height={15} />
                       <Image
-                        className="group-aria-expanded/accordion:rotate-180 ml-auto"
+                        className="ui-open:rotate-180 ml-auto"
                         src="/icons/caret-g.svg"
                         width={12}
                         height={12}
@@ -695,10 +692,10 @@ export default function Person({ params }: PersonPageProps) {
             <Image src="/icons/lawsuit.svg" alt="" width={30} height={30} />
             <span className="w-auto">ข้อมูลคดีความ</span>
           </header>
-          <div className="mb-10 p-10 flex flex-col gap-5">
+          <div className="p-10 flex flex-col gap-5">
             <Accordion
               trigger={
-                <div className="p-10 bg-white-20 rounded-5 text-left group-aria-expanded/accordion:rounded-b-0">
+                <div className="p-10 bg-white-20 rounded-5 text-left ui-open:rounded-b-0">
                   <div className="b6 flex items-center leading-1">
                     <span className="bg-white-10 border border-gray-5 rounded-5 py-2 px-8">
                       ป.ป.ช.
@@ -707,7 +704,7 @@ export default function Person({ params }: PersonPageProps) {
                       วันที่ปรับปรุงข้อมูล 03/08/2564
                     </span>
                     <Image
-                      className="group-aria-expanded/accordion:rotate-180"
+                      className="ui-open:rotate-180"
                       src="/icons/caret-g.svg"
                       width={13}
                       height={13}
