@@ -5,6 +5,7 @@ import Sharer from "@/components/Sharer";
 import Image from "next/image";
 import Link from "next/link";
 import { ChartYearDropdown, ChartPartyDropdown } from "@/components/ChartDropdown";
+import FinancialDropdowns from "@/components/FinancialDropdowns";
 
 import { ReactNode } from "react";
 
@@ -252,16 +253,12 @@ export default function Person({ params }: PersonPageProps) {
             <span>สถานะทางการเงิน</span>
           </header>
 
-          <div className="p-10 text-center">
-            <div className="mb-5">
+          <div className="p-10">
+            <div className="mb-5 text-center">
               <span className="b3 font-bold inline-block mr-2">ปีที่ยื่นบัญชี</span>
               <span className="b5">(กรณีที่ยื่น)</span>
             </div>
-            {/* select compare */}
-            <div className="flex mb-15">
-              <div className="flex-1">1</div>
-              <div className="flex-1">2</div>
-            </div>
+            <FinancialDropdowns />
             {/* การ์ดเงิน */}
             <div className="rounded-10 bg-white p-10 text-black mb-15">
               <div className="flex gap-10 items-center justify-center b6 py-5 mb-5">
@@ -284,7 +281,7 @@ export default function Person({ params }: PersonPageProps) {
                   <span className="underline">ดูวิธีตั้งข้อสังเกต</span>
                 </button>
               </div>
-              <div className="mb-10 bg-value-negative-bg p-10 text-left">
+              <div className="mb-10 bg-value-negative-bg p-10">
                 <section className="mb-5">
                   <div className="block b3 font-bold mb-2">ทรัพย์สิน</div>
                   <div className="flex border border-black h-20 mr-auto w-fit mb-2">
@@ -357,7 +354,7 @@ export default function Person({ params }: PersonPageProps) {
                   ทรัพย์สิน น้อยกว่า หนี้สิน x,xxx ล้านบาท
                 </p>
               </div>
-              <div className="mb-10 bg-value-positive-bg p-10 text-left">
+              <div className="mb-10 bg-value-positive-bg p-10">
                 <section className="mb-5">
                   <div className="block b3 font-bold mb-2">รายได้</div>
                   <div className="flex border border-black h-20 mr-auto w-fit mb-2">
@@ -430,7 +427,7 @@ export default function Person({ params }: PersonPageProps) {
                   รายได้ มากกว่า รายจ่าย x,xxx ล้านบาท
                 </p>
               </div>
-              <div className="bg-gray-1 p-10 text-left">
+              <div className="bg-gray-1 p-10">
                 <div className="block b2 font-bold">การเสียภาษี</div>
                 <section className="mb-10">
                   <div className="block b3 font-bold mb-2">เงินได้พึงประเมิน</div>
@@ -491,7 +488,7 @@ export default function Person({ params }: PersonPageProps) {
                   />
                 </div>
               </header>
-              <div className="p-10 text-left">
+              <div className="p-10">
                 <span className="b4 text-gray-4 font-bold block mb-10">
                   ทรัพย์สินที่แพงที่สุด
                 </span>

@@ -4,20 +4,29 @@ import clsx from "clsx";
 
 import Image from "next/image";
 import { Listbox } from "@headlessui/react";
+import { ReactNode } from "react";
 
-export interface DropdownProps<T extends string[]> {
+type DropdownDataType =
+  | string[]
+  | {
+      data: any;
+      label: ReactNode;
+    }[];
+
+export interface DropdownProps<T extends DropdownDataType> {
   data: T;
   value: T[number];
   setValue: (value: T[number]) => void;
   arrowSrc?: string;
   className?: {
+    root?: string;
     button?: string;
     listbox?: string;
     option?: string;
   };
 }
 
-export default function Dropdown<T extends string[]>({
+export default function Dropdown<T extends DropdownDataType>({
   data,
   value,
   setValue,
@@ -26,14 +35,16 @@ export default function Dropdown<T extends string[]>({
 }: DropdownProps<T>) {
   return (
     <Listbox value={value} onChange={setValue}>
-      <div className="relative">
+      <div className={clsx("relative", className?.root)}>
         <Listbox.Button
           className={clsx(
             "cursor-pointer flex justify-between items-center select-none",
             className?.button
           )}
         >
-          <span className="truncate min-w-0">{value}</span>
+          <span className="truncate min-w-0">
+            {typeof value === "string" ? value : value.label}
+          </span>
           {arrowSrc && (
             <Image
               className="ui-open:rotate-180"
@@ -56,10 +67,10 @@ export default function Dropdown<T extends string[]>({
                 "ui-not-selected:cursor-pointer select-none",
                 className?.option
               )}
-              key={d}
+              key={typeof d === "string" ? d : d.data}
               value={d}
             >
-              {d}
+              {typeof d === "string" ? d : d.label}
             </Listbox.Option>
           ))}
         </Listbox.Options>

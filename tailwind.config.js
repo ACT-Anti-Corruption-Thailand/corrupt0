@@ -112,6 +112,9 @@ module.exports = {
       10: "10px",
       full: "9999px",
     },
+    boxShadow: {
+      dropdown: "0 2px 4px rgba(0, 0, 0, 0.25);",
+    },
     extend: {
       backgroundImage: {
         asset_explore: "url(/images/asset_explore.png)",
@@ -124,5 +127,5 @@ module.exports = {
       },
     },
   },
-  plugins: [require('@headlessui/tailwindcss')],
+  plugins: [require("@headlessui/tailwindcss")],
 };
