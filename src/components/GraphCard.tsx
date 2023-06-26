@@ -1,4 +1,6 @@
 import Image from "next/image";
+import { moneyFormatter } from "@/functions/moneyFormatter";
+
 import {
   BarChart,
   Bar,
@@ -17,17 +19,14 @@ interface GraphCardProps {
 
 const data = [
   {
-    label: "1M",
     name: 1000000,
     amount: 2,
   },
   {
-    label: "4M",
-    name: 4000000,
+    name: 4234567,
     amount: 13,
   },
   {
-    label: "5M",
     name: 5000000,
     amount: 8,
   }
@@ -47,7 +46,7 @@ const GraphCard = (props: GraphCardProps) => {
           data={data}
         >
           <ReferenceLine x={1637239} stroke="#EC1C24" isFront={true} strokeDasharray="3 3" />
-          <XAxis type="number" dataKey="name" fill="3F3F3F" domain={['auto', 'auto']}/>
+          <XAxis type="number" dataKey="name" fill="3F3F3F" domain={['auto', 'auto']} tickFormatter={moneyFormatter}/>
           <Bar dataKey="amount" fill="#fff" minPointSize={1}></Bar>
         </BarChart>
       </ResponsiveContainer>
