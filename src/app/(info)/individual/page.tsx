@@ -1,9 +1,10 @@
-'use client'
+"use client";
 
 import ImgCard from "@/components/ImgCard";
 import Image from "next/image";
 import { Tab } from "@headlessui/react";
 import Link from "next/link";
+import GraphCard from "@/components/GraphCard";
 
 export default function Individual() {
   return (
@@ -29,16 +30,36 @@ export default function Individual() {
         <p className="text-30 font-black text-white my-15">
           สำรวจตามกลุ่มตำแหน่ง
         </p>
-        <div className="flex flex-row">
-          <p className="text-18 text-gray-4">เเสดงข้อมูล</p>
+        <div className="flex flex-col items-center text-center text-18">
           <Tab.Group>
-            <Tab.List className="bg-gray-6 rounded-5 text-gray-4">
-              <Tab>ทรัพย์สิน</Tab>
-              <Tab>หนี้สิน</Tab>
-              <Tab>ทั้งคู่</Tab>
+            <Tab.List className="flex flex-row items-center">
+              <p className="text-gray-4 mr-10 bg-black">เเสดงข้อมูล</p>
+              <div className="text-gray-4 bg-gray-6 rounded-5">
+                <Tab className="ui-selected:bg-white ui-selected:text-gray-6 rounded-5 py-5 px-20">
+                  ทรัพย์สิน
+                </Tab>
+                <Tab className="ui-selected:bg-white ui-selected:text-gray-6 rounded-5 py-5 px-20">
+                  หนี้สิน
+                </Tab>
+                <Tab className="ui-selected:bg-white ui-selected:text-gray-6 rounded-5 py-5 px-20">
+                  ทั้งคู่
+                </Tab>
+              </div>
             </Tab.List>
             <Tab.Panels>
-              <Tab.Panel>Content 1</Tab.Panel>
+              <div className="flex flex-row items-center justify-center my-10 text-act">
+                <div className="w-20 border-1 border-dashed mr-5" />
+                <p>ทรัพย์สินเฉลี่ยต่อครัวเรือน ปี 2562 = 1.64 ล้านบาท</p>
+              </div>
+              <Tab.Panel>
+                <div className="flex flex-row items-center justify-around py-10 text-gray-4 border-t-1 border-gray-6">
+                  <p>กลุ่มตำแหน่ง</p>
+                  <p>การกระจายตัว</p>
+                  <p>สูงสุด - ต่ำสุด</p>
+                </div>
+                <GraphCard title="นายกรัฐมนตรีและรัฐมนตรี" number="xxx คน" max="xxx ล้านบาท" min="xxx ล้านบาท" />
+                <GraphCard title="สมาชิกสภาผู้แทนราษฎร" number="491 คน" max="474,816.92 ล้านบาท" min="5,064 บาท" />
+              </Tab.Panel>
               <Tab.Panel>Content 2</Tab.Panel>
               <Tab.Panel>Content 3</Tab.Panel>
             </Tab.Panels>
