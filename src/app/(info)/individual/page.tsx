@@ -52,16 +52,50 @@ export default function Individual() {
                 <p>ทรัพย์สินเฉลี่ยต่อครัวเรือน ปี 2562 = 1.64 ล้านบาท</p>
               </div>
               <Tab.Panel>
+                {/* ทรัพย์สิน */}
                 <div className="flex flex-row items-center justify-around py-10 text-gray-4 border-t-1 border-gray-6">
                   <p>กลุ่มตำแหน่ง</p>
                   <p>การกระจายตัว</p>
                   <p>สูงสุด - ต่ำสุด</p>
                 </div>
-                <GraphCard title="นายกรัฐมนตรีและรัฐมนตรี" number="xxx คน" max="xxx ล้านบาท" min="xxx ล้านบาท" />
-                <GraphCard title="สมาชิกสภาผู้แทนราษฎร" number="491 คน" max="474,816.92 ล้านบาท" min="5,064 บาท" />
+                <GraphCard
+                  title="นายกรัฐมนตรีและรัฐมนตรี"
+                  number="xxx คน"
+                  max="xxx ล้านบาท"
+                  min="xxx ล้านบาท"
+                />
+                <GraphCard
+                  title="สมาชิกสภาผู้แทนราษฎร"
+                  number="491 คน"
+                  max="474,816.92 ล้านบาท"
+                  min="5,064 บาท"
+                />
               </Tab.Panel>
-              <Tab.Panel>Content 2</Tab.Panel>
-              <Tab.Panel>Content 3</Tab.Panel>
+              <Tab.Panel>
+                {/* หนี้สิน */}
+                <div className="flex flex-row items-center justify-around py-10 text-gray-4 border-t-1 border-gray-6">
+                  <p>กลุ่มตำแหน่ง</p>
+                  <p>การกระจายตัว</p>
+                  <p>สูงสุด - ต่ำสุด</p>
+                </div>
+                <GraphCard
+                  title="นายกรัฐมนตรีและรัฐมนตรี"
+                  number="xxx คน"
+                  max="xxx ล้านบาท"
+                  min="xxx ล้านบาท"
+                />
+                <GraphCard
+                  title="สมาชิกสภาผู้แทนราษฎร"
+                  number="491 คน"
+                  max="474,816.92 ล้านบาท"
+                  min="5,064 บาท"
+                />
+              </Tab.Panel>
+              <Tab.Panel>
+                {/* ทั้งคู่ Scatterplot */}
+                
+
+              </Tab.Panel>
             </Tab.Panels>
           </Tab.Group>
         </div>
