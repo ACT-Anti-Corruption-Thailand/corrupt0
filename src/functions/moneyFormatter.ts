@@ -11,7 +11,10 @@ export const moneyFormatter = (value: number) => {
 };
 
 export const thaiMoneyFormatter = (value: number) => {
-  if (value > 1000000) {
+  if (value < 1000000) {
+    return value.toString() + " บาท";
+  }
+  else if (value >= 1000000) {
     return Number((value / 1000000).toFixed(2)).toString() + " ล้านบาท";
   }
 };
