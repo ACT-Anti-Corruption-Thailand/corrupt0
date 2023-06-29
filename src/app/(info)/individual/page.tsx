@@ -1,12 +1,25 @@
 "use client";
 
+import React from "react";
 import ImgCard from "@/components/ImgCard";
 import Image from "next/image";
 import { Tab } from "@headlessui/react";
 import Link from "next/link";
 import GraphCard from "@/components/GraphCard";
+import Search from "@/components/Search";
 
 export default function Individual() {
+  const [selected, setSelected] = React.useState("");
+
+  const people = [
+    { id: 1, name: "Wade Cooper", title: "Regional Paradigm Technician" },
+    { id: 2, name: "Arlene Mccoy", title: "Hello" },
+    { id: 3, name: "Devon Webb", title: "jasf" },
+    { id: 4, name: "Tom Cook", title: "asf" },
+    { id: 5, name: "Tanya Fox", title: "asf" },
+    { id: 6, name: "Hellen Schmidt", title: "asf" },
+  ];
+  
   return (
     <>
       <section className="flex flex-col items-center">
@@ -22,10 +35,10 @@ export default function Individual() {
             ดูข้อมูลนักการเมืองเเละเจ้าหน้าที่รัฐ
           </p>
         </ImgCard>
-        <p className="text-gray-5 text-18 mt-20 mb-10">
+        <p className="text-gray-5 text-18 mt-20">
           อัพเดทข้อมูลเมื่อวันที่ 00/00/2556
         </p>
-        <div>Search</div>
+        <Search placeholder="ค้นหาด้วยชื่อ/นามสกุล" data={people} selected={people[0]} setSelected={setSelected} />
         <div className="w-[85vw] border-1 border-gray-4" />
         <p className="text-30 font-black text-white my-15">
           สำรวจตามกลุ่มตำแหน่ง
@@ -93,7 +106,7 @@ export default function Individual() {
               </Tab.Panel>
               <Tab.Panel>
                 {/* ทั้งคู่ Scatterplot */}
-                
+
 
               </Tab.Panel>
             </Tab.Panels>
