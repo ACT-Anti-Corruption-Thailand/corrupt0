@@ -57,7 +57,7 @@ const Search = (props: SearchProps) => {
           leaveTo="opacity-0"
           afterLeave={() => setQuery("")}
         >
-          <Combobox.Options className="absolute mt-10 max-h-100 w-full overflow-auto rounded-5 bg-white py-1 ring-opacity-5 focus:outline-none z-[999]">
+          <Combobox.Options className="absolute mt-10 max-h-[400px] w-full overflow-auto rounded-5 bg-white py-1 ring-opacity-5 focus:outline-none z-[999]">
             {filteredPeople.length === 0 && query !== "" ? (
               <div className="relative cursor-default select-none py-2 px-4 text-black">
                 Nothing found.
