@@ -1,11 +1,10 @@
+// TODO!!
+// Find a way to pass query parameter (consult with p'mumu)
 "use client";
 
 import ImgCard from "@/components/ImgCard";
 import Image from "next/image";
 import { Tab } from "@headlessui/react";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import GraphCard from "@/components/GraphCard";
 import {
   BarChart,
   Bar,
