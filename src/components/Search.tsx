@@ -5,23 +5,25 @@ import { useEffect, Fragment } from "react";
 import { Combobox, Transition } from "@headlessui/react";
 import Image from "next/image";
 
-const people = [
-  { id: 1, name: "Wade Cooper", title: "Regional Paradigm Technician" },
-  { id: 2, name: "Arlene Mccoy", title: "Hello" },
-  { id: 3, name: "Devon Webb", title: "jasf" },
-  { id: 4, name: "Tom Cook", title: "asf" },
-  { id: 5, name: "Tanya Fox", title: "asf" },
-  { id: 6, name: "Hellen Schmidt", title: "asf" },
-];
 
-const Search = () => {
-  const [selected, setSelected] = React.useState(people[0]);
+interface SearchProps {
+  data: {
+    id: number;
+    name: string;
+    title: string;
+  }[];
+  placeholder: string;
+  selected: any;
+  setSelected: React.Dispatch<React.SetStateAction<string>>
+}
+
+const Search = (props: SearchProps) => {
   const [query, setQuery] = React.useState("");
 
   const filteredPeople =
     query === ""
-      ? people
-      : people.filter((person) =>
+      ? props.data
+      : props.data.filter((person) =>
           person.name
             .toLowerCase()
             .replace(/\s+/g, "")
@@ -29,12 +31,12 @@ const Search = () => {
         );
 
   return (
-    <Combobox value={selected} onChange={setSelected}>
+    <Combobox value={props.selected} onChange={props.setSelected}>
       <div className="relative ">
         <div className="relative w-[80vw] my-10 cursor-default overflow-hidden rounded-lg text-left focus:outline-none">
           <Combobox.Input
-            placeholder="ค้นหาด้วยชื่อ/นามสกุล"
-            className="w-full border-none px-15 py-5 b3 text-black bg-white rounded-full"
+            placeholder={props.placeholder}
+            className="w-full border-none placeholder:text-gray-5 px-15 py-5 b3 text-black focus:bg-white bg-gray-4 rounded-full"
             displayValue={(person: any) => person.name}
             onChange={(event) => setQuery(event.target.value)}
           />
