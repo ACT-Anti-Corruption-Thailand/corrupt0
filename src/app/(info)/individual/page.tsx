@@ -7,6 +7,7 @@ import { Tab } from "@headlessui/react";
 import Link from "next/link";
 import GraphCard from "@/components/GraphCard";
 import Search from "@/components/Search";
+import { thaiMoneyFormatter } from "@/functions/moneyFormatter";
 
 export default function Individual() {
   const [selected, setSelected] = React.useState("");
@@ -74,14 +75,14 @@ export default function Individual() {
                 <GraphCard
                   title="นายกรัฐมนตรีและรัฐมนตรี"
                   number="xxx คน"
-                  max="xxx ล้านบาท"
-                  min="xxx ล้านบาท"
+                  max={thaiMoneyFormatter(474816.92)}
+                  min={thaiMoneyFormatter(5064)}
                 />
                 <GraphCard
                   title="สมาชิกสภาผู้แทนราษฎร"
                   number="491 คน"
-                  max="474,816.92 ล้านบาท"
-                  min="5,064 บาท"
+                  max={thaiMoneyFormatter(474816.92)}
+                  min={thaiMoneyFormatter(5064)}
                 />
               </Tab.Panel>
               <Tab.Panel>
@@ -94,14 +95,14 @@ export default function Individual() {
                 <GraphCard
                   title="นายกรัฐมนตรีและรัฐมนตรี"
                   number="xxx คน"
-                  max="xxx ล้านบาท"
-                  min="xxx ล้านบาท"
+                  max={thaiMoneyFormatter(474816.92)}
+                  min={thaiMoneyFormatter(5064)}
                 />
                 <GraphCard
                   title="สมาชิกสภาผู้แทนราษฎร"
                   number="491 คน"
-                  max="474,816.92 ล้านบาท"
-                  min="5,064 บาท"
+                  max={thaiMoneyFormatter(474816.92)}
+                  min={thaiMoneyFormatter(5064)}
                 />
               </Tab.Panel>
               <Tab.Panel>
