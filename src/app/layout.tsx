@@ -1,3 +1,4 @@
+import { Metadata } from "next";
 import "../styles/globals.css";
 import localFont from "next/font/local";
 
@@ -28,15 +29,22 @@ const expanded_font = localFont({
   variable: "--font-dbh-expanded",
 });
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Corrupt0 — ACT Ai",
   description:
     "ร่วมเป็นส่วนหนึ่งในการค้นหาและตรวจสอบเพื่อสร้างความโปร่งใสทางการเมือง (Political Transparency) ไปกับ ACT Ai",
+  manifest: "/site.webmanifest",
+  colorScheme: "dark",
+  themeColor: "#ffffff",
+  other: {
+    "msapplication-TileColor": "#ffffff",
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="th" className={`${normal_font.variable} ${expanded_font.variable}`}>
+      <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#ec1c24" />
       <body>{children}</body>
     </html>
   );
