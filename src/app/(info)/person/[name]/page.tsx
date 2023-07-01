@@ -425,16 +425,18 @@ export default function Person({ params }: PersonPageProps) {
                     <div className="w-80 bg-black" />
                     <div className="w-80 bg-black opacity-40" />
                   </div>
-                  <div className="flex pt-5 justify-between">
-                    <div>
+                  <div className="flex pt-5">
+                    <div className="flex-1">
                       <span className="block b7 leading-1">ผู้ยื่น</span>
                       <span className="block b4">1.36</span>
                     </div>
-                    <div className="opacity-80">
-                      <span className="block b7 leading-1">คู่สมรส x คน</span>
-                      <span className="block b4">16.73</span>
+                    <div className="opacity-80 flex-1 flex justify-center">
+                      <div>
+                        <span className="block b7 leading-1">คู่สมรส x คน</span>
+                        <span className="block b4">16.73</span>
+                      </div>
                     </div>
-                    <div className="text-right">
+                    <div className="text-right flex-1">
                       <span className="block b7 leading-1">
                         <span className="font-bold">รวม</span> (ล้านบาท)
                       </span>
@@ -444,16 +446,18 @@ export default function Person({ params }: PersonPageProps) {
                 </section>
                 <section className="border-t border-t-gray-4 pt-5">
                   <div className="block b3 font-bold mb-5">เปรียบเทียบกับรายได้จริง</div>
-                  <div className="flex justify-between">
-                    <div className="b4">
+                  <div className="flex">
+                    <div className="b4 flex-1">
                       <span className="block leading-1">น้อยกว่า</span>
                       <span className="block">xx%</span>
                     </div>
-                    <div className="opacity-80 b4">
-                      <span className="block leading-1">น้อยกว่า</span>
-                      <span className="block">xx%</span>
+                    <div className="opacity-80 b4 flex-1 flex justify-center">
+                      <div>
+                        <span className="block leading-1">น้อยกว่า</span>
+                        <span className="block">xx%</span>
+                      </div>
                     </div>
-                    <div className="text-right b4 font-bold">
+                    <div className="text-right b4 font-bold flex-1">
                       <span className="block leading-1">น้อยกว่า</span>
                       <span className="block">xx%</span>
                     </div>
