@@ -38,7 +38,7 @@ export default function Checkbox({
         arid-hidden="true"
       >
         <Image
-          className="ui-not-checked:hidden w-10 h-8"
+          className="ui-not-checked:opacity-0 w-10 h-8 transition-opacity duration-100"
           src={checkSrc ?? "/icons/check.svg"}
           width={10}
           height={8}
