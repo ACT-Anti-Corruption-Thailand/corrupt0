@@ -11,9 +11,9 @@ import {
 
 interface GraphCardProps {
   title?: string;
-  number?: string;
-  max?: string;
-  min?: string;
+  number: [string, string];
+  max: [string, string];
+  min: [string, string];
   ref?: number;
 }
 
@@ -37,7 +37,7 @@ const GraphCard = (props: GraphCardProps) => {
     <div className="bg-white bg-opacity-10 text-gray-4 rounded-5 p-10 m-5 flex flex-row gap-5 items-start text-18 w-[90vw] min-w-[300px] max-w-[850px]">
       <div className="flex flex-col items-start grow-[2]">
         <p className="text-20 text-white text-left">{props.title}</p>
-        <p>{props.number}</p>
+        <p>{props.number.join("")}</p>
       </div>
       <ResponsiveContainer width="80%" height={110} className="grow-[2]" >
         <BarChart
@@ -51,10 +51,10 @@ const GraphCard = (props: GraphCardProps) => {
         </BarChart>
       </ResponsiveContainer>
       <div className="flex flex-col items-end min-w-[60px] grow-1">
-        <p>{props.max?.split(" ")[0]}</p>
-        <p>{props.max?.split(" ")[1]}</p>
-        <p>{props.min?.split(" ")[0]}</p>
-        <p>{props.min?.split(" ")[1]}</p>
+        <p>{props.max[0]}</p>
+        <p>{props.max[1]}</p>
+        <p>{props.min[0]}</p>
+        <p>{props.min[1]}</p>
       </div>
       <Image
         className="-rotate-90 ml-4"
