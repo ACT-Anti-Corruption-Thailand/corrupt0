@@ -7,6 +7,7 @@ import Link from "next/link";
 import { ChartYearDropdown, ChartPartyDropdown } from "@/components/ChartDropdown";
 import FinancialDropdowns from "@/components/FinancialDropdowns";
 import FinancialCheckboxes from "@/components/FinancialCheckboxes";
+import PersonBusinessCard from "@/components/PersonBusinessCard";
 
 import { ReactNode } from "react";
 
@@ -520,54 +521,26 @@ export default function Person({ params }: PersonPageProps) {
             </span>
           </header>
           <div className="mt-5 px-15 flex flex-col gap-5">
-            <article className="rounded-5 bg-white-10 p-10 flex flex-col gap-5">
-              <div className="flex justify-between">
-                <span className="b3 font-bold">บริษัท ทีเอ พีเอ็น เปเปอร์ จำกัด</span>
-                <span>
-                  <Image src="/icons/new_tab.svg" alt="" width={15} height={15} />
-                </span>
-              </div>
-              <ul className="b6 -mt-5">
-                <li>
-                  <span className="opacity-50">ประเภทธุรกิจ</span>{" "}
-                  <span>อสังหาทรัพย์</span>
-                </li>
-                <li>
-                  <span className="opacity-50">ตำแหน่ง</span> <span>ผู้ถือหุ้น</span>
-                </li>
-              </ul>
-              <div className="rounded-full b7 text-yellow bg-yellow-10 py-1 px-5 mr-auto leading-1">
-                1 ใน 10 อันดับ นิติบุคคลที่บริจาคเงินให้พรรคการเมืองมากที่สุด
-              </div>
-              <hr className="border-t-gray-5" />
-              <div className="flex justify-between">
-                <span className="b5 opacity-50">พรรคที่บริจาคให้บ่อยที่สุด</span>
-                <span className="b4 font-bold">พลังปะชารัฐ</span>
-              </div>
-              <div className="flex justify-between -mt-5">
-                <span className="b5 opacity-50">รวมยอดบริจาค</span>
-                <span className="b4">
-                  <span className="font-bold">000</span> ล้านบาท
-                </span>
-              </div>
-            </article>
-            <article className="rounded-5 bg-white-10 p-10 flex flex-col gap-5">
-              <div className="flex justify-between">
-                <span className="b3 font-bold">บริษัท ทีอาร์ อัลเคมิสท์ กรุ๊ป จำกัด</span>
-                <span>
-                  <Image src="/icons/new_tab.svg" alt="" width={15} height={15} />
-                </span>
-              </div>
-              <ul className="b6 -mt-5">
-                <li>
-                  <span className="opacity-50">ประเภทธุรกิจ</span>{" "}
-                  <span>อสังหาทรัพย์</span>
-                </li>
-                <li>
-                  <span className="opacity-50">ตำแหน่ง</span> <span>ผู้ถือหุ้น</span>
-                </li>
-              </ul>
-            </article>
+            <PersonBusinessCard
+              name="บริษัท ทีเอ พีเอ็น เปเปอร์ จำกัด"
+              type="อสังหาทรัพย์"
+              relation="ผู้ถือหุ้น"
+              isTop10
+              mostDonatedParty="พลังประชารัฐ"
+              totalDonation={1_234_567}
+            />
+            <PersonBusinessCard
+              name="บริษัท ทีอาร์ อัลเคมิสท์ กรุ๊ป จำกัด"
+              type="อสังหาทรัพย์"
+              relation="ผู้ถือหุ้น"
+              mostDonatedParty="พลังประชารัฐ"
+              totalDonation={100}
+            />
+            <PersonBusinessCard
+              name="บริษัท ทีอาร์ อัลเคมิสท์ กรุ๊ป จำกัด"
+              type="อสังหาทรัพย์"
+              relation="ผู้ถือหุ้น"
+            />
           </div>
           <footer className="flex gap-2 items-center justify-center text-gray-5 mt-8 mb-10">
             <span>Credit:</span>

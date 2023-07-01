@@ -9,8 +9,11 @@ interface PersonCardProps {
 }
 
 const PersonCard = (props: PersonCardProps) => {
-  const money = thaiMoneyFormatter(props.amount);
-  const bar = Number((props.amount / props.maxAmount)*100).toFixed(0).toString() + "%" ;
+  const [money, unit] = thaiMoneyFormatter(props.amount);
+  const bar =
+    Number((props.amount / props.maxAmount) * 100)
+      .toFixed(0)
+      .toString() + "%";
 
   return (
     <div className="bg-white bg-opacity-10 text-gray-4 rounded-5 py-10 px-5 my-10 flex gap-5 items-start text-18 w-[90vw]">
@@ -18,18 +21,20 @@ const PersonCard = (props: PersonCardProps) => {
       <div className="flex flex-col w-full">
         <div className="flex justify-between text-gray-2">
           <p className="b3">{props.name}</p>
-          <p className="b4">{money?.split(" ")[0]}</p>
+          <p className="b4">{money}</p>
         </div>
         <div className="flex justify-between text-right">
           <p>{props.title}</p>
-          <p>{money?.split(" ")[1]}</p>
+          <p>{unit}</p>
         </div>
-        <div style={
+        <div
+          style={
             {
-                "--bar": bar
+              "--bar": bar,
             } as React.CSSProperties
-        }
-        className="h-10 w-[var(--bar)] bg-white mt-10"></div>
+          }
+          className="h-10 w-[var(--bar)] bg-white mt-10"
+        />
       </div>
       <Image
         className="-rotate-90 ml-4"

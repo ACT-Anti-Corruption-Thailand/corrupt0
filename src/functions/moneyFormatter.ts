@@ -1,20 +1,10 @@
-export const moneyFormatter = (value: number) => {
-  if (value > 1000000000) {
-    return Number((value / 1000000000).toFixed(2)).toString() + "B";
-  } else if (value > 1000000) {
-    return Number((value / 1000000).toFixed(2)).toString() + "M";
-  } else if (value > 1000) {
-    return Number((value / 1000).toFixed(2)).toString() + "K";
-  } else {
-    return value.toString();
-  }
-};
+export const moneyFormatter = (value: number): string =>
+  Intl.NumberFormat("en-US", {
+    notation: "compact",
+    maximumFractionDigits: 2,
+  }).format(value);
 
-export const thaiMoneyFormatter = (value: number) => {
-  if (value < 1000000) {
-    return value.toString() + " บาท";
-  }
-  else if (value >= 1000000) {
-    return Number((value / 1000000).toFixed(2)).toString() + " ล้านบาท";
-  }
+export const thaiMoneyFormatter = (value: number): [number, string] => {
+  if (value < 1_000_000) return [value, "บาท"];
+  return [Math.round(value / 10_000) / 100, "ล้านบาท"];
 };
