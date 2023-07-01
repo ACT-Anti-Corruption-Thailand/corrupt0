@@ -9,6 +9,7 @@ import FinancialDropdowns from "@/components/FinancialDropdowns";
 import FinancialCheckboxes from "@/components/FinancialCheckboxes";
 import PersonBusinessCard from "@/components/PersonBusinessCard";
 import PersonLawsuitCard from "@/components/PersonLawsuitCard";
+import PersonFinanceNoticeDialog from "@/components/PersonFinanceNoticeDialog";
 
 import { ReactNode } from "react";
 
@@ -266,10 +267,7 @@ export default function Person({ params }: PersonPageProps) {
             <div className="rounded-10 bg-white p-10 text-black mb-15">
               <FinancialCheckboxes />
               <div className="py-5 mb-5 ml-10">
-                <button type="button" className="flex items-center gap-2 text-gray-5 b6">
-                  <Image src="/icons/thinking.png" alt="" width={14} height={14} />
-                  <span className="underline">ดูวิธีตั้งข้อสังเกต</span>
-                </button>
+                <PersonFinanceNoticeDialog />
               </div>
               <div className="mb-10 bg-value-negative-bg p-10">
                 <section className="mb-5">
