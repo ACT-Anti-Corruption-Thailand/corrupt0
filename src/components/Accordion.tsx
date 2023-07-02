@@ -26,11 +26,12 @@ export default function Accordion({
             <Disclosure.Panel
               static
               className={clsx(
-                "grid will-change-[grid-template-rows] transition-all overflow-hidden grid-rows-[0fr] ui-open:grid-rows-[1fr]"
+                "grid will-change-[grid-template-rows] transition-all overflow-hidden grid-rows-[0fr]",
+                open && "grid-rows-[1fr]"
               )}
               aria-hidden={!open}
             >
-              <div className={clsx("min-h-0 transition-all !ui-not-open:m-0")}>
+              <div className={clsx("min-h-0 transition-all", !open && "!m-0")}>
                 {children}
               </div>
             </Disclosure.Panel>

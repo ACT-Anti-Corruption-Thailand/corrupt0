@@ -97,6 +97,10 @@
   stroke-linecap: round;
 }
 
+button[data-headlessui-state="open"] .accordion-arrow {
+  @apply rotate-180;
+}
+
 @layer utilities {
   .nobr {
     @apply whitespace-nowrap;
