@@ -56,7 +56,7 @@ const PersonLawsuitCardBase = ({
           </div>
           <div className="mt-5 b6">
             <span className="block b5 font-bold">{CARDTYPE_TEXT[type].heading}</span>
-            <p className="text-gray-3">{description}</p>
+            <p className="text-gray-3 ui-not-open:line-clamp-3">{description}</p>
           </div>
         </div>
       }
