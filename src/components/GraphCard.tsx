@@ -1,19 +1,13 @@
 import Image from "next/image";
 import { moneyFormatter } from "@/functions/moneyFormatter";
 
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  ResponsiveContainer,
-  ReferenceLine
-} from "recharts";
+import { BarChart, Bar, XAxis, ResponsiveContainer, ReferenceLine } from "recharts";
 
 interface GraphCardProps {
   title?: string;
-  number: [string, string];
-  max: [string, string];
-  min: [string, string];
+  number: [string | number, string];
+  max: [string | number, string];
+  min: [string | number, string];
   ref?: number;
 }
 
@@ -29,7 +23,7 @@ const data = [
   {
     name: 5000000,
     amount: 8,
-  }
+  },
 ];
 
 const GraphCard = (props: GraphCardProps) => {
@@ -39,15 +33,22 @@ const GraphCard = (props: GraphCardProps) => {
         <p className="text-20 text-white text-left">{props.title}</p>
         <p>{props.number.join("")}</p>
       </div>
-      <ResponsiveContainer width="80%" height={110} className="grow-[2]" >
-        <BarChart
-          width={200}
-          height={150}
-          data={data}
-        >
-          <ReferenceLine x={1637239} stroke="#EC1C24" isFront={true} strokeDasharray="3 3" />
-          <XAxis type="number" dataKey="name" fill="3F3F3F" domain={['auto', 'auto']} tickFormatter={moneyFormatter}/>
-          <Bar dataKey="amount" fill="#fff" minPointSize={1}></Bar>
+      <ResponsiveContainer width="80%" height={110} className="grow-[2]">
+        <BarChart width={200} height={150} data={data}>
+          <ReferenceLine
+            x={1637239}
+            stroke="#EC1C24"
+            isFront={true}
+            strokeDasharray="3 3"
+          />
+          <XAxis
+            type="number"
+            dataKey="name"
+            fill="3F3F3F"
+            domain={["auto", "auto"]}
+            tickFormatter={moneyFormatter}
+          />
+          <Bar dataKey="amount" fill="#fff" minPointSize={1} />
         </BarChart>
       </ResponsiveContainer>
       <div className="flex flex-col items-end min-w-[60px] grow-1">

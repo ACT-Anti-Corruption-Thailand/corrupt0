@@ -20,7 +20,7 @@ export default function Individual() {
     { id: 5, name: "Tanya Fox", title: "asf" },
     { id: 6, name: "Hellen Schmidt", title: "asf" },
   ];
-  
+
   return (
     <>
       <section className="flex flex-col items-center">
@@ -36,14 +36,15 @@ export default function Individual() {
             ดูข้อมูลนักการเมืองเเละเจ้าหน้าที่รัฐ
           </p>
         </ImgCard>
-        <p className="text-gray-5 text-18 mt-20">
-          อัพเดทข้อมูลเมื่อวันที่ 00/00/2556
-        </p>
-        <Search placeholder="ค้นหาด้วยชื่อ/นามสกุล" data={people} selected={people[0]} setSelected={setSelected} />
+        <p className="text-gray-5 text-18 mt-20">อัพเดทข้อมูลเมื่อวันที่ 00/00/2556</p>
+        <Search
+          placeholder="ค้นหาด้วยชื่อ/นามสกุล"
+          data={people}
+          selected={people[0]}
+          setSelected={setSelected}
+        />
         <div className="w-[85vw] border-1 border-gray-4" />
-        <p className="text-30 font-black text-white my-15">
-          สำรวจตามกลุ่มตำแหน่ง
-        </p>
+        <p className="text-30 font-black text-white my-15">สำรวจตามกลุ่มตำแหน่ง</p>
         <div className="flex flex-col items-center text-center text-18">
           <Tab.Group>
             <Tab.List className="flex flex-row items-center">
@@ -74,13 +75,13 @@ export default function Individual() {
                 </div>
                 <GraphCard
                   title="นายกรัฐมนตรีและรัฐมนตรี"
-                  number="xxx คน"
+                  number={["xxx", "คน"]}
                   max={thaiMoneyFormatter(474816.92)}
                   min={thaiMoneyFormatter(5064)}
                 />
                 <GraphCard
                   title="สมาชิกสภาผู้แทนราษฎร"
-                  number="491 คน"
+                  number={[491, "คน"]}
                   max={thaiMoneyFormatter(474816.92)}
                   min={thaiMoneyFormatter(5064)}
                 />
@@ -94,22 +95,18 @@ export default function Individual() {
                 </div>
                 <GraphCard
                   title="นายกรัฐมนตรีและรัฐมนตรี"
-                  number="xxx คน"
+                  number={["xxx", "คน"]}
                   max={thaiMoneyFormatter(474816.92)}
                   min={thaiMoneyFormatter(5064)}
                 />
                 <GraphCard
                   title="สมาชิกสภาผู้แทนราษฎร"
-                  number="491 คน"
+                  number={[491, "คน"]}
                   max={thaiMoneyFormatter(474816.92)}
                   min={thaiMoneyFormatter(5064)}
                 />
               </Tab.Panel>
-              <Tab.Panel>
-                {/* ทั้งคู่ Scatterplot */}
-
-
-              </Tab.Panel>
+              <Tab.Panel>{/* ทั้งคู่ Scatterplot */}</Tab.Panel>
             </Tab.Panels>
           </Tab.Group>
         </div>
