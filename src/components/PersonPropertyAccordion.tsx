@@ -1,8 +1,11 @@
-import Accordion from "@/components/Accordion";
 import clsx from "clsx";
-import Image from "next/image";
-import { ReactNode } from "react";
 import { twMerge } from "tailwind-merge";
+
+import Accordion from "@/components/Accordion";
+import Image from "next/image";
+import PersonPropertyPopover from "./PersonPropertyPopover";
+
+import { ReactNode } from "react";
 
 export interface PersonPropertyStatement {
   actor: "ผู้ยื่น" | "คู่สมรส" | "บุตร";
@@ -385,6 +388,15 @@ const Valuable = ({ statements }: ValuableProps) => {
           name="ทรัพย์สินอื่น"
           length={itemLength}
           value={itemValue}
+          nameExtension={
+            <PersonPropertyPopover className="ml-5">
+              <p>
+                <span className="font-bold block mb-5">ทรัพย์สินอื่น</span>
+                คือทรัพย์สินที่นอกจากที่ระบุ ในรายการทรัพย์สินที่ 1-8
+                และมีมูลค่ารวมกันตั้งแต่ สองแสนบาทขึ้นไป
+              </p>
+            </PersonPropertyPopover>
+          }
         />
       }
     >

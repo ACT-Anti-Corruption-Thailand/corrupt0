@@ -114,6 +114,7 @@ module.exports = {
     },
     boxShadow: {
       dropdown: "0 2px 4px rgba(0, 0, 0, 0.25);",
+      popover: "0 1px 5px rgba(0, 0, 0, 0.25)",
     },
     extend: {
       backgroundImage: {

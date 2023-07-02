@@ -1,6 +1,7 @@
 import FinancialCheckboxes from "@/components/FinancialCheckboxes";
 import FinancialDropdowns from "@/components/FinancialDropdowns";
 import PersonPropertyDropdown from "@/components/PersonPropertyAccordion";
+import PersonPropertyPopover from "@/components/PersonPropertyPopover";
 import Image from "next/image";
 
 import {
@@ -194,7 +195,23 @@ export default function Property() {
         <span className="block mb-10 b6 text-gray-5">
           อัปเดตข้อมูลเมื่อวันที่ 00/00/2556
         </span>
-        <h1 className="h2">เจาะลึกทรัพย์สินรวม</h1>
+        <h1 className="h2 flex gap-5 items-center justify-center">
+          เจาะลึกทรัพย์สินรวม
+          <PersonPropertyPopover>
+            <span className="font-bold block">รายการทรัพย์สิน ประกอบด้วย</span>
+            <ol className="list-decimal ml-[2ch]">
+              <li>เงินสด</li>
+              <li>เงินฝาก</li>
+              <li>เงินลงทุน</li>
+              <li>เงินให้กู้ยืม</li>
+              <li>ที่ดิน</li>
+              <li>โรงเรือนและสิ่งปลูกสร้าง</li>
+              <li>ยานพาหนะ</li>
+              <li>สิทธิสัมปทาน</li>
+              <li>ทรัพย์สินอื่น</li>
+            </ol>
+          </PersonPropertyPopover>
+        </h1>
       </header>
 
       <section className="bg-gray-2 pt-10 rounded-5 text-black max-w-[850px] mx-auto overflow-hidden">
