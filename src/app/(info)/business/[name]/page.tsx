@@ -1,15 +1,10 @@
 import Accordion from "@/components/Accordion";
 import { ChartPartyDropdown, ChartYearDropdown } from "@/components/ChartDropdown";
-import FinancialCheckboxes from "@/components/FinancialCheckboxes";
-import FinancialDropdowns from "@/components/FinancialDropdowns";
 import InfoGoTop from "@/components/InfoGoTop";
-import PersonBusinessCard from "@/components/PersonBusinessCard";
 import PersonChart from "@/components/PersonChart";
-import PersonFinanceNoticeDialog from "@/components/PersonFinanceNoticeDialog";
 import PersonLawsuitCard from "@/components/PersonLawsuitCard";
 import Sharer from "@/components/Sharer";
 import Image from "next/image";
-import Link from "next/link";
 
 import { ReactNode } from "react";
 
@@ -39,11 +34,11 @@ const DesktopAligner = ({ left, children }: { left: ReactNode; children: ReactNo
   );
 };
 
-interface PersonPageProps {
+interface BusinessPageProps {
   params: Awaited<ReturnType<typeof generateStaticParams>>[number];
 }
 
-export default function Business({ params }: PersonPageProps) {
+export default function Business({ params }: BusinessPageProps) {
   const { name } = params;
 
   return (
