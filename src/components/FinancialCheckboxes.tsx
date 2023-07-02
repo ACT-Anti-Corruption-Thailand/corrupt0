@@ -10,7 +10,7 @@ export default function FinancialCheckboxes() {
   const [child, setChild] = useState(true);
 
   return (
-    <div className="flex gap-10 items-center justify-center b6 py-5 mb-5">
+    <>
       <Checkbox
         checked={self}
         setChecked={setSelf}
@@ -39,6 +39,6 @@ export default function FinancialCheckboxes() {
       >
         <span>บุตรที่ยังไม่บรรลุนิติภาวะ</span>
       </Checkbox>
-    </div>
+    </>
   );
 }

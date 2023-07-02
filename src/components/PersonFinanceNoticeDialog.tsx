@@ -44,7 +44,7 @@ export default function PersonFinanceNoticeDialog() {
             leaveFrom="-translate-y-1/2 opacity-100"
             leaveTo="translate-y-5 opacity-0"
           >
-            <Dialog.Panel className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-5 bg-white p-20 text-black w-4/5 max-w-[768px] transition">
+            <Dialog.Panel className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-5 bg-white p-20 text-black w-4/5 max-w-[850px] transition">
               <Dialog.Title className="flex b3 font-bold gap-5 items-center">
                 <Image src="/icons/question.svg" alt="" width={20} height={20} />
                 <span>วิธีตั้งข้อสังเกต</span>

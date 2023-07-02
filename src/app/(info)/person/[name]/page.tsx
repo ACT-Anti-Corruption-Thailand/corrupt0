@@ -1,15 +1,15 @@
 import Accordion from "@/components/Accordion";
+import { ChartPartyDropdown, ChartYearDropdown } from "@/components/ChartDropdown";
+import FinancialCheckboxes from "@/components/FinancialCheckboxes";
+import FinancialDropdowns from "@/components/FinancialDropdowns";
 import InfoGoTop from "@/components/InfoGoTop";
+import PersonBusinessCard from "@/components/PersonBusinessCard";
 import PersonChart from "@/components/PersonChart";
+import PersonFinanceNoticeDialog from "@/components/PersonFinanceNoticeDialog";
+import PersonLawsuitCard from "@/components/PersonLawsuitCard";
 import Sharer from "@/components/Sharer";
 import Image from "next/image";
 import Link from "next/link";
-import { ChartYearDropdown, ChartPartyDropdown } from "@/components/ChartDropdown";
-import FinancialDropdowns from "@/components/FinancialDropdowns";
-import FinancialCheckboxes from "@/components/FinancialCheckboxes";
-import PersonBusinessCard from "@/components/PersonBusinessCard";
-import PersonLawsuitCard from "@/components/PersonLawsuitCard";
-import PersonFinanceNoticeDialog from "@/components/PersonFinanceNoticeDialog";
 
 import { ReactNode } from "react";
 
@@ -262,10 +262,14 @@ export default function Person({ params }: PersonPageProps) {
               <span className="b3 font-bold inline-block mr-2">ปีที่ยื่นบัญชี</span>
               <span className="b5">(กรณีที่ยื่น)</span>
             </div>
-            <FinancialDropdowns />
+            <div className="flex mb-15 gap-10">
+              <FinancialDropdowns />
+            </div>
             {/* การ์ดเงิน */}
             <div className="rounded-10 bg-white p-10 text-black mb-15">
-              <FinancialCheckboxes />
+              <div className="flex gap-10 items-center justify-center b6 py-5 mb-5">
+                <FinancialCheckboxes />
+              </div>
               <div className="py-5 mb-5 ml-10">
                 <PersonFinanceNoticeDialog />
               </div>

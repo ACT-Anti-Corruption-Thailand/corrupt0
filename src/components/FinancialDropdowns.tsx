@@ -32,40 +32,56 @@ const COMPARE_YEAR = [
   ...YEARS,
 ];
 
-const DropdownClassname = {
+const CLASSNAMES_BLACK = {
+  root: "flex-1",
+  button: "w-full rounded-5 h-50 p-10 bg-gray-1 border b7 text-black",
+  listbox: "rounded-5 overflow-hidden translate-y-5 shadow-dropdown",
+  option: "px-10 py-5 bg-white text-black b7 ui-selected:bg-gray-2 ui-active:bg-gray-2",
+};
+
+const CLASSNAMES_WHITE = {
   root: "flex-1",
   button: "w-full rounded-5 h-50 p-10 bg-white-10 border border-white text-white b7",
   listbox: "rounded-5 overflow-hidden translate-y-5 shadow-dropdown",
   option: "px-10 py-5 bg-white text-black b7 ui-selected:bg-gray-2 ui-active:bg-gray-2",
 };
 
-export default function FinancialDropdowns() {
+interface FinancialDropdownsProps {
+  light?: boolean;
+}
+
+export default function FinancialDropdowns({ light = false }: FinancialDropdownsProps) {
   const [year, setYear] = useState(YEARS[0]);
   const [compareYear, setCompareYear] = useState(COMPARE_YEAR[0]);
 
   return (
-    <div className="flex mb-15 gap-10">
+    <>
       <Dropdown
         data={YEARS}
         value={year}
         setValue={setYear}
-        arrowSrc="/icons/caret-w.svg"
-        className={DropdownClassname}
+        arrowSrc={light ? "/icons/caret-k.svg" : "/icons/caret-w.svg"}
+        className={light ? CLASSNAMES_BLACK : CLASSNAMES_WHITE}
       />
       <div className="flex-1 flex items-center gap-10">
         <Dropdown
           data={COMPARE_YEAR}
           value={compareYear}
           setValue={setCompareYear}
-          arrowSrc="/icons/caret-w.svg"
-          className={DropdownClassname}
+          arrowSrc={light ? "/icons/caret-k.svg" : "/icons/caret-w.svg"}
+          className={light ? CLASSNAMES_BLACK : CLASSNAMES_WHITE}
         />
         {compareYear.data && (
           <button type="button" onClick={() => setCompareYear(COMPARE_YEAR[0])}>
-            <Image src="/icons/circle-cross.svg" width={20} height={20} alt="ล้าง" />
+            <Image
+              src={light ? "/icons/circle-cross-k.svg" : "/icons/circle-cross.svg"}
+              width={20}
+              height={20}
+              alt="ล้าง"
+            />
           </button>
         )}
       </div>
-    </div>
+    </>
   );
 }
