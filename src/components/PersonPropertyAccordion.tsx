@@ -1,7 +1,8 @@
 import Accordion from "@/components/Accordion";
 import clsx from "clsx";
 import Image from "next/image";
-import { Children, ReactNode } from "react";
+import { ReactNode } from "react";
+import { twMerge } from "tailwind-merge";
 
 export interface PersonPropertyStatement {
   actor: "ผู้ยื่น" | "คู่สมรส" | "บุตร";
@@ -14,11 +15,26 @@ interface TriggerProps {
   length: number;
   value: number;
   nameExtension?: ReactNode;
+  className?: string;
 }
 
-const Trigger = ({ name, icon, nameExtension, length, value }: TriggerProps) => {
+const Trigger = ({
+  name,
+  icon,
+  nameExtension,
+  length,
+  value,
+  className,
+}: TriggerProps) => {
   return (
-    <div className="p-10 flex items-center justify-between bg-white border-b border-b-gray-3">
+    <div
+      className={twMerge(
+        clsx(
+          "p-10 flex items-center justify-between bg-white border-b border-b-gray-3",
+          className
+        )
+      )}
+    >
       {icon && <Image className="mr-5" src={icon} width={20} height={20} alt="" />}
       <div className="b4 font-bold">{name}</div>
       {nameExtension}
@@ -327,6 +343,7 @@ const ValuableGroup = ({ name, statements }: ValuableGroupProps) => {
           name={name}
           length={statements.length}
           value={statements.reduce((a, c) => a + c.value, 0)}
+          className="bg-gray-2 border-b-gray-4"
         />
       }
     >

@@ -1,16 +1,16 @@
-import FinancialDropdowns from "@/components/FinancialDropdowns";
 import FinancialCheckboxes from "@/components/FinancialCheckboxes";
-import PersonPropertyDropdown from "@/components/PersonPropertyDropdown";
+import FinancialDropdowns from "@/components/FinancialDropdowns";
+import PersonPropertyDropdown from "@/components/PersonPropertyAccordion";
 import Image from "next/image";
 
 import {
-  PersonPropertyStatement,
-  PersonPropertyLandStatement,
-  PersonPropertyConcessionStatement,
   PersonPropertyBuildingStatement,
-  PersonPropertyVehicleStatement,
+  PersonPropertyConcessionStatement,
+  PersonPropertyLandStatement,
+  PersonPropertyStatement,
   PersonPropertyValuableStatement,
-} from "@/components/PersonPropertyDropdown";
+  PersonPropertyVehicleStatement,
+} from "@/components/PersonPropertyAccordion";
 
 const EXAMPLE_CASH_STATEMENTS: PersonPropertyStatement[] = [
   {
