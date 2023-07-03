@@ -7,6 +7,7 @@ import Spotlight from "@/components/Spotlight";
 import ImgCard from "@/components/ImgCard";
 import Slider from "@/components/Slider";
 import Card from "@/components/Card";
+import React from "react";
 
 export default function Home() {
   return (
@@ -17,7 +18,7 @@ export default function Home() {
         <p className="text-white text-30 mb-20 font-black lg:h1">
           มีอะไรให้ดูใน ACT Ai?
         </p>
-        <section className="flex flex-wrap justify-evenly">
+        <section className="flex flex-wrap justify-center gap-10">
           <div className="py-20 px-10 bg-white rounded-10 mb-10 w-[100vw] lg:max-w-[47vw]">
             <ImgCard imgPath="/images/asset_politician.png">
               <div className="flex items-center justify-between">
@@ -146,14 +147,20 @@ export default function Home() {
             </Slider>
           </div>
         </section>
+        
+        <section style={{
+          backgroundImage: "url('/images/asset_political_transparency_bg.png')",
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+        } as React.CSSProperties} className="flex flex-col justify-center items-center mb-20 lg:mb-30 b5 lg:b3 px-10 lg:px-[30vw]">
         <Image
-          className="h-[380px] lg:h-full object-cover"
-          src="/images/asset_political_transparency.png"
-          width={1281}
-          height={500}
+          className="h-[208px] w-[208px] lg:h-[310px] lg:w-[310px] object-cover mb-20 mt-40 lg:mb-40 lg:mt-[200px]"
+          src="/images/asset_glass.png"
+          width={310}
+          height={310}
           alt="political-transparency"
         />
-        <section className="mb-20 lg:mb-30 b5 px-10 lg:px-[20vw]">
           <p className="mb-20 lg:mb-30">
             ความโปร่งใสทางการเมือง (Political Transparency)
             คือการเปิดโอกาสให้ประชาชนทุกคนเข้าถึงและตั้งคำถาม เกี่ยวกับที่มา
@@ -176,7 +183,7 @@ export default function Home() {
                 backgroundImage: `url('/images/asset_digital_data.png')`,
               } as React.CSSProperties
             }
-            className="my-30 py-10 px-20 rounded-10 relative bg-cover bg-center bg-no-repeat flex flex-col text-white justify-start mx-20 lg:mx-[15vw]"
+            className="my-30 py-10 px-20 rounded-10 relative bg-cover bg-center bg-no-repeat flex flex-col text-white justify-start mx-20"
           >
             <div className="flex justify-center items-center p-20">
               <p className="text-32 self-start text-left">
