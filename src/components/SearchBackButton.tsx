@@ -10,7 +10,7 @@ export default function SearchBackButton() {
       onClick={() => window.history.back()}
     >
       <Image
-        className="w-auto h-15"
+        className="w-auto h-15 md:h-[25px]"
         src="/icons/cross.svg"
         width={15}
         height={15}
