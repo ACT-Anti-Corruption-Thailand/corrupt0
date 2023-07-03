@@ -6,6 +6,7 @@ interface PersonCardProps {
   title: string;
   amount: number;
   maxAmount: number;
+  imgPath: string;
 }
 
 const PersonCard = (props: PersonCardProps) => {
@@ -16,14 +17,14 @@ const PersonCard = (props: PersonCardProps) => {
       .toString() + "%";
 
   return (
-    <div className="bg-white bg-opacity-10 text-gray-4 rounded-5 py-10 px-5 my-10 flex gap-5 items-start text-18 w-[90vw]">
-      <Image src="/icons/person.svg" width={25} height={25} alt="person" />
+    <div className="bg-white bg-opacity-10 text-gray-4 rounded-5 py-10 px-5 lg:px-20 lg:py-20 my-10 flex gap-5 items-start text-18 w-full">
+      <Image src={props.imgPath} width={40} height={40} alt="person" className="h-[25px] lg:h-40"/>
       <div className="flex flex-col w-full">
         <div className="flex justify-between text-gray-2">
           <p className="b3">{props.name}</p>
           <p className="b4">{money}</p>
         </div>
-        <div className="flex justify-between text-right">
+        <div className="flex justify-between text-right b6">
           <p>{props.title}</p>
           <p>{unit}</p>
         </div>
@@ -33,7 +34,7 @@ const PersonCard = (props: PersonCardProps) => {
               "--bar": bar,
             } as React.CSSProperties
           }
-          className="h-10 w-[var(--bar)] bg-white mt-10"
+          className="h-10 lg:h-20 w-[var(--bar)] bg-white mt-10"
         />
       </div>
       <Image

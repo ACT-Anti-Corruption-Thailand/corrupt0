@@ -33,10 +33,10 @@ const Search = (props: SearchProps) => {
   return (
     <Combobox value={props.selected} onChange={props.setSelected}>
       <div className="relative ">
-        <div className="relative w-[80vw] my-10 cursor-default overflow-hidden rounded-lg text-left focus:outline-none">
+        <div className="relative w-[80vw] lg:w-[40vw] my-10 cursor-default overflow-hidden rounded-lg text-left focus:outline-none">
           <Combobox.Input
             placeholder={props.placeholder}
-            className="w-full border-none placeholder:text-gray-5 px-15 py-5 b3 text-black focus:bg-white bg-gray-4 rounded-full"
+            className="w-full border-none placeholder:text-gray-5 placeholder:b3 px-15 py-5 b3 text-black focus:bg-white bg-gray-4 rounded-full"
             displayValue={(person: any) => person.name}
             onChange={(event) => setQuery(event.target.value)}
           />

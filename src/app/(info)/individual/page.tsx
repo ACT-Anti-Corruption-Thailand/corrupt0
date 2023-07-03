@@ -25,16 +25,19 @@ export default function Individual() {
     <>
       <section className="flex flex-col items-center">
         <ImgCard imgPath="/images/asset_politician.png">
-          <Image
-            className="self-center mb-10 mt-30"
-            src="./icons/financial.svg"
-            width={45}
-            height={45}
-            alt="financial"
-          />
-          <p className="font-black text-40 text-center mb-30">
-            ดูข้อมูลนักการเมืองเเละเจ้าหน้าที่รัฐ
-          </p>
+          <div className="flex flex-col justify-center my-auto py-30 lg:mx-[25vw] lg:p-[70px]">
+            <Image
+              className="self-center mb-10 h-[45px] lg:h-100"
+              src="./icons/financial.svg"
+              width={100}
+              height={100}
+              alt="financial"
+            />
+            <p className="font-black text-40 text-center lg:h1">
+              ดูข้อมูลนักการเมืองเเละเจ้าหน้าที่รัฐ
+            </p>
+          </div>
+
         </ImgCard>
         <p className="text-gray-5 text-18 mt-20">อัพเดทข้อมูลเมื่อวันที่ 00/00/2556</p>
         <Search
@@ -43,12 +46,12 @@ export default function Individual() {
           selected={people[0]}
           setSelected={setSelected}
         />
-        <div className="w-[85vw] border-1 border-gray-4" />
-        <p className="text-30 font-black text-white my-15">สำรวจตามกลุ่มตำแหน่ง</p>
-        <div className="flex flex-col items-center text-center text-18">
+        <div className="w-[85vw] border-1 border-gray-4 lg:mt-20 lg:w-full" />
+        <p className="text-30 font-black text-white my-15 lg:my-30 lg:h2">สำรวจตามกลุ่มตำแหน่ง</p>
+        <div className="flex flex-col items-center text-center text-18 lg:b4 pb-10 lg:pb-30">
           <Tab.Group>
             <Tab.List className="flex flex-row items-center">
-              <p className="text-gray-4 mr-10 bg-black">เเสดงข้อมูล</p>
+              <p className="text-gray-4 mr-10 bg-black ">เเสดงข้อมูล</p>
               <div className="text-gray-4 bg-gray-6 rounded-5">
                 <Tab className="ui-selected:bg-white ui-selected:text-gray-6 rounded-5 py-5 px-20">
                   ทรัพย์สิน
@@ -62,7 +65,7 @@ export default function Individual() {
               </div>
             </Tab.List>
             <Tab.Panels>
-              <div className="flex flex-row items-center justify-center my-10 text-act">
+              <div className="flex flex-row items-center justify-center my-10 lg:my-20 text-act">
                 <div className="w-20 border-1 border-dashed mr-5" />
                 <p>ทรัพย์สินเฉลี่ยต่อครัวเรือน ปี 2562 = 1.64 ล้านบาท</p>
               </div>
