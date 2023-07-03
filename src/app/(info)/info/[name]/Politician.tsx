@@ -22,10 +22,6 @@ const DATA = [
   { x: "2563", y1: 2, y2: 4 },
 ];
 
-export async function generateStaticParams() {
-  return [{ name: "_test" }];
-}
-
 const DesktopAligner = ({ left, children }: { left: ReactNode; children: ReactNode }) => {
   return (
     <div className="flex flex-col lg:flex-row gap-10 lg:max-w-[1280px] lg:mx-auto lg:mb-40">
@@ -39,12 +35,12 @@ const DesktopAligner = ({ left, children }: { left: ReactNode; children: ReactNo
   );
 };
 
-interface PersonPageProps {
-  params: Awaited<ReturnType<typeof generateStaticParams>>[number];
-}
-
-export default function Person({ params }: PersonPageProps) {
+export default function Politician({ params }: { params: { name: string } }) {
   const { name } = params;
+
+  if (decodeURI(name).includes("บริษัท")) {
+    return <main>LOL</main>;
+  }
 
   return (
     <main>
@@ -469,7 +465,7 @@ export default function Person({ params }: PersonPageProps) {
             </div>
             {/* เจาะลึกทรัพย์สิน */}
             <Link
-              href={`${name}/property`}
+              href={`${name}/asset`}
               className="block rounded-10 bg-white border border-white overflow-hidden mb-15"
             >
               <header className="py-[17px] px-10 bg-asset_explore bg-center bg-cover">

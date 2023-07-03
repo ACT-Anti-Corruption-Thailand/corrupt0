@@ -1,9 +1,10 @@
+import { notFound } from "next/navigation";
+
 import FinancialCheckboxes from "@/components/FinancialCheckboxes";
 import FinancialDropdowns from "@/components/FinancialDropdowns";
 import PersonPropertyDropdown from "@/components/PersonPropertyAccordion";
 import PersonPropertyPopover from "@/components/PersonPropertyPopover";
 import Image from "next/image";
-
 import {
   PersonPropertyBuildingStatement,
   PersonPropertyConcessionStatement,
@@ -12,6 +13,14 @@ import {
   PersonPropertyValuableStatement,
   PersonPropertyVehicleStatement,
 } from "@/components/PersonPropertyAccordion";
+
+import { POLITICIANS } from "@/data/pagelist";
+
+export async function generateStaticParams() {
+  return POLITICIANS.map((pos) => ({
+    name: pos,
+  }));
+}
 
 const EXAMPLE_CASH_STATEMENTS: PersonPropertyStatement[] = [
   {
@@ -188,7 +197,13 @@ const EXAMPLE_VALUABLE_STATEMENTS: PersonPropertyValuableStatement = {
   ],
 };
 
-export default function Property() {
+interface AssetPageProps {
+  params: Awaited<ReturnType<typeof generateStaticParams>>[number];
+}
+
+export default function Asset({ params }: AssetPageProps) {
+  if (POLITICIANS.some((name) => name === decodeURI(params.name))) notFound();
+
   return (
     <main>
       <header className="p-10 text-center">

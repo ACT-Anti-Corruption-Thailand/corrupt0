@@ -15,10 +15,6 @@ const DATA = [
   { x: "2563", y1: 2, y2: 4 },
 ];
 
-export async function generateStaticParams() {
-  return [{ name: "_test" }];
-}
-
 const DesktopAligner = ({ left, children }: { left: ReactNode; children: ReactNode }) => {
   return (
     <div className="flex flex-col lg:flex-row gap-10 lg:max-w-[1280px] lg:mx-auto lg:mb-40">
@@ -32,13 +28,7 @@ const DesktopAligner = ({ left, children }: { left: ReactNode; children: ReactNo
   );
 };
 
-interface PartyPageProps {
-  params: Awaited<ReturnType<typeof generateStaticParams>>[number];
-}
-
-export default function Party({ params }: PartyPageProps) {
-  const { name } = params;
-
+export default function Party({ params }: { params: { name: string } }) {
   return (
     <main>
       <InfoGoTop name="พรรคพลังประชารัฐ" />
