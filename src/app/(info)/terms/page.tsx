@@ -3,8 +3,8 @@ import Image from "next/image";
 
 export default function Terms() {
   return (
-    <div className="text-center text-white b7 m-20">
-      <p className="b5 mb-10">
+    <div className="text-center text-white b7 m-20 lg:mx-[20vw]">
+      <p className="b5 mb-10 mx-[10vw] font-bold">
         แชร์ชวนเพื่อน ร่วมเป็นส่วนหนึ่งในการค้นหา
         และตรวจสอบเพื่อสร้างความโปร่งใสทางการเมือง (Political Transparency)
         ไปกับ ACT Ai
@@ -30,7 +30,7 @@ export default function Terms() {
       </p>
       <Accordion
         trigger={
-          <div className="flex b6 text-white bg-white bg-opacity-10 justify-between px-10 py-5 mt-30">
+          <div className="flex b6 text-white bg-white bg-opacity-10 justify-between px-10 py-5 mt-30 lg:px-25 lg:py-15">
             <span>คำนิยาม</span>
             <Image
               className="ui-open:rotate-180 ml-2"
@@ -42,7 +42,7 @@ export default function Terms() {
           </div>
         }
       >
-        <div className="b7 text-white text-left">
+        <div className="b7 text-white text-left mt-10 mb-20 my-5">
           “ข้อกำหนด และ ข้อตกลง” หมายความว่า ข้อกำหนด ข้อตกลง และเงื่อนไข
           การอนุญาตให้ใช้ข้อมูลเพื่อการต่อต้านทุจริตคอร์รัปชัน ของ องค์กร
           ต่อต้านคอร์รัปชัน (ประเทศไทย)
@@ -78,7 +78,7 @@ export default function Terms() {
       </Accordion>
       <Accordion
         trigger={
-          <div className="flex b6 text-white bg-white bg-opacity-10 justify-between px-10 py-5 mt-4">
+          <div className="flex b6 text-white bg-white bg-opacity-10 justify-between px-10 py-5 mt-4 lg:mt-10 lg:px-25 lg:py-15">
             <span>ข้อตกลงการใช้งาน</span>
             <Image
               className="ui-open:rotate-180 ml-2"
@@ -90,7 +90,7 @@ export default function Terms() {
           </div>
         }
       >
-        <div className="b7 text-white text-left">
+        <div className="b7 text-white text-left mt-10 mb-20 my-5">
           <ol className="list-decimal list-outside ml-20">
             <li>
               <b>การยอมรับข้อตกลง</b> ในการเข้าใช้บริการเว็บไซต์
@@ -117,7 +117,7 @@ export default function Terms() {
             <br />
             <li>
               <b>ขอบเขตบังคับใช้ของข้อตกลง</b>
-               ข้อตกลงฉบับนี้ใช้เฉพาะกับการให้บริการและการทำงานของเว็บไซต์ โดย
+              ข้อตกลงฉบับนี้ใช้เฉพาะกับการให้บริการและการทำงานของเว็บไซต์ โดย
               องค์กรต่อต้านคอร์รัปชัน (ประเทศไทย)
               ตามที่ระบุไว้ภายใต้ข้อตกลงฉบับนี้เท่านั้น
               โดยจะไม่มีผลบังคับใช้กับการให้บริการ
@@ -132,7 +132,7 @@ export default function Terms() {
       </Accordion>
       <Accordion
         trigger={
-          <div className="flex b6 text-white bg-white bg-opacity-10 justify-between px-10 py-5 mt-4">
+          <div className="flex b6 text-white bg-white bg-opacity-10 justify-between px-10 py-5 mt-4 lg:mt-10 lg:px-25 lg:py-15">
             <span>ขอบเขตการให้บริการ</span>
             <Image
               className="ui-open:rotate-180 ml-2"
@@ -144,7 +144,7 @@ export default function Terms() {
           </div>
         }
       >
-        <div className="b7 text-white text-left">
+        <div className="b7 text-white text-left mt-10 mb-20 my-5">
           เว็บไซต์ https://corrupt0.actai.co/
           เปิดใช้งานให้แก่ผู้ที่สนใจเพื่อประโยชน์ของสาธารณะในการติดตามและตรวจสอบการดำเนินงานของหน่วยงานหรือองค์กร
           ให้มีความโปร่งใสและเป็นเครื่องมือในการส่งเสริมความโปร่งใสในกระบวนการทางการเมือง
@@ -321,7 +321,7 @@ export default function Terms() {
       </Accordion>
       <Accordion
         trigger={
-          <div className="flex b6 text-white bg-white bg-opacity-10 justify-between px-10 py-5 mt-4">
+          <div className="flex b6 text-white bg-white bg-opacity-10 justify-between px-10 py-5 mt-4 lg:mt-10 lg:px-25 lg:py-15">
             <span>ข้อกำหนดและเงื่อนไขการใช้ข้อมูล</span>
             <Image
               className="ui-open:rotate-180 ml-2"
@@ -333,7 +333,7 @@ export default function Terms() {
           </div>
         }
       >
-        <div className="b7 text-white text-left">
+        <div className="b7 text-white text-left mt-10 mb-20 my-5">
           ผู้ใช้ข้อมูล มีสิทธิและหน้าที่ในการใช้ข้อมูลบน
           https://corrupt0.actai.co/ ดังนี้
           <br />
@@ -372,7 +372,7 @@ export default function Terms() {
       </Accordion>
       <Accordion
         trigger={
-          <div className="flex b6 text-white bg-white bg-opacity-10 justify-between px-10 py-5 mt-4">
+          <div className="flex b6 text-white bg-white bg-opacity-10 justify-between px-10 py-5 mt-4 lg:mt-10 lg:px-25 lg:py-15">
             <span>การอ้างอิงข้อมูลจาก https://corrupt0.actai.co/</span>
             <Image
               className="ui-open:rotate-180 ml-2"
@@ -384,7 +384,7 @@ export default function Terms() {
           </div>
         }
       >
-        <div className="b7 text-white text-left">
+        <div className="b7 text-white text-left mt-10 mb-20 my-5">
           ในการนำข้อมูลไม่ว่าทั้งหมดหรือบางส่วนไปใช้งาน
           หรือดำเนินการอื่นเพื่อวัตถุประสงค์ใด ๆ อันชอบด้วยกฎหมายของผู้ใช้ข้อมูล
           ผู้ใช้ข้อมูลต้องอ้างอิงถึงหน่วยงานของรัฐที่เป็นผู้จัดทำข้อมูล
@@ -402,7 +402,7 @@ export default function Terms() {
       </Accordion>
       <Accordion
         trigger={
-          <div className="flex b6 text-white bg-white bg-opacity-10 justify-between px-10 py-5 mt-4">
+          <div className="flex b6 text-white bg-white bg-opacity-10 justify-between px-10 py-5 mt-4 lg:mt-10 lg:px-25 lg:py-15">
             <span>ข้อกำหนดและเงื่อนไขการเข้าใช้บริการ</span>
             <Image
               className="ui-open:rotate-180 ml-2"
@@ -414,7 +414,7 @@ export default function Terms() {
           </div>
         }
       >
-        <div className="b7 text-white text-left">
+        <div className="b7 text-white text-left mt-10 mb-20 my-5">
           ผู้ใช้บริการตกลงใช้บริการทั้งหมดของเว็บไซต์
           ตามวัตถุประสงค์และตามวิธีการที่องค์กรต่อต้านคอร์รัปชัน (ประเทศไทย)
           กำหนดไว้ซึ่งเป็นการนำไปใช้เพื่อประโยชน์สาธารณะเท่านั้น
@@ -439,7 +439,7 @@ export default function Terms() {
       </Accordion>
       <Accordion
         trigger={
-          <div className="flex b6 text-white bg-white bg-opacity-10 justify-between px-10 py-5 mt-4">
+          <div className="flex b6 text-white bg-white bg-opacity-10 justify-between px-10 py-5 mt-4 lg:mt-10 lg:px-25 lg:py-15">
             <span>ข้อห้ามในการใช้บริการ</span>
             <Image
               className="ui-open:rotate-180 ml-2"
@@ -451,7 +451,7 @@ export default function Terms() {
           </div>
         }
       >
-        <div className="b7 text-white text-left">
+        <div className="b7 text-white text-left mt-10 mb-20 my-5">
           นอกเหนือจากกรอบการใช้บริการตามที่กำหนดไว้ใน “เงื่อนไขการเข้าใช้บริการ”
           ผู้ใช้บริการตกลงว่าจะใช้บริการเว็บไซต์ เพื่อจุดประสงค์ที่ชอบด้วยกฎหมาย
           ภายใต้กรอบวัตถุประสงค์การให้บริการที่ องค์กรฯ
@@ -481,7 +481,7 @@ export default function Terms() {
       </Accordion>
       <Accordion
         trigger={
-          <div className="flex b6 text-white bg-white bg-opacity-10 justify-between px-10 py-5 mt-4">
+          <div className="flex b6 text-white bg-white bg-opacity-10 justify-between px-10 py-5 mt-4 lg:mt-10 lg:px-25 lg:py-15">
             <span>การชดเชยความเสียหายโดยผู้ใช้บริการ</span>
             <Image
               className="ui-open:rotate-180 ml-2"
@@ -493,7 +493,7 @@ export default function Terms() {
           </div>
         }
       >
-        <div className="b7 text-white text-left">
+        <div className="b7 text-white text-left mt-10 mb-20 my-5">
           ผู้ใช้บริการตกลงจะใช้บริการต่าง ๆ ของเว็บไซต์
           ตามขอบเขตของการให้บริการที่ได้มีการระบุไว้ข้างต้นรวมถึงข้อตกลงเฉพาะอื่น
           ๆ ที่องค์กรฯ
@@ -508,7 +508,7 @@ export default function Terms() {
       </Accordion>
       <Accordion
         trigger={
-          <div className="flex b6 text-white bg-white bg-opacity-10 justify-between px-10 py-5 mt-4">
+          <div className="flex b6 text-white bg-white bg-opacity-10 justify-between px-10 py-5 mt-4 lg:mt-10 lg:px-25 lg:py-15">
             <span>การชดเชยความเสียหายโดยผู้ใช้บริการ</span>
             <Image
               className="ui-open:rotate-180 ml-2"
@@ -520,7 +520,7 @@ export default function Terms() {
           </div>
         }
       >
-        <div className="b7 text-white text-left">
+        <div className="b7 text-white text-left mt-10 mb-20 my-5">
           <ol className="list-decimal list-outside ml-20">
             <li>
               ผู้ใช้บริการยอมรับและตกลงว่าภายใต้ขอบเขตสูงสุดที่กฎหมายที่มีผลบังคับใช้อนุญาต
@@ -553,7 +553,7 @@ export default function Terms() {
       </Accordion>
       <Accordion
         trigger={
-          <div className="flex b6 text-white bg-white bg-opacity-10 justify-between px-10 py-5 mt-4">
+          <div className="flex b6 text-white bg-white bg-opacity-10 justify-between px-10 py-5 mt-4 lg:mt-10 lg:px-25 lg:py-15">
             <span>การคุ้มครองทรัพย์สินทางปัญญา</span>
             <Image
               className="ui-open:rotate-180 ml-2"
@@ -565,7 +565,7 @@ export default function Terms() {
           </div>
         }
       >
-        <div className="b7 text-white text-left">
+        <div className="b7 text-white text-left mt-10 mb-20 my-5">
           สิทธิทรัพย์สินทางปัญญา กรรมสิทธิ์ และผลประโยชน์ทั้งหมดในบริการ
           โดยเฉพาะในส่วนที่เกี่ยวข้องกับเว็บไซต์ (รวมถึงแต่ไม่จำกัดเพียง
           งานศิลปะ กราฟฟิก รูปภาพ แม่แบบ เว็บไซต์และวิดเจ็ต งานวรรณกรรม รหัสต้น
@@ -586,7 +586,7 @@ export default function Terms() {
       </Accordion>
       <Accordion
         trigger={
-          <div className="flex b6 text-white bg-white bg-opacity-10 justify-between px-10 py-5 mt-4">
+          <div className="flex b6 text-white bg-white bg-opacity-10 justify-between px-10 py-5 mt-4 lg:mt-10 lg:px-25 lg:py-15">
             <span>เงื่อนไขการให้สิทธิ (Licensing Term)</span>
             <Image
               className="ui-open:rotate-180 ml-2"
@@ -598,7 +598,7 @@ export default function Terms() {
           </div>
         }
       >
-        <div className="b7 text-white text-left">
+        <div className="b7 text-white text-left mt-10 mb-20 my-5">
           องค์กรต่อต้านคอร์รัปชัน (ประเทศไทย) ในฐานะผู้พัฒนาสร้างสรรค์
           และเจ้าของลิขสิทธิ์แต่เพียงฝ่ายเดียวของ (1)ข้อมูลทั้งหมดที่องค์กรฯ
           จัดทำและเปิดเผยผ่านเว็บไซต์ https://corrupt0.actai.co/ และ (2)Source
