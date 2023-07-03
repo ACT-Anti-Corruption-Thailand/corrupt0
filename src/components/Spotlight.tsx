@@ -35,17 +35,17 @@ const Spotlight = () => {
         }
         className="bg-black flex flex-col justify-center items-center h-[50vh] pt-[10vh] relative overflow-hidden pb-60"
       >
-        <div className="bg-white opacity-50 w-[150vmax] h-[320px] blur-sm -rotate-45 absolute origin-[0%_50%] translate-x-[--rec-x] translate-y-[--y]" />
-        <div className="bg-white w-[320px] h-[320px] rounded-full blur-sm absolute translate-x-[--x] translate-y-[--y]" />
+        <div className="bg-white opacity-50 w-[150vmax] h-[320px] lg:h-[600px] blur-sm -rotate-45 absolute origin-[0%_50%] translate-x-[--rec-x] translate-y-[--y]" />
+        <div className="bg-white w-[320px] h-[320px] lg:w-[600px] lg:h-[600px] rounded-full blur-sm absolute translate-x-[--x] translate-y-[--y]" />
         <Image
-          className="w-[160px] absolute -translate-x-[calc((var(--x)/4)+10px)] -translate-y-[calc((var(--y)/4)+45px)]"
+          className="w-[160px] lg:w-[400px] absolute -translate-x-[calc((var(--x)/4)+10px)] -translate-y-[calc((var(--y)/4)+45px)]"
           src="/logos/actai-shadow.svg"
           alt="logo"
           width={240}
           height={240}
         />
         <Image
-          className="w-[160px]"
+          className="w-[160px] lg:w-[400px]"
           src="/logos/actai-k.svg"
           alt="logo"
           width={240}
@@ -53,7 +53,7 @@ const Spotlight = () => {
         />
 
         {/* <p className="text-white fixed bg-black">{JSON.stringify(mousePos)}</p> */}
-        <p className="text-black text-center text-24 mt-20">
+        <p className="text-black text-center text-24 mt-20 lg:b3">
           ค้นหาและตรวจสอบข้อมูล
           <br />
           ความโปร่งใสของนักการเมือง
@@ -62,8 +62,8 @@ const Spotlight = () => {
         </p>
       </div>
       <div className="text-center">
-        <p className="text-14 text-gray-5">ร่วมพัฒนาโดย ACT / HAND SE / PUNCH UP</p>
-        <p className="text-20 text-gray-5 opacity-50">อัปเดตล่าสุด: 00/00/255</p>
+        <p className="text-14 text-gray-5 lg:b4">ร่วมพัฒนาโดย ACT / HAND SE / PUNCH UP</p>
+        <p className="text-20 text-gray-5 opacity-50 lg:b3">อัปเดตล่าสุด: 00/00/255</p>
       </div>
     </>
   );

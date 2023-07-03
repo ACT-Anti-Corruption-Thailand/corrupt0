@@ -12,19 +12,19 @@ interface CardProps {
 
 const Card = (props: CardProps) => {
   return (
-    <div className="rounded-10 min-w-[180px] bg-black flex flex-col text-white text-20 keen-slider__slide">
+    <div className="rounded-10 min-w-[180px] lg:min-w-[260px] bg-black flex flex-col text-white text-20 keen-slider__slide">
       <div
         style={
           {
             "--color": `${props.color}`,
           } as React.CSSProperties
         }
-        className="w-full rounded-t-10 bg-[var(--color)] py-12"
+        className="w-full rounded-t-10 bg-[var(--color)] py-12 lg:b5 lg:min-h-[80px]"
       >
-        {props.title}
+        <div className="mx-40">{props.title}</div>
       </div>
-      <div className="flex flex-row m-10">
-        <Image src={props.icon!} width={25} height={25} alt="icon" />
+      <div className="flex flex-row mx-10 my-15">
+        <Image src={props.icon!} width={40} height={40} alt="icon" className="h-[25px] lg:h-[40px]" />
         <div className="text-left ml-5">
           <p className="text-gray-5 text-14">{props.type}</p>
           <p className="">{props.name}</p>
