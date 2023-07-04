@@ -25,7 +25,7 @@ export default function Individual() {
     <>
       <section className="flex flex-col items-center">
         <ImgCard imgPath="/images/asset_politician.png">
-          <div className="flex flex-col justify-center my-auto py-30 lg:mx-[25vw] lg:p-[70px]">
+          <div className="flex flex-col justify-center my-auto py-30 lg:mx-[25vw] xl:mx-[35vw] lg:p-[70px]">
             <Image
               className="self-center mb-10 h-[45px] lg:h-100"
               src="./icons/financial.svg"
@@ -46,9 +46,9 @@ export default function Individual() {
           selected={people[0]}
           setSelected={setSelected}
         />
-        <div className="w-[85vw] border-1 border-gray-4 lg:mt-20 lg:w-full" />
+        <div className="w-[90vw] border-1 border-gray-4 lg:mt-20 lg:w-full" />
         <p className="text-30 font-black text-white my-15 lg:my-30 lg:h2">สำรวจตามกลุ่มตำแหน่ง</p>
-        <div className="flex flex-col items-center text-center text-18 lg:b4 pb-10 lg:pb-30">
+        <div className="flex flex-col items-center text-center text-18 lg:b4 pb-10 lg:pb-30 w-[90vw] min-w-[300px] max-w-[850px]">
           <Tab.Group>
             <Tab.List className="flex flex-row items-center">
               <p className="text-gray-4 mr-10 bg-black ">เเสดงข้อมูล</p>

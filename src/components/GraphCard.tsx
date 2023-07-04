@@ -28,7 +28,7 @@ const data = [
 
 const GraphCard = (props: GraphCardProps) => {
   return (
-    <div className="bg-white bg-opacity-10 text-gray-4 rounded-5 lg:b4 p-10 lg:p-20 mx-5 my-10 flex flex-row gap-5 lg:gap-20 items-start text-18 w-[90vw] min-w-[300px] max-w-[850px]">
+    <div className="bg-white bg-opacity-10 text-gray-4 rounded-5 lg:b4 p-10 lg:p-20 mx-5 my-10 flex flex-row gap-5 lg:gap-20 items-start text-18 w-full">
       <div className="flex flex-col items-start grow-[2]">
         <p className="text-20 lg:b3 text-white text-left">{props.title}</p>
         <p>{props.number.join("")}</p>
