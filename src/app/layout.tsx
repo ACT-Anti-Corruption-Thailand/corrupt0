@@ -1,6 +1,6 @@
-import { Metadata } from "next";
 import "../styles/globals.css";
 import localFont from "next/font/local";
+import type { Metadata } from "next";
 
 const normal_font = localFont({
   src: [
