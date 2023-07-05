@@ -67,7 +67,7 @@ export default function IndividualDetails() {
         <Search
           placeholder="ค้นหาด้วยชื่อ/นามสกุล"
           data={people}
-          selected={people[0]}
+          selected={selected}
           setSelected={setSelected}
         />
         <div className="w-[85vw] border-1 border-gray-4 lg:mt-20 lg:w-full" />

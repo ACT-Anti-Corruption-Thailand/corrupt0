@@ -45,12 +45,13 @@ export default function Donation() {
           พรรคที่ได้รับเงินบริจาค
         </div>
         <Search
-          placeholder="ค้นหาด้วยชื่อ/นามสกุล"
+          placeholder="ค้นหาด้วยชื่อพรรคการเมือง"
           data={people}
-          selected={people[0]}
+          selected={selected}
           setSelected={setSelected}
         />
         <div className="flex flex-col items-center text-center text-18 lg:b4 pb-10 lg:pb-30 w-[90vw] min-w-[300px] max-w-[850px]">
+          {/* TODO: New component named PartyCard */}
           <PersonCard
             name="สุชาติ ภิญโญ"
             title="สมาชิกวุฒิสภา"
@@ -68,8 +69,14 @@ export default function Donation() {
         </div>
         <div className="flex justify-center items-center gap-10 bg-gray-6 w-screen py-10 my-10 lg:py-15 lg:my-30 text-24 lg:h3">
           <Image src="./icons/donate.svg" width={60} height={60} alt="borrow" className="h-30 w-30 lg:h-60 lg:w-60" />
-          พรรคที่ได้รับเงิน
+          ผู้บริจาคเงิน
         </div>
+        <Search
+          placeholder="ค้นหาด้วยชื่อบุคคล/นิติบุคคล"
+          data={people}
+          selected={selected}
+          setSelected={setSelected}
+        />
         <div className="flex flex-col items-center text-center text-18 lg:b4 pb-10 lg:pb-30 w-[90vw] min-w-[300px] max-w-[850px]">
           <PersonCard
             name="สุชาติ ภิญโญ"
