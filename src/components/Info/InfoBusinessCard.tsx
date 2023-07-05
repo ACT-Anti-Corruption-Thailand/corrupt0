@@ -1,9 +1,10 @@
-import { thaiMoneyFormatter } from "@/functions/moneyFormatter";
 import Image from "next/image";
+
+import { thaiMoneyFormatter } from "@/functions/moneyFormatter";
 
 // TODO: Click and open URL
 
-interface PersonBusinessCardProps {
+interface InfoBusinessCardProps {
   name: string;
   type: string;
   relation: string;
@@ -12,14 +13,14 @@ interface PersonBusinessCardProps {
   totalDonation?: number;
 }
 
-export default function PersonBusinessCard({
+export default function InfoBusinessCard({
   name,
   type,
   relation,
   isTop10,
   mostDonatedParty,
   totalDonation,
-}: PersonBusinessCardProps) {
+}: InfoBusinessCardProps) {
   const [donationAmount, donationUnit] = thaiMoneyFormatter(totalDonation ?? 0);
 
   return (

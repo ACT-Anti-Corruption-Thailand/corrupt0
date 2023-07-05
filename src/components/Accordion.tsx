@@ -1,8 +1,10 @@
 "use client";
 
-import { Disclosure } from "@headlessui/react";
 import clsx from "clsx";
-import { ReactNode } from "react";
+
+import { Disclosure } from "@headlessui/react";
+
+import type { ReactNode } from "react";
 
 interface AccordionProps {
   trigger: ReactNode;

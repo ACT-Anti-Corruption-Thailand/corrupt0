@@ -1,11 +1,12 @@
 "use client";
 
-import Image from "next/image";
+import clsx from "clsx";
 import { useEffect, useRef, useState } from "react";
 import { inView } from "motion";
-import clsx from "clsx";
 
-export default function InfoGoTop({ name }: { name: string }) {
+import Image from "next/image";
+
+export default function GoTop({ name }: { name: string }) {
   const elHitbox = useRef(null);
   const [showGoTopBar, setShowGoTopBar] = useState(false);
 

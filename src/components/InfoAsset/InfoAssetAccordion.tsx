@@ -3,11 +3,11 @@ import { twMerge } from "tailwind-merge";
 
 import Accordion from "@/components/Accordion";
 import Image from "next/image";
-import PersonPropertyPopover from "./PersonPropertyPopover";
+import InfoAssetPopover from "./InfoAssetPopover";
 
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 
-export interface PersonPropertyStatement {
+export interface InfoAssetStatement {
   actor: "ผู้ยื่น" | "คู่สมรส" | "บุตร";
   value: number;
 }
@@ -33,18 +33,18 @@ const Trigger = ({
     <div
       className={twMerge(
         clsx(
-          "p-10 flex items-center justify-between bg-white border-b border-b-gray-3",
+          "p-10 flex items-center justify-between bg-white border-b border-b-gray-3 gap-5",
           className
         )
       )}
     >
-      {icon && <Image className="mr-5" src={icon} width={20} height={20} alt="" />}
+      {icon && <Image src={icon} width={20} height={20} alt="" />}
       <div className="b4 font-bold">{name}</div>
       {nameExtension}
-      <span className="b6 text-black-50 ml-5">{length} รายการ</span>
+      <span className="b7 text-black-50 nobr">{length} รายการ</span>
       <div className="ml-auto b4 font-bold">{value.toLocaleString("th-TH")}</div>
       <Image
-        className="accordion-arrow ml-5"
+        className="accordion-arrow"
         src="/icons/caret-g.svg"
         width={12}
         height={12}
@@ -58,7 +58,7 @@ const DetailsBlock = ({ children }: { children: ReactNode }) => {
   return <li className="py-5 px-10 bg-gray-1 border-b border-b-gray-2">{children}</li>;
 };
 
-interface DetailsFirstLineProps extends PersonPropertyStatement {
+interface DetailsFirstLineProps extends InfoAssetStatement {
   name?: string;
 }
 
@@ -112,7 +112,7 @@ const CASH_ICONS = {
 
 export interface CashProps {
   name: "เงินสด" | "เงินฝาก" | "เงินลงทุน" | "เงินให้กู้ยืม";
-  statements: PersonPropertyStatement[];
+  statements: InfoAssetStatement[];
 }
 
 const Cash = ({ name, statements }: CashProps) => {
@@ -138,7 +138,7 @@ const Cash = ({ name, statements }: CashProps) => {
   );
 };
 
-export interface PersonPropertyLandStatement extends PersonPropertyStatement {
+export interface InfoAssetLandStatement extends InfoAssetStatement {
   type: "โฉนด" | "อื่น ๆ";
   name: string;
   address?: string;
@@ -147,7 +147,7 @@ export interface PersonPropertyLandStatement extends PersonPropertyStatement {
 }
 
 export interface LandProps {
-  statements: PersonPropertyLandStatement[];
+  statements: InfoAssetLandStatement[];
 }
 
 const Land = ({ statements }: LandProps) => {
@@ -159,7 +159,7 @@ const Land = ({ statements }: LandProps) => {
           name="ที่ดิน"
           nameExtension={
             statements.some((e) => e.type !== "โฉนด") && (
-              <div className="bg-value-negative-bg text-value-negative-text b7 px-10 rounded-full ml-5">
+              <div className="bg-value-negative-bg text-value-negative-text b7 px-10 rounded-full">
                 มีที่ดินที่ไม่ใช่โฉนด
               </div>
             )
@@ -189,14 +189,14 @@ const Land = ({ statements }: LandProps) => {
   );
 };
 
-export interface PersonPropertyConcessionStatement extends PersonPropertyStatement {
+export interface InfoAssetConcessionStatement extends InfoAssetStatement {
   name: string;
   fromDate: string;
   toDate: string;
 }
 
 export interface ConcessionProps {
-  statements: PersonPropertyConcessionStatement[];
+  statements: InfoAssetConcessionStatement[];
 }
 
 const Concession = ({ statements }: ConcessionProps) => {
@@ -234,7 +234,7 @@ const Concession = ({ statements }: ConcessionProps) => {
   );
 };
 
-export interface PersonPropertyBuildingStatement extends PersonPropertyStatement {
+export interface InfoAssetBuildingStatement extends InfoAssetStatement {
   name: string;
   docNumber?: string | number;
   address?: string;
@@ -243,7 +243,7 @@ export interface PersonPropertyBuildingStatement extends PersonPropertyStatement
 }
 
 export interface BuildingProps {
-  statements: PersonPropertyBuildingStatement[];
+  statements: InfoAssetBuildingStatement[];
 }
 
 const Building = ({ statements }: BuildingProps) => {
@@ -277,7 +277,7 @@ const Building = ({ statements }: BuildingProps) => {
   );
 };
 
-export interface PersonPropertyVehicleStatement extends PersonPropertyStatement {
+export interface InfoAssetVehicleStatement extends InfoAssetStatement {
   name: string;
   plate?: string;
   province?: string;
@@ -285,7 +285,7 @@ export interface PersonPropertyVehicleStatement extends PersonPropertyStatement 
 }
 
 export interface VehicleProps {
-  statements: PersonPropertyVehicleStatement[];
+  statements: InfoAssetVehicleStatement[];
 }
 
 const Vehicle = ({ statements }: VehicleProps) => {
@@ -327,7 +327,7 @@ const VALUABLE_GROUPS = [
   "ของสะสมอื่น",
 ] as const;
 
-export interface PersonPropertyValuableGroupStatement extends PersonPropertyStatement {
+export interface InfoAssetValuableGroupStatement extends InfoAssetStatement {
   name: string;
   count?: number | string;
   receiveDate?: string;
@@ -335,7 +335,7 @@ export interface PersonPropertyValuableGroupStatement extends PersonPropertyStat
 
 export interface ValuableGroupProps {
   name: (typeof VALUABLE_GROUPS)[number];
-  statements: PersonPropertyValuableGroupStatement[];
+  statements: InfoAssetValuableGroupStatement[];
 }
 
 const ValuableGroup = ({ name, statements }: ValuableGroupProps) => {
@@ -365,12 +365,12 @@ const ValuableGroup = ({ name, statements }: ValuableGroupProps) => {
   );
 };
 
-export type PersonPropertyValuableStatement = Partial<
-  Record<(typeof VALUABLE_GROUPS)[number], PersonPropertyValuableGroupStatement[]>
+export type InfoAssetValuableStatement = Partial<
+  Record<(typeof VALUABLE_GROUPS)[number], InfoAssetValuableGroupStatement[]>
 >;
 
 export interface ValuableProps {
-  statements: PersonPropertyValuableStatement;
+  statements: InfoAssetValuableStatement;
 }
 
 const Valuable = ({ statements }: ValuableProps) => {
@@ -389,13 +389,13 @@ const Valuable = ({ statements }: ValuableProps) => {
           length={itemLength}
           value={itemValue}
           nameExtension={
-            <PersonPropertyPopover className="ml-5">
+            <InfoAssetPopover>
               <p>
                 <span className="font-bold block mb-5">ทรัพย์สินอื่น</span>
                 คือทรัพย์สินที่นอกจากที่ระบุ ในรายการทรัพย์สินที่ 1-8
                 และมีมูลค่ารวมกันตั้งแต่ สองแสนบาทขึ้นไป
               </p>
-            </PersonPropertyPopover>
+            </InfoAssetPopover>
           }
         />
       }
@@ -413,7 +413,7 @@ const Valuable = ({ statements }: ValuableProps) => {
   );
 };
 
-const PersonPropertyDropdown = {
+const InfoAssetAccordion = {
   Cash,
   Land,
   Concession,
@@ -422,4 +422,4 @@ const PersonPropertyDropdown = {
   Valuable,
 };
 
-export default PersonPropertyDropdown;
+export default InfoAssetAccordion;

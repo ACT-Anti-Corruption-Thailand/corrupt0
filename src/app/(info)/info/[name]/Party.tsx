@@ -1,10 +1,10 @@
 import { ChartYearDropdown } from "@/components/ChartDropdown";
-import InfoGoTop from "@/components/InfoGoTop";
+import GoTop from "@/components/Info/InfoGoTop";
 import PersonChart from "@/components/PersonChart";
 import Sharer from "@/components/Sharer";
 import Image from "next/image";
 
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 
 const DATA = [
   { x: "2558", y1: 1, y2: 3 },
@@ -31,7 +31,7 @@ const DesktopAligner = ({ left, children }: { left: ReactNode; children: ReactNo
 export default function Party({ params }: { params: { name: string } }) {
   return (
     <main>
-      <InfoGoTop name="พรรคพลังประชารัฐ" />
+      <GoTop name="พรรคพลังประชารัฐ" />
 
       <DesktopAligner
         left={

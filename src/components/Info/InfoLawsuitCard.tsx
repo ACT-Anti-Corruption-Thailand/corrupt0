@@ -1,6 +1,7 @@
 import Accordion from "@/components/Accordion";
 import Image from "next/image";
-import { ReactNode } from "react";
+
+import type { ReactNode } from "react";
 
 const CARDTYPE_TEXT = {
   sec: {
@@ -17,24 +18,24 @@ const CARDTYPE_TEXT = {
   },
 } as const;
 
-interface PersonLawsuitCardProps {
+interface InfoLawsuitCardProps {
   updateDate: string;
   description: string;
 }
 
 // CardBase
 
-interface PersonLawsuitCardBaseProps extends PersonLawsuitCardProps {
+interface InfoLawsuitCardBaseProps extends InfoLawsuitCardProps {
   type: "sec" | "nacc" | "supreme";
   children: ReactNode;
 }
 
-const PersonLawsuitCardBase = ({
+const InfoLawsuitCardBase = ({
   type,
   updateDate,
   description,
   children,
-}: PersonLawsuitCardBaseProps) => {
+}: InfoLawsuitCardBaseProps) => {
   return (
     <Accordion
       trigger={
@@ -68,23 +69,23 @@ const PersonLawsuitCardBase = ({
 
 // SecCard
 
-interface PersonLawsuitSecCardProps extends PersonLawsuitCardProps {
+interface InfoLawsuitSecCardProps extends InfoLawsuitCardProps {
   enforceDate: string;
   cause: string;
   actionType: string;
   actionDetail: string;
 }
 
-const PersonLawsuitSecCard = ({
+const InfoLawsuitSecCard = ({
   description,
   updateDate,
   enforceDate,
   cause,
   actionType,
   actionDetail,
-}: PersonLawsuitSecCardProps) => {
+}: InfoLawsuitSecCardProps) => {
   return (
-    <PersonLawsuitCardBase type="sec" description={description} updateDate={updateDate}>
+    <InfoLawsuitCardBase type="sec" description={description} updateDate={updateDate}>
       <span className="block">
         <span className="font-bold text-white">วันที่ดำเนินการ</span> {enforceDate}
       </span>
@@ -96,13 +97,13 @@ const PersonLawsuitSecCard = ({
       <p>{actionType}</p>
       <span className="block font-bold text-white">รายละเอียดการดำเนินการ</span>
       <p>{actionDetail}</p>
-    </PersonLawsuitCardBase>
+    </InfoLawsuitCardBase>
   );
 };
 
 // NaccCard
 
-interface PersonLawsuitNaccCardProps extends PersonLawsuitCardProps {
+interface InfoLawsuitNaccCardProps extends InfoLawsuitCardProps {
   blackNumber: string;
   redNumber: string;
   meetingDate: string;
@@ -111,7 +112,7 @@ interface PersonLawsuitNaccCardProps extends PersonLawsuitCardProps {
   note: string;
 }
 
-const PersonLawsuitNaccCard = ({
+const InfoLawsuitNaccCard = ({
   description,
   updateDate,
   blackNumber,
@@ -120,9 +121,9 @@ const PersonLawsuitNaccCard = ({
   meetingResult,
   enforceResult,
   note,
-}: PersonLawsuitNaccCardProps) => {
+}: InfoLawsuitNaccCardProps) => {
   return (
-    <PersonLawsuitCardBase type="nacc" description={description} updateDate={updateDate}>
+    <InfoLawsuitCardBase type="nacc" description={description} updateDate={updateDate}>
       <ul>
         <li>
           <span className="font-bold text-white">เลขคดีดำ</span> {blackNumber}
@@ -141,31 +142,27 @@ const PersonLawsuitNaccCard = ({
       <span className="block font-bold text-white">ผลการดำเนินการ</span>
       <p>{enforceResult}</p>
       <p className="mt-10 py-10 px-8 rounded-5 border border-gray-5">{note}</p>
-    </PersonLawsuitCardBase>
+    </InfoLawsuitCardBase>
   );
 };
 
 // SupremeCard
 
-interface PersonLawsuitSupremeCardProps extends PersonLawsuitCardProps {
+interface InfoLawsuitSupremeCardProps extends InfoLawsuitCardProps {
   blackNumber: string;
   redNumber: string;
   judgement: string;
 }
 
-const PersonLawsuitSupremeCard = ({
+const InfoLawsuitSupremeCard = ({
   description,
   updateDate,
   blackNumber,
   redNumber,
   judgement,
-}: PersonLawsuitSupremeCardProps) => {
+}: InfoLawsuitSupremeCardProps) => {
   return (
-    <PersonLawsuitCardBase
-      type="supreme"
-      description={description}
-      updateDate={updateDate}
-    >
+    <InfoLawsuitCardBase type="supreme" description={description} updateDate={updateDate}>
       <ul>
         <li>
           <span className="font-bold text-white">เลขคดีดำ</span> {blackNumber}
@@ -177,16 +174,16 @@ const PersonLawsuitSupremeCard = ({
       <hr className="my-10 border-t-gray-5" />
       <span className="block font-bold text-white">คำพิพากษา</span>
       <p>{judgement}</p>
-    </PersonLawsuitCardBase>
+    </InfoLawsuitCardBase>
   );
 };
 
 // Export
 
-const PersonLawsuitCard = {
-  Sec: PersonLawsuitSecCard,
-  Nacc: PersonLawsuitNaccCard,
-  Supreme: PersonLawsuitSupremeCard,
+const InfoLawsuitCard = {
+  Sec: InfoLawsuitSecCard,
+  Nacc: InfoLawsuitNaccCard,
+  Supreme: InfoLawsuitSupremeCard,
 };
 
-export default PersonLawsuitCard;
+export default InfoLawsuitCard;

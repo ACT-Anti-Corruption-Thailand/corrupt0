@@ -1,18 +1,20 @@
 "use client";
 
 import clsx from "clsx";
-import { ReactNode, useState } from "react";
+import { useState } from "react";
 
 import { Popover } from "@headlessui/react";
 import Image from "next/image";
 import { usePopper } from "react-popper";
+
+import type { ReactNode } from "react";
 
 interface PersonPropertyPopoverProps {
   className?: string;
   children: ReactNode;
 }
 
-export default function PersonPropertyPopover({
+export default function InfoAssetPopover({
   className,
   children,
 }: PersonPropertyPopoverProps) {

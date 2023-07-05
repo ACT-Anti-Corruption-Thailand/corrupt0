@@ -4,7 +4,8 @@ import clsx from "clsx";
 
 import Image from "next/image";
 import { Switch } from "@headlessui/react";
-import { ReactNode } from "react";
+
+import type { ReactNode } from "react";
 
 interface CheckboxProps {
   checked: boolean;

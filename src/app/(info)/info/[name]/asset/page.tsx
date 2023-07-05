@@ -1,20 +1,21 @@
 import { notFound } from "next/navigation";
 
-import FinancialCheckboxes from "@/components/FinancialCheckboxes";
-import FinancialDropdowns from "@/components/FinancialDropdowns";
-import PersonPropertyDropdown from "@/components/PersonPropertyAccordion";
-import PersonPropertyPopover from "@/components/PersonPropertyPopover";
+import InfoFinancialCheckboxes from "@/components/Info/InfoFinancialCheckboxes";
+import InfoFinancialDropdowns from "@/components/Info/InfoFinancialDropdowns";
+import InfoAssetAccordion from "@/components/InfoAsset/InfoAssetAccordion";
+import InfoAssetPopover from "@/components/InfoAsset/InfoAssetPopover";
 import Image from "next/image";
-import {
-  PersonPropertyBuildingStatement,
-  PersonPropertyConcessionStatement,
-  PersonPropertyLandStatement,
-  PersonPropertyStatement,
-  PersonPropertyValuableStatement,
-  PersonPropertyVehicleStatement,
-} from "@/components/PersonPropertyAccordion";
 
 import { POLITICIANS } from "@/data/pagelist";
+
+import type {
+  InfoAssetBuildingStatement,
+  InfoAssetConcessionStatement,
+  InfoAssetLandStatement,
+  InfoAssetStatement,
+  InfoAssetValuableStatement,
+  InfoAssetVehicleStatement,
+} from "@/components/InfoAsset/InfoAssetAccordion";
 
 export async function generateStaticParams() {
   return POLITICIANS.map((pos) => ({
@@ -22,7 +23,7 @@ export async function generateStaticParams() {
   }));
 }
 
-const EXAMPLE_CASH_STATEMENTS: PersonPropertyStatement[] = [
+const EXAMPLE_CASH_STATEMENTS: InfoAssetStatement[] = [
   {
     actor: "ผู้ยื่น",
     value: 10000000,
@@ -37,7 +38,7 @@ const EXAMPLE_CASH_STATEMENTS: PersonPropertyStatement[] = [
   },
 ];
 
-const EXAMPLE_LAND_STATEMENTS: PersonPropertyLandStatement[] = [
+const EXAMPLE_LAND_STATEMENTS: InfoAssetLandStatement[] = [
   {
     actor: "ผู้ยื่น",
     value: 10000000,
@@ -67,7 +68,7 @@ const EXAMPLE_LAND_STATEMENTS: PersonPropertyLandStatement[] = [
   },
 ];
 
-const EXAMPLE_CONCESSION_STATEMENTS: PersonPropertyConcessionStatement[] = [
+const EXAMPLE_CONCESSION_STATEMENTS: InfoAssetConcessionStatement[] = [
   {
     actor: "ผู้ยื่น",
     value: 10000000,
@@ -91,7 +92,7 @@ const EXAMPLE_CONCESSION_STATEMENTS: PersonPropertyConcessionStatement[] = [
   },
 ];
 
-const EXAMPLE_BUILDING_STATEMENTS: PersonPropertyBuildingStatement[] = [
+const EXAMPLE_BUILDING_STATEMENTS: InfoAssetBuildingStatement[] = [
   {
     actor: "ผู้ยื่น",
     value: 10000000,
@@ -121,7 +122,7 @@ const EXAMPLE_BUILDING_STATEMENTS: PersonPropertyBuildingStatement[] = [
   },
 ];
 
-const EXAMPLE_VEHICLE_STATEMENTS: PersonPropertyVehicleStatement[] = [
+const EXAMPLE_VEHICLE_STATEMENTS: InfoAssetVehicleStatement[] = [
   {
     actor: "ผู้ยื่น",
     value: 10000000,
@@ -148,7 +149,7 @@ const EXAMPLE_VEHICLE_STATEMENTS: PersonPropertyVehicleStatement[] = [
   },
 ];
 
-const EXAMPLE_VALUABLE_STATEMENTS: PersonPropertyValuableStatement = {
+const EXAMPLE_VALUABLE_STATEMENTS: InfoAssetValuableStatement = {
   ของสะสมอื่น: [
     {
       actor: "ผู้ยื่น",
@@ -212,7 +213,7 @@ export default function Asset({ params }: AssetPageProps) {
         </span>
         <h1 className="h2 flex gap-5 items-center justify-center">
           เจาะลึกทรัพย์สินรวม
-          <PersonPropertyPopover>
+          <InfoAssetPopover>
             <span className="font-bold block">รายการทรัพย์สิน ประกอบด้วย</span>
             <ol className="list-decimal ml-[2ch]">
               <li>เงินสด</li>
@@ -225,7 +226,7 @@ export default function Asset({ params }: AssetPageProps) {
               <li>สิทธิสัมปทาน</li>
               <li>ทรัพย์สินอื่น</li>
             </ol>
-          </PersonPropertyPopover>
+          </InfoAssetPopover>
         </h1>
       </header>
 
@@ -234,30 +235,24 @@ export default function Asset({ params }: AssetPageProps) {
           <span className="b3 font-bold">ปีที่ยื่นบัญชี</span> (กรณีที่ยื่น)
         </h2>
         <div className="flex mb-10 gap-10 px-10">
-          <FinancialDropdowns light />
+          <InfoFinancialDropdowns light />
         </div>
         <div className="flex gap-10 items-center justify-center b6 py-5">
-          <FinancialCheckboxes />
+          <InfoFinancialCheckboxes />
         </div>
         <span className="block text-center b5 mb-10">หน่วย: บาท</span>
-        <PersonPropertyDropdown.Cash name="เงินสด" statements={EXAMPLE_CASH_STATEMENTS} />
-        <PersonPropertyDropdown.Cash
-          name="เงินฝาก"
-          statements={EXAMPLE_CASH_STATEMENTS}
-        />
-        <PersonPropertyDropdown.Cash
-          name="เงินลงทุน"
-          statements={EXAMPLE_CASH_STATEMENTS}
-        />
-        <PersonPropertyDropdown.Cash
+        <InfoAssetAccordion.Cash name="เงินสด" statements={EXAMPLE_CASH_STATEMENTS} />
+        <InfoAssetAccordion.Cash name="เงินฝาก" statements={EXAMPLE_CASH_STATEMENTS} />
+        <InfoAssetAccordion.Cash name="เงินลงทุน" statements={EXAMPLE_CASH_STATEMENTS} />
+        <InfoAssetAccordion.Cash
           name="เงินให้กู้ยืม"
           statements={EXAMPLE_CASH_STATEMENTS}
         />
-        <PersonPropertyDropdown.Land statements={EXAMPLE_LAND_STATEMENTS} />
-        <PersonPropertyDropdown.Concession statements={EXAMPLE_CONCESSION_STATEMENTS} />
-        <PersonPropertyDropdown.Building statements={EXAMPLE_BUILDING_STATEMENTS} />
-        <PersonPropertyDropdown.Vehicle statements={EXAMPLE_VEHICLE_STATEMENTS} />
-        <PersonPropertyDropdown.Valuable statements={EXAMPLE_VALUABLE_STATEMENTS} />
+        <InfoAssetAccordion.Land statements={EXAMPLE_LAND_STATEMENTS} />
+        <InfoAssetAccordion.Concession statements={EXAMPLE_CONCESSION_STATEMENTS} />
+        <InfoAssetAccordion.Building statements={EXAMPLE_BUILDING_STATEMENTS} />
+        <InfoAssetAccordion.Vehicle statements={EXAMPLE_VEHICLE_STATEMENTS} />
+        <InfoAssetAccordion.Valuable statements={EXAMPLE_VALUABLE_STATEMENTS} />
       </section>
 
       <div className="flex gap-5 mt-10 mb-20 max-w-[850px] mx-auto">

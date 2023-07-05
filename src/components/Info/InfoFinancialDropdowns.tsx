@@ -3,7 +3,7 @@
 import { useState } from "react";
 
 import Image from "next/image";
-import Dropdown from "./Dropdown";
+import Dropdown from "../Dropdown";
 
 const YEARS = [
   {
@@ -50,7 +50,9 @@ interface FinancialDropdownsProps {
   light?: boolean;
 }
 
-export default function FinancialDropdowns({ light = false }: FinancialDropdownsProps) {
+export default function InfoFinancialDropdowns({
+  light = false,
+}: FinancialDropdownsProps) {
   const [year, setYear] = useState(YEARS[0]);
   const [compareYear, setCompareYear] = useState(COMPARE_YEAR[0]);
 

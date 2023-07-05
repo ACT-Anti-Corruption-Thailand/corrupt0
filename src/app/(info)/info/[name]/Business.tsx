@@ -1,12 +1,12 @@
 import Accordion from "@/components/Accordion";
 import { ChartPartyDropdown, ChartYearDropdown } from "@/components/ChartDropdown";
-import InfoGoTop from "@/components/InfoGoTop";
+import GoTop from "@/components/Info/InfoGoTop";
 import PersonChart from "@/components/PersonChart";
-import PersonLawsuitCard from "@/components/PersonLawsuitCard";
+import InfoLawsuitCard from "@/components/Info/InfoLawsuitCard";
 import Sharer from "@/components/Sharer";
 import Image from "next/image";
 
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 
 const DATA = [
   { x: "2558", y1: 1, y2: 3 },
@@ -33,7 +33,7 @@ const DesktopAligner = ({ left, children }: { left: ReactNode; children: ReactNo
 export default function Business({ params }: { params: { name: string } }) {
   return (
     <main>
-      <InfoGoTop name="บริษัท ทีเอ พีเอ็น เปเปอร์ จำกัด" />
+      <GoTop name="บริษัท ทีเอ พีเอ็น เปเปอร์ จำกัด" />
 
       <DesktopAligner
         left={
@@ -243,7 +243,7 @@ export default function Business({ params }: { params: { name: string } }) {
             <span className="w-auto">ข้อมูลคดีความ</span>
           </header>
           <div className="p-10 flex flex-col gap-5">
-            <PersonLawsuitCard.Nacc
+            <InfoLawsuitCard.Nacc
               description="สั่งการและอนุมัติให้จัดจ้างโครงการที่ได้รับ จัดสรรจากงบประมาณรายจ่ายประจำ ปีงบประมาณ พ.ศ.2554 งบเงินอุดหนุน เงินอุดหนุนเฉพาะกิจของเทศบาลตำบลโพนสวรรค์ ด้วยวิธีพิเศษ เมื่อปีงบประมาณ พ.ศ.2554 จำนวน 5 โครงการ โดยมุ่งหมายมิให้มีการ- แข่งขันราคาอย่างเป็นธรรม เอื้ออำนวยแก่ ผู้เสนอราคาบางรายให้เป็นผู้มีสิทธิทำสัญญา"
               updateDate="03/08/2564"
               blackNumber="5590260873 26-1-313 /2561"
@@ -253,7 +253,7 @@ export default function Business({ params }: { params: { name: string } }) {
               enforceResult="สำหรับการกระทำของ หจก.วิบูลย์ภัณฑ์ก่อสร้าง, หจก.ยงยุทธกาฬสินธุ์ และ หจก.กาฬสินธุ์ก่อสร้าง มีเหตุอันควรเชื่อได้ว่ามีการ สมยอมกันในการเข้าเสนอ ราคากับเทศบาลเมือง กาฬสินธุ์ ทำให้ทางราชการ เสียประโยชน์ จึงมีเหตุที่จะ พิจารณาลงโทษ หจก. ทั้งสามเสมือนเป็นผู้ทิ้งงาน ตามระเบียบกระทรวง มหาดไทยว่าด้วยการพัสดุ ของหน่วยการบริหารราชการ ส่วนท้องถิ่น พ.ศ. 2535 ข้อ 138 ซึ่งแก้ไขเพิ่มเติม โดยระเบียบกระทรวง มหาดไทยว่าด้วยการพัสดุ ของหน่วยการบริหารราชการ ส่วนท้องถิ่น (ฉบับที่ 2) พ.ศ. 2539 ให้แจ้งประสาน งานไปยังปลัดกระทรวง มหาดไทย ต่อไป"
               note="การชี้มูลความผิดทางอาญาของคณะกรรมการ ป.ป.ช. ยังไม่ถือเป็นที่สุดผู้ถูกกล่าวหายังเป็นผู้บริสุทธิ์จนกว่าจะมีคำพิพากษาของศาลอันถึงที่สุด"
             />
-            <PersonLawsuitCard.Sec
+            <InfoLawsuitCard.Sec
               description="300 ประกอบ 240 / พ.ร.บ. หลักทรัพย์ฯ (แก้ไขโดย พ.ร.บ. หลักทรัพย์ ฉบับที่ 5)"
               updateDate="03/08/2564"
               enforceDate="29/05/2566"
@@ -261,7 +261,7 @@ export default function Business({ params }: { params: { name: string } }) {
               actionType="การดำเนินการทางแพ่ง"
               actionDetail="29/05/2566 ตกลงยินยอมปฏิบัติตามมาตรการลงโทษทางแพ่งตามที่คณะกรรมการพิจารณามาตรการลงโทษทางแพ่งกำหนด ดังนี้- ชำระค่าปรับทางแพ่ง 1,000,000.00 บาท- ห้ามเป็นกรรมการหรือผู้บริหารของบริษัทที่ออกหลักทรัพย์ ตั้งแต่วันที่ 29/05/2566 ถึงวันที่ 28/01/2568- ห้ามเป็นกรรมการหรือผู้บริหารของบริษัทหลักทรัพย์ ตั้งแต่วันที่ 29/05/2566 ถึงวันที่ 28/01/2568- ชดใช้ค่าใช้จ่ายของสำนักงานในการตรวจสอบ 30,662.00 บาท"
             />
-            <PersonLawsuitCard.Supreme
+            <InfoLawsuitCard.Supreme
               description="ความผิดตามพระราชบัญญัติประกอบรัฐธรรมนูญว่าด้วยการป้องกันและปราบปรามทุจริตปี พ.ศ.2542 มาตรา 4 และมาตรา 80(1)"
               updateDate="03/08/2564"
               blackNumber="อม. 1/2545"

@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 
-import Checkbox from "./Checkbox";
+import Checkbox from "../Checkbox";
 
-export default function FinancialCheckboxes() {
+export default function InfoFinancialCheckboxes() {
   const [self, setSelf] = useState(true);
   const [spouse, setSpouse] = useState(true);
   const [child, setChild] = useState(true);

@@ -1,17 +1,15 @@
 import Accordion from "@/components/Accordion";
 import { ChartPartyDropdown, ChartYearDropdown } from "@/components/ChartDropdown";
-import FinancialCheckboxes from "@/components/FinancialCheckboxes";
-import FinancialDropdowns from "@/components/FinancialDropdowns";
-import InfoGoTop from "@/components/InfoGoTop";
-import PersonBusinessCard from "@/components/PersonBusinessCard";
+import InfoBusinessCard from "@/components/Info/InfoBusinessCard";
+import InfoFinancialSection from "@/components/Info/InfoFinancialSection";
+import GoTop from "@/components/Info/InfoGoTop";
+import InfoLawsuitCard from "@/components/Info/InfoLawsuitCard";
 import PersonChart from "@/components/PersonChart";
-import PersonFinanceNoticeDialog from "@/components/PersonFinanceNoticeDialog";
-import PersonLawsuitCard from "@/components/PersonLawsuitCard";
 import Sharer from "@/components/Sharer";
 import Image from "next/image";
 import Link from "next/link";
 
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 
 const DATA = [
   { x: "2558", y1: 1, y2: 3 },
@@ -44,7 +42,7 @@ export default function Politician({ params }: { params: { name: string } }) {
 
   return (
     <main>
-      <InfoGoTop name="สุชาติ ภิญโญ" />
+      <GoTop name="สุชาติ ภิญโญ" />
 
       <DesktopAligner
         left={
@@ -247,271 +245,56 @@ export default function Politician({ params }: { params: { name: string } }) {
         }
       >
         {/* สถานะทางการเงิน */}
-        <section id="financial">
-          <header className="py-8 flex gap-10 h4 justify-center items-center bg-gray-6 mb-10">
-            <Image src="/icons/financial.svg" alt="" width={30} height={30} />
-            <span>สถานะทางการเงิน</span>
-          </header>
+        <InfoFinancialSection />
 
+        {/* เจาะลึกทรัพย์สิน */}
+        <Link
+          href={`${name}/asset`}
+          className="block rounded-10 bg-white border border-white overflow-hidden mb-10 mx-10"
+        >
+          <header className="py-[17px] px-10 bg-asset_explore bg-center bg-cover">
+            <div className="flex justify-between h3">
+              <span>เจาะลึกทรัพย์สิน</span>
+              <Image
+                className="-rotate-90"
+                src="/icons/arr-w.svg"
+                alt=""
+                width={16}
+                height={16}
+              />
+            </div>
+          </header>
           <div className="p-10">
-            <div className="mb-5 text-center">
-              <span className="b3 font-bold inline-block mr-2">ปีที่ยื่นบัญชี</span>
-              <span className="b5">(กรณีที่ยื่น)</span>
-            </div>
-            <div className="flex mb-15 gap-10">
-              <FinancialDropdowns />
-            </div>
-            {/* การ์ดเงิน */}
-            <div className="rounded-10 bg-white p-10 text-black mb-15">
-              <div className="flex gap-10 items-center justify-center b6 py-5 mb-5">
-                <FinancialCheckboxes />
+            <span className="b4 text-gray-4 font-bold block mb-10">
+              ทรัพย์สินที่แพงที่สุด
+            </span>
+            <div className="flex gap-5 items-start">
+              <Image src="/icons/placeholder.svg" alt="" width={40} height={40} />
+              <div className="flex-1 text-black">
+                <span className="block b5">ห้องชุดเพนท์เฮาส์</span>
+                <span className="block b3 font-bold">92.12 ล้านบาท</span>
               </div>
-              <div className="py-5 mb-5 ml-10">
-                <PersonFinanceNoticeDialog />
-              </div>
-              <div className="mb-10 bg-value-negative-bg p-10">
-                <section className="mb-5">
-                  <div className="block b3 font-bold mb-2">ทรัพย์สิน</div>
-                  <div className="flex border border-black h-20 mr-auto w-fit mb-2">
-                    <div className="w-50 bg-black" />
-                    <div className="w-50 bg-black opacity-40" />
-                    <div className="w-50 bg-black opacity-20" />
-                  </div>
-                  <div className="flex pt-5 justify-between">
-                    <div>
-                      <span className="block b7 leading-1">ผู้ยื่น</span>
-                      <span className="block b4">x,xxx.xx</span>
-                    </div>
-                    <div className="opacity-80">
-                      <span className="block b7 leading-1">คู่สมรส x คน</span>
-                      <span className="block b4">x,xxx.xx</span>
-                    </div>
-                    <div className="opacity-60">
-                      <span className="block b7 leading-1">บุตร x คน</span>
-                      <span className="block b4">x,xxx.xx</span>
-                    </div>
-                    <div className="text-right">
-                      <span className="block b7 leading-1">
-                        <span className="font-bold">รวม</span> (ล้านบาท)
-                      </span>
-                      <span className="block b4 font-bold">x,xxx.xx</span>
-                    </div>
-                  </div>
-                  <button
-                    type="button"
-                    className="ml-auto block text-gray-5 b6 underline"
-                  >
-                    รายละเอียด
-                  </button>
-                </section>
-                <section className="mb-10">
-                  <div className="block b3 font-bold mb-2">หนี้สิน</div>
-                  <div className="flex border border-black h-20 mr-auto w-fit mb-2">
-                    <div className="w-50 bg-black" />
-                    <div className="w-50 bg-black opacity-40" />
-                    <div className="w-50 bg-black opacity-20" />
-                  </div>
-                  <div className="flex pt-5 justify-between">
-                    <div>
-                      <span className="block b7 leading-1">ผู้ยื่น</span>
-                      <span className="block b4">x,xxx.xx</span>
-                    </div>
-                    <div className="opacity-80">
-                      <span className="block b7 leading-1">คู่สมรส x คน</span>
-                      <span className="block b4">x,xxx.xx</span>
-                    </div>
-                    <div className="opacity-60">
-                      <span className="block b7 leading-1">บุตร x คน</span>
-                      <span className="block b4">x,xxx.xx</span>
-                    </div>
-                    <div className="text-right">
-                      <span className="block b7 leading-1">
-                        <span className="font-bold">รวม</span> (ล้านบาท)
-                      </span>
-                      <span className="block b4 font-bold">x,xxx.xx</span>
-                    </div>
-                  </div>
-                  <button
-                    type="button"
-                    className="ml-auto block text-gray-5 b6 underline"
-                  >
-                    รายละเอียด
-                  </button>
-                </section>
-                <p className="b4 text-value-negative-text font-bold">
-                  ทรัพย์สิน น้อยกว่า หนี้สิน x,xxx ล้านบาท
-                </p>
-              </div>
-              <div className="mb-10 bg-value-positive-bg p-10">
-                <section className="mb-5">
-                  <div className="block b3 font-bold mb-2">รายได้</div>
-                  <div className="flex border border-black h-20 mr-auto w-fit mb-2">
-                    <div className="w-50 bg-black" />
-                    <div className="w-50 bg-black opacity-40" />
-                    <div className="w-50 bg-black opacity-20" />
-                  </div>
-                  <div className="flex pt-5 justify-between">
-                    <div>
-                      <span className="block b7 leading-1">ผู้ยื่น</span>
-                      <span className="block b4">x,xxx.xx</span>
-                    </div>
-                    <div className="opacity-80">
-                      <span className="block b7 leading-1">คู่สมรส x คน</span>
-                      <span className="block b4">x,xxx.xx</span>
-                    </div>
-                    <div className="opacity-60">
-                      <span className="block b7 leading-1">บุตร x คน</span>
-                      <span className="block b4">x,xxx.xx</span>
-                    </div>
-                    <div className="text-right">
-                      <span className="block b7 leading-1">
-                        <span className="font-bold">รวม</span> (ล้านบาท)
-                      </span>
-                      <span className="block b4 font-bold">x,xxx.xx</span>
-                    </div>
-                  </div>
-                  <button
-                    type="button"
-                    className="ml-auto block text-gray-5 b6 underline"
-                  >
-                    รายละเอียด
-                  </button>
-                </section>
-                <section className="mb-10">
-                  <div className="block b3 font-bold mb-2">รายจ่าย</div>
-                  <div className="flex border border-black h-20 mr-auto w-fit mb-2">
-                    <div className="w-50 bg-black" />
-                    <div className="w-50 bg-black opacity-40" />
-                    <div className="w-50 bg-black opacity-20" />
-                  </div>
-                  <div className="flex pt-5 justify-between">
-                    <div>
-                      <span className="block b7 leading-1">ผู้ยื่น</span>
-                      <span className="block b4">x,xxx.xx</span>
-                    </div>
-                    <div className="opacity-80">
-                      <span className="block b7 leading-1">คู่สมรส x คน</span>
-                      <span className="block b4">x,xxx.xx</span>
-                    </div>
-                    <div className="opacity-60">
-                      <span className="block b7 leading-1">บุตร x คน</span>
-                      <span className="block b4">x,xxx.xx</span>
-                    </div>
-                    <div className="text-right">
-                      <span className="block b7 leading-1">
-                        <span className="font-bold">รวม</span> (ล้านบาท)
-                      </span>
-                      <span className="block b4 font-bold">x,xxx.xx</span>
-                    </div>
-                  </div>
-                  <button
-                    type="button"
-                    className="ml-auto block text-gray-5 b6 underline"
-                  >
-                    รายละเอียด
-                  </button>
-                </section>
-                <p className="b4 text-value-positive-text font-bold">
-                  รายได้ มากกว่า รายจ่าย x,xxx ล้านบาท
-                </p>
-              </div>
-              <div className="bg-gray-1 p-10">
-                <div className="block b2 font-bold">การเสียภาษี</div>
-                <section className="mb-10">
-                  <div className="block b3 font-bold mb-2">เงินได้พึงประเมิน</div>
-                  <div className="flex border border-black h-20 mr-auto w-fit mb-2">
-                    <div className="w-80 bg-black" />
-                    <div className="w-80 bg-black opacity-40" />
-                  </div>
-                  <div className="flex pt-5">
-                    <div className="flex-1">
-                      <span className="block b7 leading-1">ผู้ยื่น</span>
-                      <span className="block b4">1.36</span>
-                    </div>
-                    <div className="opacity-80 flex-1 flex justify-center">
-                      <div>
-                        <span className="block b7 leading-1">คู่สมรส x คน</span>
-                        <span className="block b4">16.73</span>
-                      </div>
-                    </div>
-                    <div className="text-right flex-1">
-                      <span className="block b7 leading-1">
-                        <span className="font-bold">รวม</span> (ล้านบาท)
-                      </span>
-                      <span className="block b4 font-bold">18.09</span>
-                    </div>
-                  </div>
-                </section>
-                <section className="border-t border-t-gray-4 pt-5">
-                  <div className="block b3 font-bold mb-5">เปรียบเทียบกับรายได้จริง</div>
-                  <div className="flex">
-                    <div className="b4 flex-1">
-                      <span className="block leading-1">น้อยกว่า</span>
-                      <span className="block">xx%</span>
-                    </div>
-                    <div className="opacity-80 b4 flex-1 flex justify-center">
-                      <div>
-                        <span className="block leading-1">น้อยกว่า</span>
-                        <span className="block">xx%</span>
-                      </div>
-                    </div>
-                    <div className="text-right b4 font-bold flex-1">
-                      <span className="block leading-1">น้อยกว่า</span>
-                      <span className="block">xx%</span>
-                    </div>
-                  </div>
-                </section>
-              </div>
-            </div>
-            {/* เจาะลึกทรัพย์สิน */}
-            <Link
-              href={`${name}/asset`}
-              className="block rounded-10 bg-white border border-white overflow-hidden mb-15"
-            >
-              <header className="py-[17px] px-10 bg-asset_explore bg-center bg-cover">
-                <div className="flex justify-between h3">
-                  <span>เจาะลึกทรัพย์สิน</span>
-                  <Image
-                    className="-rotate-90"
-                    src="/icons/arr-w.svg"
-                    alt=""
-                    width={16}
-                    height={16}
-                  />
-                </div>
-              </header>
-              <div className="p-10">
-                <span className="b4 text-gray-4 font-bold block mb-10">
-                  ทรัพย์สินที่แพงที่สุด
-                </span>
-                <div className="flex gap-5 items-start">
-                  <Image src="/icons/placeholder.svg" alt="" width={40} height={40} />
-                  <div className="flex-1 text-black">
-                    <span className="block b5">ห้องชุดเพนท์เฮาส์</span>
-                    <span className="block b3 font-bold">92.12 ล้านบาท</span>
-                  </div>
-                </div>
-              </div>
-            </Link>
-            {/* ปุ่มเอกสาร */}
-            <div className="flex gap-5">
-              <button
-                type="button"
-                className="b4 flex-1 flex gap-5 p-5 items-center border border-gray-6 justify-center rounded-5"
-              >
-                <Image src="/icons/pdf.svg" alt="" width={20} height={20} />
-                <span>ดูเอกสารจริง</span>
-              </button>
-              <button
-                type="button"
-                className="b4 flex-1 flex gap-5 p-5 items-center border border-gray-6 justify-center rounded-5"
-              >
-                <Image src="/icons/sheet.svg" alt="" width={20} height={20} />
-                <span>ดาวน์โหลดข้อมูล</span>
-              </button>
             </div>
           </div>
-        </section>
+        </Link>
+
+        {/* ปุ่มเอกสาร */}
+        <div className="flex gap-5 px-10 mb-10">
+          <button
+            type="button"
+            className="b4 flex-1 flex gap-5 p-5 items-center border border-gray-6 justify-center rounded-5"
+          >
+            <Image src="/icons/pdf.svg" alt="" width={20} height={20} />
+            <span>ดูเอกสารจริง</span>
+          </button>
+          <button
+            type="button"
+            className="b4 flex-1 flex gap-5 p-5 items-center border border-gray-6 justify-center rounded-5"
+          >
+            <Image src="/icons/sheet.svg" alt="" width={20} height={20} />
+            <span>ดาวน์โหลดข้อมูล</span>
+          </button>
+        </div>
 
         {/* ความเกี่ยวข้องกับธุรกิจและโครงการภาครัฐ */}
         <section id="business">
@@ -524,7 +307,7 @@ export default function Politician({ params }: { params: { name: string } }) {
             </span>
           </header>
           <div className="mt-5 px-15 flex flex-col gap-5">
-            <PersonBusinessCard
+            <InfoBusinessCard
               name="บริษัท ทีเอ พีเอ็น เปเปอร์ จำกัด"
               type="อสังหาทรัพย์"
               relation="ผู้ถือหุ้น"
@@ -532,14 +315,14 @@ export default function Politician({ params }: { params: { name: string } }) {
               mostDonatedParty="พลังประชารัฐ"
               totalDonation={1_234_567}
             />
-            <PersonBusinessCard
+            <InfoBusinessCard
               name="บริษัท ทีอาร์ อัลเคมิสท์ กรุ๊ป จำกัด"
               type="อสังหาทรัพย์"
               relation="ผู้ถือหุ้น"
               mostDonatedParty="พลังประชารัฐ"
               totalDonation={100}
             />
-            <PersonBusinessCard
+            <InfoBusinessCard
               name="บริษัท ทีอาร์ อัลเคมิสท์ กรุ๊ป จำกัด"
               type="อสังหาทรัพย์"
               relation="ผู้ถือหุ้น"
@@ -654,7 +437,7 @@ export default function Politician({ params }: { params: { name: string } }) {
             <span className="w-auto">ข้อมูลคดีความ</span>
           </header>
           <div className="p-10 flex flex-col gap-5">
-            <PersonLawsuitCard.Nacc
+            <InfoLawsuitCard.Nacc
               description="สั่งการและอนุมัติให้จัดจ้างโครงการที่ได้รับ จัดสรรจากงบประมาณรายจ่ายประจำ ปีงบประมาณ พ.ศ.2554 งบเงินอุดหนุน เงินอุดหนุนเฉพาะกิจของเทศบาลตำบลโพนสวรรค์ ด้วยวิธีพิเศษ เมื่อปีงบประมาณ พ.ศ.2554 จำนวน 5 โครงการ โดยมุ่งหมายมิให้มีการ- แข่งขันราคาอย่างเป็นธรรม เอื้ออำนวยแก่ ผู้เสนอราคาบางรายให้เป็นผู้มีสิทธิทำสัญญา"
               updateDate="03/08/2564"
               blackNumber="5590260873 26-1-313 /2561"
@@ -664,7 +447,7 @@ export default function Politician({ params }: { params: { name: string } }) {
               enforceResult="สำหรับการกระทำของ หจก.วิบูลย์ภัณฑ์ก่อสร้าง, หจก.ยงยุทธกาฬสินธุ์ และ หจก.กาฬสินธุ์ก่อสร้าง มีเหตุอันควรเชื่อได้ว่ามีการ สมยอมกันในการเข้าเสนอ ราคากับเทศบาลเมือง กาฬสินธุ์ ทำให้ทางราชการ เสียประโยชน์ จึงมีเหตุที่จะ พิจารณาลงโทษ หจก. ทั้งสามเสมือนเป็นผู้ทิ้งงาน ตามระเบียบกระทรวง มหาดไทยว่าด้วยการพัสดุ ของหน่วยการบริหารราชการ ส่วนท้องถิ่น พ.ศ. 2535 ข้อ 138 ซึ่งแก้ไขเพิ่มเติม โดยระเบียบกระทรวง มหาดไทยว่าด้วยการพัสดุ ของหน่วยการบริหารราชการ ส่วนท้องถิ่น (ฉบับที่ 2) พ.ศ. 2539 ให้แจ้งประสาน งานไปยังปลัดกระทรวง มหาดไทย ต่อไป"
               note="การชี้มูลความผิดทางอาญาของคณะกรรมการ ป.ป.ช. ยังไม่ถือเป็นที่สุดผู้ถูกกล่าวหายังเป็นผู้บริสุทธิ์จนกว่าจะมีคำพิพากษาของศาลอันถึงที่สุด"
             />
-            <PersonLawsuitCard.Sec
+            <InfoLawsuitCard.Sec
               description="300 ประกอบ 240 / พ.ร.บ. หลักทรัพย์ฯ (แก้ไขโดย พ.ร.บ. หลักทรัพย์ ฉบับที่ 5)"
               updateDate="03/08/2564"
               enforceDate="29/05/2566"
@@ -672,7 +455,7 @@ export default function Politician({ params }: { params: { name: string } }) {
               actionType="การดำเนินการทางแพ่ง"
               actionDetail="29/05/2566 ตกลงยินยอมปฏิบัติตามมาตรการลงโทษทางแพ่งตามที่คณะกรรมการพิจารณามาตรการลงโทษทางแพ่งกำหนด ดังนี้- ชำระค่าปรับทางแพ่ง 1,000,000.00 บาท- ห้ามเป็นกรรมการหรือผู้บริหารของบริษัทที่ออกหลักทรัพย์ ตั้งแต่วันที่ 29/05/2566 ถึงวันที่ 28/01/2568- ห้ามเป็นกรรมการหรือผู้บริหารของบริษัทหลักทรัพย์ ตั้งแต่วันที่ 29/05/2566 ถึงวันที่ 28/01/2568- ชดใช้ค่าใช้จ่ายของสำนักงานในการตรวจสอบ 30,662.00 บาท"
             />
-            <PersonLawsuitCard.Supreme
+            <InfoLawsuitCard.Supreme
               description="ความผิดตามพระราชบัญญัติประกอบรัฐธรรมนูญว่าด้วยการป้องกันและปราบปรามทุจริตปี พ.ศ.2542 มาตรา 4 และมาตรา 80(1)"
               updateDate="03/08/2564"
               blackNumber="อม. 1/2545"

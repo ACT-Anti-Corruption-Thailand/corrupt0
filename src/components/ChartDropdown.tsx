@@ -1,7 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import Dropdown, { DropdownProps } from "./Dropdown";
+
+import Dropdown from "./Dropdown";
+
+import type { DropdownProps } from "./Dropdown";
 
 const YEARS = ["ทุกปี", "2566", "2565", "2564", "2563", "2562"];
 const PARTIES = [
