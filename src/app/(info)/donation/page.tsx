@@ -5,6 +5,7 @@ import ImgCard from "@/components/ImgCard";
 import Image from "next/image";
 import EntityBarCard from "@/components/EntityBarCard";
 import Search from "@/components/Search";
+import EntityStackedBarCard from "@/components/EntityStackedBarCard";
 
 export default function Donation() {
   const [selected, setSelected] = React.useState("");
@@ -17,6 +18,21 @@ export default function Donation() {
     { id: 5, name: "Tanya Fox", title: "asf" },
     { id: 6, name: "Hellen Schmidt", title: "asf" },
   ];
+
+  const Party = [
+    {
+      color: "blue",
+      amount: 1000000,
+    },
+    {
+      color: "red",
+      amount: 100000,
+    },
+    {
+      color: "yellow",
+      amount: 500000,
+    }
+  ]
 
   return (
     <>
@@ -77,20 +93,11 @@ export default function Donation() {
           setSelected={setSelected}
         />
         <div className="flex flex-col items-center text-center text-18 lg:b4 pb-10 lg:pb-30 w-[90vw] min-w-[300px] max-w-[850px]">
-          <EntityBarCard
-            name="สุชาติ ภิญโญ"
-            title="สมาชิกวุฒิสภา"
-            color="white"
-            amount={1637239}
-            maxAmount={10000000}
-            imgPath='/icons/person.svg'
-          />
-          <EntityBarCard
-            name="สุชาติ ภิญโญ"
-            title="สมาชิกวุฒิสภา"
-            color="white"
-            amount={1637239}
-            maxAmount={10000000}
+          <EntityStackedBarCard 
+            name="พลังประชารัฐ"
+            title=""
+            data={Party}
+            maxAmount={2000000}
             imgPath='/icons/person.svg'
           />
         </div>
