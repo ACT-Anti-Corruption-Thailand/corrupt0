@@ -121,6 +121,7 @@ export default function IndividualDetails() {
                     <EntityBarCard
                       name="สุชาติ ภิญโญ"
                       title="สมาชิกวุฒิสภา"
+                      color="white"
                       amount={1637239}
                       maxAmount={10000000}
                       imgPath='/icons/person.svg'
@@ -161,6 +162,7 @@ export default function IndividualDetails() {
                     <EntityBarCard
                       name="สุชาติ ภิญโญ"
                       title="สมาชิกวุฒิสภา"
+                      color="white"
                       amount={1637239}
                       maxAmount={10000000}
                       imgPath='/icons/person.svg'
@@ -168,6 +170,7 @@ export default function IndividualDetails() {
                     <EntityBarCard
                       name="สุชาติ ภิญโญ"
                       title="สมาชิกวุฒิสภา"
+                      color="white"
                       amount={1637239}
                       maxAmount={10000000}
                       imgPath='/icons/person.svg'

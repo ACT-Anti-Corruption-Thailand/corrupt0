@@ -4,6 +4,7 @@ import { thaiMoneyFormatter } from "@/functions/moneyFormatter";
 interface PersonCardProps {
   name: string;
   title: string;
+  color: string;
   amount: number;
   maxAmount: number;
   imgPath: string;
@@ -43,9 +44,10 @@ const EntityBarCard = (props: PersonCardProps) => {
         style={
           {
             "--bar": bar,
+            backgroundColor: props.color,
           } as React.CSSProperties
         }
-        className="h-10 lg:h-20 w-[var(--bar)] bg-white mt-10"
+        className="h-10 lg:h-20 w-[var(--bar)] mt-10"
       />
     </div>
   );

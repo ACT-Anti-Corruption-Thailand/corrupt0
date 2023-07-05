@@ -6,9 +6,6 @@ import Image from "next/image";
 import EntityBarCard from "@/components/EntityBarCard";
 import Search from "@/components/Search";
 
-import GraphCard from "@/components/GraphCard";
-import { thaiMoneyFormatter } from "@/functions/moneyFormatter";
-
 export default function Donation() {
   const [selected, setSelected] = React.useState("");
 
@@ -55,6 +52,7 @@ export default function Donation() {
           <EntityBarCard
             name="สุชาติ ภิญโญ"
             title="สมาชิกวุฒิสภา"
+            color="white"
             amount={1637239}
             maxAmount={10000000}
             imgPath='/icons/person.svg'
@@ -62,6 +60,7 @@ export default function Donation() {
           <EntityBarCard
             name="สุชาติ ภิญโญ"
             title="สมาชิกวุฒิสภา"
+            color="white"
             amount={1637239}
             maxAmount={10000000}
             imgPath='/icons/person.svg'
@@ -81,6 +80,7 @@ export default function Donation() {
           <EntityBarCard
             name="สุชาติ ภิญโญ"
             title="สมาชิกวุฒิสภา"
+            color="white"
             amount={1637239}
             maxAmount={10000000}
             imgPath='/icons/person.svg'
@@ -88,6 +88,7 @@ export default function Donation() {
           <EntityBarCard
             name="สุชาติ ภิญโญ"
             title="สมาชิกวุฒิสภา"
+            color="white"
             amount={1637239}
             maxAmount={10000000}
             imgPath='/icons/person.svg'
