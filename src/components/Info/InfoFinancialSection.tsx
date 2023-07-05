@@ -22,12 +22,13 @@ interface InfoFinanceSingleCardDataEntry {
 }
 
 interface InfoDetailsProps {
-  hasSpouse: boolean;
-  hasChild: boolean;
+  showActor: boolean;
+  showSpouse: boolean;
+  showChild: boolean;
   data: InfoFinanceSingleCardDataEntry[];
 }
 
-const InfoDetails = ({ data, hasSpouse, hasChild }: InfoDetailsProps) => {
+const InfoDetails = ({ data, showActor, showSpouse, showChild }: InfoDetailsProps) => {
   return (
     <Accordion
       trigger={
@@ -45,15 +46,28 @@ const InfoDetails = ({ data, hasSpouse, hasChild }: InfoDetailsProps) => {
         <Fragment key={type}>
           <div className="b4 font-bold">{type}</div>
           <div className="flex b4 mb-10 last:pb-2 last:mb-2 last:border-b last:border-b-black-40">
-            <div className="flex-1">{f$(value[0])}</div>
-            {hasSpouse && (
-              <div className="flex-1 opacity-80 text-center">{f$(value[1] ?? 0)}</div>
+            {showActor && <div className="flex-1">{f$(value[0])}</div>}
+            {showSpouse && (
+              <div className={clsx("flex-1 opacity-80", showActor && "text-center")}>
+                {f$(value[1] ?? 0)}
+              </div>
             )}
-            {hasChild && (
-              <div className="flex-1 opacity-60 text-center">{f$(value[2] ?? 0)}</div>
+            {showChild && (
+              <div
+                className={clsx(
+                  "flex-1 opacity-60",
+                  (showActor || showSpouse) && "text-center"
+                )}
+              >
+                {f$(value[2] ?? 0)}
+              </div>
             )}
             <div className="flex-1 text-right font-bold">
-              {f$(value.reduce((a: number, c) => a + (c || 0), 0))}
+              {f$(
+                (showActor ? value[0] : 0) +
+                  (showSpouse ? value[1] || 0 : 0) +
+                  (showChild ? value[2] || 0 : 0)
+              )}
             </div>
           </div>
         </Fragment>
@@ -75,20 +89,26 @@ const InfoFinancialChart = ({ actor, spouse, child, max }: InfoFinancialChartPro
   return (
     <div
       className="flex border border-black h-20 mb-2 w-[--w]"
-      style={{ "--w": `${(total / max) * 100}%` } as CSSProperties}
+      style={{ "--w": `${~~((total / max) * 100)}%` } as CSSProperties}
     >
-      <div
-        className="w-[--w] bg-black"
-        style={{ "--w": `${(actor / total) * 100}%` } as CSSProperties}
-      />
-      <div
-        className="w-[--w] bg-black opacity-40"
-        style={{ "--w": (spouse / total) * 100 + "%" } as CSSProperties}
-      />
-      <div
-        className="w-[--w] bg-black opacity-20"
-        style={{ "--w": (child / total) * 100 + "%" } as CSSProperties}
-      />
+      {actor > 0 && (
+        <div
+          className="w-[--w] bg-black"
+          style={{ "--w": `${~~((actor / total) * 100)}%` } as CSSProperties}
+        />
+      )}
+      {spouse > 0 && (
+        <div
+          className="w-[--w] bg-black opacity-40"
+          style={{ "--w": `${~~((spouse / total) * 100)}%` } as CSSProperties}
+        />
+      )}
+      {child > 0 && (
+        <div
+          className="w-[--w] bg-black opacity-20"
+          style={{ "--w": `${~~((child / total) * 100)}%` } as CSSProperties}
+        />
+      )}
     </div>
   );
 };
@@ -120,14 +140,14 @@ const InfoFinancialSingleCard = ({
   showSpouse,
   showChild,
 }: InfoFinancialSingleCardProps) => {
-  const actor1Total = data.data1.reduce((a, c) => a + c.value[0], 0);
+  const actor1Total = showActor ? data.data1.reduce((a, c) => a + c.value[0], 0) : 0;
   const spouse1Total =
     showSpouse && spouseCount ? data.data1.reduce((a, c) => a + (c.value[1] || 0), 0) : 0;
   const child1Total =
     showChild && childCount ? data.data1.reduce((a, c) => a + (c.value[2] || 0), 0) : 0;
   const data1Total = actor1Total + spouse1Total + child1Total;
 
-  const actor2Total = data.data2.reduce((a, c) => a + c.value[0], 0);
+  const actor2Total = showActor ? data.data2.reduce((a, c) => a + c.value[0], 0) : 0;
   const spouse2Total =
     showSpouse && spouseCount ? data.data2.reduce((a, c) => a + (c.value[1] || 0), 0) : 0;
   const child2Total =
@@ -152,20 +172,26 @@ const InfoFinancialSingleCard = ({
           max={max}
         />
         <div className="flex pt-5 justify-between">
-          <div className="flex-1">
-            <span className="block b7 leading-1">ผู้ยื่น</span>
-            <span className="block b4">{f$(actor1Total)}</span>
-          </div>
+          {showActor && (
+            <div className="flex-1">
+              <span className="block b7 leading-1">ผู้ยื่น</span>
+              <span className="block b4">{f$(actor1Total)}</span>
+            </div>
+          )}
           {showSpouse && spouseCount > 0 && (
-            <div className="flex-1 opacity-80">
-              <span className="block b7 leading-1">คู่สมรส {spouseCount} คน</span>
-              <span className="block b4">{f$(spouse1Total)}</span>
+            <div className="flex-1 opacity-80 flex">
+              <div className={clsx(showActor && "mx-auto")}>
+                <span className="block b7 leading-1">คู่สมรส {spouseCount} คน</span>
+                <span className="block b4">{f$(spouse1Total)}</span>
+              </div>
             </div>
           )}
           {showChild && childCount > 0 && (
-            <div className="flex-1 opacity-60">
-              <span className="block b7 leading-1">บุตร {childCount} คน</span>
-              <span className="block b4">{f$(child1Total)}</span>
+            <div className="flex-1 opacity-60 flex">
+              <div className={clsx((showActor || showSpouse) && "mx-auto")}>
+                <span className="block b7 leading-1">บุตร {childCount} คน</span>
+                <span className="block b4">{f$(child1Total)}</span>
+              </div>
             </div>
           )}
           <div className="flex-1 text-right">
@@ -177,8 +203,9 @@ const InfoFinancialSingleCard = ({
         </div>
         <InfoDetails
           data={data.data1}
-          hasSpouse={showSpouse && !!spouseCount}
-          hasChild={showChild && !!childCount}
+          showActor={showActor}
+          showSpouse={showSpouse && !!spouseCount}
+          showChild={showChild && !!childCount}
         />
       </section>
       <section className="mb-10">
@@ -190,20 +217,26 @@ const InfoFinancialSingleCard = ({
           max={max}
         />
         <div className="flex pt-5">
-          <div className="flex-1">
-            <span className="block b7 leading-1">ผู้ยื่น</span>
-            <span className="block b4">{f$(actor2Total)}</span>
-          </div>
+          {showActor && (
+            <div className="flex-1">
+              <span className="block b7 leading-1">ผู้ยื่น</span>
+              <span className="block b4">{f$(actor2Total)}</span>
+            </div>
+          )}
           {showSpouse && spouseCount > 0 && (
-            <div className="flex-1 opacity-80">
-              <span className="block b7 leading-1">คู่สมรส {spouseCount} คน</span>
-              <span className="block b4">{f$(spouse2Total)}</span>
+            <div className="flex-1 opacity-80 flex">
+              <div className={clsx(showActor && "mx-auto")}>
+                <span className="block b7 leading-1">คู่สมรส {spouseCount} คน</span>
+                <span className="block b4">{f$(spouse2Total)}</span>
+              </div>
             </div>
           )}
           {showChild && childCount > 0 && (
-            <div className="flex-1 opacity-60">
-              <span className="block b7 leading-1">บุตร {childCount} คน</span>
-              <span className="block b4">{f$(child2Total)}</span>
+            <div className="flex-1 opacity-60 flex">
+              <div className={clsx((showActor || showSpouse) && "mx-auto")}>
+                <span className="block b7 leading-1">บุตร {childCount} คน</span>
+                <span className="block b4">{f$(child2Total)}</span>
+              </div>
             </div>
           )}
           <div className="flex-1 text-right">
@@ -215,8 +248,9 @@ const InfoFinancialSingleCard = ({
         </div>
         <InfoDetails
           data={data.data2}
-          hasSpouse={showSpouse && !!spouseCount}
-          hasChild={showChild && !!childCount}
+          showActor={showActor}
+          showSpouse={showSpouse && !!spouseCount}
+          showChild={showChild && !!childCount}
         />
       </section>
       <p
@@ -241,12 +275,12 @@ const ASSET_DEBT: InfoFinancialSingleCardData = {
   name1: "ทรัพย์สิน",
   name2: "หนี้สิน",
   data1: [
-    { type: "ทรัพย์สิน 1", value: [1e7, 5e6, 1e6] },
-    { type: "ทรัพย์สิน 2", value: [1e7, 5e6, 1e6] },
+    { type: "ทรัพย์สิน 1", value: [1e7, 0, 1e6] },
+    { type: "ทรัพย์สิน 2", value: [1e7, 5e6, 0] },
   ],
   data2: [
-    { type: "หนี้สิน 1", value: [3e6, 2e6, 1e6] },
-    { type: "หนี้สิน 2", value: [3e6, 2e6, 1e6] },
+    { type: "หนี้สิน 1", value: [3e6, 0, 1e6] },
+    { type: "หนี้สิน 2", value: [3e6, 2e6, 0] },
   ],
 };
 
