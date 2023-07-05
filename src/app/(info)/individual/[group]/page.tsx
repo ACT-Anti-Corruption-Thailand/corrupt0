@@ -16,7 +16,7 @@ import {
 } from "recharts";
 import { moneyFormatter } from "@/functions/moneyFormatter";
 import Search from "@/components/Search";
-import PersonCard from "@/components/PersonCard";
+import EntityBarCard from "@/components/EntityBarCard";
 
 export default function IndividualDetails() {
   const data = [
@@ -118,7 +118,7 @@ export default function IndividualDetails() {
                 </div>
                 <p className="text-gray-5 b6">ปริมาณทรัพย์สิน (บาท)</p>
                   <div className='mb-20 lg:mb-30 w-[90vw] lg:w-[70vw]'>
-                    <PersonCard
+                    <EntityBarCard
                       name="สุชาติ ภิญโญ"
                       title="สมาชิกวุฒิสภา"
                       amount={1637239}
@@ -158,14 +158,14 @@ export default function IndividualDetails() {
                 </div>
                 <p className="text-gray-5 b6">ปริมาณหนี้สิน (บาท)</p>
                 <div className='mb-20 lg:mb-30 w-[90vw] lg:w-[70vw]'>
-                    <PersonCard
+                    <EntityBarCard
                       name="สุชาติ ภิญโญ"
                       title="สมาชิกวุฒิสภา"
                       amount={1637239}
                       maxAmount={10000000}
                       imgPath='/icons/person.svg'
                     />
-                    <PersonCard
+                    <EntityBarCard
                       name="สุชาติ ภิญโญ"
                       title="สมาชิกวุฒิสภา"
                       amount={1637239}

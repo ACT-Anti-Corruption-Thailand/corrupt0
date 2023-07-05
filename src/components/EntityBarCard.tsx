@@ -9,7 +9,7 @@ interface PersonCardProps {
   imgPath: string;
 }
 
-const PersonCard = (props: PersonCardProps) => {
+const EntityBarCard = (props: PersonCardProps) => {
   const [money, unit] = thaiMoneyFormatter(props.amount);
   const bar =
     Number((props.amount / props.maxAmount) * 100)
@@ -51,4 +51,4 @@ const PersonCard = (props: PersonCardProps) => {
   );
 };
 
-export default PersonCard;
+export default EntityBarCard;

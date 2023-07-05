@@ -3,7 +3,7 @@
 import React from "react";
 import ImgCard from "@/components/ImgCard";
 import Image from "next/image";
-import PersonCard from "@/components/PersonCard";
+import EntityBarCard from "@/components/EntityBarCard";
 import Search from "@/components/Search";
 
 import GraphCard from "@/components/GraphCard";
@@ -52,14 +52,14 @@ export default function Donation() {
         />
         <div className="flex flex-col items-center text-center text-18 lg:b4 pb-10 lg:pb-30 w-[90vw] min-w-[300px] max-w-[850px]">
           {/* TODO: New component named PartyCard */}
-          <PersonCard
+          <EntityBarCard
             name="สุชาติ ภิญโญ"
             title="สมาชิกวุฒิสภา"
             amount={1637239}
             maxAmount={10000000}
             imgPath='/icons/person.svg'
           />
-          <PersonCard
+          <EntityBarCard
             name="สุชาติ ภิญโญ"
             title="สมาชิกวุฒิสภา"
             amount={1637239}
@@ -78,14 +78,14 @@ export default function Donation() {
           setSelected={setSelected}
         />
         <div className="flex flex-col items-center text-center text-18 lg:b4 pb-10 lg:pb-30 w-[90vw] min-w-[300px] max-w-[850px]">
-          <PersonCard
+          <EntityBarCard
             name="สุชาติ ภิญโญ"
             title="สมาชิกวุฒิสภา"
             amount={1637239}
             maxAmount={10000000}
             imgPath='/icons/person.svg'
           />
-          <PersonCard
+          <EntityBarCard
             name="สุชาติ ภิญโญ"
             title="สมาชิกวุฒิสภา"
             amount={1637239}
