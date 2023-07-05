@@ -10,3 +10,10 @@ export const thaiMoneyFormatter = (
   if (value < 1_000_000) return [value, "บาท"];
   return [Math.round(value / 10_000) / 100, "ล้านบาท"];
 };
+
+export const formatThousands = (value: number, decimalPoints?: number) =>
+  value.toLocaleString("th-TH", {
+    minimumFractionDigits: decimalPoints ?? 0,
+  });
+
+export const formatMillion = (value: number) => Math.round(value / 10_000) / 100;

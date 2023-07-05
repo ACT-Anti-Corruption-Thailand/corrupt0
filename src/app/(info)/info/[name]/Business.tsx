@@ -1,12 +1,11 @@
 import Accordion from "@/components/Accordion";
 import { ChartPartyDropdown, ChartYearDropdown } from "@/components/ChartDropdown";
+import InfoDesktopAligner from "@/components/Info/InfoDesktopAligner";
 import GoTop from "@/components/Info/InfoGoTop";
-import PersonChart from "@/components/PersonChart";
 import InfoLawsuitCard from "@/components/Info/InfoLawsuitCard";
+import PersonChart from "@/components/PersonChart";
 import Sharer from "@/components/Sharer";
 import Image from "next/image";
-
-import type { ReactNode } from "react";
 
 const DATA = [
   { x: "2558", y1: 1, y2: 3 },
@@ -17,25 +16,12 @@ const DATA = [
   { x: "2563", y1: 2, y2: 4 },
 ];
 
-const DesktopAligner = ({ left, children }: { left: ReactNode; children: ReactNode }) => {
-  return (
-    <div className="flex flex-col lg:flex-row gap-10 lg:max-w-[1280px] lg:mx-auto lg:mb-40">
-      <div className="lg:max-w-[400px] min-w-0">
-        <div className="person-scrollbar sticky top-0 lg:h-screen overflow-y-auto overflow-x-hidden">
-          <div>{left}</div>
-        </div>
-      </div>
-      <div className="flex-1 min-w-0">{children}</div>
-    </div>
-  );
-};
-
 export default function Business({ params }: { params: { name: string } }) {
   return (
     <main>
       <GoTop name="บริษัท ทีเอ พีเอ็น เปเปอร์ จำกัด" />
 
-      <DesktopAligner
+      <InfoDesktopAligner
         left={
           <>
             {/* Basic Information */}
@@ -270,7 +256,7 @@ export default function Business({ params }: { params: { name: string } }) {
             />
           </div>
         </section>
-      </DesktopAligner>
+      </InfoDesktopAligner>
     </main>
   );
 }

@@ -1,15 +1,13 @@
 import Accordion from "@/components/Accordion";
 import { ChartPartyDropdown, ChartYearDropdown } from "@/components/ChartDropdown";
 import InfoBusinessCard from "@/components/Info/InfoBusinessCard";
+import InfoDesktopAligner from "@/components/Info/InfoDesktopAligner";
 import InfoFinancialSection from "@/components/Info/InfoFinancialSection";
 import GoTop from "@/components/Info/InfoGoTop";
 import InfoLawsuitCard from "@/components/Info/InfoLawsuitCard";
 import PersonChart from "@/components/PersonChart";
 import Sharer from "@/components/Sharer";
 import Image from "next/image";
-import Link from "next/link";
-
-import type { ReactNode } from "react";
 
 const DATA = [
   { x: "2558", y1: 1, y2: 3 },
@@ -20,31 +18,14 @@ const DATA = [
   { x: "2563", y1: 2, y2: 4 },
 ];
 
-const DesktopAligner = ({ left, children }: { left: ReactNode; children: ReactNode }) => {
-  return (
-    <div className="flex flex-col lg:flex-row gap-10 lg:max-w-[1280px] lg:mx-auto lg:mb-40">
-      <div className="lg:max-w-[400px] min-w-0">
-        <div className="person-scrollbar sticky top-0 lg:h-screen overflow-y-auto overflow-x-hidden">
-          <div>{left}</div>
-        </div>
-      </div>
-      <div className="flex-1 min-w-0">{children}</div>
-    </div>
-  );
-};
-
 export default function Politician({ params }: { params: { name: string } }) {
   const { name } = params;
-
-  if (decodeURI(name).includes("บริษัท")) {
-    return <main>LOL</main>;
-  }
 
   return (
     <main>
       <GoTop name="สุชาติ ภิญโญ" />
 
-      <DesktopAligner
+      <InfoDesktopAligner
         left={
           <>
             {/* Basic Information */}
@@ -245,38 +226,7 @@ export default function Politician({ params }: { params: { name: string } }) {
         }
       >
         {/* สถานะทางการเงิน */}
-        <InfoFinancialSection />
-
-        {/* เจาะลึกทรัพย์สิน */}
-        <Link
-          href={`${name}/asset`}
-          className="block rounded-10 bg-white border border-white overflow-hidden mb-10 mx-10"
-        >
-          <header className="py-[17px] px-10 bg-asset_explore bg-center bg-cover">
-            <div className="flex justify-between h3">
-              <span>เจาะลึกทรัพย์สิน</span>
-              <Image
-                className="-rotate-90"
-                src="/icons/arr-w.svg"
-                alt=""
-                width={16}
-                height={16}
-              />
-            </div>
-          </header>
-          <div className="p-10">
-            <span className="b4 text-gray-4 font-bold block mb-10">
-              ทรัพย์สินที่แพงที่สุด
-            </span>
-            <div className="flex gap-5 items-start">
-              <Image src="/icons/placeholder.svg" alt="" width={40} height={40} />
-              <div className="flex-1 text-black">
-                <span className="block b5">ห้องชุดเพนท์เฮาส์</span>
-                <span className="block b3 font-bold">92.12 ล้านบาท</span>
-              </div>
-            </div>
-          </div>
-        </Link>
+        <InfoFinancialSection name={name} />
 
         {/* ปุ่มเอกสาร */}
         <div className="flex gap-5 px-10 mb-10">
@@ -306,7 +256,7 @@ export default function Politician({ params }: { params: { name: string } }) {
               และโครงการภาครัฐ
             </span>
           </header>
-          <div className="mt-5 px-15 flex flex-col gap-5">
+          <div className="px-10 flex flex-col gap-10">
             <InfoBusinessCard
               name="บริษัท ทีเอ พีเอ็น เปเปอร์ จำกัด"
               type="อสังหาทรัพย์"
@@ -328,7 +278,7 @@ export default function Politician({ params }: { params: { name: string } }) {
               relation="ผู้ถือหุ้น"
             />
           </div>
-          <footer className="flex gap-2 items-center justify-center text-gray-5 mt-8 mb-10">
+          <footer className="flex gap-2 items-center justify-center text-gray-5 my-10">
             <span>Credit:</span>
             <Image src="/logos/creden.svg" alt="" width={56} height={11} />
           </footer>
@@ -515,7 +465,7 @@ export default function Politician({ params }: { params: { name: string } }) {
             </div>
           </div>
         </section>
-      </DesktopAligner>
+      </InfoDesktopAligner>
     </main>
   );
 }

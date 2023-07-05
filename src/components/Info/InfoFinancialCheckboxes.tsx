@@ -5,15 +5,15 @@ import { useState } from "react";
 import Checkbox from "../Checkbox";
 
 export default function InfoFinancialCheckboxes() {
-  const [self, setSelf] = useState(true);
-  const [spouse, setSpouse] = useState(true);
-  const [child, setChild] = useState(true);
+  const [showActor, setShowActor] = useState(true);
+  const [showSpouse, setShowSpouse] = useState(true);
+  const [showChild, setShowChild] = useState(true);
 
   return (
     <>
       <Checkbox
-        checked={self}
-        setChecked={setSelf}
+        checked={showActor}
+        setChecked={setShowActor}
         checkSrc="/icons/check-w.svg"
         className={{
           checkbox: "bg-black",
@@ -22,8 +22,8 @@ export default function InfoFinancialCheckboxes() {
         <span>ผู้ยื่น</span>
       </Checkbox>
       <Checkbox
-        checked={spouse}
-        setChecked={setSpouse}
+        checked={showSpouse}
+        setChecked={setShowSpouse}
         className={{
           checkbox: "bg-black-40",
         }}
@@ -31,8 +31,8 @@ export default function InfoFinancialCheckboxes() {
         <span>คู่สมรส</span>
       </Checkbox>
       <Checkbox
-        checked={child}
-        setChecked={setChild}
+        checked={showChild}
+        setChecked={setShowChild}
         className={{
           checkbox: "bg-black-20",
         }}
