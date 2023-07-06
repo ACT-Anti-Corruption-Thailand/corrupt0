@@ -89,24 +89,24 @@ const InfoFinancialChart = ({ actor, spouse, child, max }: InfoFinancialChartPro
   return (
     <div
       className="flex border border-black h-20 mb-2 w-[--w]"
-      style={{ "--w": `${~~((total / max) * 100)}%` } as CSSProperties}
+      style={{ "--w": `${(total / max) * 100}%` } as CSSProperties}
     >
       {actor > 0 && (
         <div
           className="w-[--w] bg-black"
-          style={{ "--w": `${~~((actor / total) * 100)}%` } as CSSProperties}
+          style={{ "--w": `${(actor / total) * 100}%` } as CSSProperties}
         />
       )}
       {spouse > 0 && (
         <div
           className="w-[--w] bg-black opacity-40"
-          style={{ "--w": `${~~((spouse / total) * 100)}%` } as CSSProperties}
+          style={{ "--w": `${(spouse / total) * 100}%` } as CSSProperties}
         />
       )}
       {child > 0 && (
         <div
           className="w-[--w] bg-black opacity-20"
-          style={{ "--w": `${~~((child / total) * 100)}%` } as CSSProperties}
+          style={{ "--w": `${(child / total) * 100}%` } as CSSProperties}
         />
       )}
     </div>
