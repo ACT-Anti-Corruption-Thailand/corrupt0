@@ -5,9 +5,12 @@ import Link from "next/link";
 export default function Footer({ className }: { className?: string }) {
   return (
     <footer
-      className={twMerge(`bg-white text-black rounded-t-5 px-12 py-10 b7`, className)}
+      className={twMerge(
+        `bg-white text-black rounded-t-5 px-12 py-10 md:py-30 b7`,
+        className
+      )}
     >
-      <div className="mx-auto max-w-[600px] w-max md:w-auto flex flex-col gap-10">
+      <div className="mx-auto max-w-[600px] w-max md:w-auto flex flex-col gap-10 md:gap-20">
         <a
           className="block mr-auto"
           href="https://actai.co/"
@@ -15,7 +18,7 @@ export default function Footer({ className }: { className?: string }) {
           rel="nofollow noopener noreferrer"
         >
           <Image
-            className="w-auto h-20"
+            className="w-auto h-20 md:h-30"
             src="/logos/actai-k.svg"
             width={26.8}
             height={20}
@@ -135,7 +138,7 @@ export default function Footer({ className }: { className?: string }) {
                   rel="nofollow noopener noreferrer"
                 >
                   <Image
-                    className="w-20 h-20"
+                    className="w-20 h-auto md:w-30"
                     src="/logos/fb.svg"
                     width={20}
                     height={20}
@@ -150,7 +153,7 @@ export default function Footer({ className }: { className?: string }) {
                   rel="nofollow noopener noreferrer"
                 >
                   <Image
-                    className="w-20 h-20"
+                    className="w-20 h-auto md:w-30"
                     src="/logos/tw.svg"
                     width={20}
                     height={20}
@@ -165,7 +168,7 @@ export default function Footer({ className }: { className?: string }) {
                   rel="nofollow noopener noreferrer"
                 >
                   <Image
-                    className="w-20 h-20"
+                    className="w-20 h-auto md:w-30"
                     src="/icons/web.svg"
                     width={20}
                     height={20}
@@ -177,27 +180,28 @@ export default function Footer({ className }: { className?: string }) {
           </div>
         </div>
         <hr className="border-gray-2 w-4/5 mx-auto mix-blend-multiply" />
-        <Link className="inline-block mx-auto" href="/terms">
+        <Link className="inline-block mx-auto font-bold" href="/terms">
           Term & Conditions
         </Link>
+        <hr className="border-gray-2 w-4/5 mx-auto mix-blend-multiply" />
         <div className="flex flex-wrap items-center gap-5 justify-center">
           <span className="text-[#92989F]">Co-Developed by</span>
           <Image
-            className="w-auto h-15"
+            className="w-auto h-15 md:h-[35px]"
             src="/logos/act.png"
             width={15}
             height={15}
             alt="act"
           />
           <Image
-            className="w-auto h-10"
+            className="w-auto h-10 md:h-[21px]"
             src="/logos/hand.svg"
             width={27.3}
             height={10}
             alt="hand"
           />
           <Image
-            className="w-auto h-10"
+            className="w-auto h-10 md:h-[21px]"
             src="/logos/pu.svg"
             width={34.56}
             height={10}
