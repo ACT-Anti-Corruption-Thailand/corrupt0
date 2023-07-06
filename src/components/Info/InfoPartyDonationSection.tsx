@@ -33,7 +33,7 @@ export default function InfoPartyDonationSection() {
       <div className="p-10">
         <div className="flex gap-5 items-center justify-center b5 mb-5">
           <span className="opacity-70">เลือกดูข้อมูลบริจาค</span>
-          <Dropdown data={YEARS} value={year} setValue={setYear} />
+          <Dropdown.Single data={YEARS} value={year} setValue={setYear} />
         </div>
         <p className="text-center mb-8">
           <span className="b4 font-bold">เงินบริจาครวม</span>

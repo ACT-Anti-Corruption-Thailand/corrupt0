@@ -7,17 +7,15 @@ import { Listbox } from "@headlessui/react";
 
 import type { ReactNode } from "react";
 
-type DropdownDataType =
+export type DropdownDataType =
   | string[]
   | {
       data: any;
       label: ReactNode;
     }[];
 
-export interface BareDropdownProps<T extends DropdownDataType> {
+export interface BareDropdownBaseProps<T extends DropdownDataType> {
   data: T;
-  value: T[number];
-  setValue: (value: T[number]) => void;
   arrowSrc?: string;
   className?: {
     root?: string;
@@ -27,15 +25,34 @@ export interface BareDropdownProps<T extends DropdownDataType> {
   };
 }
 
+export interface BareDropdownSingleProps<T extends DropdownDataType>
+  extends BareDropdownBaseProps<T> {
+  value: T[number];
+  setValue: (value: T[number]) => void;
+  multiple?: false;
+}
+
+export interface BareDropdownMultipleProps<T extends DropdownDataType>
+  extends BareDropdownBaseProps<T> {
+  value: T;
+  setValue: (value: T) => void;
+  multiple: true;
+}
+
 export default function BareDropdown<T extends DropdownDataType>({
   data,
   value,
   setValue,
+  multiple,
   arrowSrc,
   className,
-}: BareDropdownProps<T>) {
+}: BareDropdownSingleProps<T> | BareDropdownMultipleProps<T>) {
   return (
-    <Listbox value={value} onChange={setValue}>
+    <Listbox
+      value={value}
+      onChange={multiple ? setValue : setValue}
+      multiple={multiple ?? false}
+    >
       <div className={clsx("relative", className?.root)}>
         <Listbox.Button
           className={clsx(
@@ -44,7 +61,11 @@ export default function BareDropdown<T extends DropdownDataType>({
           )}
         >
           <span className="truncate min-w-0">
-            {typeof value === "string" ? value : value.label}
+            {multiple
+              ? value.map((v) => (typeof v === "string" ? v : v.label)).join(", ")
+              : typeof value === "string"
+              ? value
+              : value.label}
           </span>
           {arrowSrc && (
             <Image
@@ -71,6 +92,7 @@ export default function BareDropdown<T extends DropdownDataType>({
               key={typeof d === "string" ? d : d.data}
               value={d}
             >
+              {multiple && (value.some((v) => v === d) ? "✅" : "⬛️")}
               {typeof d === "string" ? d : d.label}
             </Listbox.Option>
           ))}

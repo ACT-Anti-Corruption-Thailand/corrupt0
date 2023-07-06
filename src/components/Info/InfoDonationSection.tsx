@@ -44,11 +44,11 @@ export default function InfoDonationSection() {
         <div className="flex gap-10 items-center justify-center mb-8 b4">
           <div className="flex gap-5 items-center">
             <span>ดู</span>
-            <Dropdown data={YEARS} value={year} setValue={setYear} />
+            <Dropdown.Single data={YEARS} value={year} setValue={setYear} />
           </div>
           <div className="flex gap-5 items-center">
             <span>ดู</span>
-            <Dropdown data={PARTIES} value={party} setValue={setParty} />
+            <Dropdown.Single data={PARTIES} value={party} setValue={setParty} />
           </div>
         </div>
         <p className="text-center mb-8">
