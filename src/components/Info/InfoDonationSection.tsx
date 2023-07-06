@@ -63,7 +63,16 @@ export default function InfoDonationSection() {
           data={DATA}
         />
         <div className="flex gap-4 flex-col mt-10">
-          <InfoDonationPartyCard />
+          <InfoDonationPartyCard
+            name="พลังประชารัฐ"
+            color="rgb(73,147,254)"
+            isTop10
+            statements={[
+              { date: "A", amount: 5_000 },
+              { date: "B", amount: 100_000 },
+              { date: "C", amount: 1_000_000 },
+            ]}
+          />
         </div>
       </div>
     </section>
