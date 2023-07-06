@@ -3,7 +3,7 @@
 import { useState } from "react";
 
 import Image from "next/image";
-import Dropdown from "../Dropdown";
+import BareDropdown from "../BareDropdown";
 
 const YEARS = [
   {
@@ -58,7 +58,7 @@ export default function InfoFinancialDropdowns({
 
   return (
     <>
-      <Dropdown
+      <BareDropdown
         data={YEARS}
         value={year}
         setValue={setYear}
@@ -66,7 +66,7 @@ export default function InfoFinancialDropdowns({
         className={light ? CLASSNAMES_BLACK : CLASSNAMES_WHITE}
       />
       <div className="flex-1 flex items-center gap-10">
-        <Dropdown
+        <BareDropdown
           data={COMPARE_YEAR}
           value={compareYear}
           setValue={setCompareYear}
