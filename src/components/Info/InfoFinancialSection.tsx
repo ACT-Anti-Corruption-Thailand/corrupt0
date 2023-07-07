@@ -1,18 +1,19 @@
 "use client";
 
 import clsx from "clsx";
-import { useState, Fragment } from "react";
+import { Fragment, useState } from "react";
 
 import InfoFinanceDialog from "@/components/Info/InfoFinanceDialog";
 import InfoFinancialDropdowns from "@/components/Info/InfoFinancialDropdowns";
 import Image from "next/image";
 import Link from "next/link";
 import Accordion from "../Accordion";
-import Checkbox from "../Checkbox";
+import InfoFinancialCheckboxes from "./InfoFinancialCheckboxes";
 
 import { formatMillion, formatThousands } from "@/functions/moneyFormatter";
 
 import type { CSSProperties } from "react";
+import type { DropdownDetailedData } from "../BareDropdown";
 
 const f$ = (value: number) => formatThousands(formatMillion(value), 2);
 
@@ -301,10 +302,40 @@ const MAX = 4e7;
 const SPOUSE_COUNT = 2;
 const CHILD_COUNT = 1;
 
+const YEARS: DropdownDetailedData[] = [
+  {
+    data: "2566",
+    label: (
+      <>
+        <span className="b5 font-bold">2566</span> (พ้นตำแหน่ง)
+      </>
+    ),
+  },
+  {
+    data: "2562",
+    label: (
+      <>
+        <span className="b5 font-bold">2562</span> (ดำรงตำแหน่ง)
+      </>
+    ),
+  },
+];
+
+const COMPARE_YEARS: DropdownDetailedData[] = [
+  {
+    data: null,
+    label: <span className="b6">เลือกปีเปรียบเทียบ</span>,
+  },
+  ...YEARS,
+];
+
 export default function InfoFinancialSection({ name }: { name: string }) {
   const [showActor, setShowActor] = useState(true);
   const [showSpouse, setShowSpouse] = useState(true);
   const [showChild, setShowChild] = useState(true);
+
+  const [currentYear, setCurrentYear] = useState(YEARS[0]);
+  const [compareYear, setCompareYear] = useState(COMPARE_YEARS[0]);
 
   return (
     <section id="financial">
@@ -319,39 +350,26 @@ export default function InfoFinancialSection({ name }: { name: string }) {
           <span className="b5">(กรณีที่ยื่น)</span>
         </div>
         <div className="flex mb-10 gap-10">
-          <InfoFinancialDropdowns />
+          <InfoFinancialDropdowns
+            data={YEARS}
+            compare={COMPARE_YEARS}
+            currentYear={currentYear}
+            setCurrentYear={setCurrentYear}
+            compareYear={compareYear}
+            setCompareYear={setCompareYear}
+          />
         </div>
         {/* การ์ดเงิน */}
         <div className="rounded-10 bg-white p-10 text-black">
           <div className="flex gap-10 items-center justify-center b6 py-5 mb-5">
-            <Checkbox
-              checked={showActor}
-              setChecked={setShowActor}
-              checkSrc="/icons/check-w.svg"
-              className={{
-                checkbox: "bg-black",
-              }}
-            >
-              <span>ผู้ยื่น</span>
-            </Checkbox>
-            <Checkbox
-              checked={showSpouse}
-              setChecked={setShowSpouse}
-              className={{
-                checkbox: "bg-black-40",
-              }}
-            >
-              <span>คู่สมรส</span>
-            </Checkbox>
-            <Checkbox
-              checked={showChild}
-              setChecked={setShowChild}
-              className={{
-                checkbox: "bg-black-20",
-              }}
-            >
-              <span>บุตรที่ยังไม่บรรลุนิติภาวะ</span>
-            </Checkbox>
+            <InfoFinancialCheckboxes
+              showActor={showActor}
+              setShowActor={setShowActor}
+              showSpouse={showSpouse}
+              setShowSpouse={setShowSpouse}
+              showChild={showChild}
+              setShowChild={setShowChild}
+            />
           </div>
           <div className="py-5 mb-5 ml-10">
             <InfoFinanceDialog />

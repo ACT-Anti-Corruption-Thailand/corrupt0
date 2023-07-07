@@ -1,14 +1,26 @@
 "use client";
 
-import { useState } from "react";
-
 import Checkbox from "../Checkbox";
 
-export default function InfoFinancialCheckboxes() {
-  const [showActor, setShowActor] = useState(true);
-  const [showSpouse, setShowSpouse] = useState(true);
-  const [showChild, setShowChild] = useState(true);
+import type { Dispatch, SetStateAction } from "react";
 
+interface InfoFinancialCheckboxesProps {
+  showActor: boolean;
+  showSpouse: boolean;
+  showChild: boolean;
+  setShowActor: Dispatch<SetStateAction<boolean>>;
+  setShowSpouse: Dispatch<SetStateAction<boolean>>;
+  setShowChild: Dispatch<SetStateAction<boolean>>;
+}
+
+export default function InfoFinancialCheckboxes({
+  showActor,
+  showSpouse,
+  showChild,
+  setShowActor,
+  setShowSpouse,
+  setShowChild,
+}: InfoFinancialCheckboxesProps) {
   return (
     <>
       <Checkbox

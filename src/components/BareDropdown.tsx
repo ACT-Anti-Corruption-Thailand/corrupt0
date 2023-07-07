@@ -2,19 +2,19 @@
 
 import clsx from "clsx";
 
-import Image from "next/image";
 import { Listbox } from "@headlessui/react";
+import Image from "next/image";
 
 import type { ReactNode } from "react";
 
-export type DropdownDataType =
-  | string[]
-  | {
-      data: any;
-      label: ReactNode;
-    }[];
+export type DropdownDetailedData = {
+  data: any;
+  label: ReactNode;
+};
 
-export interface BareDropdownBaseProps<T extends DropdownDataType> {
+export type DropdownData = string[] | DropdownDetailedData[];
+
+export interface BareDropdownBaseProps<T extends DropdownData> {
   data: T;
   arrowSrc?: string;
   className?: {
@@ -25,21 +25,21 @@ export interface BareDropdownBaseProps<T extends DropdownDataType> {
   };
 }
 
-export interface BareDropdownSingleProps<T extends DropdownDataType>
+export interface BareDropdownSingleProps<T extends DropdownData>
   extends BareDropdownBaseProps<T> {
   value: T[number];
   setValue: (value: T[number]) => void;
   multiple?: false;
 }
 
-export interface BareDropdownMultipleProps<T extends DropdownDataType>
+export interface BareDropdownMultipleProps<T extends DropdownData>
   extends BareDropdownBaseProps<T> {
   value: T;
   setValue: (value: T) => void;
   multiple: true;
 }
 
-export default function BareDropdown<T extends DropdownDataType>({
+export default function BareDropdown<T extends DropdownData>({
   data,
   value,
   setValue,

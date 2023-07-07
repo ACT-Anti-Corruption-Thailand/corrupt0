@@ -1,36 +1,9 @@
 "use client";
 
-import { useState } from "react";
-
 import Image from "next/image";
-import BareDropdown from "../BareDropdown";
+import BareDropdown, { type DropdownDetailedData } from "../BareDropdown";
 
-const YEARS = [
-  {
-    data: "2566",
-    label: (
-      <>
-        <span className="b5 font-bold">2566</span> (พ้นตำแหน่ง)
-      </>
-    ),
-  },
-  {
-    data: "2562",
-    label: (
-      <>
-        <span className="b5 font-bold">2562</span> (ดำรงตำแหน่ง)
-      </>
-    ),
-  },
-];
-
-const COMPARE_YEAR = [
-  {
-    data: null,
-    label: <span className="b6">เลือกปีเปรียบเทียบ</span>,
-  },
-  ...YEARS,
-];
+import type { Dispatch, SetStateAction } from "react";
 
 const CLASSNAMES_BLACK = {
   root: "flex-1",
@@ -47,34 +20,43 @@ const CLASSNAMES_WHITE = {
 };
 
 interface FinancialDropdownsProps {
+  data: DropdownDetailedData[];
+  compare: DropdownDetailedData[];
+  currentYear: DropdownDetailedData;
+  setCurrentYear: Dispatch<SetStateAction<DropdownDetailedData>>;
+  compareYear: DropdownDetailedData;
+  setCompareYear: Dispatch<SetStateAction<DropdownDetailedData>>;
   light?: boolean;
 }
 
 export default function InfoFinancialDropdowns({
+  data,
+  compare,
+  currentYear,
+  setCurrentYear,
+  compareYear,
+  setCompareYear,
   light = false,
 }: FinancialDropdownsProps) {
-  const [year, setYear] = useState(YEARS[0]);
-  const [compareYear, setCompareYear] = useState(COMPARE_YEAR[0]);
-
   return (
     <>
       <BareDropdown
-        data={YEARS}
-        value={year}
-        setValue={setYear}
+        data={data}
+        value={currentYear}
+        setValue={setCurrentYear}
         arrowSrc={light ? "/icons/caret-k.svg" : "/icons/caret-w.svg"}
         className={light ? CLASSNAMES_BLACK : CLASSNAMES_WHITE}
       />
       <div className="flex-1 flex items-center gap-10">
         <BareDropdown
-          data={COMPARE_YEAR}
+          data={compare}
           value={compareYear}
           setValue={setCompareYear}
           arrowSrc={light ? "/icons/caret-k.svg" : "/icons/caret-w.svg"}
           className={light ? CLASSNAMES_BLACK : CLASSNAMES_WHITE}
         />
         {compareYear.data && (
-          <button type="button" onClick={() => setCompareYear(COMPARE_YEAR[0])}>
+          <button type="button" onClick={() => setCompareYear(compare[0])}>
             <Image
               src={light ? "/icons/circle-cross-k.svg" : "/icons/circle-cross.svg"}
               width={20}

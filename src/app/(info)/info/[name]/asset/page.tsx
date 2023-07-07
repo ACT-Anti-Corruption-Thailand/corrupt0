@@ -1,13 +1,17 @@
-import { notFound } from "next/navigation";
+"use client";
 
+import { notFound } from "next/navigation";
+import { useState } from "react";
+
+import InfoAssetAccordion from "@/components/Info/Asset/InfoAssetAccordion";
+import InfoAssetPopover from "@/components/Info/Asset/InfoAssetPopover";
 import InfoFinancialCheckboxes from "@/components/Info/InfoFinancialCheckboxes";
 import InfoFinancialDropdowns from "@/components/Info/InfoFinancialDropdowns";
-import InfoAssetAccordion from "@/components/InfoAsset/InfoAssetAccordion";
-import InfoAssetPopover from "@/components/InfoAsset/InfoAssetPopover";
 import Image from "next/image";
 
 import { POLITICIANS } from "@/data/pagelist";
 
+import type { DropdownDetailedData } from "@/components/BareDropdown";
 import type {
   InfoAssetBuildingStatement,
   InfoAssetConcessionStatement,
@@ -15,7 +19,7 @@ import type {
   InfoAssetStatement,
   InfoAssetValuableStatement,
   InfoAssetVehicleStatement,
-} from "@/components/InfoAsset/InfoAssetAccordion";
+} from "@/components/Info/Asset/InfoAssetAccordion";
 
 export async function generateStaticParams() {
   return POLITICIANS.map((pos) => ({
@@ -198,12 +202,46 @@ const EXAMPLE_VALUABLE_STATEMENTS: InfoAssetValuableStatement = {
   ],
 };
 
+const YEARS: DropdownDetailedData[] = [
+  {
+    data: "2566",
+    label: (
+      <>
+        <span className="b5 font-bold">2566</span> (พ้นตำแหน่ง)
+      </>
+    ),
+  },
+  {
+    data: "2562",
+    label: (
+      <>
+        <span className="b5 font-bold">2562</span> (ดำรงตำแหน่ง)
+      </>
+    ),
+  },
+];
+
+const COMPARE_YEARS: DropdownDetailedData[] = [
+  {
+    data: null,
+    label: <span className="b6">เลือกปีเปรียบเทียบ</span>,
+  },
+  ...YEARS,
+];
+
 interface AssetPageProps {
   params: Awaited<ReturnType<typeof generateStaticParams>>[number];
 }
 
 export default function Asset({ params }: AssetPageProps) {
   if (POLITICIANS.some((name) => name === decodeURI(params.name))) notFound();
+
+  const [showActor, setShowActor] = useState(true);
+  const [showSpouse, setShowSpouse] = useState(true);
+  const [showChild, setShowChild] = useState(true);
+
+  const [currentYear, setCurrentYear] = useState(YEARS[0]);
+  const [compareYear, setCompareYear] = useState(COMPARE_YEARS[0]);
 
   return (
     <main>
@@ -235,10 +273,25 @@ export default function Asset({ params }: AssetPageProps) {
           <span className="b3 font-bold">ปีที่ยื่นบัญชี</span> (กรณีที่ยื่น)
         </h2>
         <div className="flex mb-10 gap-10 px-10">
-          <InfoFinancialDropdowns light />
+          <InfoFinancialDropdowns
+            light
+            data={YEARS}
+            compare={COMPARE_YEARS}
+            currentYear={currentYear}
+            setCurrentYear={setCurrentYear}
+            compareYear={compareYear}
+            setCompareYear={setCompareYear}
+          />
         </div>
         <div className="flex gap-10 items-center justify-center b6 py-5">
-          <InfoFinancialCheckboxes />
+          <InfoFinancialCheckboxes
+            showActor={showActor}
+            setShowActor={setShowActor}
+            showSpouse={showSpouse}
+            setShowSpouse={setShowSpouse}
+            showChild={showChild}
+            setShowChild={setShowChild}
+          />
         </div>
         <span className="block text-center b5 mb-10">หน่วย: บาท</span>
         <InfoAssetAccordion.Cash name="เงินสด" statements={EXAMPLE_CASH_STATEMENTS} />
