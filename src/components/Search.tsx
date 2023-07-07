@@ -8,13 +8,12 @@ import Image from "next/image";
 
 interface SearchProps {
   data: {
-    id: number;
     name: string;
-    title: string;
+    title?: string;
   }[];
   placeholder: string;
-  selected: any;
-  setSelected: React.Dispatch<React.SetStateAction<string>>
+  selected: object;
+  setSelected: React.Dispatch<React.SetStateAction<object>>
 }
 
 const Search = (props: SearchProps) => {
@@ -63,9 +62,9 @@ const Search = (props: SearchProps) => {
                 Nothing found.
               </div>
             ) : (
-              filteredPeople.map((person) => (
+              filteredPeople.map((person, index) => (
                 <Combobox.Option
-                  key={person.id}
+                  key={index}
                   className={({ active }) =>
                     `relative cursor-default select-none py-2 pl-10 pr-4 ${
                       active ? "bg-gray-1 text-black" : "text-gray-900"
@@ -81,7 +80,7 @@ const Search = (props: SearchProps) => {
                         }`}
                       >
                         <div className="text-24">{person.name}</div>
-                        <div className="b5 text-gray-4">{person.title}</div>
+                        <div className="b5 text-gray-4">{person.title ? person.title : ""}</div>
                       </span>
                     </>
                   )}

@@ -11,7 +11,103 @@ import ChartSort from "@/components/ChartSort";
 import Dropdown from "@/components/Dropdown";
 
 export default function Donation() {
+  //<----Mock Data---->
+  //Page Global
   const YEARS = ["ทุกปี", "2566", "2565", "2564", "2563", "2562"];
+
+  //For Party Section
+  const totalPartyDonationAmount = [ //sum of donation each year
+    {
+      year: "2566",
+      amount: 1000000,
+    },
+    {
+      year: "2565",
+      amount: 1000000,
+    }
+  ];
+  const PartyDonation = [
+    {
+      name: "พลังประชารัฐ",
+      img: "/icons/person.svg",
+      color: "blue",
+      year: "2566",
+      receiveAmount: 800000,
+    },
+    {
+      name: "พลังไทยดี",
+      img: "/icons/person.svg",
+      color: "red",
+      year: "2566",
+      receiveAmount: 200000,
+    },
+    {
+      name: "เสรีรวมไทย",
+      img: "/icons/person.svg",
+      color: "yellow",
+      year: "2565",
+      receiveAmount: 500000,
+    }
+  ]
+
+  //For individual section
+  const DonationTypes = [
+    "ทุกประเภท",
+    "นิติบุคคล",
+    "ตำเเหน่งทางการเมือง",
+    "บุคคลทั่วไป",
+    "สมาชิกสภาผู้แทนราษฏร"
+  ];
+  const individualDonors = [
+    {
+      name: "นาย สมชาย ใจดี",
+      title: "สมาชิกสภาผู้แทนราษฏร",
+      img: "/icons/person.svg",
+      year: "2566",
+      totalAmount: 1000000,
+      donation: [
+        {
+          color: "blue",
+          amount: 400000,
+        },
+        {
+          color: "red",
+          amount: 100000,
+        },
+        {
+          color: "yellow",
+          amount: 500000,
+        },
+      ]
+    },
+    {
+      name: "บริษัท เที่ยวมั้ยหนู จำกัด",
+      title: "นิติบุคคล",
+      img: "/icons/person.svg",
+      year: "2566",
+      totalAmount: 1000000,
+      donation: [
+        {
+          color: "blue",
+          amount: 1000000,
+        }
+      ]
+    },
+    {
+      name: "บริษัท โห่จาร จำกัด",
+      title: "นิติบุคคล",
+      img: "/icons/person.svg",
+      year: "2565",
+      totalAmount: 1000000,
+      donation: [
+        {
+          color: "red",
+          amount: 1000000,
+        }
+      ]
+    }
+  ]
+  //<-------------->
 
   const people = [
     { id: 1, name: "Wade Cooper", title: "Regional Paradigm Technician" },
@@ -57,12 +153,7 @@ export default function Donation() {
     }
   ];
 
-  const DonationTypes = [
-    "ทุกประเภท",
-    "นิติบุคคล",
-    "ตำเเหน่งทางการเมือง",
-    "บุคคลทั่วไป",
-  ];
+
 
   const Party = [
     {
@@ -79,11 +170,14 @@ export default function Donation() {
     },
   ];
 
-  const [selected, setSelected] = React.useState("");
-  const [partySortYear, setPartySortYear] = React.useState(YEARS[0]);
-  const [IndividualSortYear, setIndividualSortYear] = React.useState(YEARS[0]);
-  const [donationType, setDonationType] = React.useState(DonationTypes[0]);
+  const [partySearch, setPartySearch] = React.useState({});
+  const [partyFilterYear, setPartySortYear] = React.useState(YEARS[0]);
 
+  const [individualSearch, setIndividualSearch] = React.useState({});
+  const [individualFilterYear, setIndividualFilterYear] = React.useState(YEARS[0]);
+  const [individualFilterType, setIndividualFilterType] = React.useState(DonationTypes[0]);
+
+  //TODO: Ascending and Descending sort approach (consult with p'mumu)
   return (
     <>
       <section className="flex flex-col items-center">
@@ -116,37 +210,43 @@ export default function Donation() {
         </div>
         <div className="flex flex-row items-center gap-10 my-10 lg:my-30">
           <p className="text-gray-4 b4 lg:b3">ในปี</p>
-          <Dropdown
+          <Dropdown.Single
             data={YEARS}
-            value={partySortYear}
+            value={partyFilterYear}
             setValue={setPartySortYear}
           />
           <ChartSort name="party-donation-sort" />
         </div>
         <Search
           placeholder="ค้นหาด้วยชื่อพรรคการเมือง"
-          data={people}
-          selected={selected}
-          setSelected={setSelected}
+          data={PartyDonation}
+          selected={partySearch}
+          setSelected={setPartySearch}
         />
         <div className="flex flex-col items-center text-center text-18 lg:b4 pb-10 lg:pb-30 w-[90vw] min-w-[300px] max-w-[850px]">
-          {/* TODO: New component named PartyCard */}
-          <EntityBarCard
-            name="สุชาติ ภิญโญ"
-            title="สมาชิกวุฒิสภา"
-            color="white"
-            amount={1637239}
-            maxAmount={10000000}
-            imgPath="/icons/person.svg"
-          />
-          <EntityBarCard
-            name="สุชาติ ภิญโญ"
-            title="สมาชิกวุฒิสภา"
-            color="white"
-            amount={1637239}
-            maxAmount={10000000}
-            imgPath="/icons/person.svg"
-          />
+          {Object.keys(partySearch).length ? (
+            <EntityBarCard
+              name={partySearch.name}
+              title=""
+              color={partySearch.color}
+              amount={partySearch.receiveAmount}
+              maxAmount={totalPartyDonationAmount.filter(e => e.year.includes(partySearch.year))[0].amount}
+              imgPath={partySearch.img}
+            />
+          ) : (
+            PartyDonation.filter((d) => partyFilterYear !== "ทุกปี" ? d.year === partyFilterYear : d.year).map((party, index) => (
+              <EntityBarCard
+                name={party.name}
+                title=""
+                color={party.color}
+                amount={party.receiveAmount}
+                maxAmount={totalPartyDonationAmount.filter(e => e.year.includes(party.year))[0].amount}
+                imgPath={party.img}
+                key={index}
+              />
+            ))
+          )
+          }
         </div>
         <div className="flex justify-center items-center gap-10 bg-gray-6 w-screen py-10 my-10 lg:py-15 lg:my-30 text-24 lg:h3">
           <Image
@@ -163,16 +263,16 @@ export default function Donation() {
         </p>
         <div className="flex flex-row items-center gap-10 my-10 lg:my-30">
           <p className="text-gray-4 b4 lg:b3">แสดง</p>
-          <Dropdown
+          <Dropdown.Single
             data={DonationTypes}
-            value={donationType}
-            setValue={setDonationType}
+            value={individualFilterType}
+            setValue={setIndividualFilterType}
           />
           <p className="text-gray-4 b4 lg:b3">ในปี</p>
-          <Dropdown
+          <Dropdown.Single
             data={YEARS}
-            value={IndividualSortYear}
-            setValue={setIndividualSortYear}
+            value={individualFilterYear}
+            setValue={setIndividualFilterYear}
           />
           <ChartSort name="individual-donation-sort" />
         </div>
@@ -197,18 +297,34 @@ export default function Donation() {
         </div>
         <Search
           placeholder="ค้นหาด้วยชื่อบุคคล/นิติบุคคล"
-          data={people}
-          selected={selected}
-          setSelected={setSelected}
+          data={individualDonors}
+          selected={individualSearch}
+          setSelected={setIndividualSearch}
         />
         <div className="flex flex-col items-center text-center text-18 lg:b4 pb-10 lg:pb-30 w-[90vw] min-w-[300px] max-w-[850px]">
-          <EntityStackedBarCard
-            name="พลังประชารัฐ"
-            title=""
-            data={Party}
-            maxAmount={2000000}
-            imgPath="/icons/person.svg"
-          />
+          {
+            Object.keys(individualSearch).length ? (
+              <EntityStackedBarCard
+                name={individualSearch.name}
+                title={individualSearch.title}
+                data={individualSearch.donation}
+                maxAmount={individualSearch.totalAmount}
+                imgPath={individualSearch.img}
+              />
+            ) : (
+              individualDonors.filter((d) => individualFilterYear === "ทุกปี" && individualFilterType === "ทุกประเภท" ? true : individualFilterYear === "ทุกปี" && individualFilterType !== "ทุกประเภท" ? (d.title === individualFilterType) : individualFilterYear !== "ทุกปี" && individualFilterType === "ทุกประเภท" ? (d.year === individualFilterYear) : (d.year === individualFilterYear && d.title === individualFilterType)).map((individual, index) => (
+                <EntityStackedBarCard
+                  name={individual.name}
+                  title={individual.title}
+                  data={individual.donation}
+                  maxAmount={individual.totalAmount}
+                  imgPath={individual.img}
+                  key={index}
+                />
+              ))
+            )
+
+          }
         </div>
       </section>
     </>
