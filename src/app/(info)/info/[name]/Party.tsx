@@ -1,6 +1,6 @@
-import InfoDesktopAligner from "@/components/Info/InfoDesktopAligner";
-import GoTop from "@/components/Info/InfoGoTop";
-import InfoPartyDonationSection from "@/components/Info/InfoPartyDonationSection";
+import InfoDesktopAligner from "@/components/Info/DesktopAligner";
+import GoTop from "@/components/Info/GoTop";
+import InfoPartyDonationSection from "@/components/Info/_Donation/PartySection";
 import Sharer from "@/components/Sharer";
 import Image from "next/image";
 

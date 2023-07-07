@@ -1,6 +1,6 @@
 "use client";
 
-import Checkbox from "../Checkbox";
+import Checkbox from "../../Checkbox";
 
 import type { Dispatch, SetStateAction } from "react";
 

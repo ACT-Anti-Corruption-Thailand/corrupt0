@@ -3,8 +3,8 @@
 import { useState } from "react";
 
 import Image from "next/image";
-import Dropdown from "../Dropdown";
-import PersonChart from "../PersonChart";
+import Dropdown from "../../Dropdown";
+import InfoDonationChart from "./Chart";
 
 const DATA = [
   { x: "2558", y1: 1, y2: 3 },
@@ -40,7 +40,7 @@ export default function InfoPartyDonationSection() {
           <br />
           <span className="b2">000 ล้านบาท</span>
         </p>
-        <PersonChart
+        <InfoDonationChart
           x="x"
           y={["y1", "y2"]}
           yColors={["#6DD4FF", "#4993FE"]}

@@ -1,7 +1,7 @@
-import InfoDesktopAligner from "@/components/Info/InfoDesktopAligner";
-import InfoDonationSection from "@/components/Info/InfoDonationSection";
-import GoTop from "@/components/Info/InfoGoTop";
-import InfoLawsuitCard from "@/components/Info/InfoLawsuitCard";
+import InfoDesktopAligner from "@/components/Info/DesktopAligner";
+import InfoDonationSection from "@/components/Info/_Donation/Section";
+import GoTop from "@/components/Info/GoTop";
+import InfoLawsuitCard from "@/components/Info/LawsuitCard";
 import Sharer from "@/components/Sharer";
 import Image from "next/image";
 

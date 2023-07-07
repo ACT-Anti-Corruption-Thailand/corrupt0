@@ -3,10 +3,10 @@
 import { notFound } from "next/navigation";
 import { useState } from "react";
 
-import InfoAssetAccordion from "@/components/Info/Asset/InfoAssetAccordion";
-import InfoAssetPopover from "@/components/Info/Asset/InfoAssetPopover";
-import InfoFinancialCheckboxes from "@/components/Info/InfoFinancialCheckboxes";
-import InfoFinancialDropdowns from "@/components/Info/InfoFinancialDropdowns";
+import InfoAssetAccordion from "@/components/Info/Asset/Accordion";
+import InfoAssetPopover from "@/components/Info/Asset/Popover";
+import InfoFinancialCheckboxes from "@/components/Info/_Financial/Checkboxes";
+import InfoFinancialDropdowns from "@/components/Info/_Financial/Dropdowns";
 import Image from "next/image";
 
 import { POLITICIANS } from "@/data/pagelist";
@@ -19,7 +19,7 @@ import type {
   InfoAssetStatement,
   InfoAssetValuableStatement,
   InfoAssetVehicleStatement,
-} from "@/components/Info/Asset/InfoAssetAccordion";
+} from "@/components/Info/Asset/Accordion";
 
 export async function generateStaticParams() {
   return POLITICIANS.map((pos) => ({

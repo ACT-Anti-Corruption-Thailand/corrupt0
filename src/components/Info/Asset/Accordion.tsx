@@ -3,7 +3,7 @@ import { twMerge } from "tailwind-merge";
 
 import Accordion from "@/components/Accordion";
 import Image from "next/image";
-import InfoAssetPopover from "./InfoAssetPopover";
+import InfoAssetPopover from "./Popover";
 
 import type { ReactNode } from "react";
 

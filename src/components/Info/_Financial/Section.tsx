@@ -3,17 +3,17 @@
 import clsx from "clsx";
 import { Fragment, useState } from "react";
 
-import InfoFinanceDialog from "@/components/Info/InfoFinanceDialog";
-import InfoFinancialDropdowns from "@/components/Info/InfoFinancialDropdowns";
+import InfoFinanceDialog from "@/components/Info/_Financial/Dialog";
+import InfoFinancialDropdowns from "@/components/Info/_Financial/Dropdowns";
 import Image from "next/image";
 import Link from "next/link";
-import Accordion from "../Accordion";
-import InfoFinancialCheckboxes from "./InfoFinancialCheckboxes";
+import Accordion from "../../Accordion";
+import InfoFinancialCheckboxes from "./Checkboxes";
 
 import { formatMillion, formatThousands } from "@/functions/moneyFormatter";
 
 import type { CSSProperties } from "react";
-import type { DropdownDetailedData } from "../BareDropdown";
+import type { DropdownDetailedData } from "../../BareDropdown";
 
 const f$ = (value: number) => formatThousands(formatMillion(value), 2);
 

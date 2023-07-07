@@ -55,19 +55,19 @@ const LineDot = ({ key, cx, cy, width, height, stroke, r }: LineDotProps) => (
 );
 
 // Main
-interface PersonChartProps<X extends string, Y extends readonly string[]> {
+interface InfoDonationChartProps<X extends string, Y extends readonly string[]> {
   x: X;
   y: Y;
   yColors: string[];
   data: (Record<X, string> | Record<Y[number], number>)[];
 }
 
-export default function PersonChart<X extends string, Y extends readonly string[]>({
+export default function InfoDonationChart<X extends string, Y extends readonly string[]>({
   x,
   y,
   yColors,
   data,
-}: PersonChartProps<X, Y>) {
+}: InfoDonationChartProps<X, Y>) {
   if (y.length !== yColors.length)
     throw new Error(
       `PersonChart: \`y\` and \`yColors\` length don't match. Found ${y.length} and ${yColors.length}`

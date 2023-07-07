@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Accordion from "../Accordion";
+import Accordion from "../../Accordion";
 import Link from "next/link";
 
 import { formatThousands, thaiMoneyFormatter } from "@/functions/moneyFormatter";

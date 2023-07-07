@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import BareDropdown, { type DropdownDetailedData } from "../BareDropdown";
+import BareDropdown, { type DropdownDetailedData } from "../../BareDropdown";
 
 import type { Dispatch, SetStateAction } from "react";
 

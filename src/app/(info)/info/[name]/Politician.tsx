@@ -1,10 +1,10 @@
 import Accordion from "@/components/Accordion";
-import InfoBusinessCard from "@/components/Info/InfoBusinessCard";
-import InfoDesktopAligner from "@/components/Info/InfoDesktopAligner";
-import InfoDonationSection from "@/components/Info/InfoDonationSection";
-import InfoFinancialSection from "@/components/Info/InfoFinancialSection";
-import GoTop from "@/components/Info/InfoGoTop";
-import InfoLawsuitCard from "@/components/Info/InfoLawsuitCard";
+import InfoBusinessCard from "@/components/Info/BusinessCard";
+import InfoDesktopAligner from "@/components/Info/DesktopAligner";
+import InfoDonationSection from "@/components/Info/_Donation/Section";
+import InfoFinancialSection from "@/components/Info/_Financial/Section";
+import GoTop from "@/components/Info/GoTop";
+import InfoLawsuitCard from "@/components/Info/LawsuitCard";
 import Sharer from "@/components/Sharer";
 import Image from "next/image";
 
