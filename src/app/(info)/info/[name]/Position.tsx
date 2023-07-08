@@ -19,6 +19,8 @@ import Search from "@/components/Search";
 import EntityBarCard from "@/components/EntityBarCard";
 
 export default function Position({ params }: { params: { name: string } }) {
+  const position = decodeURI(params.name);
+
   const data = [
     {
       name: 1000000,
@@ -70,10 +72,7 @@ export default function Position({ params }: { params: { name: string } }) {
           setSelected={setSelected}
         />
         <div className="w-[85vw] border-1 border-gray-4 lg:mt-20 lg:w-full" />
-        <p className="text-30 font-black text-white my-15 lg:h2">
-          สมาชิกวุฒิสภา
-          {/* todo: change to dynamic routing */}
-        </p>
+        <p className="text-30 font-black text-white my-15 lg:h2">{position}</p>
         <div className="flex flex-col items-center text-center text-18 lg:b4">
           <Tab.Group>
             <Tab.List className="flex flex-row items-center">
