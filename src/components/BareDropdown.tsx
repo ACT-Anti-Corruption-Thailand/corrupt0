@@ -43,6 +43,30 @@ export default function BareDropdown<T extends DropdownData>({
   data,
   value,
   setValue,
+  multiple = true,
+  arrowSrc,
+  className,
+}: BareDropdownMultipleProps<T>): JSX.Element
+export default function BareDropdown<T extends DropdownData>({
+  data,
+  value,
+  setValue,
+  multiple = false,
+  arrowSrc,
+  className,
+}: BareDropdownSingleProps<T>): JSX.Element
+export default function BareDropdown<T extends DropdownData>({
+  data,
+  value,
+  setValue,
+  multiple = undefined,
+  arrowSrc,
+  className,
+}: BareDropdownSingleProps<T>): JSX.Element
+export default function BareDropdown<T extends DropdownData>({
+  data,
+  value,
+  setValue,
   multiple,
   arrowSrc,
   className,

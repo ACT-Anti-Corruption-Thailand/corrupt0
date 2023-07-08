@@ -2,7 +2,7 @@
 
 import BareDropdown from "./BareDropdown";
 
-import type { BareDropdownMultipleProps, BareDropdownSingleProps } from "./BareDropdown";
+import type { BareDropdownBaseProps, DropdownData } from "./BareDropdown";
 
 const CLASSNAME = {
   button:
@@ -12,42 +12,40 @@ const CLASSNAME = {
     "px-5 py-2 bg-white border-b border-b-gray-5 last:border-b-0 text-black b4 ui-selected:bg-gray-2 ui-active:bg-gray-2",
 };
 
-function Single({
-  data,
-  value,
-  setValue,
-}: Omit<BareDropdownSingleProps<string[]>, "multiple" | "arrowSrc" | "className">) {
-  return (
-    <BareDropdown
-      data={data}
-      value={value}
-      setValue={setValue}
-      arrowSrc="/icons/caret-w.svg"
-      className={CLASSNAME}
-    />
-  );
+type DropdownBaseProps<T extends DropdownData> = Omit<
+  BareDropdownBaseProps<T>,
+  "arrowSrc" | "className"
+>;
+
+export interface DropdownSingleProps<T extends DropdownData>
+  extends DropdownBaseProps<T> {
+  value: T[number];
+  setValue: (value: T[number]) => void;
+  multiple?: false;
 }
 
-function Multiple({
+export interface DropdownMultipleProps<T extends DropdownData>
+  extends DropdownBaseProps<T> {
+  value: T;
+  setValue: (value: T) => void;
+  multiple: true;
+}
+
+export default function Dropdown({
   data,
   value,
   setValue,
-}: Omit<BareDropdownMultipleProps<string[]>, "multiple" | "arrowSrc" | "className">) {
-  return (
+  multiple,
+}: DropdownSingleProps<string[]> | DropdownMultipleProps<string[]>) {
+  return multiple ? (
     <BareDropdown
+      className={CLASSNAME}
       data={data}
       value={value}
       setValue={setValue}
       multiple
-      arrowSrc="/icons/caret-w.svg"
-      className={CLASSNAME}
     />
+  ) : (
+    <BareDropdown className={CLASSNAME} data={data} value={value} setValue={setValue} />
   );
 }
-
-const Dropdown = {
-  Single,
-  Multiple,
-};
-
-export default Dropdown;
