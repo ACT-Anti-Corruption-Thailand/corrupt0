@@ -1,5 +1,3 @@
-import Image from "next/image";
-
 interface ImgCardProps {
   imgPath: string;
   children?: React.ReactNode;

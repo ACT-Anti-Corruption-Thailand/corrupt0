@@ -24,7 +24,17 @@ const Card = (props: CardProps) => {
         <div className="mx-40">{props.title}</div>
       </div>
       <div className="flex flex-row mx-10 my-15">
-        <Image src={props.icon!} width={40} height={40} alt="icon" className="h-[25px] lg:h-[40px]" />
+        {props.icon ? (
+          <Image
+            src={props.icon}
+            width={40}
+            height={40}
+            alt="icon"
+            className="aspect-square w-auto h-[25px] lg:h-[40px]"
+          />
+        ) : (
+          <div className="aspect-square w-auto h-[25px] lg:h-[40px]" />
+        )}
         <div className="text-left ml-5">
           <p className="text-gray-5 text-14">{props.type}</p>
           <p className="">{props.name}</p>

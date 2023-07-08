@@ -1,5 +1,11 @@
 {
-  "extends": "next/core-web-vitals",
+  "parser": "@typescript-eslint/parser",
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "next/core-web-vitals"
+  ],
+  "plugins": ["import", "@typescript-eslint"],
   "rules": {
     "react/self-closing-comp": [
       "warn",
@@ -7,6 +13,10 @@
         "component": true,
         "html": true
       }
-    ]
+    ],
+    "import/consistent-type-specifier-style": ["error", "prefer-top-level"],
+    "@typescript-eslint/consistent-type-imports": "error",
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/no-unused-vars": "off"
   }
 }

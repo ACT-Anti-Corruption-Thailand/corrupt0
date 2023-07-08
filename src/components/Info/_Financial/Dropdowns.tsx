@@ -1,9 +1,10 @@
 "use client";
 
 import Image from "next/image";
-import BareDropdown, { type DropdownDetailedData } from "../../BareDropdown";
+import BareDropdown from "../../BareDropdown";
 
 import type { Dispatch, SetStateAction } from "react";
+import type { DropdownDetailedData } from "../../BareDropdown";
 
 const CLASSNAMES_BLACK = {
   root: "flex-1",

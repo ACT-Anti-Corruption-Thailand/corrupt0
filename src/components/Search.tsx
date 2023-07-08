@@ -1,9 +1,11 @@
 "use client";
 
-import React, { type Dispatch, type SetStateAction } from "react";
-import { useEffect, Fragment } from "react";
+import React from "react";
+import { Fragment } from "react";
 import { Combobox, Transition } from "@headlessui/react";
 import Image from "next/image";
+
+import type { Dispatch, SetStateAction } from "react";
 
 type SearchData = {
   name?: string;
