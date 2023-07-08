@@ -1,22 +1,23 @@
 "use client";
 
-import React from "react";
+import React, { type Dispatch, type SetStateAction } from "react";
 import { useEffect, Fragment } from "react";
 import { Combobox, Transition } from "@headlessui/react";
 import Image from "next/image";
 
+type SearchData = {
+  name: string;
+  title?: string;
+};
 
-interface SearchProps {
-  data: {
-    name: string;
-    title?: string;
-  }[];
+interface SearchProps<T extends SearchData> {
+  data: T[];
   placeholder: string;
-  selected: object;
-  setSelected: React.Dispatch<React.SetStateAction<object>>
+  selected: T | null;
+  setSelected: Dispatch<SetStateAction<T | null>>;
 }
 
-const Search = (props: SearchProps) => {
+function Search<T extends SearchData>(props: SearchProps<T>) {
   const [query, setQuery] = React.useState("");
 
   const filteredPeople =
@@ -80,7 +81,9 @@ const Search = (props: SearchProps) => {
                         }`}
                       >
                         <div className="text-24">{person.name}</div>
-                        <div className="b5 text-gray-4">{person.title ? person.title : ""}</div>
+                        <div className="b5 text-gray-4">
+                          {person.title ? person.title : ""}
+                        </div>
                       </span>
                     </>
                   )}
@@ -92,6 +95,6 @@ const Search = (props: SearchProps) => {
       </div>
     </Combobox>
   );
-};
+}
 
 export default Search;

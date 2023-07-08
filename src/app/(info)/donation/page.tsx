@@ -10,172 +10,154 @@ import EntityStackedBarCard from "@/components/EntityStackedBarCard";
 import ChartSort from "@/components/ChartSort";
 import Dropdown from "@/components/Dropdown";
 
+//<----Mock Data---->
+//Page Global
+const YEARS = ["ทุกปี", "2566", "2565", "2564", "2563", "2562"];
+
+//For Party Section
+const TOTAL_PARTY_DONATION_AMOUNT = [
+  //sum of donation each year
+  {
+    year: "2566",
+    amount: 1000000,
+  },
+  {
+    year: "2565",
+    amount: 1000000,
+  },
+];
+
+const PARTY_DONATION = [
+  {
+    name: "พลังประชารัฐ",
+    img: "/icons/person.svg",
+    color: "blue",
+    year: "2566",
+    receiveAmount: 800000,
+  },
+  {
+    name: "พลังไทยดี",
+    img: "/icons/person.svg",
+    color: "red",
+    year: "2566",
+    receiveAmount: 200000,
+  },
+  {
+    name: "เสรีรวมไทย",
+    img: "/icons/person.svg",
+    color: "yellow",
+    year: "2565",
+    receiveAmount: 500000,
+  },
+];
+// TODO: Manually Typing
+type PartySearchSchema = (typeof PARTY_DONATION)[number];
+
+//For individual section
+const DONATION_TYPES = [
+  "ทุกประเภท",
+  "นิติบุคคล",
+  "ตำเเหน่งทางการเมือง",
+  "บุคคลทั่วไป",
+  "สมาชิกสภาผู้แทนราษฏร",
+];
+
+const INDIVIDUAL_DONORS = [
+  {
+    name: "นาย สมชาย ใจดี",
+    title: "สมาชิกสภาผู้แทนราษฏร",
+    img: "/icons/person.svg",
+    year: "2566",
+    totalAmount: 1000000,
+    donation: [
+      {
+        color: "blue",
+        amount: 400000,
+      },
+      {
+        color: "red",
+        amount: 100000,
+      },
+      {
+        color: "yellow",
+        amount: 500000,
+      },
+    ],
+  },
+  {
+    name: "บริษัท เที่ยวมั้ยหนู จำกัด",
+    title: "นิติบุคคล",
+    img: "/icons/person.svg",
+    year: "2566",
+    totalAmount: 1000000,
+    donation: [
+      {
+        color: "blue",
+        amount: 1000000,
+      },
+    ],
+  },
+  {
+    name: "บริษัท โห่จาร จำกัด",
+    title: "นิติบุคคล",
+    img: "/icons/person.svg",
+    year: "2565",
+    totalAmount: 1000000,
+    donation: [
+      {
+        color: "red",
+        amount: 1000000,
+      },
+    ],
+  },
+];
+// TODO: Manually Typing
+type IndividualDonorSchema = (typeof INDIVIDUAL_DONORS)[number];
+
+const PARTY_COLORS = [
+  {
+    name: "พลังประชารัฐ",
+    color: "blue",
+  },
+  {
+    name: "พลังไทยดี",
+    color: "red",
+  },
+  {
+    name: "เสรีรวมไทย",
+    color: "yellow",
+  },
+  {
+    name: "เศรษฐกิจใหม่",
+    color: "green",
+  },
+  {
+    name: "ประชาธิปัตย์",
+    color: "purple",
+  },
+  {
+    name: "เพื่อไทย",
+    color: "orange",
+  },
+  {
+    name: "ประชาชาติ",
+    color: "pink",
+  },
+  {
+    name: "เพื่อแผ่นดิน",
+    color: "brown",
+  },
+];
+
 export default function Donation() {
-  //<----Mock Data---->
-  //Page Global
-  const YEARS = ["ทุกปี", "2566", "2565", "2564", "2563", "2562"];
-
-  //For Party Section
-  const totalPartyDonationAmount = [
-    //sum of donation each year
-    {
-      year: "2566",
-      amount: 1000000,
-    },
-    {
-      year: "2565",
-      amount: 1000000,
-    },
-  ];
-  const PartyDonation = [
-    {
-      name: "พลังประชารัฐ",
-      img: "/icons/person.svg",
-      color: "blue",
-      year: "2566",
-      receiveAmount: 800000,
-    },
-    {
-      name: "พลังไทยดี",
-      img: "/icons/person.svg",
-      color: "red",
-      year: "2566",
-      receiveAmount: 200000,
-    },
-    {
-      name: "เสรีรวมไทย",
-      img: "/icons/person.svg",
-      color: "yellow",
-      year: "2565",
-      receiveAmount: 500000,
-    },
-  ];
-
-  //For individual section
-  const DonationTypes = [
-    "ทุกประเภท",
-    "นิติบุคคล",
-    "ตำเเหน่งทางการเมือง",
-    "บุคคลทั่วไป",
-    "สมาชิกสภาผู้แทนราษฏร",
-  ];
-  const individualDonors = [
-    {
-      name: "นาย สมชาย ใจดี",
-      title: "สมาชิกสภาผู้แทนราษฏร",
-      img: "/icons/person.svg",
-      year: "2566",
-      totalAmount: 1000000,
-      donation: [
-        {
-          color: "blue",
-          amount: 400000,
-        },
-        {
-          color: "red",
-          amount: 100000,
-        },
-        {
-          color: "yellow",
-          amount: 500000,
-        },
-      ],
-    },
-    {
-      name: "บริษัท เที่ยวมั้ยหนู จำกัด",
-      title: "นิติบุคคล",
-      img: "/icons/person.svg",
-      year: "2566",
-      totalAmount: 1000000,
-      donation: [
-        {
-          color: "blue",
-          amount: 1000000,
-        },
-      ],
-    },
-    {
-      name: "บริษัท โห่จาร จำกัด",
-      title: "นิติบุคคล",
-      img: "/icons/person.svg",
-      year: "2565",
-      totalAmount: 1000000,
-      donation: [
-        {
-          color: "red",
-          amount: 1000000,
-        },
-      ],
-    },
-  ];
-  //<-------------->
-
-  const people = [
-    { id: 1, name: "Wade Cooper", title: "Regional Paradigm Technician" },
-    { id: 2, name: "Arlene Mccoy", title: "Hello" },
-    { id: 3, name: "Devon Webb", title: "jasf" },
-    { id: 4, name: "Tom Cook", title: "asf" },
-    { id: 5, name: "Tanya Fox", title: "asf" },
-    { id: 6, name: "Hellen Schmidt", title: "asf" },
-  ];
-
-  const color = [
-    {
-      name: "พลังประชารัฐ",
-      color: "blue",
-    },
-    {
-      name: "พลังไทยดี",
-      color: "red",
-    },
-    {
-      name: "เสรีรวมไทย",
-      color: "yellow",
-    },
-    {
-      name: "เศรษฐกิจใหม่",
-      color: "green",
-    },
-    {
-      name: "ประชาธิปัตย์",
-      color: "purple",
-    },
-    {
-      name: "เพื่อไทย",
-      color: "orange",
-    },
-    {
-      name: "ประชาชาติ",
-      color: "pink",
-    },
-    {
-      name: "เพื่อแผ่นดิน",
-      color: "brown",
-    },
-  ];
-
-  const Party = [
-    {
-      color: "blue",
-      amount: 1000000,
-    },
-    {
-      color: "red",
-      amount: 100000,
-    },
-    {
-      color: "yellow",
-      amount: 500000,
-    },
-  ];
-
-  const [partySearch, setPartySearch] = React.useState({});
+  const [partySearch, setPartySearch] = React.useState<PartySearchSchema | null>(null);
   const [partyFilterYear, setPartySortYear] = React.useState(YEARS[0]);
 
-  const [individualSearch, setIndividualSearch] = React.useState({});
+  const [individualSearch, setIndividualSearch] =
+    React.useState<IndividualDonorSchema | null>(null);
   const [individualFilterYear, setIndividualFilterYear] = React.useState(YEARS[0]);
   const [individualFilterType, setIndividualFilterType] = React.useState(
-    DonationTypes[0]
+    DONATION_TYPES[0]
   );
 
   //TODO: Ascending and Descending sort approach (consult with p'mumu)
@@ -216,26 +198,26 @@ export default function Donation() {
         </div>
         <Search
           placeholder="ค้นหาด้วยชื่อพรรคการเมือง"
-          data={PartyDonation}
+          data={PARTY_DONATION}
           selected={partySearch}
           setSelected={setPartySearch}
         />
         <div className="flex flex-col items-center text-center text-18 lg:b4 pb-10 lg:pb-30 w-[90vw] min-w-[300px] max-w-[850px]">
-          {Object.keys(partySearch).length ? (
+          {partySearch ? (
             <EntityBarCard
               name={partySearch.name}
               title=""
               color={partySearch.color}
               amount={partySearch.receiveAmount}
               maxAmount={
-                totalPartyDonationAmount.filter((e) =>
+                TOTAL_PARTY_DONATION_AMOUNT.filter((e) =>
                   e.year.includes(partySearch.year)
                 )[0].amount
               }
               imgPath={partySearch.img}
             />
           ) : (
-            PartyDonation.filter((d) =>
+            PARTY_DONATION.filter((d) =>
               partyFilterYear !== "ทุกปี" ? d.year === partyFilterYear : d.year
             ).map((party, index) => (
               <EntityBarCard
@@ -244,8 +226,9 @@ export default function Donation() {
                 color={party.color}
                 amount={party.receiveAmount}
                 maxAmount={
-                  totalPartyDonationAmount.filter((e) => e.year.includes(party.year))[0]
-                    .amount
+                  TOTAL_PARTY_DONATION_AMOUNT.filter((e) =>
+                    e.year.includes(party.year)
+                  )[0].amount
                 }
                 imgPath={party.img}
                 key={index}
@@ -267,7 +250,7 @@ export default function Donation() {
         <div className="flex flex-row items-center gap-10 my-10 lg:my-30">
           <p className="text-gray-4 b4 lg:b3">แสดง</p>
           <Dropdown
-            data={DonationTypes}
+            data={DONATION_TYPES}
             value={individualFilterType}
             setValue={setIndividualFilterType}
           />
@@ -282,8 +265,8 @@ export default function Donation() {
         <div className="flex flex-col px-10 py-10 my-10 lg:my-30 border-1 rounded-5 border-gray-6 items-start w-[85vw] max-w-[800px]">
           <p className="b4 text-gray-3">สี = พรรค</p>
           <div className="flex gap-10 flex-wrap">
-            {color.map((item, index) => (
-              <div className="flex justify-center items-center gap-5">
+            {PARTY_COLORS.map((item, index) => (
+              <div key={index} className="flex justify-center items-center gap-5">
                 <div
                   style={
                     {
@@ -300,12 +283,12 @@ export default function Donation() {
         </div>
         <Search
           placeholder="ค้นหาด้วยชื่อบุคคล/นิติบุคคล"
-          data={individualDonors}
+          data={INDIVIDUAL_DONORS}
           selected={individualSearch}
           setSelected={setIndividualSearch}
         />
         <div className="flex flex-col items-center text-center text-18 lg:b4 pb-10 lg:pb-30 w-[90vw] min-w-[300px] max-w-[850px]">
-          {Object.keys(individualSearch).length ? (
+          {individualSearch ? (
             <EntityStackedBarCard
               name={individualSearch.name}
               title={individualSearch.title}
@@ -314,28 +297,24 @@ export default function Donation() {
               imgPath={individualSearch.img}
             />
           ) : (
-            individualDonors
-              .filter((d) =>
-                individualFilterYear === "ทุกปี" && individualFilterType === "ทุกประเภท"
-                  ? true
-                  : individualFilterYear === "ทุกปี" &&
-                    individualFilterType !== "ทุกประเภท"
-                  ? d.title === individualFilterType
-                  : individualFilterYear !== "ทุกปี" &&
-                    individualFilterType === "ทุกประเภท"
-                  ? d.year === individualFilterYear
-                  : d.year === individualFilterYear && d.title === individualFilterType
-              )
-              .map((individual, index) => (
-                <EntityStackedBarCard
-                  name={individual.name}
-                  title={individual.title}
-                  data={individual.donation}
-                  maxAmount={individual.totalAmount}
-                  imgPath={individual.img}
-                  key={index}
-                />
-              ))
+            INDIVIDUAL_DONORS.filter((d) =>
+              individualFilterYear === "ทุกปี" && individualFilterType === "ทุกประเภท"
+                ? true
+                : individualFilterYear === "ทุกปี" && individualFilterType !== "ทุกประเภท"
+                ? d.title === individualFilterType
+                : individualFilterYear !== "ทุกปี" && individualFilterType === "ทุกประเภท"
+                ? d.year === individualFilterYear
+                : d.year === individualFilterYear && d.title === individualFilterType
+            ).map((individual, index) => (
+              <EntityStackedBarCard
+                name={individual.name}
+                title={individual.title}
+                data={individual.donation}
+                maxAmount={individual.totalAmount}
+                imgPath={individual.img}
+                key={index}
+              />
+            ))
           )}
         </div>
       </section>
