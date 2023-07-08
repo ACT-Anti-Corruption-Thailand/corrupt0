@@ -27,7 +27,7 @@ export default function Navbar({ floating = false }: NavbarProps) {
         </Link>
         <Link
           className="border border-gray-6 bg-black rounded-full px-10 py-5"
-          href="/individual"
+          href="/info"
         >
           ข้อมูลบุคคล
         </Link>

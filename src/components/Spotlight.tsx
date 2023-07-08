@@ -27,11 +27,13 @@ const Spotlight = () => {
             backgroundImage: 'url("/images/bg_desktop.png")',
             backgroundRepeat: "no-repeat",
             backgroundSize: "cover",
-            maskImage: "linear-gradient(rgba(0, 0, 0, 1) 80%, transparent);",
-            "--x": `clamp( -30px, calc((${mousePos.x ? mousePos.x + "px" : "50vw"
-              } - 50vw)/10), 30px)`,
-            "--y": `clamp( -30px, calc((${mousePos.y ? mousePos.y + "px" : "50vh"
-              } - 50vh)/10), 30px)`,
+            maskImage: "linear-gradient(rgba(0, 0, 0, 1) 80%, transparent)",
+            "--x": `clamp( -30px, calc((${
+              mousePos.x ? mousePos.x + "px" : "50vw"
+            } - 50vw)/10), 30px)`,
+            "--y": `clamp( -30px, calc((${
+              mousePos.y ? mousePos.y + "px" : "50vh"
+            } - 50vh)/10), 30px)`,
             "--rec-x": `calc(var(--x) + 50%)`,
           } as React.CSSProperties
         }

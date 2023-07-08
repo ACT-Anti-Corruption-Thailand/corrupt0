@@ -31,7 +31,7 @@ export default function Footer({ className }: { className?: string }) {
               <Link href="/">หน้าแรก</Link>
             </li>
             <li>
-              <Link href="/individual">ข้อมูลบุคคล</Link>
+              <Link href="/info">ข้อมูลบุคคล</Link>
             </li>
             <li>
               <Link href="/donation">ข้อมูลเงินบริจาค</Link>

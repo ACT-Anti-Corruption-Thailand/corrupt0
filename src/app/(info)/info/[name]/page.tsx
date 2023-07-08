@@ -1,13 +1,14 @@
-import fs from "fs";
-import path from "path";
+// import fs from "fs";
+// import path from "path";
 import { notFound } from "next/navigation";
 
-import Politician from "./Politician";
-import Person from "./Person";
 import Business from "./Business";
 import Party from "./Party";
+import Person from "./Person";
+import Politician from "./Politician";
+import Position from "./Position";
 
-import { POLITICIANS, PERSONS, BUSINESS, PARTIES } from "@/data/pagelist";
+import { BUSINESS, PARTIES, PERSONS, POLITICIANS } from "@/data/pagelist";
 
 const POSITION_GROUP = [
   "นายกรัฐมนตรีและรัฐมนตรี",
@@ -36,11 +37,11 @@ interface InfoPageProps {
 export default function Info({ params }: InfoPageProps) {
   const name = decodeURI(params.name);
 
-  const filePath = path.join(process.cwd(), "src", "data", "info", `${name}.json`);
-  const fileContents = fs.readFileSync(filePath, "utf8");
-  const jsonData = JSON.parse(fileContents); // pass this into the page
+  // const filePath = path.join(process.cwd(), "src", "data", "info", `${name}.json`);
+  // const fileContents = fs.readFileSync(filePath, "utf8");
+  // const jsonData = JSON.parse(fileContents); // pass this into the page
 
-  // if (POSITION_GROUP.some(pos => pos === name)) return หน้ากลุ่มตำแหน่ง
+  if (POSITION_GROUP.some((pos) => pos === name)) return <Position params={params} />;
   if (name.startsWith("ก-")) return <Politician params={params} />;
   if (name.startsWith("ข-")) return <Person params={params} />;
   if (name.startsWith("บริษัท-")) return <Business params={params} />;

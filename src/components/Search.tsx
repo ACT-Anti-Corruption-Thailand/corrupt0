@@ -6,7 +6,7 @@ import { Combobox, Transition } from "@headlessui/react";
 import Image from "next/image";
 
 type SearchData = {
-  name: string;
+  name?: string;
   title?: string;
 };
 
@@ -24,7 +24,7 @@ function Search<T extends SearchData>(props: SearchProps<T>) {
     query === ""
       ? props.data
       : props.data.filter((person) =>
-          person.name
+          (person?.name ?? "")
             .toLowerCase()
             .replace(/\s+/g, "")
             .includes(query.toLowerCase().replace(/\s+/g, ""))
@@ -37,7 +37,7 @@ function Search<T extends SearchData>(props: SearchProps<T>) {
           <Combobox.Input
             placeholder={props.placeholder}
             className="w-full border-none placeholder:text-gray-5 placeholder:b3 px-15 py-5 b3 text-black focus:bg-white bg-gray-4 rounded-full"
-            displayValue={(person: any) => person.name}
+            displayValue={(person: any) => person?.name ?? ""}
             onChange={(event) => setQuery(event.target.value)}
           />
           <Combobox.Button className="absolute inset-y-0 right-15 flex items-center">
@@ -80,7 +80,7 @@ function Search<T extends SearchData>(props: SearchProps<T>) {
                           selected ? "font-medium" : "font-normal"
                         }`}
                       >
-                        <div className="text-24">{person.name}</div>
+                        <div className="text-24">{person?.name ?? ""}</div>
                         <div className="b5 text-gray-4">
                           {person.title ? person.title : ""}
                         </div>

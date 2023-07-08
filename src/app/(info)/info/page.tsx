@@ -1,16 +1,15 @@
 "use client";
 
-import React from "react";
-import ImgCard from "@/components/ImgCard";
-import Image from "next/image";
-import { Tab } from "@headlessui/react";
-import Link from "next/link";
 import GraphCard from "@/components/GraphCard";
+import ImgCard from "@/components/ImgCard";
 import Search from "@/components/Search";
 import { thaiMoneyFormatter } from "@/functions/moneyFormatter";
+import { Tab } from "@headlessui/react";
+import Image from "next/image";
+import React from "react";
 
-export default function Individual() {
-  const [selected, setSelected] = React.useState("");
+export default function Info() {
+  const [selected, setSelected] = React.useState<(typeof people)[number] | null>(null);
 
   const people = [
     { id: 1, name: "Wade Cooper", title: "Regional Paradigm Technician" },
@@ -37,7 +36,6 @@ export default function Individual() {
               ดูข้อมูลนักการเมืองเเละเจ้าหน้าที่รัฐ
             </p>
           </div>
-
         </ImgCard>
         <p className="text-gray-5 text-18 mt-20">อัพเดทข้อมูลเมื่อวันที่ 00/00/2556</p>
         <Search
@@ -47,7 +45,9 @@ export default function Individual() {
           setSelected={setSelected}
         />
         <div className="w-[90vw] border-1 border-gray-4 lg:mt-20 lg:w-full" />
-        <p className="text-30 font-black text-white my-15 lg:my-30 lg:h2">สำรวจตามกลุ่มตำแหน่ง</p>
+        <p className="text-30 font-black text-white my-15 lg:my-30 lg:h2">
+          สำรวจตามกลุ่มตำแหน่ง
+        </p>
         <div className="flex flex-col items-center text-center text-18 lg:b4 pb-10 lg:pb-30 w-[90vw] min-w-[300px] max-w-[850px]">
           <Tab.Group>
             <Tab.List className="flex flex-row items-center">
