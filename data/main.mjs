@@ -1,4 +1,5 @@
 import { fetchData, fetchSubData } from "./functions/fetch.mjs";
+import { generateNames } from "./functions/politician.mjs";
 
 const FILES = [
   "https://storage.googleapis.com/act_datacatalog/corrupt0/co_003/001/pdf/csv/nacc.csv",
@@ -19,3 +20,4 @@ const FILES = [
 
 await fetchData(FILES);
 await fetchSubData();
+await generateNames();

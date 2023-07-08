@@ -8,7 +8,8 @@ import Person from "./Person";
 import Politician from "./Politician";
 import Position from "./Position";
 
-import { BUSINESS, PARTIES, PERSONS, POLITICIANS } from "@/data/pagelist";
+import { BUSINESS, PARTIES, PERSONS } from "@/data/pagelist";
+import POLITICIANS from "@/data/politicians.json";
 
 const POSITION_GROUP = [
   "นายกรัฐมนตรีและรัฐมนตรี",
@@ -37,15 +38,19 @@ interface InfoPageProps {
 export default function Info({ params }: InfoPageProps) {
   const name = decodeURI(params.name);
 
-  // const filePath = path.join(process.cwd(), "src", "data", "info", `${name}.json`);
-  // const fileContents = fs.readFileSync(filePath, "utf8");
-  // const jsonData = JSON.parse(fileContents); // pass this into the page
+  // try {
+  //   const filePath = path.join(process.cwd(), "src", "data", "info", `${name}.json`);
+  //   const fileContents = fs.readFileSync(filePath, "utf8");
+  //   const jsonData = JSON.parse(fileContents); // pass this into the page
+  // } catch (e) {
+  //   // Allow b/c testing
+  // }
 
-  if (POSITION_GROUP.some((pos) => pos === name)) return <Position params={params} />;
-  if (name.startsWith("ก-")) return <Politician params={params} />;
-  if (name.startsWith("ข-")) return <Person params={params} />;
-  if (name.startsWith("บริษัท-")) return <Business params={params} />;
-  if (name.startsWith("พรรค")) return <Party params={params} />;
+  if (POSITION_GROUP.includes(name)) return <Position params={params} />;
+  if (POLITICIANS.includes(name)) return <Politician params={params} />;
+  if (PERSONS.includes(name)) return <Person params={params} />;
+  if (BUSINESS.includes(name)) return <Business params={params} />;
+  if (PARTIES.includes(name)) return <Party params={params} />;
 
   notFound();
 }

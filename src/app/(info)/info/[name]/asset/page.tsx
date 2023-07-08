@@ -1,15 +1,8 @@
-"use client";
-
-import { notFound } from "next/navigation";
-import { useState } from "react";
-
-import InfoAssetAccordion from "@/components/Info/Asset/Accordion";
+import InfoAssetMain from "@/components/Info/Asset/Main";
 import InfoAssetPopover from "@/components/Info/Asset/Popover";
-import InfoFinancialCheckboxes from "@/components/Info/_Financial/Checkboxes";
-import InfoFinancialDropdowns from "@/components/Info/_Financial/Dropdowns";
 import Image from "next/image";
 
-import { POLITICIANS } from "@/data/pagelist";
+import POLITICIANS from "@/data/politicians.json";
 
 import type { DropdownDetailedData } from "@/components/BareDropdown";
 import type {
@@ -20,12 +13,6 @@ import type {
   InfoAssetValuableStatement,
   InfoAssetVehicleStatement,
 } from "@/components/Info/Asset/Accordion";
-
-export async function generateStaticParams() {
-  return POLITICIANS.map((pos) => ({
-    name: pos,
-  }));
-}
 
 const EXAMPLE_CASH_STATEMENTS: InfoAssetStatement[] = [
   {
@@ -229,20 +216,17 @@ const COMPARE_YEARS: DropdownDetailedData[] = [
   ...YEARS,
 ];
 
+export async function generateStaticParams() {
+  return POLITICIANS.map((pos) => ({
+    name: pos,
+  }));
+}
+
 interface AssetPageProps {
   params: Awaited<ReturnType<typeof generateStaticParams>>[number];
 }
 
 export default function Asset({ params }: AssetPageProps) {
-  if (POLITICIANS.some((name) => name === decodeURI(params.name))) notFound();
-
-  const [showActor, setShowActor] = useState(true);
-  const [showSpouse, setShowSpouse] = useState(true);
-  const [showChild, setShowChild] = useState(true);
-
-  const [currentYear, setCurrentYear] = useState(YEARS[0]);
-  const [compareYear, setCompareYear] = useState(COMPARE_YEARS[0]);
-
   return (
     <main>
       <header className="p-10 text-center">
@@ -268,45 +252,21 @@ export default function Asset({ params }: AssetPageProps) {
         </h1>
       </header>
 
-      <section className="bg-gray-2 pt-10 rounded-5 text-black max-w-[850px] mx-auto overflow-hidden">
-        <h2 className="b5 text-center mb-5">
-          <span className="b3 font-bold">ปีที่ยื่นบัญชี</span> (กรณีที่ยื่น)
-        </h2>
-        <div className="flex mb-10 gap-10 px-10">
-          <InfoFinancialDropdowns
-            light
-            data={YEARS}
-            compare={COMPARE_YEARS}
-            currentYear={currentYear}
-            setCurrentYear={setCurrentYear}
-            compareYear={compareYear}
-            setCompareYear={setCompareYear}
-          />
-        </div>
-        <div className="flex gap-10 items-center justify-center b6 py-5">
-          <InfoFinancialCheckboxes
-            showActor={showActor}
-            setShowActor={setShowActor}
-            showSpouse={showSpouse}
-            setShowSpouse={setShowSpouse}
-            showChild={showChild}
-            setShowChild={setShowChild}
-          />
-        </div>
-        <span className="block text-center b5 mb-10">หน่วย: บาท</span>
-        <InfoAssetAccordion.Cash name="เงินสด" statements={EXAMPLE_CASH_STATEMENTS} />
-        <InfoAssetAccordion.Cash name="เงินฝาก" statements={EXAMPLE_CASH_STATEMENTS} />
-        <InfoAssetAccordion.Cash name="เงินลงทุน" statements={EXAMPLE_CASH_STATEMENTS} />
-        <InfoAssetAccordion.Cash
-          name="เงินให้กู้ยืม"
-          statements={EXAMPLE_CASH_STATEMENTS}
-        />
-        <InfoAssetAccordion.Land statements={EXAMPLE_LAND_STATEMENTS} />
-        <InfoAssetAccordion.Concession statements={EXAMPLE_CONCESSION_STATEMENTS} />
-        <InfoAssetAccordion.Building statements={EXAMPLE_BUILDING_STATEMENTS} />
-        <InfoAssetAccordion.Vehicle statements={EXAMPLE_VEHICLE_STATEMENTS} />
-        <InfoAssetAccordion.Valuable statements={EXAMPLE_VALUABLE_STATEMENTS} />
-      </section>
+      <InfoAssetMain
+        compare_years={COMPARE_YEARS}
+        years={YEARS}
+        statements={{
+          cash: EXAMPLE_CASH_STATEMENTS,
+          deposit: EXAMPLE_CASH_STATEMENTS,
+          investment: EXAMPLE_CASH_STATEMENTS,
+          loan: EXAMPLE_CASH_STATEMENTS,
+          land: EXAMPLE_LAND_STATEMENTS,
+          concession: EXAMPLE_CONCESSION_STATEMENTS,
+          building: EXAMPLE_BUILDING_STATEMENTS,
+          vehicle: EXAMPLE_VEHICLE_STATEMENTS,
+          valuable: EXAMPLE_VALUABLE_STATEMENTS,
+        }}
+      />
 
       <div className="flex gap-5 mt-10 mb-20 max-w-[850px] mx-auto">
         <button

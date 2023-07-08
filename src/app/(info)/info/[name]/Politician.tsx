@@ -9,11 +9,11 @@ import Sharer from "@/components/Sharer";
 import Image from "next/image";
 
 export default function Politician({ params }: { params: { name: string } }) {
-  const { name } = params;
+  const name = decodeURI(params.name).replace(/-/g, " ");
 
   return (
     <main>
-      <GoTop name="สุชาติ ภิญโญ" />
+      <GoTop name={name} />
 
       <InfoDesktopAligner
         left={
@@ -23,7 +23,7 @@ export default function Politician({ params }: { params: { name: string } }) {
               <span className="b6 text-gray-5">
                 อัปเดตข้อมูลเมื่อวันที่ {new Date().toLocaleDateString("th")}
               </span>
-              <span className="h2">สุชาติ ภิญโญ</span>
+              <span className="h2">{name}</span>
               <div className="flex gap-15 justify-center">
                 <div className="flex flex-col">
                   <Image
