@@ -1,3 +1,6 @@
+import fs from "fs";
+import path from "path";
+
 import Accordion from "@/components/Accordion";
 import InfoBusinessCard from "@/components/Info/BusinessCard";
 import InfoDesktopAligner from "@/components/Info/DesktopAligner";
@@ -7,13 +10,25 @@ import GoTop from "@/components/Info/GoTop";
 import InfoLawsuitCard from "@/components/Info/LawsuitCard";
 import Sharer from "@/components/Sharer";
 import Image from "next/image";
+import { notFound } from "next/navigation";
 
 export default function Politician({ params }: { params: { name: string } }) {
-  const name = decodeURI(params.name).replace(/-/g, " ");
+  const name = decodeURI(params.name);
+  const spacedName = name.replace(/-/g, " ");
+
+  let politicianData: Record<any, any> = {};
+
+  try {
+    const filePath = path.join(process.cwd(), "src", "data", "info", `${name}.json`);
+    const fileContents = fs.readFileSync(filePath, "utf8");
+    politicianData = JSON.parse(fileContents); // pass this into the page
+  } catch (e) {
+    notFound();
+  }
 
   return (
     <main>
-      <GoTop name={name} />
+      <GoTop name={spacedName} />
 
       <InfoDesktopAligner
         left={
@@ -23,7 +38,7 @@ export default function Politician({ params }: { params: { name: string } }) {
               <span className="b6 text-gray-5">
                 อัปเดตข้อมูลเมื่อวันที่ {new Date().toLocaleDateString("th")}
               </span>
-              <span className="h2">{name}</span>
+              <span className="h2">{spacedName}</span>
               <div className="flex gap-15 justify-center">
                 <div className="flex flex-col">
                   <Image
@@ -39,36 +54,54 @@ export default function Politician({ params }: { params: { name: string } }) {
                   </div>
                 </div>
                 <div className="text-left">
-                  <span className="block b6 text-gray-5">อายุ ณ ปีที่ยื่น</span>
-                  <span className="block b4 font-bold">53 ปี</span>
-                  <span className="block b6 text-gray-5">สังกัดล่าสุด</span>
-                  <span className="block b4 font-bold">พลังประชารัฐ</span>
-                  <span className="block b6 text-gray-5">ตำแหน่งปัจจุบัน</span>
-                  <span className="block b4 no-balance">
-                    <span className="font-bold">สมาชิกสภาผู้แทนราษฎร</span>{" "}
-                    <span className="nobr">(2562-2566)</span>
-                  </span>
-                  <Accordion
-                    trigger={
-                      <div className="flex b6 text-gray-5 items-center">
-                        <span>ดูตำแหน่งที่ผ่านมา</span>
-                        <Image
-                          className="ui-open:rotate-180 ml-2"
-                          src="/icons/caret-g.svg"
-                          width={10}
-                          height={10}
-                          alt=""
-                        />
+                  {politicianData.age && (
+                    <>
+                      <span className="block b6 text-gray-5">อายุ ณ ปีที่ยื่น</span>
+                      <span className="block b4 font-bold">{politicianData.age} ปี</span>
+                    </>
+                  )}
+                  {/* <span className="block b6 text-gray-5">สังกัดล่าสุด</span>
+                  <span className="block b4 font-bold">พลังประชารัฐ</span> */}
+                  {politicianData.position && (
+                    <>
+                      <span className="block b6 text-gray-5">ตำแหน่งปัจจุบัน</span>
+                      <span className="block b4 no-balance">
+                        <span className="font-bold">{politicianData.position}</span>{" "}
+                        {/* <span className="nobr">(2562-2566)</span> */}
+                      </span>
+                    </>
+                  )}
+                  {politicianData.previous_jobs && (
+                    <Accordion
+                      trigger={
+                        <div className="flex b6 text-gray-5 items-center">
+                          <span>ดูตำแหน่งที่ผ่านมา</span>
+                          <Image
+                            className="ui-open:rotate-180 ml-2"
+                            src="/icons/caret-g.svg"
+                            width={10}
+                            height={10}
+                            alt=""
+                          />
+                        </div>
+                      }
+                    >
+                      <div className="rounded-5 bg-gray-2 b7 text-gray-5 p-5">
+                        <ul className="flex flex-col gap-5 list-disc">
+                          {politicianData.previous_jobs.map(
+                            (job: any, i: number) =>
+                              job.position_title && (
+                                <li key={i}>
+                                  {job.position_title} ({job.start_year}
+                                  {job.start_year && job.end_year && "–"}
+                                  {job.end_year})
+                                </li>
+                              )
+                          )}
+                        </ul>
                       </div>
-                    }
-                  >
-                    <div className="rounded-5 bg-gray-2 b7 text-gray-5 p-5">
-                      <ul className="flex flex-col gap-5 list-disc">
-                        <li>สมาชิกสภาผู้แทนราษฎร (2500-2500)</li>
-                        <li>สมาชิกสภาผู้แทนราษฎร (2500-2500)</li>
-                      </ul>
-                    </div>
-                  </Accordion>
+                    </Accordion>
+                  )}
                 </div>
               </div>
               <a
@@ -216,7 +249,7 @@ export default function Politician({ params }: { params: { name: string } }) {
         }
       >
         {/* สถานะทางการเงิน */}
-        <InfoFinancialSection name={name} />
+        <InfoFinancialSection name={spacedName} />
 
         {/* ปุ่มเอกสาร */}
         <div className="flex gap-5 px-10 mb-10">

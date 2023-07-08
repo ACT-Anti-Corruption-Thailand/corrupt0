@@ -1,5 +1,3 @@
-// import fs from "fs";
-// import path from "path";
 import { notFound } from "next/navigation";
 
 import Business from "./Business";
@@ -37,14 +35,6 @@ interface InfoPageProps {
 
 export default function Info({ params }: InfoPageProps) {
   const name = decodeURI(params.name);
-
-  // try {
-  //   const filePath = path.join(process.cwd(), "src", "data", "info", `${name}.json`);
-  //   const fileContents = fs.readFileSync(filePath, "utf8");
-  //   const jsonData = JSON.parse(fileContents); // pass this into the page
-  // } catch (e) {
-  //   // Allow b/c testing
-  // }
 
   if (POSITION_GROUP.includes(name)) return <Position params={params} />;
   if (POLITICIANS.includes(name)) return <Politician params={params} />;

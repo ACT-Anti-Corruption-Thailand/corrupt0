@@ -1,5 +1,6 @@
 import fs from "fs";
 import * as aq from "arquero";
+import JSON5 from "json5";
 
 // Generate Politician Name
 export const generateNames = async () => {
@@ -20,13 +21,41 @@ export const generateNames = async () => {
     .dedupe();
 
   const names = nacc_names
-    .concat(high_rank_names)
+    .union(high_rank_names)
     .dedupe()
     .objects()
     .map(({ full_name }) => full_name);
 
+  const personal_info = await aq.loadCSV("data/raw/political_office_holder.csv");
+  const person_data = personal_info
+    .derive({
+      full_name: (d) =>
+        aq.op.replace(d.first_name_th + " " + d.last_name_th, /\s+/g, "-"),
+    })
+    .select("position", "full_name", "age", "previous_jobs");
+
   names.forEach((name) => {
-    fs.writeFileSync(`src/data/info/${name}.json`, "{}");
+    let person_data_json = {};
+    let found_row = null;
+
+    person_data.scan((row, data, stop) => {
+      if (data.full_name.data[row] === name) {
+        found_row = row;
+        stop();
+      }
+    });
+
+    if (found_row) {
+      person_data_json = {
+        position: person_data.get("position", found_row),
+        age: person_data.get("age", found_row),
+        previous_jobs: JSON5.parse(
+          person_data.get("previous_jobs", found_row)?.replace(/None/g, "null") ?? "[]"
+        ),
+      };
+    }
+
+    fs.writeFileSync(`src/data/info/${name}.json`, JSON.stringify(person_data_json));
   });
 
   fs.writeFileSync(`src/data/politicians.json`, JSON.stringify(names));
