@@ -1,3 +1,5 @@
+import fs from "fs";
+import path from "path";
 import { notFound } from "next/navigation";
 
 import Politician from "./Politician";
@@ -33,6 +35,10 @@ interface InfoPageProps {
 
 export default function Info({ params }: InfoPageProps) {
   const name = decodeURI(params.name);
+
+  const filePath = path.join(process.cwd(), "src", "data", "info", `${name}.json`);
+  const fileContents = fs.readFileSync(filePath, "utf8");
+  const jsonData = JSON.parse(fileContents); // pass this into the page
 
   // if (POSITION_GROUP.some(pos => pos === name)) return หน้ากลุ่มตำแหน่ง
   if (name.startsWith("ก-")) return <Politician params={params} />;
