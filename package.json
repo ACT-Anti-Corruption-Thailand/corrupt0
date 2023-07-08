@@ -10,7 +10,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "process": "node data/fetch.mjs"
+    "process": "node data/main.mjs"
   },
   "dependencies": {
     "@headlessui/react": "^1.7.15",

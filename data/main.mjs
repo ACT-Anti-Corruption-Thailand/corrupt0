@@ -1,6 +1,4 @@
-import fs from "fs";
-import path from "path";
-import JSON5 from "json5";
+import { fetchData, fetchSubData } from "./functions/fetch.mjs";
 
 const FILES = [
   "https://storage.googleapis.com/act_datacatalog/corrupt0/co_003/001/pdf/csv/nacc.csv",
@@ -19,29 +17,5 @@ const FILES = [
   "https://storage.googleapis.com/act_datacatalog/master_data/ds_009/001/ds009_opendata_path.json",
 ];
 
-const fetchData = async (files) => {
-  for (let i = 0; i < files.length; i++) {
-    const resp = await fetch(files[i]);
-    const text = await resp.text();
-    fs.writeFileSync(`data/raw/${files[i].split("/").at(-1)}`, text);
-  }
-};
-
 await fetchData(FILES);
-
-let subFetchList = [];
-const directoryPath = "data/raw";
-
-fs.readdir(directoryPath, (_, files) => {
-  const jsonFiles = files.filter((file) => path.extname(file).toLowerCase() === ".json");
-
-  const fileArray = jsonFiles.map((file) => {
-    const filePath = path.join(directoryPath, file);
-    const fileContent = fs.readFileSync(filePath, "utf8");
-    return JSON5.parse(fileContent);
-  });
-
-  subFetchList = fileArray.map((e) => Object.values(e)).flat(Infinity);
-
-  fetchData(subFetchList);
-});
+await fetchSubData();
