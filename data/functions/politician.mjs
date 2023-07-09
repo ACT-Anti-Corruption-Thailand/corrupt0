@@ -34,6 +34,7 @@ export const generateNames = async () => {
     })
     .select("position", "full_name", "age", "previous_jobs");
 
+  fs.mkdirSync("src/data/info", { recursive: true });
   names.forEach((name) => {
     let person_data_json = {};
     let found_row = null;
@@ -54,7 +55,6 @@ export const generateNames = async () => {
         ),
       };
     }
-
     fs.writeFileSync(`src/data/info/${name}.json`, JSON.stringify(person_data_json));
   });
 
