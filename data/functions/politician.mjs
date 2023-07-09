@@ -159,7 +159,6 @@ export const getLawsuit = async (name) => {
 export const generatePolitician = async () => {
   const namesAndId = await generateNamesAndId();
 
-  fs.mkdirSync("src/data/info", { recursive: true });
   namesAndId.forEach(async ({ full_name, nacc_id }) => {
     const person_data_json = await getPersonalData(full_name);
     const relationship = await getRelationship(nacc_id);
