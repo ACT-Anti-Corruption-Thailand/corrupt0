@@ -18,33 +18,35 @@ import { moneyFormatter } from "@/functions/moneyFormatter";
 import Search from "@/components/Search";
 import EntityBarCard from "@/components/EntityBarCard";
 
+const DATA = [
+  {
+    name: 1000000,
+    amount: 2,
+  },
+  {
+    name: 4234567,
+    amount: 13,
+  },
+  {
+    name: 5000000,
+    amount: 8,
+  },
+];
+
+const PEOPLE = [
+  { id: 1, name: "Wade Cooper", title: "Regional Paradigm Technician" },
+  { id: 2, name: "Arlene Mccoy", title: "Hello" },
+  { id: 3, name: "Devon Webb", title: "jasf" },
+  { id: 4, name: "Tom Cook", title: "asf" },
+  { id: 5, name: "Tanya Fox", title: "asf" },
+  { id: 6, name: "Hellen Schmidt", title: "asf" },
+];
+
 export default function Position({ params }: { params: { name: string } }) {
-  const position = decodeURI(params.name);
+  const position = params.name;
 
-  const data = [
-    {
-      name: 1000000,
-      amount: 2,
-    },
-    {
-      name: 4234567,
-      amount: 13,
-    },
-    {
-      name: 5000000,
-      amount: 8,
-    },
-  ];
-  const people = [
-    { id: 1, name: "Wade Cooper", title: "Regional Paradigm Technician" },
-    { id: 2, name: "Arlene Mccoy", title: "Hello" },
-    { id: 3, name: "Devon Webb", title: "jasf" },
-    { id: 4, name: "Tom Cook", title: "asf" },
-    { id: 5, name: "Tanya Fox", title: "asf" },
-    { id: 6, name: "Hellen Schmidt", title: "asf" },
-  ];
+  const [selected, setSelected] = React.useState<(typeof PEOPLE)[number] | null>(null);
 
-  const [selected, setSelected] = React.useState<(typeof people)[number] | null>(null);
   return (
     <>
       <section className="flex flex-col items-center">
@@ -67,7 +69,7 @@ export default function Position({ params }: { params: { name: string } }) {
         </p>
         <Search
           placeholder="ค้นหาด้วยชื่อ/นามสกุล"
-          data={people}
+          data={PEOPLE}
           selected={selected}
           setSelected={setSelected}
         />
@@ -94,7 +96,7 @@ export default function Position({ params }: { params: { name: string } }) {
                 </div>
                 <div className="w-[90vw] lg:w-[70vw] h-[270px] grow-[2] mx-auto">
                   <ResponsiveContainer>
-                    <BarChart data={data}>
+                    <BarChart data={DATA}>
                       <CartesianGrid fill="white" fillOpacity={0.1} />
                       <ReferenceLine
                         x={1637239}
@@ -132,7 +134,7 @@ export default function Position({ params }: { params: { name: string } }) {
                 </div>
                 <div className="w-[90vw] lg:w-[70vw] h-[270px] grow-[2] mx-auto">
                   <ResponsiveContainer>
-                    <BarChart data={data}>
+                    <BarChart data={DATA}>
                       <CartesianGrid fill="white" fillOpacity={0.1} />
                       <ReferenceLine
                         x={1637239}

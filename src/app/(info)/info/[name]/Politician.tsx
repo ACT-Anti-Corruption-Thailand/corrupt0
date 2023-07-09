@@ -1,20 +1,23 @@
 import fs from "fs";
+import { notFound } from "next/navigation";
 import path from "path";
 
 import Accordion from "@/components/Accordion";
 import InfoBusinessCard from "@/components/Info/BusinessCard";
 import InfoDesktopAligner from "@/components/Info/DesktopAligner";
-import InfoDonationSection from "@/components/Info/_Donation/Section";
-import InfoFinancialSection from "@/components/Info/_Financial/Section";
 import GoTop from "@/components/Info/GoTop";
 import InfoLawsuitCard from "@/components/Info/LawsuitCard";
+import InfoDonationSection from "@/components/Info/_Donation/Section";
+import InfoFinancialSection from "@/components/Info/_Financial/Section";
 import Sharer from "@/components/Sharer";
 import Image from "next/image";
-import { notFound } from "next/navigation";
+
+import POLITICIAN_IMAGES from "@/data/politicianImages.json";
 
 export default function Politician({ params }: { params: { name: string } }) {
-  const name = decodeURI(params.name);
+  const name = params.name;
   const spacedName = name.replace(/-/g, " ");
+  const image = (POLITICIAN_IMAGES as Record<string, string | null>)[name];
 
   let politicianData: Record<any, any> = {};
 
@@ -40,10 +43,10 @@ export default function Politician({ params }: { params: { name: string } }) {
               </span>
               <span className="h2">{spacedName}</span>
               <div className="flex gap-15 justify-center">
-                <div className="flex flex-col">
+                <div className="flex flex-col min-w-[105px] items-center">
                   <Image
                     className="bg-gray-2 rounded-5 border border-black mb-5"
-                    src="/placeholders/person.png"
+                    src={image ?? "/placeholders/person.png"}
                     width={90}
                     height={90}
                     alt=""
@@ -104,9 +107,13 @@ export default function Politician({ params }: { params: { name: string } }) {
                   )}
                 </div>
               </div>
+              {/* TODO: จะให้ขึ้นถ้าไม่มีหน้า TheyWork ไหม?
+              วิธีการเช็คคือเช็คว่ามี name ใน key ของ POLITICIAN_IMAGES ไหม */}
               <a
-                href="https://theyworkforus.wevis.info/"
+                href={`https://theyworkforus.wevis.info/people/${name}`}
                 className="py-4 px-10 b7 border border-gray-2 rounded-5 block mx-auto"
+                target="_blank"
+                rel="nofollow noopener noreferrer"
               >
                 <span className="flex gap-2 items-center justify-center">
                   <span>ดูประวัติการทำงานในรัฐสภา</span>

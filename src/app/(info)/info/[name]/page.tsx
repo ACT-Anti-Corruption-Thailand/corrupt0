@@ -35,12 +35,13 @@ interface InfoPageProps {
 
 export default function Info({ params }: InfoPageProps) {
   const name = decodeURI(params.name);
+  const decodedParams = Object.assign(params, { name });
 
-  if (POSITION_GROUP.includes(name)) return <Position params={params} />;
-  if (POLITICIANS.includes(name)) return <Politician params={params} />;
-  if (PERSONS.includes(name)) return <Person params={params} />;
-  if (BUSINESS.includes(name)) return <Business params={params} />;
-  if (PARTIES.includes(name)) return <Party params={params} />;
+  if (POSITION_GROUP.includes(name)) return <Position params={decodedParams} />;
+  if (POLITICIANS.includes(name)) return <Politician params={decodedParams} />;
+  if (PERSONS.includes(name)) return <Person params={decodedParams} />;
+  if (BUSINESS.includes(name)) return <Business params={decodedParams} />;
+  if (PARTIES.includes(name)) return <Party params={decodedParams} />;
 
   notFound();
 }
