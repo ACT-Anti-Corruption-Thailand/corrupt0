@@ -14,10 +14,14 @@ jobs:
       - uses: pnpm/action-setup@v2
         with:
           version: 8.6.1
-      - name: Build
-        run: |
-          pnpm i
-          pnpm build
+      - name: Install Dependencies
+        run: pnpm i
+      - name: Fetch Data
+        run: pnpm fetch
+      - name: Process Data
+        run: pnpm process
+      - name: Build Pages
+        run: pnpm build
       - name: Deploy
         uses: s0/git-publish-subdir-action@develop
         env:

@@ -1,5 +1,8 @@
+import { generatePolitician } from "./functions/politician.mjs";
 import { generatePartyAssets } from "./functions/partyAssets.mjs";
-import { generateNames } from "./functions/politician.mjs";
+import { generatePoliticianImages } from "./functions/politicianImages.mjs";
 
-await generateNames();
+await generatePolitician();
 await generatePartyAssets();
+generatePoliticianImages();
+

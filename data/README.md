@@ -10,6 +10,12 @@ Folder นี้เอาไว้เก็บข้อมูลดิบ + Scri
 pnpm fetch
 ```
 
+ข้อมูลที่ fetch มาแล้วจะอยู่ใน `/data/raw`
+
+> **Note**
+>
+> ข้อมูลที่ดึงด้วยมือมา (ไม่ได้ใช้คำสั่ง fetch) ให้ใส่ไว้ใน `/data/constants`
+
 ## Process
 
 Process ข้อมูลด้วยคำสั่ง
@@ -18,10 +24,14 @@ Process ข้อมูลด้วยคำสั่ง
 pnpm process
 ```
 
+- ถ้าข้อมูลที่ process เป็น constant ต่างๆ (เช่น รายชื่อนักการเมือง) ให้ใส่ไว้ที่ `/src/data`
+- แต่ถ้าเป็นไฟล์เฉพาะหน้า (tailored made) ให้ใส่ไว้ใน `/src/data/info`
+
 ## Data Directory
 
 ### ข้อมูลบัญชีทรัพสินและหนี้สิน nacc
 
+```md
 - nacc.csv
 - co003_opendata_path.json
   - asset.csv
@@ -47,13 +57,17 @@ pnpm process
   - submitter_info.csv
   - submitter_old_name.csv
   - submitter_position.csv
+```
 
 ### คำชี้มูลปปช. nacc_culpability
 
+```md
 - nacc_culpability.csv
+```
 
 ### บริจาคพรรคการเมือง ect
 
+```md
 - ect.csv
 - co004_opendata_path.json
   - donation.csv
@@ -61,13 +75,17 @@ pnpm process
   - donor.csv
   - ect_detail.csv
   - party.csv
+```
 
 ### การบังคับใช้กฎหมายของกลต sec
 
+```md
 - sec.csv
+```
 
-### company & commitee_share_holder
+### ds002 — Company & Commitee Share Holder
 
+```md
 - ds002_opendata_path.json
   - commitee_shareholder_split_0.csv
   - commitee_shareholder_split_1.csv
@@ -97,26 +115,36 @@ pnpm process
   - act_company_split_7.csv
   - act_company_split_8.csv
   - act_company_split_9.csv
+```
 
-### ds_003 ข้อมูลประวัติส่วนตัว และทรัพย์สินโดยสรุปของผู้ดำรงตำแหน่งทางการเมือง
+### ds_003 — ข้อมูลประวัติส่วนตัว และทรัพย์สินโดยสรุปของผู้ดำรงตำแหน่งทางการเมือง
 
+```md
 - person_family.csv
 - political_office_holder.csv
+```
 
-### ds_004 ข้อมูลคำชี้มูลความผิดของ ป.ป.ช.
+### ds_004 — ข้อมูลคำชี้มูลความผิดของ ป.ป.ช.
 
+```md
 - nacc_culpability.csv
+```
 
-### ds_005 ข้อมูลคำพิพากษาศาลฎีกาแผนกคดีอาญาของผู้ดำรงตำแหน่งทางการเมือง
+### ds_005 — ข้อมูลคำพิพากษาศาลฎีกาแผนกคดีอาญาของผู้ดำรงตำแหน่งทางการเมือง
 
+```md
 - judgement.csv
+```
 
-### ds_007 รายชื่อผู้บริหารกระทรวง/ข้าราชการระดับสูง
+### ds_007 — รายชื่อผู้บริหารกระทรวง/ข้าราชการระดับสูง
 
+```md
 - public_sector_high_ranking_officer.csv
+```
 
-### ds_009 ข้อมูลการบริจาคแก่พรรคการเมือง
+### ds_009 — ข้อมูลการบริจาคแก่พรรคการเมือง
 
+```md
 - ds009_opendata_path.json
   - political_party_donor 2556.csv
   - political_party_donor 2557.csv
@@ -134,3 +162,4 @@ pnpm process
   - political_party_donor_2561.csv
   - political_party_donor_2562.csv
   - political_party_donor_2563.csv
+```

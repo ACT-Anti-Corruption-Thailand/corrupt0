@@ -1,20 +1,36 @@
 import fs from "fs";
+import { notFound } from "next/navigation";
 import path from "path";
 
 import Accordion from "@/components/Accordion";
 import InfoBusinessCard from "@/components/Info/BusinessCard";
 import InfoDesktopAligner from "@/components/Info/DesktopAligner";
-import InfoDonationSection from "@/components/Info/_Donation/Section";
-import InfoFinancialSection from "@/components/Info/_Financial/Section";
 import GoTop from "@/components/Info/GoTop";
 import InfoLawsuitCard from "@/components/Info/LawsuitCard";
+import InfoDonationSection from "@/components/Info/_Donation/Section";
+import InfoFinancialSection from "@/components/Info/_Financial/Section";
 import Sharer from "@/components/Sharer";
 import Image from "next/image";
-import { notFound } from "next/navigation";
+import Link from "next/link";
+
+import POLITICIAN_IMAGES from "@/data/politicianImages.json";
+
+import { hasCorrupt0Page } from "@/functions/navigation";
+
+function RelativeLink({ dashedFullName }: { dashedFullName: string }) {
+  return (
+    hasCorrupt0Page(dashedFullName) && (
+      <Link href={"/info/" + dashedFullName} target="_blank">
+        <Image className="ml-5" src="/icons/new_tab.svg" alt="" width={15} height={15} />
+      </Link>
+    )
+  );
+}
 
 export default function Politician({ params }: { params: { name: string } }) {
-  const name = decodeURI(params.name);
+  const name = params.name;
   const spacedName = name.replace(/-/g, " ");
+  const image = (POLITICIAN_IMAGES as Record<string, string | null>)[name];
 
   let politicianData: Record<any, any> = {};
 
@@ -25,6 +41,7 @@ export default function Politician({ params }: { params: { name: string } }) {
   } catch (e) {
     notFound();
   }
+  const relationship = politicianData.relationship;
 
   return (
     <main>
@@ -40,10 +57,10 @@ export default function Politician({ params }: { params: { name: string } }) {
               </span>
               <span className="h2">{spacedName}</span>
               <div className="flex gap-15 justify-center">
-                <div className="flex flex-col">
+                <div className="flex flex-col min-w-[105px] items-center">
                   <Image
                     className="bg-gray-2 rounded-5 border border-black mb-5"
-                    src="/placeholders/person.png"
+                    src={image ?? "/placeholders/person.png"}
                     width={90}
                     height={90}
                     alt=""
@@ -104,9 +121,13 @@ export default function Politician({ params }: { params: { name: string } }) {
                   )}
                 </div>
               </div>
+              {/* TODO: จะให้ขึ้นถ้าไม่มีหน้า TheyWork ไหม?
+              วิธีการเช็คคือเช็คว่ามี name ใน key ของ POLITICIAN_IMAGES ไหม */}
               <a
-                href="https://theyworkforus.wevis.info/"
+                href={`https://theyworkforus.wevis.info/people/${name}`}
                 className="py-4 px-10 b7 border border-gray-2 rounded-5 block mx-auto"
+                target="_blank"
+                rel="nofollow noopener noreferrer"
               >
                 <span className="flex gap-2 items-center justify-center">
                   <span>ดูประวัติการทำงานในรัฐสภา</span>
@@ -226,24 +247,28 @@ export default function Politician({ params }: { params: { name: string } }) {
                   />
                 </span>
               </a>
-              <a className="block p-10 bg-black" href="#relative">
-                <span className="flex gap-5 items-center">
-                  <Image src="/icons/relative.svg" alt="" width={20} height={20} />
-                  <span>
-                    <span className="b3 font-bold">มีเครือญาติ 5 คน</span>
+              {relationship.length > 0 && (
+                <a className="block p-10 bg-black" href="#relative">
+                  <span className="flex gap-5 items-center">
+                    <Image src="/icons/relative.svg" alt="" width={20} height={20} />
+                    <span>
+                      <span className="b3 font-bold">
+                        มีเครือญาติ {relationship.length} คน
+                      </span>
+                    </span>
+                    <Image
+                      className="ml-auto lg:-rotate-90"
+                      src="/icons/arr-g.svg"
+                      alt=""
+                      width={16}
+                      height={16}
+                    />
                   </span>
-                  <Image
-                    className="ml-auto lg:-rotate-90"
-                    src="/icons/arr-g.svg"
-                    alt=""
-                    width={16}
-                    height={16}
-                  />
-                </span>
-                <span className="b5 text-gray-5 ml-[21px]">
-                  ที่เปิดเผยในบัญชีทรัพย์สิน
-                </span>
-              </a>
+                  <span className="b5 text-gray-5 ml-[21px]">
+                    ที่เปิดเผยในบัญชีทรัพย์สิน
+                  </span>
+                </a>
+              )}
             </section>
           </>
         }
@@ -346,55 +371,33 @@ export default function Politician({ params }: { params: { name: string } }) {
         </section>
 
         {/* เครือญาติที่เปิดเผยในบัญชีทรัพย์สิน */}
-        <section id="relative">
-          <header className="py-8 flex gap-10 h4 justify-center items-center bg-gray-6 mb-10 text-balance">
-            <Image src="/icons/relative.svg" alt="" width={30} height={30} />
-            <span className="w-auto">
-              เครือญาติที่เปิดเผย
-              <br />
-              ในบัญชีทรัพย์สิน
-            </span>
-          </header>
-          <div className="mt-5 px-15 flex flex-col mb-20">
-            <div className="flex b6 text-gray-5">
-              <span>ชื่อ นามสกุล</span>
-              <span className="ml-auto">ความเกี่ยวข้อง</span>
-            </div>
-            <div className="flex py-10 items-center border-b border-b-gray-6">
-              <div className="b4 font-bold leading-1">ชื่อ นามสกุล</div>
-              <div className="text-center ml-auto">
-                <div className="b5 font-bold">คู่สมรส</div>
+        {relationship.length > 0 && (
+          <section id="relative">
+            <header className="py-8 flex gap-10 h4 justify-center items-center bg-gray-6 mb-10 text-balance">
+              <Image src="/icons/relative.svg" alt="" width={30} height={30} />
+              <span className="w-auto">
+                เครือญาติที่เปิดเผย
+                <br />
+                ในบัญชีทรัพย์สิน
+              </span>
+            </header>
+            <div className="mt-5 px-15 flex flex-col mb-20">
+              <div className="flex b6 text-gray-5">
+                <span>ชื่อ นามสกุล</span>
+                <span className="ml-auto">ความเกี่ยวข้อง</span>
               </div>
-              <Image
-                className="ml-5"
-                src="/icons/new_tab.svg"
-                alt=""
-                width={15}
-                height={15}
-              />
+              {relationship.map((r: any, i: number) => (
+                <div key={i} className="flex py-10 items-center border-b border-b-gray-6">
+                  <div className="b4 font-bold leading-1">{r.full_name}</div>
+                  <div className="text-center ml-auto">
+                    <div className="b5 font-bold">{r.relationship_name}</div>
+                  </div>
+                  <RelativeLink dashedFullName={r.full_name.replace(/\s+/g, "-")} />
+                </div>
+              ))}
             </div>
-            <div className="flex py-10 items-center border-b border-b-gray-6">
-              <div className="b4 font-bold leading-1">ชื่อ นามสกุล</div>
-              <div className="text-center ml-auto">
-                <div className="b5 font-bold">บุตร</div>
-              </div>
-              <div className="ml-5 w-15 h-15" />
-            </div>
-            <div className="flex py-10 items-center border-b border-b-gray-6">
-              <div className="b4 font-bold leading-1">ชื่อ นามสกุล</div>
-              <div className="text-center ml-auto">
-                <div className="b5 font-bold">บุตร</div>
-              </div>
-              <Image
-                className="ml-5"
-                src="/icons/new_tab.svg"
-                alt=""
-                width={15}
-                height={15}
-              />
-            </div>
-          </div>
-        </section>
+          </section>
+        )}
       </InfoDesktopAligner>
     </main>
   );
