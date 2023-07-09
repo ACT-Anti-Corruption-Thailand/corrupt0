@@ -5,4 +5,3 @@ import { generatePoliticianImages } from "./functions/politicianImages.mjs";
 await generatePolitician();
 await generatePartyAssets();
 generatePoliticianImages();
-

@@ -92,11 +92,62 @@ const DATA_RELATIONSHIP_NORMALIZED = DATA_RELATIVE_INFO.derive({
   .join_left(DATA_RELATIONSHIP_KEY, "relationship_id")
   .select("nacc_id", "full_name", "relationship_name");
 
-export const getRelationshop = async (nacc_id) =>
+export const getRelationship = async (nacc_id) =>
   DATA_RELATIONSHIP_NORMALIZED.params({ nacc_id: nacc_id })
     .filter((d) => op.equal(d.nacc_id, nacc_id))
     .select("full_name", "relationship_name")
     .objects();
+
+// ██╗      █████╗ ██╗    ██╗███████╗██╗   ██╗██╗████████╗
+// ██║     ██╔══██╗██║    ██║██╔════╝██║   ██║██║╚══██╔══╝
+// ██║     ███████║██║ █╗ ██║███████╗██║   ██║██║   ██║
+// ██║     ██╔══██║██║███╗██║╚════██║██║   ██║██║   ██║
+// ███████╗██║  ██║╚███╔███╔╝███████║╚██████╔╝██║   ██║
+// ╚══════╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚══════╝ ╚═════╝ ╚═╝   ╚═╝
+
+const DATA_LAW_SEC = await aq.loadCSV("data/raw/sec.csv");
+const DATA_LAW_JUDGEMENT = await aq.loadCSV("data/raw/judgement.csv");
+const DATA_LAW_NACC = await aq.loadCSV("data/raw/nacc_culpability.csv", {
+  parse: { note: String },
+});
+// const DATA_NACC_2 = await aq.loadCSV("data/raw/nacc_culpability0.csv"); // ขอให้ format มาให้ใหม่
+
+const DATA_LAW_SEC_TRANSFORMED = DATA_LAW_SEC.derive({
+  full_name: (d) => op.replace(d.person_name + " " + d.person_surname, /\s+/g, "-"),
+});
+const DATA_LAW_JUDGEMENT_TRANSFORMED_1 = DATA_LAW_JUDGEMENT.derive({
+  full_name: (d) =>
+    op.replace(d.defendant_first_name1 + " " + d.defendant_last_name1, /\s+/g, "-"),
+});
+const DATA_LAW_JUDGEMENT_TRANSFORMED_2 = DATA_LAW_JUDGEMENT.derive({
+  full_name: (d) =>
+    op.replace(d.defendant_first_name2 + " " + d.defendant_last_name2, /\s+/g, "-"),
+});
+const DATA_LAW_NACC_TRANSFORMED = DATA_LAW_NACC.derive({
+  full_name: (d) =>
+    op.replace(d.accused_first_name + " " + d.accused_last_name, /\s+/g, "-"),
+});
+
+export const getLawsuit = async (name) => {
+  const sec = DATA_LAW_SEC_TRANSFORMED.params({ name })
+    .filter((d) => op.equal(d.full_name, name))
+    .objects();
+  const judgement1 = DATA_LAW_JUDGEMENT_TRANSFORMED_1.params({ name })
+    .filter((d) => op.equal(d.full_name, name))
+    .objects();
+  const judgement2 = DATA_LAW_JUDGEMENT_TRANSFORMED_2.params({ name })
+    .filter((d) => op.equal(d.full_name, name))
+    .objects();
+  const nacc = DATA_LAW_NACC_TRANSFORMED.params({ name })
+    .filter((d) => op.equal(d.full_name, name))
+    .objects();
+
+  return {
+    sec,
+    judgement: [...judgement1, ...judgement2],
+    nacc,
+  };
+};
 
 // ███╗   ███╗ █████╗ ██╗███╗   ██╗
 // ████╗ ████║██╔══██╗██║████╗  ██║
@@ -111,10 +162,12 @@ export const generatePolitician = async () => {
   fs.mkdirSync("src/data/info", { recursive: true });
   namesAndId.forEach(async ({ full_name, nacc_id }) => {
     const person_data_json = await getPersonalData(full_name);
-    const relationship = await getRelationshop(nacc_id);
+    const relationship = await getRelationship(nacc_id);
+    const lawsuit = await getLawsuit(full_name);
 
     const data = {
       ...person_data_json,
+      lawsuit,
       relationship,
     };
 

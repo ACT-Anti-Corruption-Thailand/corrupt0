@@ -19,8 +19,8 @@ const CARDTYPE_TEXT = {
 } as const;
 
 interface InfoLawsuitCardProps {
-  updateDate: string;
-  description: string;
+  updateDate?: string;
+  description?: string;
 }
 
 // CardBase
@@ -57,7 +57,9 @@ const InfoLawsuitCardBase = ({
           </div>
           <div className="mt-5 b6">
             <span className="block b5 font-bold">{CARDTYPE_TEXT[type].heading}</span>
-            <p className="text-gray-3 ui-not-open:line-clamp-3">{description}</p>
+            <p className="text-gray-3 ui-not-open:line-clamp-3">
+              {description ?? "ไม่พบข้อมูล"}
+            </p>
           </div>
         </div>
       }
@@ -70,10 +72,10 @@ const InfoLawsuitCardBase = ({
 // SecCard
 
 interface InfoLawsuitSecCardProps extends InfoLawsuitCardProps {
-  enforceDate: string;
-  cause: string;
-  actionType: string;
-  actionDetail: string;
+  enforceDate?: string;
+  cause?: string;
+  actionType?: string;
+  actionDetail?: string;
 }
 
 const InfoLawsuitSecCard = ({
@@ -87,16 +89,17 @@ const InfoLawsuitSecCard = ({
   return (
     <InfoLawsuitCardBase type="sec" description={description} updateDate={updateDate}>
       <span className="block">
-        <span className="font-bold text-white">วันที่ดำเนินการ</span> {enforceDate}
+        <span className="font-bold text-white">วันที่ดำเนินการ</span>{" "}
+        {enforceDate ?? "ไม่พบข้อมูล"}
       </span>
       <hr className="my-10 border-t-gray-5" />
       <span className="block font-bold text-white">การกระทำโดยสังเขป</span>
-      <p>{cause}</p>
+      <p>{cause ?? "ไม่พบข้อมูล"}</p>
       <hr className="my-10 border-t-gray-5" />
       <span className="block font-bold text-white">ประเภทการดำเนินการ</span>
-      <p>{actionType}</p>
+      <p>{actionType ?? "ไม่พบข้อมูล"}</p>
       <span className="block font-bold text-white">รายละเอียดการดำเนินการ</span>
-      <p>{actionDetail}</p>
+      <p>{actionDetail ?? "ไม่พบข้อมูล"}</p>
     </InfoLawsuitCardBase>
   );
 };
@@ -104,12 +107,12 @@ const InfoLawsuitSecCard = ({
 // NaccCard
 
 interface InfoLawsuitNaccCardProps extends InfoLawsuitCardProps {
-  blackNumber: string;
-  redNumber: string;
-  meetingDate: string;
-  meetingResult: string;
-  enforceResult: string;
-  note: string;
+  blackNumber?: string;
+  redNumber?: string;
+  meetingDate?: string;
+  meetingResult?: string;
+  enforceResult?: string;
+  note?: string;
 }
 
 const InfoLawsuitNaccCard = ({
@@ -126,22 +129,25 @@ const InfoLawsuitNaccCard = ({
     <InfoLawsuitCardBase type="nacc" description={description} updateDate={updateDate}>
       <ul>
         <li>
-          <span className="font-bold text-white">เลขคดีดำ</span> {blackNumber}
+          <span className="font-bold text-white">เลขคดีดำ</span>{" "}
+          {blackNumber ?? "ไม่พบข้อมูล"}
         </li>
         <li>
-          <span className="font-bold text-white">เลขคดีแดง</span> {redNumber}
+          <span className="font-bold text-white">เลขคดีแดง</span>{" "}
+          {redNumber ?? "ไม่พบข้อมูล"}
         </li>
         <li>
-          <span className="font-bold text-white">วันที่มีมติ</span> {meetingDate}
+          <span className="font-bold text-white">วันที่มีมติ</span>{" "}
+          {meetingDate ?? "ไม่พบข้อมูล"}
         </li>
       </ul>
       <hr className="my-10 border-t-gray-5" />
       <span className="block font-bold text-white">ผลการพิจารณา</span>
-      <p>{meetingResult}</p>
+      <p>{meetingResult ?? "ไม่พบข้อมูล"}</p>
       <hr className="my-10 border-t-gray-5" />
       <span className="block font-bold text-white">ผลการดำเนินการ</span>
-      <p>{enforceResult}</p>
-      <p className="mt-10 py-10 px-8 rounded-5 border border-gray-5">{note}</p>
+      <p>{enforceResult ?? "ไม่พบข้อมูล"}</p>
+      {note && <p className="mt-10 py-10 px-8 rounded-5 border border-gray-5">{note}</p>}
     </InfoLawsuitCardBase>
   );
 };
@@ -149,9 +155,9 @@ const InfoLawsuitNaccCard = ({
 // SupremeCard
 
 interface InfoLawsuitSupremeCardProps extends InfoLawsuitCardProps {
-  blackNumber: string;
-  redNumber: string;
-  judgement: string;
+  blackNumber?: string;
+  redNumber?: string;
+  judgement?: string;
 }
 
 const InfoLawsuitSupremeCard = ({
@@ -165,15 +171,17 @@ const InfoLawsuitSupremeCard = ({
     <InfoLawsuitCardBase type="supreme" description={description} updateDate={updateDate}>
       <ul>
         <li>
-          <span className="font-bold text-white">เลขคดีดำ</span> {blackNumber}
+          <span className="font-bold text-white">เลขคดีดำ</span>{" "}
+          {blackNumber ?? "ไม่พบข้อมูล"}
         </li>
         <li>
-          <span className="font-bold text-white">เลขคดีแดง</span> {redNumber}
+          <span className="font-bold text-white">เลขคดีแดง</span>{" "}
+          {redNumber ?? "ไม่พบข้อมูล"}
         </li>
       </ul>
       <hr className="my-10 border-t-gray-5" />
       <span className="block font-bold text-white">คำพิพากษา</span>
-      <p>{judgement}</p>
+      <p>{judgement ?? "ไม่พบข้อมูล"}</p>
     </InfoLawsuitCardBase>
   );
 };
