@@ -17,7 +17,7 @@ jobs:
       - name: Install Dependencies
         run: pnpm i
       - name: Fetch Data
-        run: pnpm fetch
+        run: pnpm run fetch
       - name: Process Data
         run: pnpm process
       - name: Build Pages

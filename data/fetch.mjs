@@ -23,6 +23,8 @@ const FILES = [
 export const removeExistedData = async () => {
   console.info("ℹ Removing Old Files");
 
+  fs.mkdir(DIRECTORY_PATH, { recursive: true });
+
   for (const file of await fs.readdir(DIRECTORY_PATH)) {
     await fs.unlink(path.join(DIRECTORY_PATH, file));
   }
@@ -30,8 +32,6 @@ export const removeExistedData = async () => {
 
 export const fetchData = async (files) => {
   console.info("ℹ Fetching...");
-
-  fs.mkdir(DIRECTORY_PATH, { recursive: true });
 
   for (let i = 0; i < files.length; i++) {
     const resp = await fetch(files[i]);
