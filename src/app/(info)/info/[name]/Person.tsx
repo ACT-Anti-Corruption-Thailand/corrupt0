@@ -42,9 +42,7 @@ export default function Person({ params }: { params: { name: string } }) {
     notFound();
   }
 
-  // nacc_id will have: assets, relationship, statement
-  // w/o nacc_id: lawsuit, company (comittee -> company), donation
-  const { nacc_id, age, position, previous_jobs, relationship } = politicianData;
+  const { age, position, previous_jobs, relationship } = politicianData;
 
   const { sec, judgement, nacc } = politicianData.lawsuit;
   const totalLawsuit = sec.length + judgement.length + nacc.length;
