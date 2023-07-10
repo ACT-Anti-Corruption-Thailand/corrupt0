@@ -7,7 +7,7 @@ Folder นี้เอาไว้เก็บข้อมูลดิบ + Scri
 ดึงข้อมูลด้วยคำสั่ง
 
 ```bash
-pnpm fetch
+pnpm run fetch
 ```
 
 ข้อมูลที่ fetch มาแล้วจะอยู่ใน `/data/raw`
