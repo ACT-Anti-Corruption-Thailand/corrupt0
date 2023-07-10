@@ -2,7 +2,7 @@ import fs from "fs";
 import { generatePolitician } from "./functions/politician.mjs";
 import { generatePartyAssets } from "./functions/partyAssets.mjs";
 import { generatePoliticianImages } from "./functions/politicianImages.mjs";
-import { generateDonation } from "./functions/donation.mjs";
+import { generateDonation } from "./functions/totalDonation.mjs";
 
 fs.mkdirSync("src/data/info", { recursive: true });
 
