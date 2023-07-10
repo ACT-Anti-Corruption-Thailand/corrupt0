@@ -149,6 +149,17 @@ export const getLawsuit = async (name) => {
   };
 };
 
+//  █████╗ ███████╗███████╗███████╗████████╗
+// ██╔══██╗██╔════╝██╔════╝██╔════╝╚══██╔══╝
+// ███████║███████╗███████╗█████╗     ██║
+// ██╔══██║╚════██║╚════██║██╔══╝     ██║
+// ██║  ██║███████║███████║███████╗   ██║
+// ╚═╝  ╚═╝╚══════╝╚══════╝╚══════╝   ╚═╝
+
+export const getAsset = async (nacc_id) => {
+  return {};
+};
+
 // ███╗   ███╗ █████╗ ██╗███╗   ██╗
 // ████╗ ████║██╔══██╗██║████╗  ██║
 // ██╔████╔██║███████║██║██╔██╗ ██║
@@ -159,22 +170,24 @@ export const getLawsuit = async (name) => {
 export const generatePolitician = async () => {
   const namesAndId = await generateNamesAndId();
 
+  fs.writeFileSync(
+    `src/data/politicians.json`,
+    JSON.stringify(namesAndId.map((e) => e.full_name))
+  );
+
   namesAndId.forEach(async ({ full_name, nacc_id }) => {
     const person_data_json = await getPersonalData(full_name);
     const relationship = await getRelationship(nacc_id);
     const lawsuit = await getLawsuit(full_name);
+    const asset = await getAsset(nacc_id);
 
     const data = {
       ...person_data_json,
       lawsuit,
       relationship,
+      asset,
     };
 
     fs.writeFileSync(`src/data/info/${full_name}.json`, JSON.stringify(data));
   });
-
-  fs.writeFileSync(
-    `src/data/politicians.json`,
-    JSON.stringify(namesAndId.map((e) => e.full_name))
-  );
 };
