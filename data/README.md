@@ -35,17 +35,17 @@ pnpm process
 - nacc.csv
 - co003_opendata_path.json
   - asset.csv
-  - asset_acquisition_type.csv
+  - asset_acquisition_type.csv => lookup_table
   - asset_building_info.csv
   - asset_land_info.csv
   - asset_other_asset_info.csv
-  - asset_type.csv
+  - asset_type.csv => lookup_table
   - asset_vehicle_info.csv
-  - date_acquiring_type.csv
-  - date_ending_type.csv
+  - date_acquiring_type.csv => lookup_table
+  - date_ending_type.csv => lookup_table
   - nacc_detail.csv
-  - position_period_type.csv
-  - relationship.csv
+  - position_period_type.csv => lookup_table
+  - relationship.csv => lookup_table
   - relative_info.csv
   - spouse_info.csv
   - spouse_old_name.csv

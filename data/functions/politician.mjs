@@ -156,7 +156,53 @@ export const getLawsuit = async (name) => {
 // ██║  ██║███████║███████║███████╗   ██║
 // ╚═╝  ╚═╝╚══════╝╚══════╝╚══════╝   ╚═╝
 
+const DATA = {
+  ASSET: await aq.loadCSV("data/raw/asset.csv"),
+  ASSET_BUILDING_INFO: await aq.loadCSV("data/raw/asset_building_info.csv"),
+  ASSET_LAND_INFO: await aq.loadCSV("data/raw/asset_land_info.csv"),
+  ASSET_OTHER_ASSET_INFO: await aq.loadCSV(
+    "data/raw/asset_other_asset_info.csv"
+  ),
+  ASSET_VEHICLE_INFO: await aq.loadCSV("data/raw/asset_vehicle_info.csv"),
+
+  // lookup
+  ASSET_ACQUISITION_TYPE: await aq.loadCSV(
+    "data/raw/asset_acquisition_type.csv"
+  )
+};
+
 export const getAsset = async (nacc_id) => {
+  if (nacc_id) {
+    let assets = DATA.ASSET.derive({
+      valuation: op.replace((d) => Number(d.valuation))
+    })
+      .params({ nacc_id })
+      .filter((d) => op.equal(d.nacc_id, nacc_id));
+    let asset_building_info = DATA.ASSET_BUILDING_INFO.params({
+      nacc_id
+    }).filter((d) => op.equal(d.nacc_id, nacc_id));
+    let asset_land_info = DATA.ASSET_LAND_INFO.params({ nacc_id }).filter((d) =>
+      op.equal(d.nacc_id, nacc_id)
+    );
+    let asset_other_asset_info = DATA.ASSET_OTHER_ASSET_INFO.params({
+      nacc_id
+    }).filter((d) => op.equal(d.nacc_id, nacc_id));
+    let asset_vehicle_info = DATA.ASSET_VEHICLE_INFO.params({ nacc_id }).filter(
+      (d) => op.equal(d.nacc_id, nacc_id)
+    );
+
+    let all_assets = assets
+      .join_left(asset_building_info, "asset_id")
+      .join_left(asset_land_info, "asset_id")
+      .join_left(asset_other_asset_info, "asset_id")
+      .join_left(asset_vehicle_info, "asset_id")
+      .orderby("asset_id");
+    console.log(aq.agg(all_assets, op.sum("valuation")));
+
+    return {
+      assets: all_assets.objects()
+    };
+  }
   return {};
 };
 
