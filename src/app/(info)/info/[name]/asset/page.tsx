@@ -2,7 +2,7 @@ import InfoAssetMain from "@/components/Info/Asset/Main";
 import InfoAssetPopover from "@/components/Info/Asset/Popover";
 import Image from "next/image";
 
-import POLITICIANS from "@/data/politicians.json";
+import PEOPLE_NACC from "@/data/people_nacc.json";
 
 import type { DropdownDetailedData } from "@/components/BareDropdown";
 import type {
@@ -217,8 +217,8 @@ const COMPARE_YEARS: DropdownDetailedData[] = [
 ];
 
 export async function generateStaticParams() {
-  return POLITICIANS.map((pos) => ({
-    name: pos,
+  return PEOPLE_NACC.map((name) => ({
+    name,
   }));
 }
 

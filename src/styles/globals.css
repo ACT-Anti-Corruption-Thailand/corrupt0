@@ -122,4 +122,15 @@ button[data-headlessui-state="open"] .accordion-arrow {
   summary.no-arrow::-webkit-details-marker {
     display: none;
   }
+
+  .fake-bullet {
+    padding-left: 1.5ch;
+  }
+
+  .fake-bullet > li::before {
+    content: "• ";
+    margin-left: -1.5ch;
+    display: inline-block;
+    width: 1.5ch;
+  }
 }

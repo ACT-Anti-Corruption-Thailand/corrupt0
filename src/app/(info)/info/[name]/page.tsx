@@ -3,13 +3,14 @@ import { notFound } from "next/navigation";
 import Business from "./Business";
 import Party from "./Party";
 import Person from "./Person";
-import Politician from "./Politician";
 import Position from "./Position";
 
-import POLITICIANS from "@/data/politicians.json";
-import BUSINESS from "@/data/businesses.json";
-import PEOPLE from "@/data/people.json";
+import PEOPLE_NACC from "@/data/people_nacc.json";
+import PEOPLE_GEN from "@/data/people_gen.json";
+import BUSINESSES from "@/data/businesses.json";
 import PARTIES from "@/data/parties.json";
+
+const PEOPLE = [...PEOPLE_NACC, ...PEOPLE_GEN];
 
 const POSITION_GROUP = [
   "นายกรัฐมนตรีและรัฐมนตรี",
@@ -24,11 +25,9 @@ const POSITION_GROUP = [
 ];
 
 export async function generateStaticParams() {
-  return [...POSITION_GROUP, ...POLITICIANS, ...PEOPLE, ...BUSINESS, ...PARTIES].map(
-    (pos) => ({
-      name: pos,
-    })
-  );
+  return [...POSITION_GROUP, ...PEOPLE, ...BUSINESSES, ...PARTIES].map((name) => ({
+    name,
+  }));
 }
 
 interface InfoPageProps {
@@ -40,9 +39,8 @@ export default function Info({ params }: InfoPageProps) {
   const decodedParams = Object.assign(params, { name });
 
   if (POSITION_GROUP.includes(name)) return <Position params={decodedParams} />;
-  if (POLITICIANS.includes(name)) return <Politician params={decodedParams} />;
   if (PEOPLE.includes(name)) return <Person params={decodedParams} />;
-  if (BUSINESS.includes(name)) return <Business params={decodedParams} />;
+  if (BUSINESSES.includes(name)) return <Business params={decodedParams} />;
   if (PARTIES.includes(name)) return <Party params={decodedParams} />;
 
   notFound();

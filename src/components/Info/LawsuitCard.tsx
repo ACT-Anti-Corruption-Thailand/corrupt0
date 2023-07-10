@@ -1,4 +1,5 @@
 import Accordion from "@/components/Accordion";
+import clsx from "clsx";
 import Image from "next/image";
 
 import type { ReactNode } from "react";
@@ -44,11 +45,13 @@ const InfoLawsuitCardBase = ({
             <span className="bg-white-10 border border-gray-5 rounded-5 py-2 px-8">
               {CARDTYPE_TEXT[type].bureau}
             </span>
-            <span className="ml-auto text-gray-5 mr-4">
-              วันที่ปรับปรุงข้อมูล {updateDate}
-            </span>
+            {updateDate && (
+              <span className="ml-auto text-gray-5 mr-4">
+                วันที่ปรับปรุงข้อมูล: {updateDate}
+              </span>
+            )}
             <Image
-              className="ui-open:rotate-180"
+              className={clsx("ui-open:rotate-180", updateDate && "ml-auto")}
               src="/icons/caret-g.svg"
               width={13}
               height={13}
