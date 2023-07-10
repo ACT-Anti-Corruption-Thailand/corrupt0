@@ -1,6 +1,7 @@
 import fs from "fs/promises";
 import path from "path";
 import * as aq from "arquero";
+import { op } from "arquero";
 
 const generateTotalDonation = async () => {
   const directoryPath = "data/raw";
@@ -35,30 +36,37 @@ const generateTotalDonation = async () => {
 
   const partyPerYearTable = table
     .select("party", "year", "amount")
+    .rename({ amount: "_amount" })
+    .groupby("year", "party")
+    .rollup({ amount: (d) => op.sum(d._amount) })
     .objects()
     .reduce((acc, obj) => {
-        const { year, amount, ...rest } = obj;
-        if (!acc[year]) {
-          acc[year] = [];
-        }
-      
-        const existingParty = acc[year].find(party => party.party === obj.party);
-        if (existingParty) {
-          existingParty.amount += amount;
-        } else {
-          acc[year].push({ party: obj.party, amount });
-        }
-        
-        return acc;
-      }, {});
+      const { year } = obj;
 
-    return { totalPerYearTable, partyPerYearTable }
+      const objWOYear = { ...obj };
+      delete objWOYear.year;
+
+      if (year in acc) {
+        acc[year].push(objWOYear);
+      } else {
+        acc[year] = [objWOYear];
+      }
+
+      return acc;
+    }, {});
+
+  return { totalPerYearTable, partyPerYearTable };
 };
 
-
 export const generateDonation = async () => {
-    const Donation = await generateTotalDonation();
-    fs.mkdir("src/data/donation", { recursive: true });
-    await fs.writeFile("src/data/donation/totalPerYear.json", JSON.stringify(Donation.totalPerYearTable))
-    await fs.writeFile("src/data/donation/partyPerYear.json", JSON.stringify(Donation.partyPerYearTable))
-}
+  const Donation = await generateTotalDonation();
+  fs.mkdir("src/data/donation", { recursive: true });
+  await fs.writeFile(
+    "src/data/donation/totalPerYear.json",
+    JSON.stringify(Donation.totalPerYearTable)
+  );
+  await fs.writeFile(
+    "src/data/donation/partyPerYear.json",
+    JSON.stringify(Donation.partyPerYearTable)
+  );
+};
