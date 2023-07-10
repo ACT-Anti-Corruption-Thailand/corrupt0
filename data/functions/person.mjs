@@ -2,6 +2,7 @@ import fs from "fs";
 import { op } from "arquero";
 import * as aq from "arquero";
 import JSON5 from "json5";
+import { getDonationData } from "./donation.mjs";
 
 // ███╗   ██╗ █████╗ ███╗   ███╗███████╗    ██╗██████╗
 // ████╗  ██║██╔══██╗████╗ ████║██╔════╝    ██║██╔══██╗
@@ -14,12 +15,15 @@ const DATA_NACC = await aq.loadCSV("data/raw/nacc_detail.csv");
 const DATA_HIGH_RANK = await aq.loadCSV(
   "data/raw/public_sector_high_ranking_officer.csv"
 );
+const donation_table = await getDonationData();
 
 export const generateNamesAndId = async () => {
+  // NACC
   const nacc_names = DATA_NACC.derive({
     full_name: (d) => op.replace(d.first_name + " " + d.last_name, /\s+/g, "-"),
   }).select("nacc_id", "full_name");
 
+  // HIGH RANK
   const high_rank_names = DATA_HIGH_RANK.rename({ full_name: "_full_name" })
     .derive({
       full_name: (d) => op.replace(d._full_name, /\s+/g, "-"),
@@ -27,15 +31,37 @@ export const generateNamesAndId = async () => {
     .select("full_name")
     .dedupe();
 
-  const names = nacc_names
+  // DONATION
+  const donation_names = donation_table
+    .filter((d) => op.equal(d.donor_prefix, "บุคคลธรรมดา"))
+    .derive({
+      full_name: (d) =>
+        op.replace(d.donor_firstname + " " + d.donor_lastname, /\s+|\/|\\/g, "-"),
+    })
+    .select("full_name")
+    .dedupe();
+
+  // NACC + HIGH RANK
+  const nacc_and_highrank_names = nacc_names
     .join_full(high_rank_names, (a, b) => op.equal(a.full_name, b.full_name))
     .derive({
       full_name: (d) => d.full_name_1 || d.full_name_2,
     })
-    .select("nacc_id", "full_name")
-    .objects();
+    .select("nacc_id", "full_name");
 
-  return names;
+  // ALL
+  const names = nacc_and_highrank_names
+    .join_full(donation_names, (a, b) => op.equal(a.full_name, b.full_name))
+    .derive({
+      full_name: (d) => d.full_name_1 || d.full_name_2,
+    })
+    .select("nacc_id", "full_name");
+
+  // SPLIT NACC/NONE NACC
+  const has_nacc = names.filter((d) => d.nacc_id);
+  const non_nacc = names.filter((d) => !d.nacc_id);
+
+  return [has_nacc.objects(), non_nacc.objects()];
 };
 
 // ██████╗ ███████╗██████╗ ███████╗ ██████╗ ███╗   ██╗ █████╗ ██╗         ██╗███╗   ██╗███████╗ ██████╗
@@ -160,35 +186,31 @@ const DATA = {
   ASSET: await aq.loadCSV("data/raw/asset.csv"),
   ASSET_BUILDING_INFO: await aq.loadCSV("data/raw/asset_building_info.csv"),
   ASSET_LAND_INFO: await aq.loadCSV("data/raw/asset_land_info.csv"),
-  ASSET_OTHER_ASSET_INFO: await aq.loadCSV(
-    "data/raw/asset_other_asset_info.csv"
-  ),
+  ASSET_OTHER_ASSET_INFO: await aq.loadCSV("data/raw/asset_other_asset_info.csv"),
   ASSET_VEHICLE_INFO: await aq.loadCSV("data/raw/asset_vehicle_info.csv"),
 
   // lookup
-  ASSET_ACQUISITION_TYPE: await aq.loadCSV(
-    "data/raw/asset_acquisition_type.csv"
-  )
+  ASSET_ACQUISITION_TYPE: await aq.loadCSV("data/raw/asset_acquisition_type.csv"),
 };
 
 export const getAsset = async (nacc_id) => {
   if (nacc_id) {
     let assets = DATA.ASSET.derive({
-      valuation: op.replace((d) => Number(d.valuation))
+      valuation: op.replace((d) => Number(d.valuation)),
     })
       .params({ nacc_id })
       .filter((d) => op.equal(d.nacc_id, nacc_id));
     let asset_building_info = DATA.ASSET_BUILDING_INFO.params({
-      nacc_id
+      nacc_id,
     }).filter((d) => op.equal(d.nacc_id, nacc_id));
     let asset_land_info = DATA.ASSET_LAND_INFO.params({ nacc_id }).filter((d) =>
       op.equal(d.nacc_id, nacc_id)
     );
     let asset_other_asset_info = DATA.ASSET_OTHER_ASSET_INFO.params({
-      nacc_id
+      nacc_id,
     }).filter((d) => op.equal(d.nacc_id, nacc_id));
-    let asset_vehicle_info = DATA.ASSET_VEHICLE_INFO.params({ nacc_id }).filter(
-      (d) => op.equal(d.nacc_id, nacc_id)
+    let asset_vehicle_info = DATA.ASSET_VEHICLE_INFO.params({ nacc_id }).filter((d) =>
+      op.equal(d.nacc_id, nacc_id)
     );
 
     let all_assets = assets
@@ -200,7 +222,7 @@ export const getAsset = async (nacc_id) => {
     console.log(aq.agg(all_assets, op.sum("valuation")));
 
     return {
-      assets: all_assets.objects()
+      assets: all_assets.objects(),
     };
   }
   return {};
@@ -213,21 +235,29 @@ export const getAsset = async (nacc_id) => {
 // ██║ ╚═╝ ██║██║  ██║██║██║ ╚████║
 // ╚═╝     ╚═╝╚═╝  ╚═╝╚═╝╚═╝  ╚═══╝
 
-export const generatePolitician = async () => {
-  const namesAndId = await generateNamesAndId();
+export const generatePeople = async () => {
+  const [has_nacc, non_nacc] = await generateNamesAndId();
 
   fs.writeFileSync(
-    `src/data/politicians.json`,
-    JSON.stringify(namesAndId.map((e) => e.full_name))
+    `src/data/people_nacc.json`,
+    JSON.stringify(has_nacc.map((e) => e.full_name))
   );
+  fs.writeFileSync(
+    `src/data/people_gen.json`,
+    JSON.stringify(non_nacc.map((e) => e.full_name))
+  );
+
+  const namesAndId = [...has_nacc, ...non_nacc];
 
   namesAndId.forEach(async ({ full_name, nacc_id }) => {
     const person_data_json = await getPersonalData(full_name);
-    const relationship = await getRelationship(nacc_id);
     const lawsuit = await getLawsuit(full_name);
-    const asset = await getAsset(nacc_id);
+
+    const relationship = nacc_id ? await getRelationship(nacc_id) : [];
+    const asset = nacc_id ? await getAsset(nacc_id) : {};
 
     const data = {
+      nacc_id,
       ...person_data_json,
       lawsuit,
       relationship,
