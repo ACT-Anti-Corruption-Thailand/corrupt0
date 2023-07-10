@@ -6,8 +6,10 @@ import Person from "./Person";
 import Politician from "./Politician";
 import Position from "./Position";
 
-import { BUSINESS, PARTIES, PERSONS } from "@/data/pagelist";
 import POLITICIANS from "@/data/politicians.json";
+import BUSINESS from "@/data/businesses.json";
+import PEOPLE from "@/data/people.json";
+import PARTIES from "@/data/parties.json";
 
 const POSITION_GROUP = [
   "นายกรัฐมนตรีและรัฐมนตรี",
@@ -22,7 +24,7 @@ const POSITION_GROUP = [
 ];
 
 export async function generateStaticParams() {
-  return [...POSITION_GROUP, ...POLITICIANS, ...PERSONS, ...BUSINESS, ...PARTIES].map(
+  return [...POSITION_GROUP, ...POLITICIANS, ...PEOPLE, ...BUSINESS, ...PARTIES].map(
     (pos) => ({
       name: pos,
     })
@@ -39,7 +41,7 @@ export default function Info({ params }: InfoPageProps) {
 
   if (POSITION_GROUP.includes(name)) return <Position params={decodedParams} />;
   if (POLITICIANS.includes(name)) return <Politician params={decodedParams} />;
-  if (PERSONS.includes(name)) return <Person params={decodedParams} />;
+  if (PEOPLE.includes(name)) return <Person params={decodedParams} />;
   if (BUSINESS.includes(name)) return <Business params={decodedParams} />;
   if (PARTIES.includes(name)) return <Party params={decodedParams} />;
 

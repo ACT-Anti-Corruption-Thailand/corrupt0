@@ -15,7 +15,7 @@ const DATA_HIGH_RANK = await aq.loadCSV(
   "data/raw/public_sector_high_ranking_officer.csv"
 );
 
-const generateNamesAndId = async () => {
+export const generateNamesAndId = async () => {
   const nacc_names = DATA_NACC.derive({
     full_name: (d) => op.replace(d.first_name + " " + d.last_name, /\s+/g, "-"),
   }).select("nacc_id", "full_name");
