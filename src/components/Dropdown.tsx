@@ -43,9 +43,16 @@ export default function Dropdown({
       data={data}
       value={value}
       setValue={setValue}
+      arrowSrc="/icons/caret-w.svg"
       multiple
     />
   ) : (
-    <BareDropdown className={CLASSNAME} data={data} value={value} setValue={setValue} />
+    <BareDropdown
+      className={CLASSNAME}
+      data={data}
+      value={value}
+      setValue={setValue}
+      arrowSrc="/icons/caret-w.svg"
+    />
   );
 }
