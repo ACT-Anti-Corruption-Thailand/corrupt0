@@ -8,6 +8,7 @@ import InfoDonationChart from "./Chart";
 import InfoDonationPartyCard from "./PartyCard";
 
 import PARTY_ASSETS from "@/data/color/partyAssets.json";
+
 import { formatThousands, thaiMoneyFormatter } from "@/functions/moneyFormatter";
 
 interface DonationData {
@@ -73,6 +74,45 @@ const getPartiesColor = (parties: string[]) => {
   );
 };
 
+interface PartyDonationDetail {
+  name: string;
+  isTop10?: boolean;
+  statements: { date: string; amount: number }[];
+}
+
+const getDonationByParty = (data: DonationData[]): PartyDonationDetail[] => {
+  const dataByParty: Record<string, DonationData[]> = {};
+
+  for (const d of data) {
+    if (dataByParty[d.party]) dataByParty[d.party].push(d);
+    else dataByParty[d.party] = [d];
+  }
+
+  return Object.entries(dataByParty).map(([party, details]) => ({
+    name: party,
+    statements: details.map((d) => ({
+      date:
+        [
+          "ม.ค.",
+          "ก.พ.",
+          "มี.ค.",
+          "เม.ย.",
+          "พ.ค.",
+          "มิ.ย.",
+          "ก.ค.",
+          "ส.ค.",
+          "ก.ย.",
+          "ต.ค.",
+          "พ.ย.",
+          "ธ.ค.",
+        ][d.month - 1] +
+        " " +
+        d.year,
+      amount: d.amount,
+    })),
+  }));
+};
+
 export default function InfoDonationSection({
   rawData,
   allYears,
@@ -136,16 +176,14 @@ export default function InfoDonationSection({
           isMonth={year !== "ทุกปี"}
         />
         <div className="flex gap-4 flex-col mt-10">
-          <InfoDonationPartyCard
-            name="พลังประชารัฐ"
-            color="rgb(73,147,254)"
-            isTop10
-            statements={[
-              { date: "A", amount: 5_000 },
-              { date: "B", amount: 100_000 },
-              { date: "C", amount: 1_000_000 },
-            ]}
-          />
+          {getDonationByParty(filteredData).map((d) => (
+            <InfoDonationPartyCard
+              key={d.name}
+              name={d.name}
+              isTop10={d.isTop10}
+              statements={d.statements}
+            />
+          ))}
         </div>
       </div>
     </section>

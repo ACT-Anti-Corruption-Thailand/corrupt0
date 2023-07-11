@@ -2,7 +2,10 @@ import Image from "next/image";
 import Accordion from "../../Accordion";
 import Link from "next/link";
 
+import PARTY_ASSETS from "@/data/color/partyAssets.json";
+
 import { formatThousands, thaiMoneyFormatter } from "@/functions/moneyFormatter";
+import { hasCorrupt0Page } from "@/functions/navigation";
 
 import type { CSSProperties } from "react";
 
@@ -13,17 +16,20 @@ export interface DonationStatement {
 
 interface InfoDonationPartyCardProps {
   name: string;
-  color: string;
-  isTop10: boolean;
+  isTop10?: boolean;
   statements: DonationStatement[];
 }
 
 export default function InfoDonationPartyCard({
   name,
-  color,
   isTop10,
   statements,
 }: InfoDonationPartyCardProps) {
+  const partyInfo = PARTY_ASSETS.find((party_data) => party_data.Name === name);
+
+  const color = partyInfo?.Color ?? "#fff";
+  const logo = partyInfo?.Images?.[0]?.url ?? "/placeholders/party.png";
+
   const [totalAmount, totalUnit] = thaiMoneyFormatter(
     statements.reduce((a, c) => a + c.amount, 0)
   );
@@ -36,15 +42,22 @@ export default function InfoDonationPartyCard({
           <div className="flex gap-5 items-center">
             <Image
               className="border border-black rounded-full"
-              src="/placeholders/party.png"
+              src={logo}
               alt=""
               width={25}
               height={25}
             />
             <span className="b2 font-bold">{name}</span>
-            <Link href={`/info/พรรค${name}`} target="_blank">
-              <Image src="/icons/new_tab.svg" alt="ดูข้อมูลพรรค" width={15} height={15} />
-            </Link>
+            {hasCorrupt0Page(`พรรค${name}`) && (
+              <Link href={`/info/พรรค${name}`} target="_blank">
+                <Image
+                  src="/icons/new_tab.svg"
+                  alt="ดูข้อมูลพรรค"
+                  width={15}
+                  height={15}
+                />
+              </Link>
+            )}
             <Image
               className="ui-open:rotate-180 ml-auto"
               src="/icons/caret-g.svg"
