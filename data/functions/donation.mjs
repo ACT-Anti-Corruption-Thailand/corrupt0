@@ -56,6 +56,34 @@ const getBusinessDonation = async (donation_table, name) => {
     .objects();
 };
 
+const DATA_LAW_SEC = await aq.loadCSV("data/raw/sec.csv");
+const DATA_LAW_JUDGEMENT = await aq.loadCSV("data/raw/judgement.csv");
+const DATA_LAW_NACC = await aq.loadCSV("data/raw/nacc_culpability.csv", {
+  parse: { note: String },
+});
+
+/**
+ * @param {string} name company name without บริษัท or จำกัด
+ * @returns {Promise<{sec: any[], judgement: any[], nacc: any[]}>}
+ */
+export const getBusinessLawsuit = async (name) => {
+  const sec = DATA_LAW_SEC.params({ name: new RegExp(name, "g") })
+    .filter((d) => op.match(d.person_name, name))
+    .objects();
+  const judgement = DATA_LAW_JUDGEMENT.params({ name: new RegExp(name, "g") })
+    .filter((d) => op.match(d.defendant_company, name))
+    .objects();
+  const nacc = DATA_LAW_NACC.params({ name: new RegExp(name, "g") })
+    .filter((d) => op.match(d.accused_first_name, name))
+    .objects();
+
+  return {
+    sec,
+    judgement,
+    nacc,
+  };
+};
+
 // ██████╗  █████╗ ██████╗ ████████╗██╗███████╗███████╗
 // ██╔══██╗██╔══██╗██╔══██╗╚══██╔══╝██║██╔════╝██╔════╝
 // ██████╔╝███████║██████╔╝   ██║   ██║█████╗  ███████╗
@@ -93,10 +121,12 @@ export const generateDonation = async () => {
   for (let business of businesses) {
     const name = business;
     const donation = await getBusinessDonation(donationTable, business);
+    const lawsuit = await getBusinessLawsuit(name);
 
     const data = {
       name,
       donation,
+      lawsuit,
     };
 
     const safeBusinessFilename = business.replace(/\s+|\/|\\/g, "-");

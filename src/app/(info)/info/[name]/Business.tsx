@@ -27,6 +27,9 @@ export default function Business({ params }: { params: { name: string } }) {
 
   const { donation } = politicianData;
 
+  const { sec, judgement, nacc } = politicianData.lawsuit;
+  const totalLawsuit = sec.length + judgement.length + nacc.length;
+
   const hasDonation = donation.length > 0;
   const donationAllYears = (
     hasDonation
@@ -152,19 +155,24 @@ export default function Business({ params }: { params: { name: string } }) {
                   </span>
                 </a>
               )}
-              <a className="block p-10 bg-black border-b border-b-gray-6" href="#lawsuit">
-                <span className="flex gap-5 items-center">
-                  <Image src="/icons/lawsuit.svg" alt="" width={20} height={20} />
-                  <span className="b4 font-bold">เกี่ยวข้องกับ 4 คดี</span>
-                  <Image
-                    className="ml-auto lg:-rotate-90"
-                    src="/icons/arr-g.svg"
-                    alt=""
-                    width={16}
-                    height={16}
-                  />
-                </span>
-              </a>
+              {totalLawsuit > 0 && (
+                <a
+                  className="block p-10 bg-black border-b border-b-gray-6"
+                  href="#lawsuit"
+                >
+                  <span className="flex gap-5 items-center">
+                    <Image src="/icons/lawsuit.svg" alt="" width={20} height={20} />
+                    <span className="b4 font-bold">เกี่ยวข้องกับ {totalLawsuit} คดี</span>
+                    <Image
+                      className="ml-auto lg:-rotate-90"
+                      src="/icons/arr-g.svg"
+                      alt=""
+                      width={16}
+                      height={16}
+                    />
+                  </span>
+                </a>
+              )}
             </section>
           </>
         }
@@ -179,39 +187,59 @@ export default function Business({ params }: { params: { name: string } }) {
         )}
 
         {/* ข้อมูลคดีความ */}
-        <section id="lawsuit">
-          <header className="py-8 flex gap-10 h4 justify-center items-center bg-gray-6 text-balance">
-            <Image src="/icons/lawsuit.svg" alt="" width={30} height={30} />
-            <span className="w-auto">ข้อมูลคดีความ</span>
-          </header>
-          <div className="p-10 flex flex-col gap-5">
-            <InfoLawsuitCard.Nacc
-              description="สั่งการและอนุมัติให้จัดจ้างโครงการที่ได้รับ จัดสรรจากงบประมาณรายจ่ายประจำ ปีงบประมาณ พ.ศ.2554 งบเงินอุดหนุน เงินอุดหนุนเฉพาะกิจของเทศบาลตำบลโพนสวรรค์ ด้วยวิธีพิเศษ เมื่อปีงบประมาณ พ.ศ.2554 จำนวน 5 โครงการ โดยมุ่งหมายมิให้มีการ- แข่งขันราคาอย่างเป็นธรรม เอื้ออำนวยแก่ ผู้เสนอราคาบางรายให้เป็นผู้มีสิทธิทำสัญญา"
-              updateDate="03/08/2564"
-              blackNumber="5590260873 26-1-313 /2561"
-              redNumber="2-359-61 656-1-50 /2563"
-              meetingDate="01/10/2563"
-              meetingResult="Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quaerat sapiente, fuga assumenda error iste, necessitatibus dignissimos hic ratione quia voluptate nulla nam velit animi quo magnam natus! Tenetur, hic pariatur?"
-              enforceResult="สำหรับการกระทำของ หจก.วิบูลย์ภัณฑ์ก่อสร้าง, หจก.ยงยุทธกาฬสินธุ์ และ หจก.กาฬสินธุ์ก่อสร้าง มีเหตุอันควรเชื่อได้ว่ามีการ สมยอมกันในการเข้าเสนอ ราคากับเทศบาลเมือง กาฬสินธุ์ ทำให้ทางราชการ เสียประโยชน์ จึงมีเหตุที่จะ พิจารณาลงโทษ หจก. ทั้งสามเสมือนเป็นผู้ทิ้งงาน ตามระเบียบกระทรวง มหาดไทยว่าด้วยการพัสดุ ของหน่วยการบริหารราชการ ส่วนท้องถิ่น พ.ศ. 2535 ข้อ 138 ซึ่งแก้ไขเพิ่มเติม โดยระเบียบกระทรวง มหาดไทยว่าด้วยการพัสดุ ของหน่วยการบริหารราชการ ส่วนท้องถิ่น (ฉบับที่ 2) พ.ศ. 2539 ให้แจ้งประสาน งานไปยังปลัดกระทรวง มหาดไทย ต่อไป"
-              note="การชี้มูลความผิดทางอาญาของคณะกรรมการ ป.ป.ช. ยังไม่ถือเป็นที่สุดผู้ถูกกล่าวหายังเป็นผู้บริสุทธิ์จนกว่าจะมีคำพิพากษาของศาลอันถึงที่สุด"
-            />
-            <InfoLawsuitCard.Sec
-              description="300 ประกอบ 240 / พ.ร.บ. หลักทรัพย์ฯ (แก้ไขโดย พ.ร.บ. หลักทรัพย์ ฉบับที่ 5)"
-              updateDate="03/08/2564"
-              enforceDate="29/05/2566"
-              cause="ในวันที่ 2 สิงหาคม 2562 บริษัท พีพี ไพร์ม จำกัด (มหาชน) (?PPPM?) ได้เปิดเผยสารสนเทศผ่านระบบข้อมูลของตลาดหลักทรัพย์แห่งประเทศไทยว่า PPPM จะไม่ผิดนัดชำระหนี้หุ้นกู้ลำดับที่ 2 จำนวน 319.50 ล้านบาท ซึ่งครบกำหนดไถ่ถอนวันที่ 2 สิงหาคม 2562 และบริษัทจะชำระทั้งเงินต้นและดอกเบี้ยภายในวันที่ 7 สิงหาคม 2562 ทั้งที่ ในช่วงเวลานั้น PPPM มิได้มีสภาพคล่องเพียงพอที่จะนำมาชำระหนี้หุ้นกู้ได้ตามที่เปิดเผยสารสนเทศ ซึ่งข้อความที่ PPPM เผยแพร่ดังกล่าวอาจทำให้ประชาชนและผู้ลงทุนเข้าใจผิดในสาระสำคัญเกี่ยวกับข้อมูลของ PPPM ที่น่าจะทำให้มีผลกระทบต่อราคาหรือต่อการตัดสินใจลงทุนใน PPPM โดยในขณะเกิดเหตุ พลเอกเชาวฤทธิ์ ประภาจิตร์ นายประวีณ ดีขจรเดช นางสาวภัทชรดา จุฑาประทีป และนางกนกวัลย์ วรรณบุตร ซึ่งเป็นบุคคลที่รับผิดชอบในการดำเนินงานของ PPPM ทราบข้อเท็จจริงว่า PPPM มิได้มีสภาพคล่องเพียงพอในการชำระหนี้หุ้นกู้ดังกล่าว รวมทั้งมีส่วนร่วมในการดำเนินการอันนำไปสู่การเปิดเผยสารสนเทศของ PPPM"
-              actionType="การดำเนินการทางแพ่ง"
-              actionDetail="29/05/2566 ตกลงยินยอมปฏิบัติตามมาตรการลงโทษทางแพ่งตามที่คณะกรรมการพิจารณามาตรการลงโทษทางแพ่งกำหนด ดังนี้- ชำระค่าปรับทางแพ่ง 1,000,000.00 บาท- ห้ามเป็นกรรมการหรือผู้บริหารของบริษัทที่ออกหลักทรัพย์ ตั้งแต่วันที่ 29/05/2566 ถึงวันที่ 28/01/2568- ห้ามเป็นกรรมการหรือผู้บริหารของบริษัทหลักทรัพย์ ตั้งแต่วันที่ 29/05/2566 ถึงวันที่ 28/01/2568- ชดใช้ค่าใช้จ่ายของสำนักงานในการตรวจสอบ 30,662.00 บาท"
-            />
-            <InfoLawsuitCard.Supreme
-              description="ความผิดตามพระราชบัญญัติประกอบรัฐธรรมนูญว่าด้วยการป้องกันและปราบปรามทุจริตปี พ.ศ.2542 มาตรา 4 และมาตรา 80(1)"
-              updateDate="03/08/2564"
-              blackNumber="อม. 1/2545"
-              redNumber="อม. 1/2546"
-              judgement="มีความผิด"
-            />
-          </div>
-        </section>
+        {totalLawsuit > 0 && (
+          <section id="lawsuit">
+            <header className="py-8 flex gap-10 h4 justify-center items-center bg-gray-6 text-balance">
+              <Image src="/icons/lawsuit.svg" alt="" width={30} height={30} />
+              <span className="w-auto">ข้อมูลคดีความ</span>
+            </header>
+            <div className="p-10 flex flex-col gap-5">
+              {nacc.length > 0 &&
+                nacc.map((e: any, i: number) => (
+                  <InfoLawsuitCard.Nacc
+                    key={i}
+                    description={e.indicment}
+                    updateDate={
+                      e.update_at
+                        ? new Date(e.update_at).toLocaleDateString("th-TH")
+                        : undefined
+                    }
+                    blackNumber={e.black_case_no}
+                    redNumber={e.red_case_no}
+                    meetingDate={
+                      e.date_of_resolution
+                        ? new Date(e.date_of_resolution).toLocaleDateString("th-TH")
+                        : undefined
+                    }
+                    meetingResult={e.nacc_decision}
+                    enforceResult={e.final_decision}
+                    note={e.note}
+                  />
+                ))}
+              {sec.length > 0 &&
+                sec.map((e: any, i: number) => (
+                  <InfoLawsuitCard.Sec
+                    key={i}
+                    description={e.law_name}
+                    enforceDate={e.enforace_date}
+                    cause={e.person_action}
+                    actionType={e.enforce_type}
+                    actionDetail={e.enforce_detail}
+                  />
+                ))}
+              {judgement.length > 0 &&
+                judgement.map((e: any, i: number) => (
+                  <InfoLawsuitCard.Supreme
+                    key={i}
+                    description={e.offences_under_section}
+                    blackNumber={e.black_case_no}
+                    redNumber={e.red_case_no}
+                    judgement={e.judgement}
+                  />
+                ))}
+            </div>
+          </section>
+        )}
       </InfoDesktopAligner>
     </main>
   );

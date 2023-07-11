@@ -51,7 +51,7 @@ const InfoLawsuitCardBase = ({
               </span>
             )}
             <Image
-              className={clsx("ui-open:rotate-180", updateDate && "ml-auto")}
+              className={clsx("ui-open:rotate-180", !updateDate && "ml-auto")}
               src="/icons/caret-g.svg"
               width={13}
               height={13}

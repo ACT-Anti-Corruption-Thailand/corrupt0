@@ -151,7 +151,6 @@ const DATA_LAW_JUDGEMENT = await aq.loadCSV("data/raw/judgement.csv");
 const DATA_LAW_NACC = await aq.loadCSV("data/raw/nacc_culpability.csv", {
   parse: { note: String },
 });
-// const DATA_NACC_2 = await aq.loadCSV("data/raw/nacc_culpability0.csv"); // ขอให้ format มาให้ใหม่
 
 const DATA_LAW_SEC_TRANSFORMED = DATA_LAW_SEC.derive({
   full_name: (d) => op.replace(d.person_name + " " + d.person_surname, /\s+/g, "-"),
