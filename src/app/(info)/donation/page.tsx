@@ -15,17 +15,9 @@ import Dropdown from "@/components/Dropdown";
 const YEARS = ["ทุกปี", "2566", "2565", "2564", "2563", "2562"];
 
 //For Party Section
-const TOTAL_PARTY_DONATION_AMOUNT = [
-  //sum of donation each year
-  {
-    year: "2566",
-    amount: 1000000,
-  },
-  {
-    year: "2565",
-    amount: 1000000,
-  },
-];
+import PARTY_DONATION_Test from "@data/donation/partyPerYearWithTotal.json";
+import PARTY_TOTAL_DONATION from "@data/donation/totalPerYearWithTotal.json"
+import PARTY_COLOR from "@data/color/partyAssets.json";
 
 const PARTY_DONATION = [
   {
@@ -114,40 +106,6 @@ const INDIVIDUAL_DONORS = [
 // TODO: Manually Typing
 type IndividualDonorSchema = (typeof INDIVIDUAL_DONORS)[number];
 
-const PARTY_COLORS = [
-  {
-    name: "พลังประชารัฐ",
-    color: "blue",
-  },
-  {
-    name: "พลังไทยดี",
-    color: "red",
-  },
-  {
-    name: "เสรีรวมไทย",
-    color: "yellow",
-  },
-  {
-    name: "เศรษฐกิจใหม่",
-    color: "green",
-  },
-  {
-    name: "ประชาธิปัตย์",
-    color: "purple",
-  },
-  {
-    name: "เพื่อไทย",
-    color: "orange",
-  },
-  {
-    name: "ประชาชาติ",
-    color: "pink",
-  },
-  {
-    name: "เพื่อแผ่นดิน",
-    color: "brown",
-  },
-];
 
 export default function Donation() {
   const [partySearch, setPartySearch] = React.useState<PartySearchSchema | null>(null);
@@ -203,38 +161,23 @@ export default function Donation() {
           setSelected={setPartySearch}
         />
         <div className="flex flex-col items-center text-center text-18 lg:b4 pb-10 lg:pb-30 w-[90vw] min-w-[300px] max-w-[850px]">
-          {partySearch ? (
-            <EntityBarCard
-              name={partySearch.name}
-              title=""
-              color={partySearch.color}
-              amount={partySearch.receiveAmount}
-              maxAmount={
-                TOTAL_PARTY_DONATION_AMOUNT.filter((e) =>
-                  e.year.includes(partySearch.year)
-                )[0].amount
-              }
-              imgPath={partySearch.img}
-            />
+          {
+            partySearch ? (
+              <div>Search</div>
           ) : (
-            PARTY_DONATION.filter((d) =>
-              partyFilterYear !== "ทุกปี" ? d.year === partyFilterYear : d.year
-            ).map((party, index) => (
+            PARTY_DONATION_Test[partyFilterYear].map((party, index) => (
               <EntityBarCard
-                name={party.name}
+                name={party.party}
                 title=""
-                color={party.color}
-                amount={party.receiveAmount}
-                maxAmount={
-                  TOTAL_PARTY_DONATION_AMOUNT.filter((e) =>
-                    e.year.includes(party.year)
-                  )[0].amount
-                }
-                imgPath={party.img}
+                color={PARTY_COLOR.find((d) => d.Name === party.party)?.Color ?? "#ffffff"}
+                amount={party.amount}
+                maxAmount={PARTY_TOTAL_DONATION[partyFilterYear][0].total}
+                imgPath={PARTY_COLOR.find((d) => d.Name === party.party)?.Images[0].url ?? "/icons/person.svg"}
                 key={index}
               />
             ))
-          )}
+          )
+        }
         </div>
         <div className="flex justify-center items-center gap-10 bg-gray-6 w-screen py-10 my-10 lg:py-15 lg:my-30 text-24 lg:h3">
           <Image
@@ -265,18 +208,18 @@ export default function Donation() {
         <div className="flex flex-col px-10 py-10 my-10 lg:my-30 border-1 rounded-5 border-gray-6 items-start w-[85vw] max-w-[800px]">
           <p className="b4 text-gray-3">สี = พรรค</p>
           <div className="flex gap-10 flex-wrap">
-            {PARTY_COLORS.map((item, index) => (
+            {PARTY_COLOR.map((item, index) => (
               <div key={index} className="flex justify-center items-center gap-5">
                 <div
                   style={
                     {
-                      backgroundColor: item.color,
+                      backgroundColor: item.Color,
                     } as React.CSSProperties
                   }
                   className="w-8 h-8"
                   key={index}
                 />
-                <p className="text-gray-3 b4">{item.name}</p>
+                <p className="text-gray-3 b4">{item.Name}</p>
               </div>
             ))}
           </div>
