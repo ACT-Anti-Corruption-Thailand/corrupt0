@@ -6,9 +6,12 @@ import Sharer from "@/components/Sharer";
 import Image from "next/image";
 
 export default function Business({ params }: { params: { name: string } }) {
+  const name = params.name;
+  const spacedName = name.replace(/-/g, " ");
+
   return (
     <main>
-      <GoTop name="บริษัท ทีเอ พีเอ็น เปเปอร์ จำกัด" />
+      <GoTop name={spacedName} />
 
       <InfoDesktopAligner
         left={
@@ -18,7 +21,7 @@ export default function Business({ params }: { params: { name: string } }) {
               <span className="b6 text-gray-5">
                 อัปเดตข้อมูลเมื่อวันที่ {new Date().toLocaleDateString("th")}
               </span>
-              <span className="h2">บริษัท ทีเอ พีเอ็น เปเปอร์ จำกัด</span>
+              <span className="h2">{spacedName}</span>
               <div className="flex gap-15 justify-center">
                 <div className="flex flex-col">
                   <Image
@@ -116,7 +119,7 @@ export default function Business({ params }: { params: { name: string } }) {
         }
       >
         {/* ประวัติการบริจาคเงินให้พรรคการเมือง */}
-        <InfoDonationSection />
+        {/* <InfoDonationSection /> */}
 
         {/* ข้อมูลคดีความ */}
         <section id="lawsuit">

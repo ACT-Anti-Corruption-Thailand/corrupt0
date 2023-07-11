@@ -4,10 +4,20 @@ import InfoPartyDonationSection from "@/components/Info/_Donation/PartySection";
 import Sharer from "@/components/Sharer";
 import Image from "next/image";
 
+import PARTY_ASSETS from "@/data/color/partyAssets.json";
+
 export default function Party({ params }: { params: { name: string } }) {
+  const name = params.name;
+  const spacedName = name.replace(/-/g, " ");
+
+  const partyInfo = PARTY_ASSETS.find(
+    (party_data) => party_data.Name === name.replace("พรรค", "")
+  );
+  const logo = partyInfo?.Images?.[0]?.url ?? "/placeholders/party.png";
+
   return (
     <main>
-      <GoTop name="พรรคพลังประชารัฐ" />
+      <GoTop name={spacedName} />
 
       <InfoDesktopAligner
         left={
@@ -17,10 +27,10 @@ export default function Party({ params }: { params: { name: string } }) {
               อัปเดตข้อมูลเมื่อวันที่ {new Date().toLocaleDateString("th")}
             </span>
             <span className="b3 -mb-5 leading-1">เงินบริจาคให้</span>
-            <span className="h2">พรรคพลังประชารัฐ</span>
+            <span className="h2">{spacedName}</span>
             <Image
               className="bg-gray-2 rounded-5 border border-black mb-5 mx-auto"
-              src="/placeholders/party.png"
+              src={logo}
               width={90}
               height={90}
               alt=""

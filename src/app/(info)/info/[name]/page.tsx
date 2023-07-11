@@ -5,10 +5,12 @@ import Party from "./Party";
 import Person from "./Person";
 import Position from "./Position";
 
-import PEOPLE_NACC from "@/data/people_nacc.json";
-import PEOPLE_GEN from "@/data/people_gen.json";
 import BUSINESSES from "@/data/businesses.json";
 import PARTIES from "@/data/parties.json";
+import PEOPLE_GEN from "@/data/people_gen.json";
+import PEOPLE_NACC from "@/data/people_nacc.json";
+
+import type { Metadata } from "next";
 
 const PEOPLE = [...PEOPLE_NACC, ...PEOPLE_GEN];
 
@@ -28,6 +30,15 @@ export async function generateStaticParams() {
   return [...POSITION_GROUP, ...PEOPLE, ...BUSINESSES, ...PARTIES].map((name) => ({
     name,
   }));
+}
+
+export async function generateMetadata({ params }: InfoPageProps): Promise<Metadata> {
+  const name = decodeURI(params.name);
+  const spacedName = name.replace(/-/g, " ");
+
+  return {
+    title: `${spacedName} | Corrupt0 — ACT Ai`,
+  };
 }
 
 interface InfoPageProps {

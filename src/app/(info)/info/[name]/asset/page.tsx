@@ -13,6 +13,7 @@ import type {
   InfoAssetValuableStatement,
   InfoAssetVehicleStatement,
 } from "@/components/Info/Asset/Accordion";
+import type { Metadata } from "next";
 
 const EXAMPLE_CASH_STATEMENTS: InfoAssetStatement[] = [
   {
@@ -220,6 +221,15 @@ export async function generateStaticParams() {
   return PEOPLE_NACC.map((name) => ({
     name,
   }));
+}
+
+export async function generateMetadata({ params }: AssetPageProps): Promise<Metadata> {
+  const name = decodeURI(params.name);
+  const spacedName = name.replace(/-/g, " ");
+
+  return {
+    title: `เจาะลึกทรัพย์สิน ${spacedName} | Corrupt0 — ACT Ai`,
+  };
 }
 
 interface AssetPageProps {
