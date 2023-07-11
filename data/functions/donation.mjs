@@ -33,7 +33,9 @@ export const getPartiesFromDonation = async (donation_table) => {
     .select("party")
     .dedupe()
     .objects()
-    .map((e) => "พรรค" + e.party.replace(/\s+|\/|\\/g, "-"));
+    .map(
+      (e) => (e.party.includes("พรรค") ? "" : "พรรค") + e.party.replace(/\s+|\/|\\/g, "-")
+    );
 };
 
 export const generateDonation = async () => {
