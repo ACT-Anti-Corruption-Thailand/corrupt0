@@ -1,13 +1,58 @@
+import fs from "fs";
+import { notFound } from "next/navigation";
+import path from "path";
+
 import InfoDesktopAligner from "@/components/Info/DesktopAligner";
-import InfoDonationSection from "@/components/Info/_Donation/Section";
 import GoTop from "@/components/Info/GoTop";
 import InfoLawsuitCard from "@/components/Info/LawsuitCard";
+import InfoDonationSection from "@/components/Info/_Donation/Section";
 import Sharer from "@/components/Sharer";
 import Image from "next/image";
+
+import { formatThousands } from "@/functions/moneyFormatter";
 
 export default function Business({ params }: { params: { name: string } }) {
   const name = params.name;
   const spacedName = name.replace(/-/g, " ");
+
+  let politicianData: Record<any, any> = {};
+
+  try {
+    const filePath = path.join(process.cwd(), "src", "data", "info", `${name}.json`);
+    const fileContents = fs.readFileSync(filePath, "utf8");
+    politicianData = JSON.parse(fileContents); // pass this into the page
+  } catch (e) {
+    notFound();
+  }
+
+  const { donation } = politicianData;
+
+  const hasDonation = donation.length > 0;
+  const donationAllYears = (
+    hasDonation
+      ? [
+          ...new Set(
+            donation
+              .map((e: { year: number }) => e.year)
+              .sort((a: number, z: number) => a - z)
+          ),
+        ]
+      : []
+  ) as number[];
+  const donationAllParties = (
+    hasDonation
+      ? [
+          ...new Set(
+            donation
+              .map((e: { party: string }) => e.party)
+              .sort((a: string, z: string) => a.localeCompare(z))
+          ),
+        ]
+      : []
+  ) as string[];
+  const totalDonation = hasDonation
+    ? donation.reduce((a: number, c: { amount: number }) => a + c.amount, 0)
+    : 0;
 
   return (
     <main>
@@ -82,25 +127,31 @@ export default function Business({ params }: { params: { name: string } }) {
 
             {/* Jumpnav */}
             <section className="p-10 bg-white">
-              <a
-                className="block p-10 bg-black border-b border-b-gray-6"
-                href="#donation"
-              >
-                <span className="flex gap-5 items-center">
-                  <Image src="/icons/donate.svg" alt="" width={20} height={20} />
-                  <span>
-                    <span className="b3 font-bold">เคยบริจาคให้ 4 พรรคการเมือง</span>
+              {hasDonation && (
+                <a
+                  className="block p-10 bg-black border-b border-b-gray-6"
+                  href="#donation"
+                >
+                  <span className="flex gap-5 items-center">
+                    <Image src="/icons/donate.svg" alt="" width={20} height={20} />
+                    <span>
+                      <span className="b3 font-bold">
+                        เคยบริจาคให้ {donationAllParties.length} พรรคการเมือง
+                      </span>
+                    </span>
+                    <Image
+                      className="ml-auto lg:-rotate-90"
+                      src="/icons/arr-g.svg"
+                      alt=""
+                      width={16}
+                      height={16}
+                    />
                   </span>
-                  <Image
-                    className="ml-auto lg:-rotate-90"
-                    src="/icons/arr-g.svg"
-                    alt=""
-                    width={16}
-                    height={16}
-                  />
-                </span>
-                <span className="b5 text-gray-5 ml-[21px]">รวม 2,900,000 บาท</span>
-              </a>
+                  <span className="b5 text-gray-5 ml-[21px]">
+                    รวม {formatThousands(totalDonation)} บาท
+                  </span>
+                </a>
+              )}
               <a className="block p-10 bg-black border-b border-b-gray-6" href="#lawsuit">
                 <span className="flex gap-5 items-center">
                   <Image src="/icons/lawsuit.svg" alt="" width={20} height={20} />
@@ -119,7 +170,13 @@ export default function Business({ params }: { params: { name: string } }) {
         }
       >
         {/* ประวัติการบริจาคเงินให้พรรคการเมือง */}
-        {/* <InfoDonationSection /> */}
+        {hasDonation && (
+          <InfoDonationSection
+            rawData={donation}
+            allParties={donationAllParties}
+            allYears={donationAllYears}
+          />
+        )}
 
         {/* ข้อมูลคดีความ */}
         <section id="lawsuit">
