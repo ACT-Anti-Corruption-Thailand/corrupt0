@@ -8,7 +8,7 @@ const RAW_DIR = "data/raw";
 export const getDonationData = async () => {
   const files = await fs.readdir(RAW_DIR);
   const filePaths = files
-    .filter((file) => file.toLowerCase().includes("political_party_donor"))
+    .filter((file) => file.toLowerCase().includes("political_party_donor_"))
     .map((file) => path.join(RAW_DIR, file));
 
   let tables = [];
