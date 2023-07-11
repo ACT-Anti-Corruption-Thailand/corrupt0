@@ -15,7 +15,11 @@ const DATA_NACC = await aq.loadCSV("data/raw/nacc_detail.csv");
 const DATA_HIGH_RANK = await aq.loadCSV(
   "data/raw/public_sector_high_ranking_officer.csv"
 );
-const donation_table = await getDonationData();
+const DONATION_TABLE = await getDonationData();
+const DONATION_FULLNAME = DONATION_TABLE.derive({
+  full_name: (d) =>
+    op.replace(d.donor_firstname + " " + d.donor_lastname, /\s+|\/|\\/g, "-"),
+});
 
 /**
  * @returns {Promise<[{full_name: string, nacc_id: number}[],{full_name: string, nacc_id: undefined}[]]>}
@@ -35,12 +39,9 @@ export const generateNamesAndId = async () => {
     .dedupe();
 
   // DONATION
-  const donation_names = donation_table
-    .filter((d) => op.equal(d.donor_prefix, "บุคคลธรรมดา"))
-    .derive({
-      full_name: (d) =>
-        op.replace(d.donor_firstname + " " + d.donor_lastname, /\s+|\/|\\/g, "-"),
-    })
+  const donation_names = DONATION_FULLNAME.filter((d) =>
+    op.equal(d.donor_prefix, "บุคคลธรรมดา")
+  )
     .select("full_name")
     .dedupe();
 
@@ -247,6 +248,29 @@ export const getAsset = async (nacc_id) => {
   return all_assets.objects();
 };
 
+// ██████╗  ██████╗ ███╗   ██╗ █████╗ ████████╗██╗ ██████╗ ███╗   ██╗
+// ██╔══██╗██╔═══██╗████╗  ██║██╔══██╗╚══██╔══╝██║██╔═══██╗████╗  ██║
+// ██║  ██║██║   ██║██╔██╗ ██║███████║   ██║   ██║██║   ██║██╔██╗ ██║
+// ██║  ██║██║   ██║██║╚██╗██║██╔══██║   ██║   ██║██║   ██║██║╚██╗██║
+// ██████╔╝╚██████╔╝██║ ╚████║██║  ██║   ██║   ██║╚██████╔╝██║ ╚████║
+// ╚═════╝  ╚═════╝ ╚═╝  ╚═══╝╚═╝  ╚═╝   ╚═╝   ╚═╝ ╚═════╝ ╚═╝  ╚═══╝
+
+/**
+ * @param {string} name kebab-case full name
+ * @returns {Promise<{year: number, month: number, party: string, amount: number}[]>>}
+ */
+const getPersonDonation = async (name) => {
+  return DONATION_FULLNAME.params({ name })
+    .filter((d) => d.full_name === name)
+    .select("year", "month", "party", "amount")
+    .rename({ amount: "_amount" })
+    .groupby("year", "month", "party")
+    .rollup({ amount: (d) => op.sum(d._amount) })
+    .ungroup()
+    .select("year", "month", "party", "amount")
+    .objects();
+};
+
 // ███╗   ███╗ █████╗ ██╗███╗   ██╗
 // ████╗ ████║██╔══██╗██║████╗  ██║
 // ██╔████╔██║███████║██║██╔██╗ ██║
@@ -271,6 +295,7 @@ export const generatePeople = async () => {
   namesAndId.forEach(async ({ full_name, nacc_id }) => {
     const person_data_json = await getPersonalData(full_name);
     const lawsuit = await getLawsuit(full_name);
+    const donation = await getPersonDonation(full_name);
 
     const relationship = await getRelationship(nacc_id);
     const assets = await getAsset(nacc_id);
@@ -280,6 +305,7 @@ export const generatePeople = async () => {
       lawsuit,
       relationship,
       assets,
+      donation,
     };
 
     fs.writeFileSync(`src/data/info/${full_name}.json`, JSON.stringify(data));
