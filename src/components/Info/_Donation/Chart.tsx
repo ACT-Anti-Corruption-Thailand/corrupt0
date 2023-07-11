@@ -9,6 +9,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import { moneyFormatter } from "@/functions/moneyFormatter";
 
 // AxisTick
 interface TickProps {
@@ -24,9 +25,32 @@ const XTickLabel = ({ x, y, payload }: TickProps) => (
   </text>
 );
 
+const XTickMonthLabel = ({ x, y, payload }: TickProps) => (
+  <XTickLabel
+    x={x}
+    y={y}
+    payload={{
+      value: [
+        "ม.ค.",
+        "ก.พ.",
+        "มี.ค.",
+        "เม.ย.",
+        "พ.ค.",
+        "มิ.ย.",
+        "ก.ค.",
+        "ส.ค.",
+        "ก.ย.",
+        "ต.ค.",
+        "พ.ย.",
+        "ธ.ค.",
+      ][+payload.value - 1],
+    }}
+  />
+);
+
 const YTickLabel = ({ x, y, payload }: TickProps) => (
   <text x={x - 8} y={y} className="b7 fill-gray-5" dominantBaseline="middle">
-    {payload.value}
+    {Number.isNaN(+payload.value) ? payload.value : moneyFormatter(+payload.value)}
   </text>
 );
 
@@ -39,20 +63,22 @@ interface LineDotProps {
   height: number;
   stroke: string;
   r: number;
+  value: any;
 }
 
-const LineDot = ({ key, cx, cy, width, height, stroke, r }: LineDotProps) => (
-  <circle
-    key={key}
-    r={r}
-    stroke={stroke}
-    fill={stroke}
-    width={width}
-    height={height}
-    cx={cx}
-    cy={cy}
-  />
-);
+const LineDot = ({ key, cx, cy, width, height, stroke, r, value }: LineDotProps) =>
+  value && (
+    <circle
+      key={key}
+      r={r}
+      stroke={stroke}
+      fill={stroke}
+      width={width}
+      height={height}
+      cx={cx}
+      cy={cy}
+    />
+  );
 
 // Main
 interface InfoDonationChartProps<X extends string, Y extends readonly string[]> {
@@ -60,6 +86,7 @@ interface InfoDonationChartProps<X extends string, Y extends readonly string[]> 
   y: Y;
   yColors: string[];
   data: (Record<X, string> | Record<Y[number], number>)[];
+  isMonth?: boolean;
 }
 
 export default function InfoDonationChart<X extends string, Y extends readonly string[]>({
@@ -67,10 +94,11 @@ export default function InfoDonationChart<X extends string, Y extends readonly s
   y,
   yColors,
   data,
+  isMonth = false,
 }: InfoDonationChartProps<X, Y>) {
   if (y.length !== yColors.length)
     throw new Error(
-      `PersonChart: \`y\` and \`yColors\` length don't match. Found ${y.length} and ${yColors.length}`
+      `PersonChart: \`y\` and \`yColors\` length don't match. Found ${y.toString()} and ${yColors.toString()}`
     );
 
   return (
@@ -79,18 +107,18 @@ export default function InfoDonationChart<X extends string, Y extends readonly s
         width={500}
         height={300}
         data={data}
-        margin={{ top: 40, right: 20, bottom: 0, left: -40 }}
+        margin={{ top: 40, right: 30, bottom: 0, left: -40 }}
       >
         <CartesianGrid offset={0} />
         <XAxis
           dataKey={x}
           padding={{ left: 30, right: 30 }}
           tickLine={false}
-          tick={XTickLabel}
+          tick={isMonth ? XTickMonthLabel : XTickLabel}
         >
           <Label
             className="b7 -translate-y-4 md:-translate-y-5"
-            value="ปี"
+            value={isMonth ? "เดือน" : "ปี"}
             offset={0}
             position="right"
           />
@@ -100,7 +128,7 @@ export default function InfoDonationChart<X extends string, Y extends readonly s
             className="b7 translate-x-40"
             offset={8}
             position="top"
-            value="จำนวนเงิน (ล้านบาท)"
+            value="จำนวนเงิน"
             width={1}
           />
         </YAxis>
@@ -112,7 +140,7 @@ export default function InfoDonationChart<X extends string, Y extends readonly s
             stroke={yColors?.[i] ?? "#fff"}
             strokeWidth={2}
             dot={LineDot}
-            isAnimationActive={false}
+            animationDuration={500}
           />
         ))}
       </LineChart>

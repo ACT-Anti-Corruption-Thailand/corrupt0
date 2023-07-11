@@ -1,34 +1,102 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 import Image from "next/image";
 import Dropdown from "../../Dropdown";
 import InfoDonationChart from "./Chart";
 import InfoDonationPartyCard from "./PartyCard";
 
-const DATA = [
-  { x: "2558", y1: 1, y2: 3 },
-  { x: "2559", y1: 2, y2: 2 },
-  { x: "2560", y1: 3, y2: 1 },
-  { x: "2561", y1: 4, y2: 2 },
-  { x: "2562", y1: 3, y2: 3 },
-  { x: "2563", y1: 2, y2: 4 },
-];
+import PARTY_ASSETS from "@/data/color/partyAssets.json";
+import { formatThousands, thaiMoneyFormatter } from "@/functions/moneyFormatter";
 
-const YEARS = ["ทุกปี", "2566", "2565", "2564", "2563", "2562"];
+interface DonationData {
+  year: number;
+  month: number;
+  party: string;
+  amount: number;
+}
 
-const PARTIES = [
-  "ทุกพรรค",
-  "พลังประชารัฐ",
-  "รวมไทยสร้างชาติ",
-  "ภูมิใจไทย",
-  "ประชาธิปัตย์",
-];
+interface InfoDonationSection {
+  rawData: any;
+  allYears: number[];
+  allParties: string[];
+}
 
-export default function InfoDonationSection() {
+type ChartData = {
+  x: number;
+} & Record<string, any>;
+
+const partyDonationByYear = (year: string | number, data: DonationData[]) => {
+  const summary: Record<string, number> = {};
+
+  for (const d of data) {
+    if (d.year !== +year) continue;
+    if (summary[d.party]) summary[d.party] += d.amount;
+    else summary[d.party] = d.amount;
+  }
+
+  return summary;
+};
+
+const formatDataByYear = (
+  year: string,
+  data: DonationData[],
+  allYears: number[]
+): ChartData[] => {
+  if (year === "ทุกปี")
+    return allYears.map((_year) => ({
+      x: _year,
+      ...partyDonationByYear(_year, data),
+    }));
+
+  const dataByMonth: Record<string, DonationData[]> = {};
+
+  for (const d of data) {
+    if (d.year !== +year) continue;
+    if (dataByMonth[d.month]) dataByMonth[d.month].push(d);
+    else dataByMonth[d.month] = [d];
+  }
+
+  const result: ChartData[] = Array(12).fill``.map((_, month) => ({
+    x: +month + 1,
+    ...Object.fromEntries(dataByMonth[month + 1]?.map((e) => [e.party, e.amount]) ?? []),
+  }));
+
+  return result;
+};
+
+const getPartiesColor = (parties: string[]) => {
+  return parties.map(
+    (party) =>
+      PARTY_ASSETS.find((party_data) => party_data.Name === party)?.Color ?? "#fff"
+  );
+};
+
+export default function InfoDonationSection({
+  rawData,
+  allYears,
+  allParties,
+}: InfoDonationSection) {
+  const typedData = rawData as DonationData[];
+
+  const YEARS = useMemo(() => ["ทุกปี", ...allYears.map((e) => "" + e)], [allYears]);
+  const PARTIES = useMemo(() => ["ทุกพรรค", ...allParties], [allParties]);
+
   const [year, setYear] = useState(YEARS[0]);
   const [party, setParty] = useState(PARTIES[0]);
+
+  const filteredData = typedData.filter((d) => {
+    const satisfyYear = year === "ทุกปี" || d.year === +year;
+    const satisfyParty = party === "ทุกพรรค" || d.party === party;
+    return satisfyParty && satisfyYear;
+  });
+  const totalFilteredData = thaiMoneyFormatter(
+    filteredData.reduce((a, c) => a + c.amount, 0)
+  );
+
+  const yParty = party === "ทุกพรรค" ? allParties : [party];
+  const data = formatDataByYear(year, filteredData, allYears);
 
   return (
     <section id="donation">
@@ -52,15 +120,20 @@ export default function InfoDonationSection() {
           </div>
         </div>
         <p className="text-center mb-8">
-          <span className="b4 font-bold">รวมบริจาคให้พรรคการเมือง</span>
+          <span className="b4 font-bold">
+            รวมบริจาคให้พรรค{party === "ทุกพรรค" ? "การเมือง" : party}
+          </span>
           <br />
-          <span className="b2">000 ล้านบาท</span>
+          <span className="b2">
+            {formatThousands(totalFilteredData[0])} {totalFilteredData[1]}
+          </span>
         </p>
         <InfoDonationChart
           x="x"
-          y={["y1", "y2"]}
-          yColors={["#6DD4FF", "#4993FE"]}
-          data={DATA}
+          y={yParty}
+          yColors={getPartiesColor(yParty)}
+          data={data}
+          isMonth={year !== "ทุกปี"}
         />
         <div className="flex gap-4 flex-col mt-10">
           <InfoDonationPartyCard
