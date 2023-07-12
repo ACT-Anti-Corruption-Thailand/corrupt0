@@ -259,18 +259,21 @@ export const getAsset = async (nacc_id) => {
  * @returns {Promise<{year: number, month: number, party: string, amount: number}[]>>}
  */
 const getPersonDonation = async (name) => {
-  return DONATION_FULLNAME.params({ name })
-    .filter((d) => d.full_name === name)
-    .select("year", "month", "party", "amount")
-    .rename({ amount: "_amount", year: "_year" })
-    .derive({
-      year: (d) => d._year + 543,
-    })
-    .groupby("year", "month", "party")
-    .rollup({ amount: (d) => op.sum(d._amount) })
-    .ungroup()
-    .select("year", "month", "party", "amount")
-    .objects();
+  return (
+    DONATION_FULLNAME.params({ name })
+      .filter((d) => d.full_name === name)
+      .select("year", "month", "party", "amount")
+      .rename({ amount: "amount", year: "_year" })
+      .derive({
+        year: (d) => d._year + 543,
+      })
+      .orderby("year", "month")
+      // .groupby("year", "month", "party")
+      // .rollup({ amount: (d) => op.sum(d._amount) })
+      // .ungroup()
+      .select("year", "month", "party", "amount")
+      .objects()
+  );
 };
 
 // ███╗   ███╗ █████╗ ██╗███╗   ██╗

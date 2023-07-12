@@ -90,7 +90,7 @@ export default function InfoDonationPartyCard({
     >
       <div className="border-t border-t-gray-6 pt-5 mt-4">
         <div className="flex justify-between items-baseline b5 text-gray-5 -mb-4">
-          <span>วันที่บริจาค</span>
+          <span>เดือน/ปีที่บริจาค</span>
           <span>จำนวน (บาท)</span>
         </div>
         {statements.map(({ date, amount }, i) => (

@@ -69,34 +69,29 @@ export default function Business({ params }: { params: { name: string } }) {
               <span className="b6 text-gray-5">
                 อัปเดตข้อมูลเมื่อวันที่ {new Date().toLocaleDateString("th")}
               </span>
-              <span className="h2">{spacedName}</span>
+              <h1 className="h2">{spacedName}</h1>
               <div className="flex gap-15 justify-center">
-                <div className="flex flex-col">
-                  <Image
-                    className="bg-gray-2 rounded-5 border border-black mb-5"
-                    src="/placeholders/business.png"
-                    width={90}
-                    height={90}
-                    alt=""
-                  />
-                  <span className="block b7 mb-2">แชร์โปรไฟล์นี้</span>
-                  <div className="flex gap-4 justify-center">
-                    <Sharer />
-                  </div>
-                </div>
                 <div className="text-left">
-                  <span className="block b6 text-gray-5">ประเภทธุรกิจ</span>
-                  <span className="block b4 font-bold">รับเหมาก่อสร้าง</span>
-                  <span className="block b6 text-gray-5">ที่ตั้งของบริษัท</span>
-                  <span className="block b4 font-bold">จ.สิงห์บุรีี อ.บางระจัน</span>
-                  <span className="block b6 text-gray-5">รายได้รวมปีล่าสุด</span>
-                  <span className="block b4 font-bold">1,000,000 บาท</span>
-                  <span className="block b6 text-gray-5">ก่อตั้ง</span>
-                  <span className="block b4 no-balance">
-                    <span className="font-bold">2540-2564</span>{" "}
-                    <span className="nobr">(ปิดกิจการ)</span>
-                  </span>
+                  <p className="block b4 text-center">
+                    รับออกแบบและจัดทำป้ายโฆษณา รับจัดงานอีเว้นท์ทุกรูปแบบ
+                  </p>
+                  <hr className="border-t-gray-2 my-10" />
+                  <dl>
+                    <dt className="block b6 text-gray-5">ประเภทธุรกิจ</dt>
+                    <dd className="block b4 font-bold">73101 กิจกรรมของบริษัทโฆษณา</dd>
+                    <dt className="block b6 text-gray-5">ที่ตั้งของบริษัท</dt>
+                    <dd className="block b4 font-bold">จ.สิงห์บุรีี อ.บางระจัน</dd>
+                    <dt className="block b6 text-gray-5">ก่อตั้ง</dt>
+                    <dd className="block b4 no-balance">
+                      <span className="font-bold">2540</span>{" "}
+                      <span className="nobr">(ปิดกิจการ)</span>
+                    </dd>
+                  </dl>
                 </div>
+              </div>
+              <div className="flex gap-4 justify-center mb-5 items-center">
+                <span className="block b7 mr-4">แชร์โปรไฟล์นี้</span>
+                <Sharer />
               </div>
               <div className="flex justify-center gap-5">
                 <a

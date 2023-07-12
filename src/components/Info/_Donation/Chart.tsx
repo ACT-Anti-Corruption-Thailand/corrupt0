@@ -38,7 +38,15 @@ const XTickMonthLabel = ({ x, y, payload }: TickProps) => (
 );
 
 const YTickLabel = ({ x, y, payload }: TickProps) => (
-  <text x={x - 8} y={y} className="b7 fill-gray-5" dominantBaseline="middle">
+  <text
+    x={x - 8}
+    y={y}
+    className="b7 fill-gray-5"
+    dominantBaseline="middle"
+    stroke="#000"
+    strokeWidth={6}
+    paintOrder="stroke"
+  >
     {Number.isNaN(+payload.value) ? payload.value : moneyFormatter(+payload.value)}
   </text>
 );

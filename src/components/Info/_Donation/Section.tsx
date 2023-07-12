@@ -56,7 +56,6 @@ const formatDataByYear = (
   const dataByMonth: Record<string, DonationData[]> = {};
 
   for (const d of data) {
-    if (d.year !== +year) continue;
     if (dataByMonth[d.month]) dataByMonth[d.month].push(d);
     else dataByMonth[d.month] = [d];
   }
