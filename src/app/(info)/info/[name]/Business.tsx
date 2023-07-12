@@ -12,20 +12,31 @@ import Image from "next/image";
 import { formatThousands } from "@/functions/moneyFormatter";
 
 export default function Business({ params }: { params: { name: string } }) {
-  const name = params.name;
-  const spacedName = name.replace(/-/g, " ");
-
   let politicianData: Record<any, any> = {};
 
   try {
-    const filePath = path.join(process.cwd(), "src", "data", "info", `${name}.json`);
+    const filePath = path.join(
+      process.cwd(),
+      "src",
+      "data",
+      "info",
+      `${params.name}.json`
+    );
     const fileContents = fs.readFileSync(filePath, "utf8");
     politicianData = JSON.parse(fileContents); // pass this into the page
   } catch (e) {
     notFound();
   }
 
-  const { donation } = politicianData;
+  const {
+    name,
+    operating_status,
+    register_date,
+    address,
+    mission,
+    businessdomain,
+    donation,
+  } = politicianData;
 
   const { sec, judgement, nacc } = politicianData.lawsuit;
   const totalLawsuit = sec.length + judgement.length + nacc.length;
@@ -59,7 +70,7 @@ export default function Business({ params }: { params: { name: string } }) {
 
   return (
     <main>
-      <GoTop name={spacedName} />
+      <GoTop name={name} />
 
       <InfoDesktopAligner
         left={
@@ -69,23 +80,41 @@ export default function Business({ params }: { params: { name: string } }) {
               <span className="b6 text-gray-5">
                 อัปเดตข้อมูลเมื่อวันที่ {new Date().toLocaleDateString("th")}
               </span>
-              <h1 className="h2">{spacedName}</h1>
+              <h1 className="h2">{name}</h1>
               <div className="flex gap-15 justify-center">
                 <div className="text-left">
-                  <p className="block b4 text-center">
-                    รับออกแบบและจัดทำป้ายโฆษณา รับจัดงานอีเว้นท์ทุกรูปแบบ
-                  </p>
-                  <hr className="border-t-gray-2 my-10" />
+                  {mission && (
+                    <>
+                      <p className="block b4 text-center">{mission}</p>
+                      <hr className="border-t-gray-2 my-10" />
+                    </>
+                  )}
                   <dl>
-                    <dt className="block b6 text-gray-5">ประเภทธุรกิจ</dt>
-                    <dd className="block b4 font-bold">73101 กิจกรรมของบริษัทโฆษณา</dd>
-                    <dt className="block b6 text-gray-5">ที่ตั้งของบริษัท</dt>
-                    <dd className="block b4 font-bold">จ.สิงห์บุรีี อ.บางระจัน</dd>
-                    <dt className="block b6 text-gray-5">ก่อตั้ง</dt>
-                    <dd className="block b4 no-balance">
-                      <span className="font-bold">2540</span>{" "}
-                      <span className="nobr">(ปิดกิจการ)</span>
-                    </dd>
+                    {businessdomain && (
+                      <>
+                        <dt className="block b6 text-gray-5">ประเภทธุรกิจ</dt>
+                        <dd className="block b4 font-bold">{businessdomain}</dd>
+                      </>
+                    )}
+                    {address && (
+                      <>
+                        <dt className="block b6 text-gray-5">ที่ตั้งของบริษัท</dt>
+                        <dd className="block b4 font-bold">{address}</dd>
+                      </>
+                    )}
+                    {register_date && (
+                      <>
+                        <dt className="block b6 text-gray-5">ก่อตั้ง</dt>
+                        <dd className="block b4 no-balance">
+                          <span className="font-bold">
+                            {new Date(register_date).toLocaleDateString("th-TH")}
+                          </span>{" "}
+                          {operating_status && (
+                            <span className="nobr">({operating_status})</span>
+                          )}
+                        </dd>
+                      </>
+                    )}
                   </dl>
                 </div>
               </div>
@@ -95,15 +124,21 @@ export default function Business({ params }: { params: { name: string } }) {
               </div>
               <div className="flex justify-center gap-5">
                 <a
-                  href="https://theyworkforus.wevis.info/"
+                  href={`https://data.creden.co/search?q=${encodeURIComponent(name)}`}
                   className="py-4 px-10 b7 border border-gray-2 rounded-5 flex flex-col justify-center"
                 >
-                  <span className="flex gap-2 items-center justify-center">
-                    <span>ดูข้อมูลบริษัทเพิ่มเติม</span>
-                    <Image src="/icons/external.svg" alt="" width={12} height={12} />
+                  <span>
+                    <Image
+                      className="mr-2 inline-block"
+                      src="/icons/external.svg"
+                      alt=""
+                      width={12}
+                      height={12}
+                    />
+                    ดูข้อมูลบริษัทเพิ่มเติม
                   </span>
                   <Image
-                    className="h-[9px] w-auto mx-auto"
+                    className="h-[9px] w-auto mx-auto mt-5 mb-1 md:h-[12px] md:mb-4"
                     src="/logos/creden.svg"
                     width={49.5}
                     height={9}
@@ -111,12 +146,18 @@ export default function Business({ params }: { params: { name: string } }) {
                   />
                 </a>
                 <a
-                  href="https://www.actai.co/"
+                  href={`https://actai.co/Project?search="${encodeURIComponent(name)}"`}
                   className="py-4 px-10 b7 border border-gray-2 rounded-5 flex flex-col justify-center"
                 >
-                  <span className="flex gap-2 items-center justify-center">
-                    <span>ดูข้อมูลงานในโครงการภาครัฐ</span>
-                    <Image src="/icons/external.svg" alt="" width={12} height={12} />
+                  <span>
+                    <Image
+                      className="mr-2 inline-block"
+                      src="/icons/external.svg"
+                      alt=""
+                      width={12}
+                      height={12}
+                    />
+                    ดูข้อมูลงานในโครงการภาครัฐ
                   </span>
                   <span className="block text-gray-4">www.actai.co</span>
                 </a>

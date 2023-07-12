@@ -49,6 +49,8 @@ export default function Info({ params }: InfoPageProps) {
   const name = decodeURI(params.name);
   const decodedParams = Object.assign(params, { name });
 
+  // NOTE - ห้ามเปลี่ยนลำดับ Functions
+  // คนบางคนชื่อเหมือนบริษัท (อาจจะหลุดมาจากตอนกรอกข้อมูล) ต้องดักเคส "คน" ก่อน "บริษัท"
   if (POSITION_GROUP.includes(name)) return <Position params={decodedParams} />;
   if (PEOPLE.includes(name)) return <Person params={decodedParams} />;
   if (BUSINESSES.includes(name)) return <Business params={decodedParams} />;

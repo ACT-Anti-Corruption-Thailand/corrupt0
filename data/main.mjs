@@ -37,10 +37,19 @@ export const removeExistedData = async () => {
 
 await removeExistedData();
 
-await generatePeople();
-await generateBusiness();
-await generateParties();
-await generateTotalDonation();
+// NOTE - ห้ามเปลี่ยนลำดับ Functions
+// คนบางคนชื่อเหมือนบริษัท (อาจจะหลุดมาจากตอนกรอกข้อมูล) ต้องให้บริษัทขึ้นก่อนคน เพื่อให้คน overwrite บริษัท
 
+console.info(`ℹ Generating Parties`);
+await generateParties();
+console.info(`ℹ Generating Businesses`);
+await generateBusiness();
+console.info(`ℹ Generating People`);
+await generatePeople();
+
+console.info(`ℹ Generating Total Donation`);
+await generateTotalDonation();
+console.info(`ℹ Generating Party Assets`);
 await generatePartyAssets();
+console.info(`ℹ Generating Politician Images`);
 generatePoliticianImages();
