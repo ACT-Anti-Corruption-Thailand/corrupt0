@@ -57,7 +57,7 @@ const getBusinessNameFromDonation = () => {
     });
 };
 
-const createBusinessInfoTable = async () => {
+export const createBusinessInfoTable = async () => {
   const files = await fs.readdir(RAW_DIR);
   const filePaths = files
     .filter((file) => file.toLowerCase().includes("act_company_split_"))

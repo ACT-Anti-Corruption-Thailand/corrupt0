@@ -18,6 +18,10 @@ import POLITICIAN_IMAGES from "@/data/politicianImages.json";
 import { hasCorrupt0Page } from "@/functions/navigation";
 import { formatThousands } from "@/functions/moneyFormatter";
 
+// from /data/functions/business.mjs
+const getFileName = (formal_name: string) =>
+  formal_name.replace("ห้างหุ้นส่วนจำกัด", "หจก").replace(/\s+|\/|\\/g, "-");
+
 function RelativeLink({ dashedFullName }: { dashedFullName: string }) {
   return (
     hasCorrupt0Page(dashedFullName) && (
@@ -43,7 +47,8 @@ export default function Person({ params }: { params: { name: string } }) {
     notFound();
   }
 
-  const { age, position, previous_jobs, relationship, donation } = politicianData;
+  const { age, position, previous_jobs, relationship, donation, business } =
+    politicianData;
 
   const { sec, judgement, nacc } = politicianData.lawsuit;
   const totalLawsuit = sec.length + judgement.length + nacc.length;
@@ -74,6 +79,10 @@ export default function Person({ params }: { params: { name: string } }) {
   const totalDonation = hasDonation
     ? donation.reduce((a: number, c: { amount: number }) => a + c.amount, 0)
     : 0;
+
+  const businessInCorrupt0 = business.filter((b: any) =>
+    hasCorrupt0Page(getFileName(b.business_name))
+  ).length;
 
   return (
     <main>
@@ -228,27 +237,31 @@ export default function Person({ params }: { params: { name: string } }) {
                   </div>
                 </div>
               </a>
-              <a
-                className="block p-10 bg-black border-b border-b-gray-6"
-                href="#business"
-              >
-                <span className="flex gap-5 items-center">
-                  <Image src="/icons/business.svg" alt="" width={20} height={20} />
-                  <span>
-                    <span className="b3 font-bold">เกี่ยวข้องกับ 5 ธุรกิจ</span>
+              {business.length > 0 && (
+                <a
+                  className="block p-10 bg-black border-b border-b-gray-6"
+                  href="#business"
+                >
+                  <span className="flex gap-5 items-center">
+                    <Image src="/icons/business.svg" alt="" width={20} height={20} />
+                    <span>
+                      <span className="b3 font-bold">
+                        เกี่ยวข้องกับ {business.length} ธุรกิจ
+                      </span>
+                    </span>
+                    <Image
+                      className="ml-auto lg:-rotate-90"
+                      src="/icons/arr-g.svg"
+                      alt=""
+                      width={16}
+                      height={16}
+                    />
                   </span>
-                  <Image
-                    className="ml-auto lg:-rotate-90"
-                    src="/icons/arr-g.svg"
-                    alt=""
-                    width={16}
-                    height={16}
-                  />
-                </span>
-                <span className="b5 text-gray-5 ml-[21px]">
-                  3 ธุรกิจ เคยบริจาคให้พรรคการเมือง
-                </span>
-              </a>
+                  <span className="b5 text-gray-5 ml-[21px]">
+                    {businessInCorrupt0} ธุรกิจ เคยบริจาคให้พรรคการเมือง
+                  </span>
+                </a>
+              )}
               {hasDonation && (
                 <a
                   className="block p-10 bg-black border-b border-b-gray-6"
@@ -342,42 +355,32 @@ export default function Person({ params }: { params: { name: string } }) {
         </div>
 
         {/* ความเกี่ยวข้องกับธุรกิจและโครงการภาครัฐ */}
-        <section id="business">
-          <header className="py-8 flex gap-10 h4 justify-center items-center bg-gray-6 mb-10 text-balance">
-            <Image src="/icons/business.svg" alt="" width={30} height={30} />
-            <span className="w-auto">
-              ความเกี่ยวข้องกับธุรกิจ
-              <br />
-              และโครงการภาครัฐ
-            </span>
-          </header>
-          <div className="px-10 flex flex-col gap-10">
-            <InfoBusinessCard
-              name="บริษัท ทีเอ พีเอ็น เปเปอร์ จำกัด"
-              type="อสังหาทรัพย์"
-              relation="ผู้ถือหุ้น"
-              isTop10
-              mostDonatedParty="พลังประชารัฐ"
-              totalDonation={1_234_567}
-            />
-            <InfoBusinessCard
-              name="บริษัท ทีอาร์ อัลเคมิสท์ กรุ๊ป จำกัด"
-              type="อสังหาทรัพย์"
-              relation="ผู้ถือหุ้น"
-              mostDonatedParty="พลังประชารัฐ"
-              totalDonation={100}
-            />
-            <InfoBusinessCard
-              name="บริษัท ทีอาร์ อัลเคมิสท์ กรุ๊ป จำกัด"
-              type="อสังหาทรัพย์"
-              relation="ผู้ถือหุ้น"
-            />
-          </div>
-          <footer className="flex gap-2 items-center justify-center text-gray-5 my-10">
-            <span>Credit:</span>
-            <Image src="/logos/creden.svg" alt="" width={56} height={11} />
-          </footer>
-        </section>
+        {business.length > 0 && (
+          <section id="business">
+            <header className="py-8 flex gap-10 h4 justify-center items-center bg-gray-6 mb-10 text-balance">
+              <Image src="/icons/business.svg" alt="" width={30} height={30} />
+              <span className="w-auto">
+                ความเกี่ยวข้องกับธุรกิจ
+                <br />
+                และโครงการภาครัฐ
+              </span>
+            </header>
+            <div className="px-10 flex flex-col gap-10">
+              {business.map((e: any) => (
+                <InfoBusinessCard
+                  key={e.business_name}
+                  name={e.business_name}
+                  type={e.businessdomain}
+                  relation={e.position}
+                />
+              ))}
+            </div>
+            <footer className="flex gap-2 items-center justify-center text-gray-5 my-10">
+              <span>Credit:</span>
+              <Image src="/logos/creden.svg" alt="" width={56} height={11} />
+            </footer>
+          </section>
+        )}
 
         {/* ประวัติการบริจาคเงินให้พรรคการเมือง */}
         {hasDonation && (

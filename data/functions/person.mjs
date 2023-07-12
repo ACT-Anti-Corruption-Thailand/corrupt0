@@ -1,7 +1,10 @@
-import fs from "fs";
-import { op } from "arquero";
 import * as aq from "arquero";
+import { op } from "arquero";
+import fs from "fs/promises";
 import JSON5 from "json5";
+import path from "path";
+
+import { createBusinessInfoTable } from "./business.mjs";
 import { getDonationData } from "./donation.mjs";
 
 // ███╗   ██╗ █████╗ ███╗   ███╗███████╗    ██╗██████╗
@@ -276,6 +279,61 @@ const getPersonDonation = async (name) => {
   );
 };
 
+// ██████╗ ██╗   ██╗███████╗██╗███╗   ██╗███████╗███████╗███████╗
+// ██╔══██╗██║   ██║██╔════╝██║████╗  ██║██╔════╝██╔════╝██╔════╝
+// ██████╔╝██║   ██║███████╗██║██╔██╗ ██║█████╗  ███████╗███████╗
+// ██╔══██╗██║   ██║╚════██║██║██║╚██╗██║██╔══╝  ╚════██║╚════██║
+// ██████╔╝╚██████╔╝███████║██║██║ ╚████║███████╗███████║███████║
+// ╚═════╝  ╚═════╝ ╚══════╝╚═╝╚═╝  ╚═══╝╚══════╝╚══════╝╚══════╝
+
+export const createShareholderTable = async () => {
+  const files = await fs.readdir("data/raw");
+  const filePaths = files
+    .filter((file) => file.toLowerCase().includes("commitee_shareholder_split_"))
+    .map((file) => path.join("data/raw", file));
+
+  let tables = [];
+  for (let file of filePaths) {
+    tables.push(await aq.loadCSV(file));
+  }
+
+  return tables.reduce((all, curr) => all.concat(curr));
+};
+
+const BUSINESS_INFO_TABLE = await createBusinessInfoTable();
+const SHAREHOLDER_TABLE = await createShareholderTable();
+
+const REDUCED_BUSINESS_INFO_TABLE = BUSINESS_INFO_TABLE.select(
+  "company_id",
+  "name",
+  "businessdomain"
+)
+  .rename({ name: "business_name", businessdomain: "type" })
+  .dedupe();
+const REDUCED_SHAREHOLDER_TABLE = SHAREHOLDER_TABLE.rename({ position: "_position" })
+  .derive({
+    full_name: (d) => op.replace(d.first_name + " " + d.last_name, /\s+/g, "-"),
+    position: (d) => (d._position === "commitee" ? "คณะกรรมการบริษัท" : "ผู้ถือหุ้น"),
+  })
+  .select("company_id", "full_name", "position")
+  .dedupe();
+
+const SHAREHOLDER_BUSINESS_TABLE = REDUCED_SHAREHOLDER_TABLE.join(
+  REDUCED_BUSINESS_INFO_TABLE,
+  "company_id"
+).select("position", "full_name", "business_name", "type");
+
+/**
+ * @param {string} name kebab-case full name
+ * @returns {Promise<{position: string, business_name: string, businessdomain:string}[]>>}
+ */
+const getPersonBusiness = async (name) => {
+  return SHAREHOLDER_BUSINESS_TABLE.params({ name })
+    .filter((d) => d.full_name === name)
+    .select("position", "business_name", "type")
+    .objects();
+};
+
 // ███╗   ███╗ █████╗ ██╗███╗   ██╗
 // ████╗ ████║██╔══██╗██║████╗  ██║
 // ██╔████╔██║███████║██║██╔██╗ ██║
@@ -286,21 +344,22 @@ const getPersonDonation = async (name) => {
 export const generatePeople = async () => {
   const [has_nacc, non_nacc] = await generateNamesAndId();
 
-  fs.writeFileSync(
+  await fs.writeFile(
     `src/data/people_nacc.json`,
     JSON.stringify(has_nacc.map((e) => e.full_name))
   );
-  fs.writeFileSync(
+  await fs.writeFile(
     `src/data/people_gen.json`,
     JSON.stringify(non_nacc.map((e) => e.full_name))
   );
 
   const namesAndId = [...has_nacc, ...non_nacc];
 
-  namesAndId.forEach(async ({ full_name, nacc_id }) => {
+  for (const { full_name, nacc_id } of namesAndId) {
     const person_data_json = await getPersonalData(full_name);
     const lawsuit = await getLawsuit(full_name);
     const donation = await getPersonDonation(full_name);
+    const business = await getPersonBusiness(full_name);
 
     const relationship = await getRelationship(nacc_id);
     const assets = await getAsset(nacc_id);
@@ -311,8 +370,9 @@ export const generatePeople = async () => {
       relationship,
       assets,
       donation,
+      business,
     };
 
-    fs.writeFileSync(`src/data/info/${full_name}.json`, JSON.stringify(data));
-  });
+    await fs.writeFile(`src/data/info/${full_name}.json`, JSON.stringify(data));
+  }
 };
