@@ -45,7 +45,8 @@ const partyDonationByYear = (year: string | number, data: DonationData[]) => {
 const formatDataByYear = (
   year: string,
   data: DonationData[],
-  allYears: number[]
+  allYears: number[],
+  allParties: string[]
 ): ChartData[] => {
   if (year === "ทุกปี")
     return allYears.map((_year) => ({
@@ -62,7 +63,14 @@ const formatDataByYear = (
 
   const result: ChartData[] = Array(12).fill``.map((_, month) => ({
     x: +month + 1,
-    ...Object.fromEntries(dataByMonth[month + 1]?.map((e) => [e.party, e.amount]) ?? []),
+    ...Object.fromEntries(
+      allParties.map((p) => [
+        p,
+        dataByMonth[month + 1]
+          ?.filter((e) => e.party === p)
+          ?.reduce((a, c) => a + c.amount, 0) || undefined,
+      ])
+    ),
   }));
 
   return result;
@@ -121,7 +129,6 @@ export default function InfoDonationSection({
   );
 
   const yParty = party === "ทุกพรรค" ? allParties : [party];
-  const data = formatDataByYear(year, filteredData, allYears);
 
   return (
     <section id="donation">
@@ -157,7 +164,7 @@ export default function InfoDonationSection({
           x="x"
           y={yParty}
           yColors={getPartiesColor(yParty)}
-          data={data}
+          data={formatDataByYear(year, filteredData, allYears, allParties)}
           isMonth={year !== "ทุกปี"}
         />
         <div className="flex gap-4 flex-col mt-10">
