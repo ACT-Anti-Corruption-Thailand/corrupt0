@@ -7,6 +7,8 @@ import Dropdown from "../../Dropdown";
 import InfoDonationChart from "./Chart";
 import InfoDonationPartyCard from "./PartyCard";
 
+import { MONTHS } from "@/constants/abbr";
+
 import PARTY_ASSETS from "@/data/color/partyAssets.json";
 
 import { formatThousands, thaiMoneyFormatter } from "@/functions/moneyFormatter";
@@ -91,23 +93,7 @@ const getDonationByParty = (data: DonationData[]): PartyDonationDetail[] => {
   return Object.entries(dataByParty).map(([party, details]) => ({
     name: party,
     statements: details.map((d) => ({
-      date:
-        [
-          "ม.ค.",
-          "ก.พ.",
-          "มี.ค.",
-          "เม.ย.",
-          "พ.ค.",
-          "มิ.ย.",
-          "ก.ค.",
-          "ส.ค.",
-          "ก.ย.",
-          "ต.ค.",
-          "พ.ย.",
-          "ธ.ค.",
-        ][d.month - 1] +
-        " " +
-        d.year,
+      date: `${MONTHS[d.month - 1]} ${d.year}`,
       amount: d.amount,
     })),
   }));

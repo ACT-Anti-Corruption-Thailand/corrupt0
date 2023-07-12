@@ -11,6 +11,8 @@ import {
 } from "recharts";
 import { moneyFormatter } from "@/functions/moneyFormatter";
 
+import { MONTHS } from "@/constants/abbr";
+
 // AxisTick
 interface TickProps {
   key?: any;
@@ -30,20 +32,7 @@ const XTickMonthLabel = ({ x, y, payload }: TickProps) => (
     x={x}
     y={y}
     payload={{
-      value: [
-        "ม.ค.",
-        "ก.พ.",
-        "มี.ค.",
-        "เม.ย.",
-        "พ.ค.",
-        "มิ.ย.",
-        "ก.ค.",
-        "ส.ค.",
-        "ก.ย.",
-        "ต.ค.",
-        "พ.ย.",
-        "ธ.ค.",
-      ][+payload.value - 1],
+      value: MONTHS[+payload.value - 1],
     }}
   />
 );
