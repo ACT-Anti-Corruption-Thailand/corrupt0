@@ -10,7 +10,7 @@ const getTotalDonation = async () => {
     .select("year", "amount")
     .groupby("year")
     .rollup({ total: (d) => op.sum(d.amount) })
-    .orderby(aq.desc((d) => d.total))
+    .orderby(aq.desc((d) => d.total));
 
   const totalTable = table
     .select("amount")
@@ -33,8 +33,6 @@ const getTotalDonation = async () => {
 
       return acc;
     }, {});
-
-
 
   const partyPerYearTable = table
     .select("party", "year", "amount")
@@ -71,7 +69,7 @@ const getTotalDonation = async () => {
 export const generateTotalDonation = async () => {
   const Donation = await getTotalDonation();
 
-  fs.mkdir("src/data/donation", { recursive: true });
+  await fs.mkdir("src/data/donation", { recursive: true });
 
   await fs.writeFile(
     "src/data/donation/totalPerYearWithTotal.json",

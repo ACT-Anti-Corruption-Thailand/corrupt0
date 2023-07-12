@@ -2,7 +2,7 @@ import fs, { constants } from "fs/promises";
 import path from "path";
 import JSON5 from "json5";
 
-const DIRECTORY_PATH = "data/raw";
+const DIRECTORY_PATH = path.join("data", "raw");
 
 const FILES = [
   "https://storage.googleapis.com/act_datacatalog/corrupt0/co_003/001/pdf/csv/nacc.csv",
@@ -14,20 +14,20 @@ const FILES = [
   "https://storage.googleapis.com/act_opendata/opendata/master_data/ds_002/001/ds002_opendata_path.json",
   "https://storage.googleapis.com/act_datacatalog/master_data/ds_003/001/person_family_opendata/person_family.csv",
   "https://storage.googleapis.com/act_datacatalog/master_data/ds_003/001/political_office_holder_opendata/political_office_holder.csv",
-  // "https://storage.googleapis.com/act_datacatalog/master_data/ds_004/001/nacc/nacc_culpability.csv",
   "https://storage.googleapis.com/act_datacatalog/master_data/ds_005/001/judgement/judgement.csv",
   "https://storage.googleapis.com/act_datacatalog/master_data/ds_007/001/public_sector_high_ranking_officer/public_sector_high_ranking_officer.csv",
   "https://storage.googleapis.com/act_datacatalog/master_data/ds_009/001/ds009_opendata_path.json",
 ];
 
 export const removeExistedData = async () => {
-  console.info("ℹ Removing Old Files");
+  await fs.mkdir(DIRECTORY_PATH, { recursive: true });
+  console.info(`ℹ \`${DIRECTORY_PATH}\` Created`);
 
-  fs.mkdir(DIRECTORY_PATH, { recursive: true });
-
+  console.info(`ℹ Removing Files in \`${DIRECTORY_PATH}\`...`);
   for (const file of await fs.readdir(DIRECTORY_PATH)) {
     await fs.unlink(path.join(DIRECTORY_PATH, file));
   }
+  console.info("ℹ `" + DIRECTORY_PATH + "` Cleared");
 };
 
 export const fetchData = async (files) => {
@@ -37,7 +37,7 @@ export const fetchData = async (files) => {
     const resp = await fetch(files[i]);
     const text = await resp.text();
 
-    let output = `${DIRECTORY_PATH}/${files[i].split("/").at(-1)}`;
+    let output = path.join(DIRECTORY_PATH, files[i].split("/").at(-1));
 
     for (let j = 0; ; j++) {
       try {
@@ -78,3 +78,5 @@ export const fetchSubData = async () => {
 await removeExistedData();
 await fetchData(FILES);
 await fetchSubData();
+
+console.info("✅ Fetch Done");
