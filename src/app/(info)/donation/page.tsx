@@ -15,9 +15,13 @@ import Dropdown from "@/components/Dropdown";
 const YEARS = ["ทุกปี", "2566", "2565", "2564", "2563", "2562"];
 
 //For Party Section
-import PARTY_DONATION_Test from "@data/donation/partyPerYearWithTotal.json";
-import PARTY_TOTAL_DONATION from "@data/donation/totalPerYearWithTotal.json"
-import PARTY_COLOR from "@data/color/partyAssets.json";
+import _PARTY_DONATION_Test from "@data/donation/partyPerYearWithTotal.json";
+import _PARTY_TOTAL_DONATION from "@data/donation/totalPerYearWithTotal.json";
+import _PARTY_COLOR from "@data/color/partyAssets.json";
+
+const PARTY_DONATION_Test = _PARTY_DONATION_Test as any;
+const PARTY_TOTAL_DONATION = _PARTY_TOTAL_DONATION as any;
+const PARTY_COLOR = _PARTY_COLOR as any;
 
 const PARTY_DONATION = [
   {
@@ -106,7 +110,6 @@ const INDIVIDUAL_DONORS = [
 // TODO: Manually Typing
 type IndividualDonorSchema = (typeof INDIVIDUAL_DONORS)[number];
 
-
 export default function Donation() {
   const [partySearch, setPartySearch] = React.useState<PartySearchSchema | null>(null);
   const [partyFilterYear, setPartySortYear] = React.useState(YEARS[0]);
@@ -161,23 +164,26 @@ export default function Donation() {
           setSelected={setPartySearch}
         />
         <div className="flex flex-col items-center text-center text-18 lg:b4 pb-10 lg:pb-30 w-[90vw] min-w-[300px] max-w-[850px]">
-          {
-            partySearch ? (
-              <div>Search</div>
+          {partySearch ? (
+            <div>Search</div>
           ) : (
-            PARTY_DONATION_Test[partyFilterYear].map((party, index) => (
+            PARTY_DONATION_Test[partyFilterYear].map((party: any, index: number) => (
               <EntityBarCard
                 name={party.party}
                 title=""
-                color={PARTY_COLOR.find((d) => d.Name === party.party)?.Color ?? "#ffffff"}
+                color={
+                  PARTY_COLOR.find((d: any) => d.Name === party.party)?.Color ?? "#ffffff"
+                }
                 amount={party.amount}
                 maxAmount={PARTY_TOTAL_DONATION[partyFilterYear][0].total}
-                imgPath={PARTY_COLOR.find((d) => d.Name === party.party)?.Images[0].url ?? "/icons/person.svg"}
+                imgPath={
+                  PARTY_COLOR.find((d: any) => d.Name === party.party)?.Images[0].url ??
+                  "/icons/person.svg"
+                }
                 key={index}
               />
             ))
-          )
-        }
+          )}
         </div>
         <div className="flex justify-center items-center gap-10 bg-gray-6 w-screen py-10 my-10 lg:py-15 lg:my-30 text-24 lg:h3">
           <Image
@@ -208,7 +214,7 @@ export default function Donation() {
         <div className="flex flex-col px-10 py-10 my-10 lg:my-30 border-1 rounded-5 border-gray-6 items-start w-[85vw] max-w-[800px]">
           <p className="b4 text-gray-3">สี = พรรค</p>
           <div className="flex gap-10 flex-wrap">
-            {PARTY_COLOR.map((item, index) => (
+            {PARTY_COLOR.map((item: any, index: number) => (
               <div key={index} className="flex justify-center items-center gap-5">
                 <div
                   style={
