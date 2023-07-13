@@ -53,3 +53,4 @@ console.info(`ℹ Generating Party Assets`);
 await generatePartyAssets();
 console.info(`ℹ Generating Politician Images`);
 generatePoliticianImages();
+console.info("✅ Data Processing Done");
