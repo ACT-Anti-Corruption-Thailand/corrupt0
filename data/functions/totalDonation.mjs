@@ -20,6 +20,7 @@ const getTotalDonation = async () => {
 
   const totalPerYearWithTotalTable = totalTable
     .concat(totalPerYearTable)
+    .orderby(aq.desc((d) => d.total))
     .objects()
     .reduce((acc, obj) => {
       const { year } = obj;
@@ -50,6 +51,7 @@ const getTotalDonation = async () => {
 
   const partyPerYearWithTotalTable = totalPerPartyTable
     .concat(partyPerYearTable)
+    .orderby(aq.desc((d) => d.amount))
     .objects()
     .reduce((acc, obj) => {
       const { year } = obj;
