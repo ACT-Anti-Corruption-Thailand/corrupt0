@@ -34,3 +34,7 @@ export const generateParties = async () => {
     await fs.writeFile(`src/data/info/${party}.json`, "{}");
   }
 };
+
+console.info(`ℹ Generating Parties`);
+await generateParties();
+console.info("✅ Parties Done");

@@ -376,3 +376,7 @@ export const generatePeople = async () => {
     await fs.writeFile(`src/data/info/${full_name}.json`, JSON.stringify(data));
   }
 };
+
+console.info(`ℹ Generating People`);
+await generatePeople();
+console.info("✅ People Done");

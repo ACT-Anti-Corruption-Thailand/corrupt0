@@ -182,3 +182,7 @@ export const generateBusiness = async () => {
     await fs.writeFile(`src/data/info/${fileName}.json`, JSON.stringify(data));
   }
 };
+
+console.info(`ℹ Generating Businesses`);
+await generateBusiness();
+console.info("✅ Businesses Done");

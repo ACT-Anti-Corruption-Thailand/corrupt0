@@ -15,3 +15,7 @@ export const generatePoliticianImages = async () => {
 
   await fs.writeFile("src/data/politicianImages.json", JSON.stringify(cleaned));
 };
+
+console.info(`ℹ Generating Politician Images`);
+await generatePoliticianImages();
+console.info("✅ Politician Images Done");
