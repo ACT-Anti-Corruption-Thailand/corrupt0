@@ -9,7 +9,11 @@ import InfoDonationPartyCard from "./PartyCard";
 
 import { MONTHS } from "@/constants/abbr";
 
-import PARTY_ASSETS from "@/data/color/partyAssets.json";
+import _PARTY_ASSETS from "@/data/color/partyAssets.json";
+const PARTY_ASSETS = _PARTY_ASSETS as Record<
+  string,
+  { color: string | null; image: string | null }
+>;
 
 import { formatThousands, thaiMoneyFormatter } from "@/functions/moneyFormatter";
 
@@ -77,10 +81,7 @@ const formatDataByYear = (
 };
 
 const getPartiesColor = (parties: string[]) => {
-  return parties.map(
-    (party) =>
-      PARTY_ASSETS.find((party_data) => party_data.Name === party)?.Color ?? "#fff"
-  );
+  return parties.map((party) => PARTY_ASSETS[party]?.color ?? "#fff");
 };
 
 interface PartyDonationDetail {

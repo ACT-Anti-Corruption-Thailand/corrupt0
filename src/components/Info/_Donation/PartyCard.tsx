@@ -2,7 +2,11 @@ import Image from "next/image";
 import Accordion from "../../Accordion";
 import Link from "next/link";
 
-import PARTY_ASSETS from "@/data/color/partyAssets.json";
+import _PARTY_ASSETS from "@/data/color/partyAssets.json";
+const PARTY_ASSETS = _PARTY_ASSETS as Record<
+  string,
+  { color: string | null; image: string | null }
+>;
 
 import { formatThousands, thaiMoneyFormatter } from "@/functions/moneyFormatter";
 import { hasCorrupt0Page } from "@/functions/navigation";
@@ -25,10 +29,10 @@ export default function InfoDonationPartyCard({
   isTop10,
   statements,
 }: InfoDonationPartyCardProps) {
-  const partyInfo = PARTY_ASSETS.find((party_data) => party_data.Name === name);
+  const partyInfo = PARTY_ASSETS[name];
 
-  const color = partyInfo?.Color ?? "#fff";
-  const logo = partyInfo?.Images?.[0]?.url ?? "/placeholders/party.png";
+  const color = partyInfo?.color ?? "#fff";
+  const logo = partyInfo?.image ?? "/placeholders/party.png";
 
   const [totalAmount, totalUnit] = thaiMoneyFormatter(
     statements.reduce((a, c) => a + c.amount, 0)

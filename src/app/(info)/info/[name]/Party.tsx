@@ -4,16 +4,18 @@ import InfoPartyDonationSection from "@/components/Info/_Donation/PartySection";
 import Sharer from "@/components/Sharer";
 import Image from "next/image";
 
-import PARTY_ASSETS from "@/data/color/partyAssets.json";
+import _PARTY_ASSETS from "@/data/color/partyAssets.json";
+const PARTY_ASSETS = _PARTY_ASSETS as Record<
+  string,
+  { color: string | null; image: string | null }
+>;
 
 export default function Party({ params }: { params: { name: string } }) {
   const name = params.name;
   const spacedName = name.replace(/-/g, " ");
 
-  const partyInfo = PARTY_ASSETS.find(
-    (party_data) => party_data.Name === name.replace("พรรค", "")
-  );
-  const logo = partyInfo?.Images?.[0]?.url ?? "/placeholders/party.png";
+  const partyInfo = PARTY_ASSETS[name.replace("พรรค", "")];
+  const logo = partyInfo?.image ?? "/placeholders/party.png";
 
   return (
     <main>
