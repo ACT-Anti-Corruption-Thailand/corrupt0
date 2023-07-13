@@ -1,7 +1,7 @@
-import fs from "fs";
+import fs from "fs/promises";
 import PEOPLE_ASSETS from "../constants/politicianAssets.json" assert { type: "json" };
 
-export const generatePoliticianImages = () => {
+export const generatePoliticianImages = async () => {
   const cleaned = Object.fromEntries(
     PEOPLE_ASSETS.list.map(({ Name, Images }) => [
       Name.replace(/\s+/g, "-"),
@@ -13,5 +13,5 @@ export const generatePoliticianImages = () => {
     ])
   );
 
-  fs.writeFileSync("src/data/politicianImages.json", JSON.stringify(cleaned));
+  await fs.writeFile("src/data/politicianImages.json", JSON.stringify(cleaned));
 };

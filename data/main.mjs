@@ -52,5 +52,5 @@ await generateTotalDonation();
 console.info(`ℹ Generating Party Assets`);
 await generatePartyAssets();
 console.info(`ℹ Generating Politician Images`);
-generatePoliticianImages();
+await generatePoliticianImages();
 console.info("✅ Data Processing Done");
