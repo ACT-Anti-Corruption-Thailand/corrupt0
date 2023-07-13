@@ -10,6 +10,7 @@ const getTotalDonation = async () => {
     .select("year", "amount")
     .groupby("year")
     .rollup({ total: (d) => op.sum(d.amount) })
+    .derive({ year: (d) => d.year + 543})
     .orderby(aq.desc((d) => d.total));
 
   const totalTable = table
@@ -38,7 +39,8 @@ const getTotalDonation = async () => {
     .select("party", "year", "amount")
     .rename({ amount: "_amount" })
     .groupby("year", "party")
-    .rollup({ amount: (d) => op.sum(d._amount) });
+    .rollup({ amount: (d) => op.sum(d._amount) })
+    .derive({ year: (d) => d.year + 543})
 
   const totalPerPartyTable = table
     .select("party", "amount")
