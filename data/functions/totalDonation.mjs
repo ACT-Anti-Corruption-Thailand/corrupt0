@@ -67,7 +67,26 @@ const getTotalDonation = async () => {
       return acc;
     }, {});
 
-  return { totalPerYearWithTotalTable, partyPerYearWithTotalTable };
+  const individualPerPartyTable = Object.values(table
+    .select("year", "donor_fullname", "party", "amount")
+    .objects()
+    .reduce((acc, obj) => {
+      const { year, donor_fullname, party, amount } = obj;
+
+      if (donor_fullname in acc) {
+        acc[donor_fullname].donation.push({ year, party, amount });
+      } else {
+        acc[donor_fullname] = {
+          name: donor_fullname,
+          donation: [{ year, party, amount }],
+        };
+      }
+
+      return acc;
+    }, {})
+  )
+
+  return { totalPerYearWithTotalTable, partyPerYearWithTotalTable, individualPerPartyTable };
 };
 
 export const generateTotalDonation = async () => {
@@ -83,6 +102,10 @@ export const generateTotalDonation = async () => {
     "src/data/donation/partyPerYearWithTotal.json",
     JSON.stringify(Donation.partyPerYearWithTotalTable)
   );
+  await fs.writeFile(
+    "src/data/donation/donor.json",
+    JSON.stringify(Donation.individualPerPartyTable)
+  )
 };
 
 console.info(`ℹ Generating Total Donation`);
