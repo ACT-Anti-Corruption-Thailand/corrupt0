@@ -11,9 +11,6 @@ import ChartSort from "@/components/ChartSort";
 import Dropdown from "@/components/Dropdown";
 
 //<----Mock Data---->
-//Page Global
-const YEARS = ["ทุกปี", "2566", "2565", "2564", "2563", "2562"];
-
 //For Party Section
 import _PARTY_DONATION_Test from "@data/donation/partyPerYearWithTotal.json";
 import _PARTY_TOTAL_DONATION from "@data/donation/totalPerYearWithTotal.json";
@@ -25,6 +22,8 @@ const PARTY_ASSETS = _PARTY_ASSETS as Record<
   string,
   { color: string | null; image: string | null }
 >;
+
+const YEARS = Object.keys(PARTY_DONATION_Test).reverse();
 
 const PARTY_DONATION = [
   {
@@ -195,15 +194,25 @@ export default function Donation() {
           <Dropdown data={YEARS} value={partyFilterYear} setValue={setPartySortYear} />
           <ChartSort name="party-donation-sort" />
         </div>
+        
         <Search
           placeholder="ค้นหาด้วยชื่อพรรคการเมือง"
-          data={PARTY_DONATION}
+          data={PARTY_DONATION_Test[partyFilterYear].map((party: any) => ({name: party.party}))}
           selected={partySearch}
           setSelected={setPartySearch}
         />
         <div className="flex flex-col items-center text-center text-18 lg:b4 pb-10 lg:pb-30 w-[90vw] min-w-[300px] max-w-[850px]">
           {partySearch ? (
-            <div>search</div>
+            <EntityBarCard
+              name={partySearch.name}
+              title=""
+              color={PARTY_ASSETS[partySearch.name]?.color ?? "#fff"}
+              amount={PARTY_DONATION_Test[partyFilterYear].find(
+                (party: any) => party.party === partySearch.name
+              )?.amount}
+              maxAmount={PARTY_TOTAL_DONATION[partyFilterYear][0].total}
+              imgPath={PARTY_ASSETS[partySearch.name]?.image ?? "/icons/person.svg"}
+              />
           ) : (
             PARTY_DONATION_Test[partyFilterYear].map((party: any, index: number) => (
               <EntityBarCard
