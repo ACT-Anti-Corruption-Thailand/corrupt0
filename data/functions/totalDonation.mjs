@@ -86,5 +86,5 @@ export const generateTotalDonation = async () => {
 };
 
 console.info(`ℹ Generating Total Donation`);
-await getTotalDonation();
+await generateTotalDonation();
 console.info("✅ Total Donation Done");
