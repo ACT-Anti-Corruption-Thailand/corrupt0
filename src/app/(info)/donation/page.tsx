@@ -113,6 +113,41 @@ const INDIVIDUAL_DONORS = [
 // TODO: Manually Typing
 type IndividualDonorSchema = (typeof INDIVIDUAL_DONORS)[number];
 
+const PARTY_COLORS = [
+  {
+    name: "พลังประชารัฐ",
+    color: "blue",
+  },
+  {
+    name: "พลังไทยดี",
+    color: "red",
+  },
+  {
+    name: "เสรีรวมไทย",
+    color: "yellow",
+  },
+  {
+    name: "เศรษฐกิจใหม่",
+    color: "green",
+  },
+  {
+    name: "ประชาธิปัตย์",
+    color: "purple",
+  },
+  {
+    name: "เพื่อไทย",
+    color: "orange",
+  },
+  {
+    name: "ประชาชาติ",
+    color: "pink",
+  },
+  {
+    name: "เพื่อแผ่นดิน",
+    color: "brown",
+  },
+];
+
 export default function Donation() {
   const [partySearch, setPartySearch] = React.useState<PartySearchSchema | null>(null);
   const [partyFilterYear, setPartySortYear] = React.useState(YEARS[0]);
@@ -168,7 +203,7 @@ export default function Donation() {
         />
         <div className="flex flex-col items-center text-center text-18 lg:b4 pb-10 lg:pb-30 w-[90vw] min-w-[300px] max-w-[850px]">
           {partySearch ? (
-            <div>Search</div>
+            <div>search</div>
           ) : (
             PARTY_DONATION_Test[partyFilterYear].map((party: any, index: number) => (
               <EntityBarCard
@@ -248,10 +283,10 @@ export default function Donation() {
               individualFilterYear === "ทุกปี" && individualFilterType === "ทุกประเภท"
                 ? true
                 : individualFilterYear === "ทุกปี" && individualFilterType !== "ทุกประเภท"
-                ? d.title === individualFilterType
-                : individualFilterYear !== "ทุกปี" && individualFilterType === "ทุกประเภท"
-                ? d.year === individualFilterYear
-                : d.year === individualFilterYear && d.title === individualFilterType
+                  ? d.title === individualFilterType
+                  : individualFilterYear !== "ทุกปี" && individualFilterType === "ทุกประเภท"
+                    ? d.year === individualFilterYear
+                    : d.year === individualFilterYear && d.title === individualFilterType
             ).map((individual, index) => (
               <EntityStackedBarCard
                 name={individual.name}
