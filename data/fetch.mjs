@@ -34,24 +34,30 @@ export const fetchData = async (files) => {
   console.info("ℹ Fetching...");
 
   for (let i = 0; i < files.length; i++) {
-    const resp = await fetch(files[i]);
-    const text = await resp.text();
+    try {
+      const resp = await fetch(files[i]);
+      const text = await resp.text();
 
-    let output = path.join(DIRECTORY_PATH, files[i].split("/").at(-1));
+      let output = path.join(DIRECTORY_PATH, files[i].split("/").at(-1));
 
-    for (let j = 0; ; j++) {
-      try {
-        await fs.access(output, constants.F_OK); // Throw error when cannot access
+      for (let j = 0; ; j++) {
+        try {
+          await fs.access(output, constants.F_OK); // Throw error when cannot access
 
-        // Can access -> duplicate file -> rename
-        const [ext, ...rest] = output.split(".").reverse();
-        output = `${rest.reverse().join(".")}${j}.${ext}`;
-        continue;
-      } catch (e) {
-        // Cannot access -> Not existed
-        await fs.writeFile(output, text);
+          // Can access -> duplicate file -> rename
+          const [ext, ...rest] = output.split(".").reverse();
+          output = `${rest.reverse().join(".")}${j}.${ext}`;
+          continue;
+        } catch (e) {
+          // Cannot access -> Not existed
+          await fs.writeFile(output, text);
+        }
+        break;
       }
-      break;
+    } catch (e) {
+      console.error(`🛑 Error occurred in ${files[i]}: ${e.message}`);
+      console.error(`🛑 Skipping...`);
+      subFetchList[i] = [];
     }
   }
 };
@@ -69,7 +75,13 @@ export const fetchSubData = async () => {
     const filePath = path.join(DIRECTORY_PATH, file);
     const fileContent = await fs.readFile(filePath, "utf8");
 
-    subFetchList[i] = Object.values(JSON5.parse(fileContent));
+    try {
+      subFetchList[i] = Object.values(JSON5.parse(fileContent));
+    } catch (e) {
+      console.error(`🛑 Error occurred in ${file}: ${e.message}`);
+      console.error(`🛑 Skipping...`);
+      subFetchList[i] = [];
+    }
   }
 
   await fetchData(subFetchList.flat(Infinity));
