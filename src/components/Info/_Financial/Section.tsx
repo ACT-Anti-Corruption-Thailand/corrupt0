@@ -272,6 +272,115 @@ const InfoFinancialSingleCard = ({
   );
 };
 
+interface TaxSingleCardProps {
+  tax: Omit<InfoFinancialChartProps, "max">;
+  income: InfoFinanceSingleCardDataEntry[];
+  max: number;
+
+  spouseCount: number;
+  childCount: number;
+  showActor: boolean;
+  showSpouse: boolean;
+  showChild: boolean;
+}
+
+const TaxSingleCard = ({
+  tax,
+  income,
+  max,
+  spouseCount,
+  childCount,
+  showActor,
+  showSpouse,
+  showChild,
+}: TaxSingleCardProps) => {
+  const totalTax = tax.actor + tax.child + tax.spouse;
+  const [totalActorIncome, totalSpouseIncome, totalChildIncome] = income.reduce(
+    (a, c) => {
+      return [a[0] + c.value[0], a[1] + (c.value[1] ?? 0), a[2] + (c.value[2] ?? 0)];
+    },
+    [0, 0, 0]
+  );
+
+  const actorCompare = Math.floor((tax.actor / totalActorIncome) * 100);
+  const spouseCompare = Math.floor((tax.spouse / totalSpouseIncome) * 100);
+  const childCompare = Math.floor((tax.child / totalChildIncome) * 100);
+  const totalCompare = Math.floor(
+    (totalTax / (totalActorIncome + totalSpouseIncome + totalChildIncome)) * 100
+  );
+
+  const [actorWording, actorValue] =
+    actorCompare > 100 ? ["+", actorCompare - 100] : ["-", 100 - actorCompare];
+  const [spouseWording, spouseValue] =
+    spouseCompare > 100 ? ["+", spouseCompare - 100] : ["-", 100 - spouseCompare];
+  const [childWording, childValue] =
+    childCompare > 100 ? ["+", childCompare - 100] : ["-", 100 - childCompare];
+  const [totalWording, totalValue] =
+    totalCompare > 100 ? ["+", totalCompare - 100] : ["-", 100 - totalCompare];
+
+  return (
+    <div className="bg-gray-1 p-10">
+      <div className="block b2 font-bold">การเสียภาษี</div>
+      <section>
+        <div className="block b3 font-bold mb-2">เงินได้พึงประเมิน</div>
+        <InfoFinancialChart
+          actor={tax.actor}
+          spouse={tax.spouse}
+          child={tax.child}
+          max={max}
+        />
+        <div className="flex pt-5">
+          {showActor && (
+            <div className="flex-1">
+              <span className="block b7 leading-1">ผู้ยื่น</span>
+              <span className="block b4">{f$(tax.actor)}</span>
+              <span className="block b6 leading-1">
+                {actorWording}
+                {actorValue}%*
+              </span>
+            </div>
+          )}
+          {spouseCount > 0 && showSpouse && (
+            <div className="opacity-80 flex-1 flex justify-center">
+              <div>
+                <span className="block b7 leading-1">คู่สมรส {spouseCount} คน</span>
+                <span className="block b4">{f$(tax.spouse)}</span>
+                <span className="block b6 leading-1">
+                  {spouseWording}
+                  {spouseValue}%*
+                </span>
+              </div>
+            </div>
+          )}
+          {childCount > 0 && showChild && (
+            <div className="opacity-80 flex-1 flex justify-center">
+              <div>
+                <span className="block b7 leading-1">บุตร {childCount} คน</span>
+                <span className="block b4">{f$(tax.child)}</span>
+                <span className="block b6 leading-1">
+                  {childWording}
+                  {childValue}%*
+                </span>
+              </div>
+            </div>
+          )}
+          <div className="text-right flex-1">
+            <span className="block b7 leading-1">
+              <span className="font-bold">รวม</span> (ล้านบาท)
+            </span>
+            <span className="block b4 font-bold">{f$(totalTax)}</span>
+            <span className="block b6 leading-1">
+              {totalWording}
+              {totalValue}%*
+            </span>
+          </div>
+        </div>
+        <span className="block b7 text-right mt-2">*เมื่อเปรียบเทียบกับรายได้</span>
+      </section>
+    </div>
+  );
+};
+
 const ASSET_DEBT: InfoFinancialSingleCardData = {
   name1: "ทรัพย์สิน",
   name2: "หนี้สิน",
@@ -285,17 +394,25 @@ const ASSET_DEBT: InfoFinancialSingleCardData = {
   ],
 };
 
+const INCOME_DATA: InfoFinanceSingleCardDataEntry[] = [
+  { type: "รายได้ 1", value: [3e6, 2e6, 1e6] },
+  { type: "รายได้ 2", value: [3e6, 2e6, 1e6] },
+];
+
 const INCOME_EXPENSE: InfoFinancialSingleCardData = {
   name1: "รายได้",
   name2: "รายจ่าย",
-  data1: [
-    { type: "รายได้ 1", value: [3e6, 2e6, 1e6] },
-    { type: "รายได้ 2", value: [3e6, 2e6, 1e6] },
-  ],
+  data1: INCOME_DATA,
   data2: [
     { type: "รายจ่าย 1", value: [1e7, 5e6, 1e6] },
     { type: "รายจ่าย 2", value: [1e7, 5e6, 1e6] },
   ],
+};
+
+const TAX: Omit<InfoFinancialChartProps, "max"> = {
+  actor: 5e6,
+  spouse: 5e6,
+  child: 1e6,
 };
 
 const MAX = 4e7;
@@ -374,71 +491,40 @@ export default function InfoFinancialSection({ name }: { name: string }) {
           <div className="py-5 mb-5 ml-10">
             <InfoFinanceDialog />
           </div>
-          <InfoFinancialSingleCard
-            data={ASSET_DEBT}
-            max={MAX}
-            spouseCount={SPOUSE_COUNT}
-            childCount={CHILD_COUNT}
-            showActor={showActor}
-            showSpouse={showSpouse}
-            showChild={showChild}
-          />
-          <InfoFinancialSingleCard
-            data={INCOME_EXPENSE}
-            max={MAX}
-            spouseCount={SPOUSE_COUNT}
-            childCount={CHILD_COUNT}
-            showActor={showActor}
-            showSpouse={showSpouse}
-            showChild={showChild}
-          />
-          <div className="bg-gray-1 p-10">
-            <div className="block b2 font-bold">การเสียภาษี</div>
-            <section className="mb-10">
-              <div className="block b3 font-bold mb-2">เงินได้พึงประเมิน</div>
-              <div className="flex border border-black h-20 mr-auto w-fit mb-2">
-                <div className="w-80 bg-black" />
-                <div className="w-80 bg-black opacity-40" />
-              </div>
-              <div className="flex pt-5">
-                <div className="flex-1">
-                  <span className="block b7 leading-1">ผู้ยื่น</span>
-                  <span className="block b4">1.36</span>
-                </div>
-                <div className="opacity-80 flex-1 flex justify-center">
-                  <div>
-                    <span className="block b7 leading-1">คู่สมรส x คน</span>
-                    <span className="block b4">16.73</span>
-                  </div>
-                </div>
-                <div className="text-right flex-1">
-                  <span className="block b7 leading-1">
-                    <span className="font-bold">รวม</span> (ล้านบาท)
-                  </span>
-                  <span className="block b4 font-bold">18.09</span>
-                </div>
-              </div>
-            </section>
-            <section className="border-t border-t-gray-4 pt-5">
-              <div className="block b3 font-bold mb-5">เปรียบเทียบกับรายได้จริง</div>
-              <div className="flex">
-                <div className="b4 flex-1">
-                  <span className="block leading-1">น้อยกว่า</span>
-                  <span className="block">xx%</span>
-                </div>
-                <div className="opacity-80 b4 flex-1 flex justify-center">
-                  <div>
-                    <span className="block leading-1">น้อยกว่า</span>
-                    <span className="block">xx%</span>
-                  </div>
-                </div>
-                <div className="text-right b4 font-bold flex-1">
-                  <span className="block leading-1">น้อยกว่า</span>
-                  <span className="block">xx%</span>
-                </div>
-              </div>
-            </section>
-          </div>
+          {compareYear.data ? (
+            <div>Double Compare</div>
+          ) : (
+            <>
+              <InfoFinancialSingleCard
+                data={ASSET_DEBT}
+                max={MAX}
+                spouseCount={SPOUSE_COUNT}
+                childCount={CHILD_COUNT}
+                showActor={showActor}
+                showSpouse={showSpouse}
+                showChild={showChild}
+              />
+              <InfoFinancialSingleCard
+                data={INCOME_EXPENSE}
+                max={MAX}
+                spouseCount={SPOUSE_COUNT}
+                childCount={CHILD_COUNT}
+                showActor={showActor}
+                showSpouse={showSpouse}
+                showChild={showChild}
+              />
+              <TaxSingleCard
+                tax={TAX}
+                income={INCOME_DATA}
+                max={MAX}
+                spouseCount={SPOUSE_COUNT}
+                childCount={CHILD_COUNT}
+                showActor={showActor}
+                showSpouse={showSpouse}
+                showChild={showChild}
+              />
+            </>
+          )}
         </div>
       </div>
 
