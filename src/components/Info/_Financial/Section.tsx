@@ -17,19 +17,35 @@ import type { DropdownDetailedData } from "../../BareDropdown";
 
 const f$ = (value: number) => formatThousands(formatMillion(value), 2);
 
-interface InfoFinanceSingleCardDataEntry {
+type NumberNullUndefined = number | null | undefined;
+type ActorSpouseChildArr = [number, NumberNullUndefined, NumberNullUndefined];
+
+interface InfoFinanceStatement {
   type: string;
-  value: [number, number | null | undefined, number | null | undefined];
+  value: ActorSpouseChildArr;
 }
 
-interface InfoDetailsProps {
+interface InfoFinancial {
+  property: InfoFinanceStatement[];
+  debt: InfoFinanceStatement[];
+  income: InfoFinanceStatement[];
+  expense: InfoFinanceStatement[];
+  tax: ActorSpouseChildArr;
+}
+
+interface InfoFinancialDetailsProps {
+  data: InfoFinanceStatement[];
   showActor: boolean;
   showSpouse: boolean;
   showChild: boolean;
-  data: InfoFinanceSingleCardDataEntry[];
 }
 
-const InfoDetails = ({ data, showActor, showSpouse, showChild }: InfoDetailsProps) => {
+const InfoFinancialDetails = ({
+  data,
+  showActor,
+  showSpouse,
+  showChild,
+}: InfoFinancialDetailsProps) => {
   return (
     <Accordion
       trigger={
@@ -114,16 +130,13 @@ const InfoFinancialChart = ({ actor, spouse, child, max }: InfoFinancialChartPro
   );
 };
 
-interface InfoFinancialSingleCardData {
+interface InfoFinancialSingleCardProps {
   name1: string;
   name2: string;
-  data1: InfoFinanceSingleCardDataEntry[];
-  data2: InfoFinanceSingleCardDataEntry[];
-}
-
-interface InfoFinancialSingleCardProps {
-  data: InfoFinancialSingleCardData;
+  data1: InfoFinanceStatement[];
+  data2: InfoFinanceStatement[];
   max: number;
+
   spouseCount: number;
   childCount: number;
 
@@ -133,7 +146,10 @@ interface InfoFinancialSingleCardProps {
 }
 
 const InfoFinancialSingleCard = ({
-  data,
+  name1,
+  name2,
+  data1,
+  data2,
   max,
   spouseCount,
   childCount,
@@ -141,18 +157,18 @@ const InfoFinancialSingleCard = ({
   showSpouse,
   showChild,
 }: InfoFinancialSingleCardProps) => {
-  const actor1Total = showActor ? data.data1.reduce((a, c) => a + c.value[0], 0) : 0;
+  const actor1Total = showActor ? data1.reduce((a, c) => a + c.value[0], 0) : 0;
   const spouse1Total =
-    showSpouse && spouseCount ? data.data1.reduce((a, c) => a + (c.value[1] || 0), 0) : 0;
+    showSpouse && spouseCount ? data1.reduce((a, c) => a + (c.value[1] || 0), 0) : 0;
   const child1Total =
-    showChild && childCount ? data.data1.reduce((a, c) => a + (c.value[2] || 0), 0) : 0;
+    showChild && childCount ? data1.reduce((a, c) => a + (c.value[2] || 0), 0) : 0;
   const data1Total = actor1Total + spouse1Total + child1Total;
 
-  const actor2Total = showActor ? data.data2.reduce((a, c) => a + c.value[0], 0) : 0;
+  const actor2Total = showActor ? data2.reduce((a, c) => a + c.value[0], 0) : 0;
   const spouse2Total =
-    showSpouse && spouseCount ? data.data2.reduce((a, c) => a + (c.value[1] || 0), 0) : 0;
+    showSpouse && spouseCount ? data2.reduce((a, c) => a + (c.value[1] || 0), 0) : 0;
   const child2Total =
-    showChild && childCount ? data.data2.reduce((a, c) => a + (c.value[2] || 0), 0) : 0;
+    showChild && childCount ? data2.reduce((a, c) => a + (c.value[2] || 0), 0) : 0;
   const data2Total = actor2Total + spouse2Total + child2Total;
 
   const dataDifference = data1Total - data2Total;
@@ -165,7 +181,7 @@ const InfoFinancialSingleCard = ({
       )}
     >
       <section className="mb-5">
-        <div className="block b3 font-bold mb-2">{data.name1}</div>
+        <div className="block b3 font-bold mb-2">{name1}</div>
         <InfoFinancialChart
           actor={actor1Total}
           spouse={spouse1Total}
@@ -202,15 +218,15 @@ const InfoFinancialSingleCard = ({
             <span className="block b4 font-bold">{f$(data1Total)}</span>
           </div>
         </div>
-        <InfoDetails
-          data={data.data1}
+        <InfoFinancialDetails
+          data={data1}
           showActor={showActor}
           showSpouse={showSpouse && !!spouseCount}
           showChild={showChild && !!childCount}
         />
       </section>
       <section className="mb-10">
-        <div className="block b3 font-bold mb-2">{data.name2}</div>
+        <div className="block b3 font-bold mb-2">{name2}</div>
         <InfoFinancialChart
           actor={actor2Total}
           spouse={spouse2Total}
@@ -247,8 +263,8 @@ const InfoFinancialSingleCard = ({
             <span className="block b4 font-bold">{f$(data2Total)}</span>
           </div>
         </div>
-        <InfoDetails
-          data={data.data2}
+        <InfoFinancialDetails
+          data={data2}
           showActor={showActor}
           showSpouse={showSpouse && !!spouseCount}
           showChild={showChild && !!childCount}
@@ -261,24 +277,23 @@ const InfoFinancialSingleCard = ({
         )}
       >
         {dataDifference > 0
-          ? `${data.name1} มากกว่า ${data.name2} ${f$(dataDifference)} ล้านบาท`
+          ? `${name1} มากกว่า ${name2} ${f$(dataDifference)} ล้านบาท`
           : dataDifference === 0
-          ? `${data.name1} เท่ากับ ${data.name2}`
-          : `${data.name1} น้อยกว่า ${data.name2} ${f$(
-              Math.abs(dataDifference)
-            )} ล้านบาท`}
+          ? `${name1} เท่ากับ ${name2}`
+          : `${name1} น้อยกว่า ${name2} ${f$(Math.abs(dataDifference))} ล้านบาท`}
       </p>
     </div>
   );
 };
 
 interface TaxSingleCardProps {
-  tax: Omit<InfoFinancialChartProps, "max">;
-  income: InfoFinanceSingleCardDataEntry[];
+  tax: ActorSpouseChildArr;
+  income: InfoFinanceStatement[];
   max: number;
 
   spouseCount: number;
   childCount: number;
+
   showActor: boolean;
   showSpouse: boolean;
   showChild: boolean;
@@ -294,7 +309,10 @@ const TaxSingleCard = ({
   showSpouse,
   showChild,
 }: TaxSingleCardProps) => {
-  const totalTax = tax.actor + tax.child + tax.spouse;
+  const taxSpouse = tax[1] ?? 0;
+  const taxChild = tax[2] ?? 0;
+
+  const totalTax = tax[0] + taxSpouse + (tax[2] ?? 0);
   const [totalActorIncome, totalSpouseIncome, totalChildIncome] = income.reduce(
     (a, c) => {
       return [a[0] + c.value[0], a[1] + (c.value[1] ?? 0), a[2] + (c.value[2] ?? 0)];
@@ -302,9 +320,9 @@ const TaxSingleCard = ({
     [0, 0, 0]
   );
 
-  const actorCompare = Math.floor((tax.actor / totalActorIncome) * 100);
-  const spouseCompare = Math.floor((tax.spouse / totalSpouseIncome) * 100);
-  const childCompare = Math.floor((tax.child / totalChildIncome) * 100);
+  const actorCompare = Math.floor((tax[0] / totalActorIncome) * 100);
+  const spouseCompare = Math.floor((taxSpouse / totalSpouseIncome) * 100);
+  const childCompare = Math.floor((taxChild / totalChildIncome) * 100);
   const totalCompare = Math.floor(
     (totalTax / (totalActorIncome + totalSpouseIncome + totalChildIncome)) * 100
   );
@@ -324,27 +342,27 @@ const TaxSingleCard = ({
       <section>
         <div className="block b3 font-bold mb-2">เงินได้พึงประเมิน</div>
         <InfoFinancialChart
-          actor={tax.actor}
-          spouse={tax.spouse}
-          child={tax.child}
+          actor={tax[0]}
+          spouse={taxSpouse}
+          child={taxChild}
           max={max}
         />
         <div className="flex pt-5">
           {showActor && (
             <div className="flex-1">
               <span className="block b7 leading-1">ผู้ยื่น</span>
-              <span className="block b4">{f$(tax.actor)}</span>
+              <span className="block b4">{f$(tax[0])}</span>
               <span className="block b6 leading-1">
                 {actorWording}
                 {actorValue}%*
               </span>
             </div>
           )}
-          {spouseCount > 0 && showSpouse && (
-            <div className="opacity-80 flex-1 flex justify-center">
-              <div>
+          {showSpouse && spouseCount > 0 && (
+            <div className="opacity-80 flex-1 flex">
+              <div className={clsx(showActor && "mx-auto")}>
                 <span className="block b7 leading-1">คู่สมรส {spouseCount} คน</span>
-                <span className="block b4">{f$(tax.spouse)}</span>
+                <span className="block b4">{f$(taxSpouse)}</span>
                 <span className="block b6 leading-1">
                   {spouseWording}
                   {spouseValue}%*
@@ -352,11 +370,11 @@ const TaxSingleCard = ({
               </div>
             </div>
           )}
-          {childCount > 0 && showChild && (
-            <div className="opacity-80 flex-1 flex justify-center">
-              <div>
+          {showChild && childCount > 0 && (
+            <div className="opacity-80 flex-1 flex">
+              <div className={clsx((showActor || showSpouse) && "mx-auto")}>
                 <span className="block b7 leading-1">บุตร {childCount} คน</span>
-                <span className="block b4">{f$(tax.child)}</span>
+                <span className="block b4">{f$(tax[0])}</span>
                 <span className="block b6 leading-1">
                   {childWording}
                   {childValue}%*
@@ -381,41 +399,6 @@ const TaxSingleCard = ({
   );
 };
 
-const ASSET_DEBT: InfoFinancialSingleCardData = {
-  name1: "ทรัพย์สิน",
-  name2: "หนี้สิน",
-  data1: [
-    { type: "ทรัพย์สิน 1", value: [1e7, 0, 1e6] },
-    { type: "ทรัพย์สิน 2", value: [1e7, 5e6, 0] },
-  ],
-  data2: [
-    { type: "หนี้สิน 1", value: [3e6, 0, 1e6] },
-    { type: "หนี้สิน 2", value: [3e6, 2e6, 0] },
-  ],
-};
-
-const INCOME_DATA: InfoFinanceSingleCardDataEntry[] = [
-  { type: "รายได้ 1", value: [3e6, 2e6, 1e6] },
-  { type: "รายได้ 2", value: [3e6, 2e6, 1e6] },
-];
-
-const INCOME_EXPENSE: InfoFinancialSingleCardData = {
-  name1: "รายได้",
-  name2: "รายจ่าย",
-  data1: INCOME_DATA,
-  data2: [
-    { type: "รายจ่าย 1", value: [1e7, 5e6, 1e6] },
-    { type: "รายจ่าย 2", value: [1e7, 5e6, 1e6] },
-  ],
-};
-
-const TAX: Omit<InfoFinancialChartProps, "max"> = {
-  actor: 5e6,
-  spouse: 5e6,
-  child: 1e6,
-};
-
-const MAX = 4e7;
 const SPOUSE_COUNT = 2;
 const CHILD_COUNT = 1;
 
@@ -446,6 +429,51 @@ const COMPARE_YEARS: DropdownDetailedData[] = [
   ...YEARS,
 ];
 
+const DATA_2566: InfoFinancial = {
+  property: [
+    { type: "ทรัพย์สิน 1", value: [1e7, 0, 1e6] },
+    { type: "ทรัพย์สิน 2", value: [1e7, 5e6, 0] },
+  ],
+  debt: [
+    { type: "หนี้สิน 1", value: [3e6, 0, 1e6] },
+    { type: "หนี้สิน 2", value: [3e6, 2e6, 0] },
+  ],
+  income: [
+    { type: "รายได้ 1", value: [3e6, 2e6, 1e6] },
+    { type: "รายได้ 2", value: [3e6, 2e6, 1e6] },
+  ],
+  expense: [
+    { type: "รายจ่าย 1", value: [1e7, 5e6, 1e6] },
+    { type: "รายจ่าย 2", value: [1e7, 5e6, 1e6] },
+  ],
+  tax: [5e6, 5e6, 1e6],
+};
+
+const DATA_2562: InfoFinancial = {
+  property: [
+    { type: "ทรัพย์สิน 1", value: [1e7, 0, 1e6] },
+    { type: "ทรัพย์สิน 2", value: [1e7, 5e6, 0] },
+  ],
+  debt: [
+    { type: "หนี้สิน 1", value: [3e6, 0, 1e6] },
+    { type: "หนี้สิน 2", value: [3e6, 2e6, 0] },
+  ],
+  income: [
+    { type: "รายได้ 1", value: [3e6, 2e6, 1e6] },
+    { type: "รายได้ 2", value: [3e6, 2e6, 1e6] },
+  ],
+  expense: [
+    { type: "รายจ่าย 1", value: [1e7, 5e6, 1e6] },
+    { type: "รายจ่าย 2", value: [1e7, 5e6, 1e6] },
+  ],
+  tax: [5e6, 5e6, 1e6],
+};
+
+const DATA: Record<string, InfoFinancial> = {
+  "2566": DATA_2566,
+  "2562": DATA_2562,
+};
+
 export default function InfoFinancialSection({ name }: { name: string }) {
   const [showActor, setShowActor] = useState(true);
   const [showSpouse, setShowSpouse] = useState(true);
@@ -453,6 +481,23 @@ export default function InfoFinancialSection({ name }: { name: string }) {
 
   const [currentYear, setCurrentYear] = useState(YEARS[0]);
   const [compareYear, setCompareYear] = useState(COMPARE_YEARS[0]);
+
+  const currentYearData = DATA[currentYear.data];
+
+  const propertyMax = currentYearData.property
+    .map((e) => e.value.reduce((a: number, c) => a + (c ?? 0), 0))
+    .reduce((a, c) => a + c, 0);
+  const debtMax = currentYearData.debt
+    .map((e) => e.value.reduce((a: number, c) => a + (c ?? 0), 0))
+    .reduce((a, c) => a + c, 0);
+  const incomeMax = currentYearData.income
+    .map((e) => e.value.reduce((a: number, c) => a + (c ?? 0), 0))
+    .reduce((a, c) => a + c, 0);
+  const expenseMax = currentYearData.expense
+    .map((e) => e.value.reduce((a: number, c) => a + (c ?? 0), 0))
+    .reduce((a, c) => a + c, 0);
+  const taxMax = currentYearData.tax.reduce((a: number, c) => a + (c ?? 0), 0);
+  const max = Math.max(propertyMax, debtMax, incomeMax, expenseMax, taxMax);
 
   return (
     <section id="financial">
@@ -496,8 +541,11 @@ export default function InfoFinancialSection({ name }: { name: string }) {
           ) : (
             <>
               <InfoFinancialSingleCard
-                data={ASSET_DEBT}
-                max={MAX}
+                name1="ทรัพย์สิน"
+                name2="หนี้สิน"
+                data1={currentYearData.property}
+                data2={currentYearData.debt}
+                max={max}
                 spouseCount={SPOUSE_COUNT}
                 childCount={CHILD_COUNT}
                 showActor={showActor}
@@ -505,8 +553,11 @@ export default function InfoFinancialSection({ name }: { name: string }) {
                 showChild={showChild}
               />
               <InfoFinancialSingleCard
-                data={INCOME_EXPENSE}
-                max={MAX}
+                name1="รายได้"
+                name2="รายจ่าย"
+                data1={currentYearData.income}
+                data2={currentYearData.expense}
+                max={max}
                 spouseCount={SPOUSE_COUNT}
                 childCount={CHILD_COUNT}
                 showActor={showActor}
@@ -514,9 +565,9 @@ export default function InfoFinancialSection({ name }: { name: string }) {
                 showChild={showChild}
               />
               <TaxSingleCard
-                tax={TAX}
-                income={INCOME_DATA}
-                max={MAX}
+                tax={currentYearData.tax}
+                income={currentYearData.income}
+                max={max}
                 spouseCount={SPOUSE_COUNT}
                 childCount={CHILD_COUNT}
                 showActor={showActor}
