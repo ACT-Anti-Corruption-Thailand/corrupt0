@@ -1,16 +1,23 @@
 import Image from "next/image";
 import { thaiMoneyFormatter } from "@/functions/moneyFormatter";
 
+import _PARTY_ASSETS from "@data/color/partyAssets.json"
+
+const PARTY_ASSETS = _PARTY_ASSETS as Record<
+  string,
+  { color: string | null; image: string | null }
+>;
+
 interface PersonCardProps {
     name: string;
     title: string;
-    data: { amount: number; color: string }[];
+    data: { amount: number; party: string }[];
     maxAmount: number;
     imgPath: string;
 }
 
 interface barProps {
-    color: string;
+    party: string;
     amount: number;
     maxAmount: number;
 }
@@ -26,7 +33,7 @@ const Bar = (props: barProps) => {
             style={
                 {
                     "--progress": progress,
-                    backgroundColor: props.color,
+                    backgroundColor: PARTY_ASSETS[props.party]?.color ?? "#fff",
                 } as React.CSSProperties
             }
             className="h-10 lg:h-20 w-[var(--progress)]"
@@ -63,7 +70,7 @@ const EntityStackedBarCard = (props: PersonCardProps) => {
             <div className="mt-10 flex">
                 {
                     props.data.sort((a, b) => b.amount - a.amount).map((item, index) => (
-                        <Bar key={index} color={item.color} amount={item.amount} maxAmount={props.maxAmount} />
+                        <Bar key={index} party={item.party} amount={item.amount} maxAmount={props.maxAmount} />
                     ))
                 }
             </div>

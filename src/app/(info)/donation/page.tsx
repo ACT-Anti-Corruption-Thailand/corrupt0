@@ -10,14 +10,15 @@ import EntityStackedBarCard from "@/components/EntityStackedBarCard";
 import ChartSort from "@/components/ChartSort";
 import Dropdown from "@/components/Dropdown";
 
-//<----Mock Data---->
 //For Party Section
 import _PARTY_DONATION_Test from "@data/donation/partyPerYearWithTotal.json";
 import _PARTY_TOTAL_DONATION from "@data/donation/totalPerYearWithTotal.json";
 import _PARTY_ASSETS from "@/data/color/partyAssets.json";
+import _DONOR_DATA from "@data/donation/donor.json";
 
 const PARTY_DONATION_Test = _PARTY_DONATION_Test as any;
 const PARTY_TOTAL_DONATION = _PARTY_TOTAL_DONATION as any;
+const DONOR_DATA = _DONOR_DATA as any;
 const PARTY_ASSETS = _PARTY_ASSETS as Record<
   string,
   { color: string | null; image: string | null }
@@ -25,31 +26,10 @@ const PARTY_ASSETS = _PARTY_ASSETS as Record<
 
 const YEARS = Object.keys(PARTY_DONATION_Test).reverse();
 
-const PARTY_DONATION = [
-  {
-    name: "พลังประชารัฐ",
-    img: "/icons/person.svg",
-    color: "blue",
-    year: "2566",
-    receiveAmount: 800000,
-  },
-  {
-    name: "พลังไทยดี",
-    img: "/icons/person.svg",
-    color: "red",
-    year: "2566",
-    receiveAmount: 200000,
-  },
-  {
-    name: "เสรีรวมไทย",
-    img: "/icons/person.svg",
-    color: "yellow",
-    year: "2565",
-    receiveAmount: 500000,
-  },
-];
 // TODO: Manually Typing
-type PartySearchSchema = (typeof PARTY_DONATION)[number];
+type PartySearchSchema = (typeof PARTY_DONATION_Test)[number];
+type IndividualDonorSchema = (typeof DONOR_DATA)[number];
+
 
 //For individual section
 const DONATION_TYPES = [
@@ -58,93 +38,6 @@ const DONATION_TYPES = [
   "ตำเเหน่งทางการเมือง",
   "บุคคลทั่วไป",
   "สมาชิกสภาผู้แทนราษฏร",
-];
-
-const INDIVIDUAL_DONORS = [
-  {
-    name: "นาย สมชาย ใจดี",
-    title: "สมาชิกสภาผู้แทนราษฏร",
-    img: "/icons/person.svg",
-    year: "2566",
-    totalAmount: 1000000,
-    donation: [
-      {
-        color: "blue",
-        amount: 400000,
-      },
-      {
-        color: "red",
-        amount: 100000,
-      },
-      {
-        color: "yellow",
-        amount: 500000,
-      },
-    ],
-  },
-  {
-    name: "บริษัท เที่ยวมั้ยหนู จำกัด",
-    title: "นิติบุคคล",
-    img: "/icons/person.svg",
-    year: "2566",
-    totalAmount: 1000000,
-    donation: [
-      {
-        color: "blue",
-        amount: 1000000,
-      },
-    ],
-  },
-  {
-    name: "บริษัท โห่จาร จำกัด",
-    title: "นิติบุคคล",
-    img: "/icons/person.svg",
-    year: "2565",
-    totalAmount: 1000000,
-    donation: [
-      {
-        color: "red",
-        amount: 1000000,
-      },
-    ],
-  },
-];
-// TODO: Manually Typing
-type IndividualDonorSchema = (typeof INDIVIDUAL_DONORS)[number];
-
-const PARTY_COLORS = [
-  {
-    name: "พลังประชารัฐ",
-    color: "blue",
-  },
-  {
-    name: "พลังไทยดี",
-    color: "red",
-  },
-  {
-    name: "เสรีรวมไทย",
-    color: "yellow",
-  },
-  {
-    name: "เศรษฐกิจใหม่",
-    color: "green",
-  },
-  {
-    name: "ประชาธิปัตย์",
-    color: "purple",
-  },
-  {
-    name: "เพื่อไทย",
-    color: "orange",
-  },
-  {
-    name: "ประชาชาติ",
-    color: "pink",
-  },
-  {
-    name: "เพื่อแผ่นดิน",
-    color: "brown",
-  },
 ];
 
 export default function Donation() {
@@ -214,7 +107,7 @@ export default function Donation() {
               imgPath={PARTY_ASSETS[partySearch.name]?.image ?? "/icons/person.svg"}
               />
           ) : (
-            PARTY_DONATION_Test[partyFilterYear].map((party: any, index: number) => (
+            PARTY_DONATION_Test[partyFilterYear].filter((item: any, idx: any) => idx < 10).map((party: any, index: number) => (
               <EntityBarCard
                 name={party.party}
                 title=""
@@ -274,7 +167,7 @@ export default function Donation() {
         </div>
         <Search
           placeholder="ค้นหาด้วยชื่อบุคคล/นิติบุคคล"
-          data={INDIVIDUAL_DONORS}
+          data={DONOR_DATA}
           selected={individualSearch}
           setSelected={setIndividualSearch}
         />
@@ -287,22 +180,14 @@ export default function Donation() {
               maxAmount={individualSearch.totalAmount}
               imgPath={individualSearch.img}
             />
-          ) : (
-            INDIVIDUAL_DONORS.filter((d) =>
-              individualFilterYear === "ทุกปี" && individualFilterType === "ทุกประเภท"
-                ? true
-                : individualFilterYear === "ทุกปี" && individualFilterType !== "ทุกประเภท"
-                  ? d.title === individualFilterType
-                  : individualFilterYear !== "ทุกปี" && individualFilterType === "ทุกประเภท"
-                    ? d.year === individualFilterYear
-                    : d.year === individualFilterYear && d.title === individualFilterType
-            ).map((individual, index) => (
+          ):(
+            DONOR_DATA.filter((item: any, idx: any) => idx < 10).map((individual: any, index: any)=>  (
               <EntityStackedBarCard
                 name={individual.name}
                 title={individual.title}
                 data={individual.donation}
-                maxAmount={individual.totalAmount}
-                imgPath={individual.img}
+                maxAmount={DONOR_DATA[0].total}
+                imgPath="/icons/person.svg"
                 key={index}
               />
             ))

@@ -68,23 +68,30 @@ const getTotalDonation = async () => {
     }, {});
 
   const individualPerPartyTable = Object.values(table
-    .select("year", "donor_fullname", "party", "amount")
+    .select("year", "donor_prefix","donor_fullname", "party", "amount")
     .objects()
     .reduce((acc, obj) => {
-      const { year, donor_fullname, party, amount } = obj;
+      const { year, donor_prefix, donor_fullname, party, amount } = obj;
 
       if (donor_fullname in acc) {
-        acc[donor_fullname].donation.push({ year, party, amount });
+        acc[donor_fullname].donation.push({ year, party, amount, color: "#fff" });
+        acc[donor_fullname].total += amount
       } else {
         acc[donor_fullname] = {
           name: donor_fullname,
-          donation: [{ year, party, amount }],
+          title: donor_prefix,
+          donation: [{ year, party, amount, color: "#fff" }],
         };
+        acc[donor_fullname].total = amount;
       }
 
       return acc;
     }, {})
-  )
+  ).sort((a,b) => b.total - a.total)
+
+  const preview = table
+
+  preview.print()
 
   return { totalPerYearWithTotalTable, partyPerYearWithTotalTable, individualPerPartyTable };
 };
