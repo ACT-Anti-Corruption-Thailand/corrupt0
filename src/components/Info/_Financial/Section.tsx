@@ -40,7 +40,7 @@ interface InfoFinancialDetailsProps {
   showChild: boolean;
 }
 
-const InfoFinancialDetails = ({
+const InfoFinancialSingleDetails = ({
   data,
   showActor,
   showSpouse,
@@ -218,7 +218,7 @@ const InfoFinancialSingleCard = ({
             <span className="block b4 font-bold">{f$(data1Total)}</span>
           </div>
         </div>
-        <InfoFinancialDetails
+        <InfoFinancialSingleDetails
           data={data1}
           showActor={showActor}
           showSpouse={showSpouse && !!spouseCount}
@@ -263,7 +263,7 @@ const InfoFinancialSingleCard = ({
             <span className="block b4 font-bold">{f$(data2Total)}</span>
           </div>
         </div>
-        <InfoFinancialDetails
+        <InfoFinancialSingleDetails
           data={data2}
           showActor={showActor}
           showSpouse={showSpouse && !!spouseCount}
@@ -282,6 +282,135 @@ const InfoFinancialSingleCard = ({
           ? `${name1} เท่ากับ ${name2}`
           : `${name1} น้อยกว่า ${name2} ${f$(Math.abs(dataDifference))} ล้านบาท`}
       </p>
+    </div>
+  );
+};
+
+interface InfoFinancialCompareCardProps {
+  name: string;
+  year1: string;
+  year2: string;
+  max: number;
+  data1: InfoFinanceStatement[];
+  data2: InfoFinanceStatement[];
+  spouseCount: number;
+  childCount: number;
+  showActor: boolean;
+  showSpouse: boolean;
+  showChild: boolean;
+  lessIsBetter?: boolean;
+}
+
+const InfoFinancialCompareCard = ({
+  name,
+  year1,
+  year2,
+  max,
+  data1,
+  data2,
+  spouseCount,
+  childCount,
+  showActor,
+  showSpouse,
+  showChild,
+  lessIsBetter,
+}: InfoFinancialCompareCardProps) => {
+  const actor1Total = showActor ? data1.reduce((a, c) => a + c.value[0], 0) : 0;
+  const spouse1Total =
+    showSpouse && spouseCount ? data1.reduce((a, c) => a + (c.value[1] || 0), 0) : 0;
+  const child1Total =
+    showChild && childCount ? data1.reduce((a, c) => a + (c.value[2] || 0), 0) : 0;
+  const data1Total = actor1Total + spouse1Total + child1Total;
+
+  const actor2Total = showActor ? data2.reduce((a, c) => a + c.value[0], 0) : 0;
+  const spouse2Total =
+    showSpouse && spouseCount ? data2.reduce((a, c) => a + (c.value[1] || 0), 0) : 0;
+  const child2Total =
+    showChild && childCount ? data2.reduce((a, c) => a + (c.value[2] || 0), 0) : 0;
+  const data2Total = actor2Total + spouse2Total + child2Total;
+
+  const percentDiff = Math.floor((data2Total / data1Total) * 100);
+
+  const bgColorClass = lessIsBetter
+    ? ["bg-value-positive-bg", "bg-value-negative-bg"]
+    : ["bg-value-negative-bg", "bg-value-positive-bg"];
+  const textColorClass = lessIsBetter
+    ? ["text-value-positive-text", "text-value-negative-text"]
+    : ["text-value-negative-text", "text-value-positive-text"];
+
+  return (
+    <div
+      className={clsx(
+        "mb-10 p-10",
+        percentDiff === 100 ? "bg-value-positive-bg" : bgColorClass[+(percentDiff > 100)]
+      )}
+    >
+      <section className="mb-5">
+        <div className="b3 font-bold">
+          {name}{" "}
+          {percentDiff > 100 ? (
+            <span className={textColorClass[1]}>เพิ่มขึ้น {percentDiff - 100}%</span>
+          ) : percentDiff === 100 ? (
+            <span className="text-value-positive-text">ไม่เปลี่ยนแปลง</span>
+          ) : (
+            <span className={textColorClass[0]}>ลดลง {100 - percentDiff}%</span>
+          )}
+        </div>
+        <div className="b4 font-bold">{year1}</div>
+        <InfoFinancialChart
+          actor={actor1Total}
+          spouse={spouse1Total}
+          child={child1Total}
+          max={max}
+        />
+        <div className="b4 font-bold">{year2}</div>
+        <InfoFinancialChart
+          actor={actor2Total}
+          spouse={spouse2Total}
+          child={child2Total}
+          max={max}
+        />
+        <div className="flex pt-5 justify-between">
+          {showActor && (
+            <div className="flex-1">
+              <span className="block b7 leading-1">ผู้ยื่น</span>
+              <span className="block b4">{f$(actor1Total)}</span>
+              <span className="block b4">{f$(actor2Total)}</span>
+            </div>
+          )}
+          {showSpouse && spouseCount > 0 && (
+            <div className="flex-1 opacity-80 flex">
+              <div className={clsx(showActor && "mx-auto")}>
+                <span className="block b7 leading-1">คู่สมรส {spouseCount} คน</span>
+                <span className="block b4">{f$(spouse1Total)}</span>
+                <span className="block b4">{f$(spouse2Total)}</span>
+              </div>
+            </div>
+          )}
+          {showChild && childCount > 0 && (
+            <div className="flex-1 opacity-60 flex">
+              <div className={clsx((showActor || showSpouse) && "mx-auto")}>
+                <span className="block b7 leading-1">บุตร {childCount} คน</span>
+                <span className="block b4">{f$(child1Total)}</span>
+                <span className="block b4">{f$(child2Total)}</span>
+              </div>
+            </div>
+          )}
+          <div className="flex-1 text-right">
+            <span className="block b7 leading-1">
+              <span className="font-bold">รวม</span> (ล้านบาท)
+            </span>
+            <span className="block b4 font-bold">{f$(data1Total)}</span>
+            <span className="block b4 font-bold">{f$(data2Total)}</span>
+          </div>
+        </div>
+        {/* <InfoFinancialDetails
+          data={data1}
+          showActor={showActor}
+          showSpouse={showSpouse && !!spouseCount}
+          showChild={showChild && !!childCount}
+        /> */}
+      </section>
     </div>
   );
 };
@@ -451,22 +580,22 @@ const DATA_2566: InfoFinancial = {
 
 const DATA_2562: InfoFinancial = {
   property: [
-    { type: "ทรัพย์สิน 1", value: [1e7, 0, 1e6] },
-    { type: "ทรัพย์สิน 2", value: [1e7, 5e6, 0] },
+    { type: "ทรัพย์สิน 1", value: [1e7 * 0.9, 0, 1e6 * 0.9] },
+    { type: "ทรัพย์สิน 2", value: [1e7 * 0.9, 5e6 * 0.9, 0] },
   ],
   debt: [
-    { type: "หนี้สิน 1", value: [3e6, 0, 1e6] },
-    { type: "หนี้สิน 2", value: [3e6, 2e6, 0] },
+    { type: "หนี้สิน 1", value: [3e6 * 1.1, 0, 1e6 * 1.1] },
+    { type: "หนี้สิน 2", value: [3e6 * 1.1, 2e6 * 1.1, 0] },
   ],
   income: [
     { type: "รายได้ 1", value: [3e6, 2e6, 1e6] },
     { type: "รายได้ 2", value: [3e6, 2e6, 1e6] },
   ],
   expense: [
-    { type: "รายจ่าย 1", value: [1e7, 5e6, 1e6] },
-    { type: "รายจ่าย 2", value: [1e7, 5e6, 1e6] },
+    { type: "รายจ่าย 1", value: [1e7 * 1.1, 5e6 * 0.9, 1e6] },
+    { type: "รายจ่าย 2", value: [1e7 * 1.1, 5e6 * 0.9, 1e6] },
   ],
-  tax: [5e6, 5e6, 1e6],
+  tax: [5e6 * 1.1, 5e6 * 0.9, 1e6],
 };
 
 const DATA: Record<string, InfoFinancial> = {
@@ -474,16 +603,11 @@ const DATA: Record<string, InfoFinancial> = {
   "2562": DATA_2562,
 };
 
-export default function InfoFinancialSection({ name }: { name: string }) {
-  const [showActor, setShowActor] = useState(true);
-  const [showSpouse, setShowSpouse] = useState(true);
-  const [showChild, setShowChild] = useState(true);
-
-  const [currentYear, setCurrentYear] = useState(YEARS[0]);
-  const [compareYear, setCompareYear] = useState(COMPARE_YEARS[0]);
-
-  const currentYearData = DATA[currentYear.data];
-
+const calcMax = (
+  compareYear: boolean,
+  currentYearData: InfoFinancial,
+  compareYearData: InfoFinancial
+) => {
   const propertyMax = currentYearData.property
     .map((e) => e.value.reduce((a: number, c) => a + (c ?? 0), 0))
     .reduce((a, c) => a + c, 0);
@@ -497,7 +621,46 @@ export default function InfoFinancialSection({ name }: { name: string }) {
     .map((e) => e.value.reduce((a: number, c) => a + (c ?? 0), 0))
     .reduce((a, c) => a + c, 0);
   const taxMax = currentYearData.tax.reduce((a: number, c) => a + (c ?? 0), 0);
-  const max = Math.max(propertyMax, debtMax, incomeMax, expenseMax, taxMax);
+
+  const currentMax = Math.max(propertyMax, debtMax, incomeMax, expenseMax, taxMax);
+  if (!compareYear) return currentMax;
+
+  const comparePropertyMax = compareYearData.property
+    .map((e) => e.value.reduce((a: number, c) => a + (c ?? 0), 0))
+    .reduce((a, c) => a + c, 0);
+  const compareDebtMax = compareYearData.debt
+    .map((e) => e.value.reduce((a: number, c) => a + (c ?? 0), 0))
+    .reduce((a, c) => a + c, 0);
+  const compareIncomeMax = compareYearData.income
+    .map((e) => e.value.reduce((a: number, c) => a + (c ?? 0), 0))
+    .reduce((a, c) => a + c, 0);
+  const compareExpenseMax = compareYearData.expense
+    .map((e) => e.value.reduce((a: number, c) => a + (c ?? 0), 0))
+    .reduce((a, c) => a + c, 0);
+  const compareTaxMax = compareYearData.tax.reduce((a: number, c) => a + (c ?? 0), 0);
+
+  return Math.max(
+    currentMax,
+    comparePropertyMax,
+    compareDebtMax,
+    compareIncomeMax,
+    compareExpenseMax,
+    compareTaxMax
+  );
+};
+
+export default function InfoFinancialSection({ name }: { name: string }) {
+  const [showActor, setShowActor] = useState(true);
+  const [showSpouse, setShowSpouse] = useState(true);
+  const [showChild, setShowChild] = useState(true);
+
+  const [currentYear, setCurrentYear] = useState(YEARS[0]);
+  const [compareYear, setCompareYear] = useState(COMPARE_YEARS[0]);
+
+  const currentYearData = DATA[currentYear.data];
+  const compareYearData = DATA[compareYear.data];
+
+  const max = calcMax(compareYear.data, currentYearData, compareYearData);
 
   return (
     <section id="financial">
@@ -537,7 +700,62 @@ export default function InfoFinancialSection({ name }: { name: string }) {
             <InfoFinanceDialog />
           </div>
           {compareYear.data ? (
-            <div>Double Compare</div>
+            <>
+              <InfoFinancialCompareCard
+                name="ทรัพย์สิน"
+                year1={currentYear.data}
+                year2={compareYear.data}
+                data1={currentYearData.property}
+                data2={compareYearData.property}
+                max={max}
+                spouseCount={SPOUSE_COUNT}
+                childCount={CHILD_COUNT}
+                showActor={showActor}
+                showSpouse={showSpouse}
+                showChild={showChild}
+              />
+              <InfoFinancialCompareCard
+                name="หนี้สิน"
+                year1={currentYear.data}
+                year2={compareYear.data}
+                data1={currentYearData.debt}
+                data2={compareYearData.debt}
+                max={max}
+                spouseCount={SPOUSE_COUNT}
+                childCount={CHILD_COUNT}
+                showActor={showActor}
+                showSpouse={showSpouse}
+                showChild={showChild}
+                lessIsBetter
+              />
+              <InfoFinancialCompareCard
+                name="รายได้"
+                year1={currentYear.data}
+                year2={compareYear.data}
+                data1={currentYearData.income}
+                data2={compareYearData.income}
+                max={max}
+                spouseCount={SPOUSE_COUNT}
+                childCount={CHILD_COUNT}
+                showActor={showActor}
+                showSpouse={showSpouse}
+                showChild={showChild}
+              />
+              <InfoFinancialCompareCard
+                name="รายจ่าย"
+                year1={currentYear.data}
+                year2={compareYear.data}
+                data1={currentYearData.expense}
+                data2={compareYearData.expense}
+                max={max}
+                spouseCount={SPOUSE_COUNT}
+                childCount={CHILD_COUNT}
+                showActor={showActor}
+                showSpouse={showSpouse}
+                showChild={showChild}
+                lessIsBetter
+              />
+            </>
           ) : (
             <>
               <InfoFinancialSingleCard
