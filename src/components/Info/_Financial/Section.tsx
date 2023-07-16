@@ -5,7 +5,7 @@ import { useState } from "react";
 import InfoFinanceDialog from "@/components/Info/_Financial/Dialog";
 import InfoFinancialDropdowns from "@/components/Info/_Financial/Dropdowns";
 import Image from "next/image";
-import { AssetSingleCard } from "./AssetCard";
+import { TopAssetCard } from "./AssetCard";
 import InfoFinancialCheckboxes from "./Checkboxes";
 import { InfoFinancialCompareCard, InfoFinancialSingleCard } from "./FinancialCard";
 import { InfoFinancialCompareTaxCard, InfoFinancialSingleTaxCard } from "./TaxCard";
@@ -13,6 +13,7 @@ import { InfoFinancialCompareTaxCard, InfoFinancialSingleTaxCard } from "./TaxCa
 import { formatMillion, formatThousands } from "@/functions/moneyFormatter";
 
 import type { DropdownDetailedData } from "../../BareDropdown";
+import type { TopPropertyData } from "./AssetCard";
 
 export const f$ = (value: number) => formatThousands(formatMillion(value), 2);
 export const safePercent = (value: number, outof: number) => (value / (outof || 1)) * 100;
@@ -107,6 +108,17 @@ const DATA_2562: InfoFinancial = {
 const DATA: Record<string, InfoFinancial> = {
   "2566": DATA_2566,
   "2562": DATA_2562,
+};
+
+const ASSETS: Record<string, TopPropertyData> = {
+  "2566": {
+    name: "ห้องชุดเพนท์เฮาส์",
+    price: 92_120_000,
+  },
+  "2562": {
+    name: "ห้องชุดเพนท์เฮาส์",
+    price: 92_120_000,
+  },
 };
 
 const calcMax = (
@@ -316,7 +328,15 @@ export default function InfoFinancialSection({ name }: { name: string }) {
       </div>
 
       {/* เจาะลึกทรัพย์สิน */}
-      {<AssetSingleCard name={name} />}
+      {
+        <TopAssetCard
+          name={name}
+          year1={currentYear.data}
+          year2={compareYear.data}
+          property1={ASSETS[currentYear.data]}
+          property2={ASSETS[compareYear.data]}
+        />
+      }
     </section>
   );
 }
