@@ -30,13 +30,13 @@ const DONATION_FULLNAME = DONATION_TABLE.derive({
 export const generateNamesAndId = async () => {
   // NACC
   const nacc_names = DATA_NACC.derive({
-    full_name: (d) => op.replace(d.first_name + " " + d.last_name, /\s+/g, "-"),
+    full_name: (d) => op.replace(d.first_name + " " + d.last_name, /\s+/g, "-")
   }).select("nacc_id", "full_name");
 
   // HIGH RANK
   const high_rank_names = DATA_HIGH_RANK.rename({ full_name: "_full_name" })
     .derive({
-      full_name: (d) => op.replace(d._full_name, /\s+/g, "-"),
+      full_name: (d) => op.replace(d._full_name, /\s+/g, "-")
     })
     .select("full_name")
     .dedupe();
@@ -52,7 +52,7 @@ export const generateNamesAndId = async () => {
   const nacc_and_highrank_names = nacc_names
     .join_full(high_rank_names, (a, b) => op.equal(a.full_name, b.full_name))
     .derive({
-      full_name: (d) => d.full_name_1 || d.full_name_2,
+      full_name: (d) => d.full_name_1 || d.full_name_2
     })
     .select("nacc_id", "full_name");
 
@@ -60,7 +60,7 @@ export const generateNamesAndId = async () => {
   const names = nacc_and_highrank_names
     .join_full(donation_names, (a, b) => op.equal(a.full_name, b.full_name))
     .derive({
-      full_name: (d) => d.full_name_1 || d.full_name_2,
+      full_name: (d) => d.full_name_1 || d.full_name_2
     })
     .select("nacc_id", "full_name");
 
@@ -78,9 +78,12 @@ export const generateNamesAndId = async () => {
 // ██║     ███████╗██║  ██║███████║╚██████╔╝██║ ╚████║██║  ██║███████╗    ██║██║ ╚████║██║     ╚██████╔╝
 // ╚═╝     ╚══════╝╚═╝  ╚═╝╚══════╝ ╚═════╝ ╚═╝  ╚═══╝╚═╝  ╚═╝╚══════╝    ╚═╝╚═╝  ╚═══╝╚═╝      ╚═════╝
 
-const DATA_PERSONAL_INFO = await aq.loadCSV("data/raw/political_office_holder.csv");
+const DATA_PERSONAL_INFO = await aq.loadCSV(
+  "data/raw/political_office_holder.csv"
+);
 const DATA_PERSONAL_INFO_TRANSFORMED = DATA_PERSONAL_INFO.derive({
-  full_name: (d) => op.replace(d.first_name_th + " " + d.last_name_th, /\s+/g, "-"),
+  full_name: (d) =>
+    op.replace(d.first_name_th + " " + d.last_name_th, /\s+/g, "-")
 }).select("position", "full_name", "age", "previous_jobs");
 
 /**
@@ -107,7 +110,7 @@ const getPersonalData = async (name) => {
           /None/g,
           "null"
         ) ?? "[]"
-      ),
+      )
     };
   }
 
@@ -124,7 +127,7 @@ const getPersonalData = async (name) => {
 const DATA_RELATIONSHIP_KEY = await aq.loadCSV("data/raw/relationship.csv");
 const DATA_RELATIVE_INFO = await aq.loadCSV("data/raw/relative_info.csv");
 const DATA_RELATIONSHIP_NORMALIZED = DATA_RELATIVE_INFO.derive({
-  full_name: (d) => d.first_name + " " + d.last_name,
+  full_name: (d) => d.first_name + " " + d.last_name
 })
   .join_left(DATA_RELATIONSHIP_KEY, "relationship_id")
   .select("nacc_id", "full_name", "relationship_name");
@@ -152,23 +155,32 @@ export const getRelationship = async (nacc_id) => {
 const DATA_LAW_SEC = await aq.loadCSV("data/raw/sec.csv");
 const DATA_LAW_JUDGEMENT = await aq.loadCSV("data/raw/judgement.csv");
 const DATA_LAW_NACC = await aq.loadCSV("data/raw/nacc_culpability.csv", {
-  parse: { note: String },
+  parse: { note: String }
 });
 
 const DATA_LAW_SEC_TRANSFORMED = DATA_LAW_SEC.derive({
-  full_name: (d) => op.replace(d.person_name + " " + d.person_surname, /\s+/g, "-"),
+  full_name: (d) =>
+    op.replace(d.person_name + " " + d.person_surname, /\s+/g, "-")
 });
 const DATA_LAW_JUDGEMENT_TRANSFORMED_1 = DATA_LAW_JUDGEMENT.derive({
   full_name: (d) =>
-    op.replace(d.defendant_first_name1 + " " + d.defendant_last_name1, /\s+/g, "-"),
+    op.replace(
+      d.defendant_first_name1 + " " + d.defendant_last_name1,
+      /\s+/g,
+      "-"
+    )
 });
 const DATA_LAW_JUDGEMENT_TRANSFORMED_2 = DATA_LAW_JUDGEMENT.derive({
   full_name: (d) =>
-    op.replace(d.defendant_first_name2 + " " + d.defendant_last_name2, /\s+/g, "-"),
+    op.replace(
+      d.defendant_first_name2 + " " + d.defendant_last_name2,
+      /\s+/g,
+      "-"
+    )
 });
 const DATA_LAW_NACC_TRANSFORMED = DATA_LAW_NACC.derive({
   full_name: (d) =>
-    op.replace(d.accused_first_name + " " + d.accused_last_name, /\s+/g, "-"),
+    op.replace(d.accused_first_name + " " + d.accused_last_name, /\s+/g, "-")
 });
 
 /**
@@ -192,7 +204,7 @@ export const getLawsuit = async (name) => {
   return {
     sec,
     judgement: [...judgement1, ...judgement2],
-    nacc,
+    nacc
   };
 };
 
@@ -203,16 +215,25 @@ export const getLawsuit = async (name) => {
 // ██║  ██║███████║███████║███████╗   ██║
 // ╚═╝  ╚═╝╚══════╝╚══════╝╚══════╝   ╚═╝
 
-const DATA = {
+let DATA = {
   ASSET: await aq.loadCSV("data/raw/asset.csv"),
   ASSET_BUILDING_INFO: await aq.loadCSV("data/raw/asset_building_info.csv"),
   ASSET_LAND_INFO: await aq.loadCSV("data/raw/asset_land_info.csv"),
-  ASSET_OTHER_ASSET_INFO: await aq.loadCSV("data/raw/asset_other_asset_info.csv"),
+  ASSET_OTHER_ASSET_INFO: await aq.loadCSV(
+    "data/raw/asset_other_asset_info.csv"
+  ),
   ASSET_VEHICLE_INFO: await aq.loadCSV("data/raw/asset_vehicle_info.csv"),
 
   // lookup
-  ASSET_ACQUISITION_TYPE: await aq.loadCSV("data/raw/asset_acquisition_type.csv"),
+  ASSET_ACQUISITION_TYPE: await aq.loadCSV(
+    "data/raw/asset_acquisition_type.csv"
+  ),
+  ASSET_TYPE: await aq.loadCSV("data/raw/asset_type.csv")
 };
+
+const ASSET_CATEGORY = DATA.ASSET_TYPE.dedupe(
+  "asset_type_main_type_name"
+).array("asset_type_main_type_name");
 
 /**
  * @param {number} [nacc_id]
@@ -222,21 +243,28 @@ export const getAsset = async (nacc_id) => {
   if (!nacc_id) return [];
 
   let assets = DATA.ASSET.derive({
-    valuation: (d) => op.parse_float(d.valuation),
+    acquiring_year: (d) => {
+      let year = op.parse_int(d.acquiring_year);
+      return year < 2200 ? year + 543 : year;
+    },
+    asset_year: (d) => {
+      let year = op.year(d.latest_submitted_date);
+      return year < 2200 ? year + 543 : year;
+    }
   })
     .params({ nacc_id })
     .filter((d) => op.equal(d.nacc_id, nacc_id));
   let asset_building_info = DATA.ASSET_BUILDING_INFO.params({
-    nacc_id,
+    nacc_id
   }).filter((d) => op.equal(d.nacc_id, nacc_id));
   let asset_land_info = DATA.ASSET_LAND_INFO.params({ nacc_id }).filter((d) =>
     op.equal(d.nacc_id, nacc_id)
   );
   let asset_other_asset_info = DATA.ASSET_OTHER_ASSET_INFO.params({
-    nacc_id,
+    nacc_id
   }).filter((d) => op.equal(d.nacc_id, nacc_id));
-  let asset_vehicle_info = DATA.ASSET_VEHICLE_INFO.params({ nacc_id }).filter((d) =>
-    op.equal(d.nacc_id, nacc_id)
+  let asset_vehicle_info = DATA.ASSET_VEHICLE_INFO.params({ nacc_id }).filter(
+    (d) => op.equal(d.nacc_id, nacc_id)
   );
 
   let all_assets = assets
@@ -244,10 +272,21 @@ export const getAsset = async (nacc_id) => {
     .join_left(asset_land_info, "asset_id")
     .join_left(asset_other_asset_info, "asset_id")
     .join_left(asset_vehicle_info, "asset_id")
+    .join_left(DATA.ASSET_TYPE, "asset_type_id")
+    .join_left(DATA.ASSET_ACQUISITION_TYPE, "asset_acquisition_type_id")
     .orderby("asset_id");
+
+  let assetData = {};
+
+  ASSET_CATEGORY.forEach((cat) => {
+    assetData[cat] = all_assets
+      .params({ cat })
+      .filter((d) => op.equal(d.asset_type_main_type_name, cat))
+      .objects();
+  });
   // console.log(aq.agg(all_assets, op.sum("valuation")));
 
-  return all_assets.objects();
+  return assetData;
 };
 
 // ██████╗  ██████╗ ███╗   ██╗ █████╗ ████████╗██╗ ██████╗ ███╗   ██╗
@@ -268,7 +307,7 @@ const getPersonDonation = async (name) => {
       .select("year", "month", "party", "amount")
       .rename({ amount: "amount", year: "_year" })
       .derive({
-        year: (d) => d._year + 543,
+        year: (d) => d._year + 543
       })
       .orderby("year", "month")
       // .groupby("year", "month", "party")
@@ -289,7 +328,9 @@ const getPersonDonation = async (name) => {
 export const createShareholderTable = async () => {
   const files = await fs.readdir("data/raw");
   const filePaths = files
-    .filter((file) => file.toLowerCase().includes("commitee_shareholder_split_"))
+    .filter((file) =>
+      file.toLowerCase().includes("commitee_shareholder_split_")
+    )
     .map((file) => path.join("data/raw", file));
 
   let tables = [];
@@ -310,10 +351,13 @@ const REDUCED_BUSINESS_INFO_TABLE = BUSINESS_INFO_TABLE.select(
 )
   .rename({ name: "business_name", businessdomain: "type" })
   .dedupe();
-const REDUCED_SHAREHOLDER_TABLE = SHAREHOLDER_TABLE.rename({ position: "_position" })
+const REDUCED_SHAREHOLDER_TABLE = SHAREHOLDER_TABLE.rename({
+  position: "_position"
+})
   .derive({
     full_name: (d) => op.replace(d.first_name + " " + d.last_name, /\s+/g, "-"),
-    position: (d) => (d._position === "commitee" ? "คณะกรรมการบริษัท" : "ผู้ถือหุ้น"),
+    position: (d) =>
+      d._position === "commitee" ? "คณะกรรมการบริษัท" : "ผู้ถือหุ้น"
   })
   .select("company_id", "full_name", "position")
   .dedupe();
@@ -370,7 +414,7 @@ export const generatePeople = async () => {
       relationship,
       assets,
       donation,
-      business,
+      business
     };
 
     await fs.writeFile(`src/data/info/${full_name}.json`, JSON.stringify(data));
