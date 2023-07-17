@@ -1,24 +1,26 @@
 "use client";
+import { useState } from "react";
 
 import GraphCard from "@/components/GraphCard";
 import ImgCard from "@/components/ImgCard";
 import Search from "@/components/Search";
-import { thaiMoneyFormatter } from "@/functions/moneyFormatter";
 import { Tab } from "@headlessui/react";
 import Image from "next/image";
-import React from "react";
+
+import DATA_NAME_GEN from "@/data/people_gen.json";
+import DATA_NAME_NACC from "@/data/people_nacc.json";
+
+import { thaiMoneyFormatter } from "@/functions/moneyFormatter";
+
+const PEOPLE = [...new Set([...DATA_NAME_NACC, ...DATA_NAME_GEN])]
+  .sort((a, z) => a.localeCompare(z))
+  .map((e) => ({
+    name: e.replace(/-/g, " "),
+    link: `/info/${e}`,
+  }));
 
 export default function Info() {
-  const [selected, setSelected] = React.useState<(typeof people)[number] | null>(null);
-
-  const people = [
-    { id: 1, name: "Wade Cooper", title: "Regional Paradigm Technician" },
-    { id: 2, name: "Arlene Mccoy", title: "Hello" },
-    { id: 3, name: "Devon Webb", title: "jasf" },
-    { id: 4, name: "Tom Cook", title: "asf" },
-    { id: 5, name: "Tanya Fox", title: "asf" },
-    { id: 6, name: "Hellen Schmidt", title: "asf" },
-  ];
+  const [selected, setSelected] = useState<(typeof PEOPLE)[number] | null>(null);
 
   return (
     <>
@@ -40,7 +42,7 @@ export default function Info() {
         <p className="text-gray-5 text-18 mt-20">อัพเดทข้อมูลเมื่อวันที่ 00/00/2556</p>
         <Search
           placeholder="ค้นหาด้วยชื่อ/นามสกุล"
-          data={people}
+          data={PEOPLE}
           selected={selected}
           setSelected={setSelected}
         />
