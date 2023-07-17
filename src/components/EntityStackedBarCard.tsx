@@ -69,7 +69,7 @@ const EntityStackedBarCard = (props: PersonCardProps) => {
             </div>
             <div className="mt-10 flex">
                 {
-                    props.data.sort((a, b) => b.amount - a.amount).map((item, index) => (
+                    props.data.sort((a, b) => b.amount - a.amount).sort((a,z) => a.party.localeCompare(z.party)).map((item, index) => (
                         <Bar key={index} party={item.party} amount={item.amount} maxAmount={props.maxAmount} />
                     ))
                 }
