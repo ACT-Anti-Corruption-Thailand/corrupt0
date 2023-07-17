@@ -25,20 +25,12 @@ const PARTY_ASSETS = _PARTY_ASSETS as Record<
 >;
 
 const YEARS = Object.keys(PARTY_DONATION_Test).reverse();
+const DONATION_TYPES = ["ทุกกลุ่มตำแหน่ง", ...new Set(DONOR_DATA.map((item: any) => item.title))] as string[];
 
 // TODO: Manually Typing
 type PartySearchSchema = (typeof PARTY_DONATION_Test)[number];
 type IndividualDonorSchema = (typeof DONOR_DATA)[number];
 
-
-//For individual section
-const DONATION_TYPES = [
-  "ทุกประเภท",
-  "นิติบุคคล",
-  "ตำเเหน่งทางการเมือง",
-  "บุคคลทั่วไป",
-  "สมาชิกสภาผู้แทนราษฏร",
-];
 
 export default function Donation() {
   const [partySearch, setPartySearch] = React.useState<PartySearchSchema | null>(null);
@@ -87,10 +79,10 @@ export default function Donation() {
           <Dropdown data={YEARS} value={partyFilterYear} setValue={setPartySortYear} />
           <ChartSort name="party-donation-sort" />
         </div>
-        
+
         <Search
           placeholder="ค้นหาด้วยชื่อพรรคการเมือง"
-          data={PARTY_DONATION_Test[partyFilterYear].map((party: any) => ({name: party.party}))}
+          data={PARTY_DONATION_Test[partyFilterYear].map((party: any) => ({ name: party.party }))}
           selected={partySearch}
           setSelected={setPartySearch}
         />
@@ -105,7 +97,7 @@ export default function Donation() {
               )?.amount}
               maxAmount={PARTY_TOTAL_DONATION[partyFilterYear][0].total}
               imgPath={PARTY_ASSETS[partySearch.name]?.image ?? "/icons/person.svg"}
-              />
+            />
           ) : (
             PARTY_DONATION_Test[partyFilterYear].filter((item: any, idx: any) => idx < 10).map((party: any, index: number) => (
               <EntityBarCard
@@ -167,7 +159,7 @@ export default function Donation() {
         </div>
         <Search
           placeholder="ค้นหาด้วยชื่อบุคคล/นิติบุคคล"
-          data={DONOR_DATA}
+          data={DONOR_DATA.map((d: any) => ({ name: d.name, title: d.title }))}
           selected={individualSearch}
           setSelected={setIndividualSearch}
         />
@@ -180,8 +172,8 @@ export default function Donation() {
               maxAmount={individualSearch.totalAmount}
               imgPath={individualSearch.img}
             />
-          ):(
-            DONOR_DATA.filter((item: any, idx: any) => idx < 10).map((individual: any, index: any)=>  (
+          ) : (
+            DONOR_DATA.filter((items: any) => individualFilterType === "ทุกกลุ่มตำแหน่ง" ? true : items.title === individualFilterType).filter((item: any, idx: any) => idx < 10).map((individual: any, index: any) => (
               <EntityStackedBarCard
                 name={individual.name}
                 title={individual.title}
