@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 
-import InfoAssetAccordion from "@/components/Info/Asset/Accordion";
+import InfoAssetCompareAccordion from "@/components/Info/Asset/CompareAccordion";
+import InfoAssetSingleAccordion from "@/components/Info/Asset/SingleAccordion";
 import InfoFinancialCheckboxes from "@/components/Info/_Financial/Checkboxes";
 import InfoFinancialDropdowns from "@/components/Info/_Financial/Dropdowns";
 
@@ -14,7 +15,7 @@ import type {
   InfoAssetStatement,
   InfoAssetValuableStatement,
   InfoAssetVehicleStatement,
-} from "@/components/Info/Asset/Accordion";
+} from "@/components/Info/Asset/SingleAccordion";
 
 interface InfoAssetMainProps {
   statements: {
@@ -71,15 +72,64 @@ export default function InfoAssetMain({
         />
       </div>
       <span className="block text-center b5 mb-10">หน่วย: บาท</span>
-      <InfoAssetAccordion.Cash name="เงินสด" statements={statements.cash} />
-      <InfoAssetAccordion.Cash name="เงินฝาก" statements={statements.deposit} />
-      <InfoAssetAccordion.Cash name="เงินลงทุน" statements={statements.investment} />
-      <InfoAssetAccordion.Cash name="เงินให้กู้ยืม" statements={statements.loan} />
-      <InfoAssetAccordion.Land statements={statements.land} />
-      <InfoAssetAccordion.Concession statements={statements.concession} />
-      <InfoAssetAccordion.Building statements={statements.building} />
-      <InfoAssetAccordion.Vehicle statements={statements.vehicle} />
-      <InfoAssetAccordion.Valuable statements={statements.valuable} />
+      {compareYear.data ? (
+        <>
+          <InfoAssetCompareAccordion.Cash
+            name="เงินสด"
+            statements1={statements.cash}
+            statements2={statements.cash}
+          />
+          <InfoAssetCompareAccordion.Cash
+            name="เงินฝาก"
+            statements1={statements.deposit}
+            statements2={statements.deposit}
+          />
+          <InfoAssetCompareAccordion.Cash
+            name="เงินลงทุน"
+            statements1={statements.investment}
+            statements2={statements.investment}
+          />
+          <InfoAssetCompareAccordion.Cash
+            name="เงินให้กู้ยืม"
+            statements1={statements.loan}
+            statements2={statements.loan}
+          />
+          <InfoAssetCompareAccordion.Land
+            statements1={statements.land}
+            statements2={statements.land}
+          />
+          <InfoAssetCompareAccordion.Concession
+            statements1={statements.concession}
+            statements2={statements.concession}
+          />
+          <InfoAssetCompareAccordion.Building
+            statements1={statements.building}
+            statements2={statements.building}
+          />
+          <InfoAssetCompareAccordion.Vehicle
+            statements1={statements.vehicle}
+            statements2={statements.vehicle}
+          />
+        </>
+      ) : (
+        <>
+          <InfoAssetSingleAccordion.Cash name="เงินสด" statements={statements.cash} />
+          <InfoAssetSingleAccordion.Cash name="เงินฝาก" statements={statements.deposit} />
+          <InfoAssetSingleAccordion.Cash
+            name="เงินลงทุน"
+            statements={statements.investment}
+          />
+          <InfoAssetSingleAccordion.Cash
+            name="เงินให้กู้ยืม"
+            statements={statements.loan}
+          />
+          <InfoAssetSingleAccordion.Land statements={statements.land} />
+          <InfoAssetSingleAccordion.Concession statements={statements.concession} />
+          <InfoAssetSingleAccordion.Building statements={statements.building} />
+          <InfoAssetSingleAccordion.Vehicle statements={statements.vehicle} />
+          <InfoAssetSingleAccordion.Valuable statements={statements.valuable} />
+        </>
+      )}
     </section>
   );
 }

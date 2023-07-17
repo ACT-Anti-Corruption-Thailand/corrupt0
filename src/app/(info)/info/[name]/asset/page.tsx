@@ -12,7 +12,7 @@ import type {
   InfoAssetStatement,
   InfoAssetValuableStatement,
   InfoAssetVehicleStatement,
-} from "@/components/Info/Asset/Accordion";
+} from "@/components/Info/Asset/SingleAccordion";
 import type { Metadata } from "next";
 
 const EXAMPLE_CASH_STATEMENTS: InfoAssetStatement[] = [
