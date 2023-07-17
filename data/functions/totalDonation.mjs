@@ -6,13 +6,12 @@ import { getDonationData } from "./donation.mjs";
 const getTotalDonation = async () => {
   const rawTable = await getDonationData();
   
-  const table = rawTable.derive({ party: (d) => op.replace( d.party,"พรรค", "") })
+  const table = rawTable.derive({ party: (d) => op.replace( d.party,"พรรค", "") }).derive({ year: (d) => d.year + 543 })
 
   const totalPerYearTable = table
     .select("year", "amount")
     .groupby("year")
     .rollup({ total: (d) => op.sum(d.amount) })
-    .derive({ year: (d) => d.year + 543 })
     .orderby(aq.desc((d) => d.total));
 
   const totalTable = table
@@ -43,7 +42,6 @@ const getTotalDonation = async () => {
     .rename({ amount: "_amount" })
     .groupby("year", "party")
     .rollup({ amount: (d) => op.sum(d._amount) })
-    .derive({ year: (d) => d.year + 543 });
 
   const totalPerPartyTable = table
     .select("party", "amount")
