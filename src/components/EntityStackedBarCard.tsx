@@ -42,7 +42,7 @@ const Bar = (props: barProps) => {
 }
 
 const EntityStackedBarCard = (props: PersonCardProps) => {
-    const [money, unit] = thaiMoneyFormatter(props.maxAmount);
+    const [money, unit] = thaiMoneyFormatter(props.data.reduce((a, b) => a + b.amount, 0));
 
     return (
         <div className="flex flex-col bg-white bg-opacity-10 text-gray-4 rounded-5 py-10 px-5 lg:px-20 lg:py-20 my-10 text-18 w-full">
