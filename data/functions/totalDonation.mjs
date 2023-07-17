@@ -4,7 +4,9 @@ import { op } from "arquero";
 import { getDonationData } from "./donation.mjs";
 
 const getTotalDonation = async () => {
-  const table = await getDonationData();
+  const rawTable = await getDonationData();
+  
+  const table = rawTable.derive({ party: (d) => op.replace( d.party,"พรรค", "") })
 
   const totalPerYearTable = table
     .select("year", "amount")
@@ -88,10 +90,6 @@ const getTotalDonation = async () => {
       return acc;
     }, {})
   ).sort((a,b) => b.total - a.total)
-
-  const preview = table
-
-  preview.print()
 
   return { totalPerYearWithTotalTable, partyPerYearWithTotalTable, individualPerPartyTable };
 };
