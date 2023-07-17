@@ -413,7 +413,7 @@ const Valuable = ({ statements }: ValuableProps) => {
   );
 };
 
-const InfoAssetAccordion = {
+const InfoAssetSingleAccordion = {
   Cash,
   Land,
   Concession,
@@ -422,4 +422,4 @@ const InfoAssetAccordion = {
   Valuable,
 };
 
-export default InfoAssetAccordion;
+export default InfoAssetSingleAccordion;
