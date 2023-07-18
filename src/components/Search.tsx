@@ -35,6 +35,8 @@ const ComboboxOpt = ({ person, children }: ComboboxOptProps) => {
   );
 };
 
+
+
 interface SearchProps<T extends SearchData> {
   data: T[];
   placeholder: string;
@@ -45,8 +47,13 @@ interface SearchProps<T extends SearchData> {
 function Search<T extends SearchData>(props: SearchProps<T>) {
   const [query, setQuery] = React.useState("");
 
+  const onBlank = () => {
+    props.setSelected(null);
+    return [];
+  }
+
   const filteredPeople =
-    query === "" ? [] : props.data.filter((e) => e.name.includes(query));
+    query === "" ? onBlank() : props.data.filter((e) => e.name.includes(query));
 
   return (
     <Combobox value={props.selected} onChange={props.setSelected}>
