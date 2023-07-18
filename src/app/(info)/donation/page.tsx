@@ -82,7 +82,7 @@ export default function Donation() {
 
         <Search
           placeholder="ค้นหาด้วยชื่อพรรคการเมือง"
-          data={PARTY_DONATION_Test[partyFilterYear].map((party: any) => ({ name: party.party }))}
+          data={PARTY_DONATION_Test[partyFilterYear].map((party: any) => ({ name: party.party, ...party}))}
           selected={partySearch}
           setSelected={setPartySearch}
         />
@@ -92,9 +92,7 @@ export default function Donation() {
               name={partySearch.name}
               title=""
               color={PARTY_ASSETS[partySearch.name]?.color ?? "#fff"}
-              amount={PARTY_DONATION_Test[partyFilterYear].find(
-                (party: any) => party.party === partySearch.name
-              )?.amount}
+              amount={partySearch.amount}
               maxAmount={PARTY_TOTAL_DONATION[partyFilterYear][0].total}
               imgPath={PARTY_ASSETS[partySearch.name]?.image ?? "/icons/person.svg"}
             />
@@ -159,7 +157,7 @@ export default function Donation() {
         </div>
         <Search
           placeholder="ค้นหาด้วยชื่อบุคคล/นิติบุคคล"
-          data={DONOR_DATA.map((d: any) => ({ name: d.name, title: d.title }))}
+          data={DONOR_DATA}
           selected={individualSearch}
           setSelected={setIndividualSearch}
         />
@@ -169,8 +167,8 @@ export default function Donation() {
               name={individualSearch.name}
               title={individualSearch.title}
               data={individualSearch.donation}
-              maxAmount={individualSearch.totalAmount}
-              imgPath={individualSearch.img}
+              maxAmount={DONOR_DATA[0].total}
+              imgPath="/icons/person.svg"
             />
           ) : (
             DONOR_DATA.filter((items: any) => individualFilterType === "ทุกกลุ่มตำแหน่ง" ? true : items.title === individualFilterType).filter((item: any, idx: any) => idx < 10).map((individual: any, index: any) => (
