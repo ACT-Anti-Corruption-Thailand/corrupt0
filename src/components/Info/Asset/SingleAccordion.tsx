@@ -318,12 +318,12 @@ const Vehicle = ({ statements }: VehicleProps) => {
 
 const VALUABLE_GROUPS = [
   "กระเป๋า",
-  "เครื่องประดับ",
-  "งานศิลปะ โบราณวัตถุ",
-  "ทองคำ",
-  "นาฬิกา",
-  "วัตถุมงคล",
   "อาวุธปืน",
+  "นาฬิกา",
+  "เครื่องประดับ",
+  "วัตถุมงคล",
+  "ทองคำ",
+  "งานศิลปะ โบราณวัตถุ",
   "ของสะสมอื่น",
 ] as const;
 
@@ -365,8 +365,9 @@ const ValuableGroup = ({ name, statements }: ValuableGroupProps) => {
   );
 };
 
-export type InfoAssetValuableStatement = Partial<
-  Record<(typeof VALUABLE_GROUPS)[number], InfoAssetValuableGroupStatement[]>
+export type InfoAssetValuableStatement = Record<
+  (typeof VALUABLE_GROUPS)[number],
+  InfoAssetValuableGroupStatement[]
 >;
 
 export interface ValuableProps {
@@ -404,7 +405,7 @@ const Valuable = ({ statements }: ValuableProps) => {
         const groupStatement = statements[name];
 
         return (
-          groupStatement && (
+          groupStatement.length > 0 && (
             <ValuableGroup key={i} name={name} statements={groupStatement} />
           )
         );

@@ -21,6 +21,8 @@ interface TriggerProps {
   value2: number;
   nameExtension?: ReactNode;
   className?: string;
+  subClassName?: string;
+  borderClassName?: string;
 }
 
 const Trigger = ({
@@ -32,13 +34,15 @@ const Trigger = ({
   value1,
   value2,
   className,
+  subClassName,
+  borderClassName,
 }: TriggerProps) => {
   return (
     <>
       <div
         className={twMerge(
           clsx(
-            "p-10 flex items-center justify-between bg-white border-b border-b-gray-3 border-dashed gap-5",
+            "p-10 flex items-center justify-between bg-white border-b border-b-gray-3 gap-5",
             className
           )
         )}
@@ -54,13 +58,14 @@ const Trigger = ({
           alt=""
         />
       </div>
-      <div className="flex border-b border-b-gray-3 bg-white">
+      <div
+        className={twMerge(clsx("flex border-b border-b-gray-3 bg-gray-1", subClassName))}
+      >
         <div className="flex-1 flex justify-between items-baseline px-10">
           <div className="b6">{length1} รายการ</div>
           <div className="b4 font-bold">{value1.toLocaleString("th-TH")}</div>
         </div>
-        {/* <div className="w-1 bg-gray-3" /> */}
-        <div className="w-1 border-dashed border-r border-r-gray-3" />
+        <div className={twMerge(clsx("w-1 border-r border-r-gray-3", borderClassName))} />
         <div className="flex-1 flex justify-between items-baseline px-10">
           <div className="b6">{length2} รายการ</div>
           <div className="b4 font-bold">{value2.toLocaleString("th-TH")}</div>
@@ -491,49 +496,73 @@ export interface InfoAssetValuableGroupStatement extends InfoAssetStatement {
 
 export interface ValuableGroupProps {
   name: (typeof VALUABLE_GROUPS)[number];
-  statements: InfoAssetValuableGroupStatement[];
+  statements1: InfoAssetValuableGroupStatement[];
+  statements2: InfoAssetValuableGroupStatement[];
 }
 
-const ValuableGroup = ({ name, statements }: ValuableGroupProps) => {
+const ValuableGroup = ({ name, statements1, statements2 }: ValuableGroupProps) => {
   return (
     <Accordion
       trigger={
         <Trigger
           name={name}
-          length1={statements.length}
-          value1={statements.reduce((a, c) => a + c.value, 0)}
-          length2={statements.length}
-          value2={statements.reduce((a, c) => a + c.value, 0)}
+          length1={statements1.length}
+          value1={statements1.reduce((a, c) => a + c.value, 0)}
+          length2={statements2.length}
+          value2={statements2.reduce((a, c) => a + c.value, 0)}
           className="bg-gray-2 border-b-gray-4"
+          subClassName="bg-gray-3 border-b-gray-4"
+          borderClassName="border-r-gray-4"
         />
       }
     >
-      <ul>
-        {statements.map(({ value, actor, name, count, receiveDate }, i) => (
-          <DetailsBlock key={i}>
-            <DetailsFirstLine actor={actor} name={name} value={value} />
-            <DetailsListContainer>
-              <DetailsListList value={count} extension="หน่วย" />
-              <DetailsListList label="วันที่ได้มา" value={receiveDate} />
-            </DetailsListContainer>
-          </DetailsBlock>
-        ))}
-      </ul>
+      <div className="flex">
+        <ul className="flex-1">
+          {statements1.map(({ value, actor, name, count, receiveDate }, i) => (
+            <DetailsBlock key={i}>
+              <DetailsFirstLine actor={actor} name={name} value={value} />
+              <DetailsListContainer>
+                <DetailsListList value={count} extension="หน่วย" />
+                <DetailsListList label="วันที่ได้มา" value={receiveDate} />
+              </DetailsListContainer>
+            </DetailsBlock>
+          ))}
+        </ul>
+        <div className="w-1 bg-gray-3" />
+        <ul className="flex-1">
+          {statements2.map(({ value, actor, name, count, receiveDate }, i) => (
+            <DetailsBlock key={i}>
+              <DetailsFirstLine actor={actor} name={name} value={value} />
+              <DetailsListContainer>
+                <DetailsListList value={count} extension="หน่วย" />
+                <DetailsListList label="วันที่ได้มา" value={receiveDate} />
+              </DetailsListContainer>
+            </DetailsBlock>
+          ))}
+        </ul>
+      </div>
     </Accordion>
   );
 };
 
-export type InfoAssetValuableStatement = Partial<
-  Record<(typeof VALUABLE_GROUPS)[number], InfoAssetValuableGroupStatement[]>
+export type InfoAssetValuableStatement = Record<
+  (typeof VALUABLE_GROUPS)[number],
+  InfoAssetValuableGroupStatement[]
 >;
 
 export interface ValuableProps {
-  statements: InfoAssetValuableStatement;
+  statements1: InfoAssetValuableStatement;
+  statements2: InfoAssetValuableStatement;
 }
 
-const Valuable = ({ statements }: ValuableProps) => {
-  const itemLength = Object.values(statements).reduce((a, c) => a + c.length, 0);
-  const itemValue = Object.values(statements).reduce(
+const Valuable = ({ statements1, statements2 }: ValuableProps) => {
+  const itemLength1 = Object.values(statements1).reduce((a, c) => a + c.length, 0);
+  const itemValue1 = Object.values(statements1).reduce(
+    (a, c) => a + c.reduce((b, d) => b + d.value, 0),
+    0
+  );
+  const itemLength2 = Object.values(statements2).reduce((a, c) => a + c.length, 0);
+  const itemValue2 = Object.values(statements2).reduce(
     (a, c) => a + c.reduce((b, d) => b + d.value, 0),
     0
   );
@@ -544,10 +573,10 @@ const Valuable = ({ statements }: ValuableProps) => {
         <Trigger
           icon="/icons/valuable.svg"
           name="ทรัพย์สินอื่น"
-          length1={itemLength}
-          value1={itemValue}
-          length2={itemLength}
-          value2={itemValue}
+          length1={itemLength1}
+          value1={itemValue1}
+          length2={itemLength2}
+          value2={itemValue2}
           nameExtension={
             <InfoAssetPopover>
               <p>
@@ -561,11 +590,17 @@ const Valuable = ({ statements }: ValuableProps) => {
       }
     >
       {VALUABLE_GROUPS.map((name, i) => {
-        const groupStatement = statements[name];
+        const groupStatement1 = statements1[name];
+        const groupStatement2 = statements2[name];
 
         return (
-          groupStatement && (
-            <ValuableGroup key={i} name={name} statements={groupStatement} />
+          groupStatement1.length + groupStatement2.length > 0 && (
+            <ValuableGroup
+              key={i}
+              name={name}
+              statements1={groupStatement1}
+              statements2={groupStatement2}
+            />
           )
         );
       })}

@@ -141,8 +141,69 @@ const EXAMPLE_VEHICLE_STATEMENTS: InfoAssetVehicleStatement[] = [
   },
 ];
 
-const EXAMPLE_VALUABLE_STATEMENTS: InfoAssetValuableStatement = {
+const EXAMPLE_VALUABLE_STATEMENTS1: InfoAssetValuableStatement = {
+  กระเป๋า: [],
+  อาวุธปืน: [],
+  นาฬิกา: [],
+  เครื่องประดับ: [],
+  วัตถุมงคล: [],
+  ทองคำ: [],
   ของสะสมอื่น: [
+    {
+      actor: "ผู้ยื่น",
+      name: "กริ่งปวเรศ ทองคำ 3 บาท",
+      value: 10000,
+      count: 1,
+      receiveDate: "20/03/2557",
+    },
+    {
+      actor: "คู่สมรส",
+      name: "พระร่วงหลังรางปืน จ. สุโขทัย ทอง 2 บาท",
+      value: 741963,
+      count: 3,
+      receiveDate: "20/03/2557",
+    },
+    {
+      actor: "บุตร",
+      name: "พระสมเด็จไกเซอร์เลี่ยมทอง 2 บาท",
+      value: 20,
+      count: 200,
+      receiveDate: "20/03/2557",
+    },
+  ],
+  "งานศิลปะ โบราณวัตถุ": [
+    {
+      actor: "ผู้ยื่น",
+      name: "กริ่งปวเรศ ทองคำ 3 บาท",
+      value: 1000000,
+      count: 1,
+      receiveDate: "20/03/2557",
+    },
+    {
+      actor: "คู่สมรส",
+      name: "พระร่วงหลังรางปืน จ. สุโขทัย ทอง 2 บาท",
+      value: 1000000,
+      count: 3,
+      receiveDate: "20/03/2557",
+    },
+    {
+      actor: "บุตร",
+      name: "พระสมเด็จไกเซอร์เลี่ยมทอง 2 บาท",
+      value: 1000000,
+      count: 200,
+      receiveDate: "20/03/2557",
+    },
+  ],
+};
+
+const EXAMPLE_VALUABLE_STATEMENTS2: InfoAssetValuableStatement = {
+  กระเป๋า: [],
+  อาวุธปืน: [],
+  นาฬิกา: [],
+  เครื่องประดับ: [],
+  วัตถุมงคล: [],
+  ของสะสมอื่น: [],
+  ทองคำ: [
     {
       actor: "ผู้ยื่น",
       name: "กริ่งปวเรศ ทองคำ 3 บาท",
@@ -217,6 +278,35 @@ const COMPARE_YEARS: DropdownDetailedData[] = [
   ...YEARS,
 ];
 
+const STATEMENT_2562 = {
+  cash: EXAMPLE_CASH_STATEMENTS,
+  deposit: EXAMPLE_CASH_STATEMENTS,
+  investment: EXAMPLE_CASH_STATEMENTS,
+  loan: EXAMPLE_CASH_STATEMENTS,
+  land: EXAMPLE_LAND_STATEMENTS,
+  concession: EXAMPLE_CONCESSION_STATEMENTS,
+  building: EXAMPLE_BUILDING_STATEMENTS,
+  vehicle: EXAMPLE_VEHICLE_STATEMENTS,
+  valuable: EXAMPLE_VALUABLE_STATEMENTS1,
+};
+
+const STATEMENT_2566 = {
+  cash: EXAMPLE_CASH_STATEMENTS,
+  deposit: EXAMPLE_CASH_STATEMENTS,
+  investment: EXAMPLE_CASH_STATEMENTS,
+  loan: EXAMPLE_CASH_STATEMENTS,
+  land: EXAMPLE_LAND_STATEMENTS,
+  concession: EXAMPLE_CONCESSION_STATEMENTS,
+  building: EXAMPLE_BUILDING_STATEMENTS,
+  vehicle: EXAMPLE_VEHICLE_STATEMENTS,
+  valuable: EXAMPLE_VALUABLE_STATEMENTS2,
+};
+
+const STATEMENTS = {
+  "2566": STATEMENT_2566,
+  "2562": STATEMENT_2562,
+};
+
 export async function generateStaticParams() {
   return PEOPLE_NACC.map((name) => ({
     name,
@@ -263,19 +353,9 @@ export default function Asset({ params }: AssetPageProps) {
       </header>
 
       <InfoAssetMain
-        compare_years={COMPARE_YEARS}
         years={YEARS}
-        statements={{
-          cash: EXAMPLE_CASH_STATEMENTS,
-          deposit: EXAMPLE_CASH_STATEMENTS,
-          investment: EXAMPLE_CASH_STATEMENTS,
-          loan: EXAMPLE_CASH_STATEMENTS,
-          land: EXAMPLE_LAND_STATEMENTS,
-          concession: EXAMPLE_CONCESSION_STATEMENTS,
-          building: EXAMPLE_BUILDING_STATEMENTS,
-          vehicle: EXAMPLE_VEHICLE_STATEMENTS,
-          valuable: EXAMPLE_VALUABLE_STATEMENTS,
-        }}
+        compare_years={COMPARE_YEARS}
+        statements={STATEMENTS}
       />
 
       <div className="flex gap-5 mt-10 mb-20 max-w-[850px] mx-auto">
