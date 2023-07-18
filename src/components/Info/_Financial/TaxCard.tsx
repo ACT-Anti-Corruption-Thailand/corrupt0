@@ -48,34 +48,38 @@ export const InfoFinancialSingleTaxCard = ({
   );
 
   const [actorWording, actorValue] =
-    actorCompare > 100 ? ["+", actorCompare - 100] : ["-", 100 - actorCompare];
+    actorCompare > 100
+      ? ["มากกว่า", actorCompare - 100]
+      : ["น้อยกว่า", 100 - actorCompare];
   const [spouseWording, spouseValue] =
-    spouseCompare > 100 ? ["+", spouseCompare - 100] : ["-", 100 - spouseCompare];
+    spouseCompare > 100
+      ? ["มากกว่า", spouseCompare - 100]
+      : ["น้อยกว่า", 100 - spouseCompare];
   const [childWording, childValue] =
-    childCompare > 100 ? ["+", childCompare - 100] : ["-", 100 - childCompare];
+    childCompare > 100
+      ? ["มากกว่า", childCompare - 100]
+      : ["น้อยกว่า", 100 - childCompare];
   const [totalWording, totalValue] =
-    totalCompare > 100 ? ["+", totalCompare - 100] : ["-", 100 - totalCompare];
+    totalCompare > 100
+      ? ["มากกว่า", totalCompare - 100]
+      : ["น้อยกว่า", 100 - totalCompare];
 
   return (
     <div className="bg-gray-1 p-10">
       <div className="block b2 font-bold">การเสียภาษี</div>
       <section>
-        <div className="block b3 font-bold mb-2">เงินได้พึงประเมิน</div>
+        <span className="block b3 font-bold mb-2">เงินได้พึงประเมิน</span>
         <InfoFinancialChart
           actor={taxActor}
           spouse={taxSpouse}
           child={taxChild}
           max={max}
         />
-        <div className="flex pt-5">
+        <div className="flex pt-5 mb-10">
           {showActor && (
             <div className="flex-1">
               <span className="block b7 leading-1">ผู้ยื่น</span>
               <span className="block b4">{f$(taxActor)}</span>
-              <span className="block b6 leading-1">
-                {actorWording}
-                {fP(actorValue)}%*
-              </span>
             </div>
           )}
           {showSpouse && spouseCount > 0 && (
@@ -83,10 +87,6 @@ export const InfoFinancialSingleTaxCard = ({
               <div className={clsx(showActor && "mx-auto")}>
                 <span className="block b7 leading-1">คู่สมรส {spouseCount} คน</span>
                 <span className="block b4">{f$(taxSpouse)}</span>
-                <span className="block b6 leading-1">
-                  {spouseWording}
-                  {fP(spouseValue)}%*
-                </span>
               </div>
             </div>
           )}
@@ -95,10 +95,6 @@ export const InfoFinancialSingleTaxCard = ({
               <div className={clsx((showActor || showSpouse) && "mx-auto")}>
                 <span className="block b7 leading-1">บุตร {childCount} คน</span>
                 <span className="block b4">{f$(taxChild)}</span>
-                <span className="block b6 leading-1">
-                  {childWording}
-                  {fP(childValue)}%*
-                </span>
               </div>
             </div>
           )}
@@ -107,13 +103,39 @@ export const InfoFinancialSingleTaxCard = ({
               <span className="font-bold">รวม</span> (ล้านบาท)
             </span>
             <span className="block b4 font-bold">{f$(totalTax)}</span>
-            <span className="block b6 leading-1">
-              {totalWording}
-              {fP(totalValue)}%*
-            </span>
           </div>
         </div>
-        <span className="block b7 text-right mt-2">*เมื่อเปรียบเทียบกับรายได้</span>
+        <div className="flex flex-col gap-5 py-5 border-y border-y-gray-4">
+          <span className="block b3 font-bold">เปรียบเทียบกับรายได้จริง</span>
+          <div className="flex">
+            {showActor && (
+              <div className="flex-1">
+                <span className="block b4">{actorWording}</span>
+                <span className="block b5">{fP(actorValue)}%</span>
+              </div>
+            )}
+            {showSpouse && spouseCount > 0 && (
+              <div className="opacity-80 flex-1 flex">
+                <div className={clsx(showActor && "mx-auto")}>
+                  <span className="block b4">{spouseWording}</span>
+                  <span className="block b5">{fP(spouseValue)}%</span>
+                </div>
+              </div>
+            )}
+            {showChild && childCount > 0 && (
+              <div className="opacity-80 flex-1 flex">
+                <div className={clsx((showActor || showSpouse) && "mx-auto")}>
+                  <span className="block b4">{childWording}</span>
+                  <span className="block b5">{fP(childValue)}%</span>
+                </div>
+              </div>
+            )}
+            <div className="text-right flex-1">
+              <span className="block b4">{totalWording}</span>
+              <span className="block b5">{fP(totalValue)}%</span>
+            </div>
+          </div>
+        </div>
       </section>
     </div>
   );
