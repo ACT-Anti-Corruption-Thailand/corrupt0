@@ -18,7 +18,7 @@ export default function Footer({ className }: { className?: string }) {
           rel="nofollow noopener noreferrer"
         >
           <Image
-            className="w-auto h-20 md:h-30"
+            className="w-auto h-20 md:h-40"
             src="/logos/actai-k.svg"
             width={26.8}
             height={20}

@@ -17,7 +17,7 @@ const Slider = (props: Props) => {
       spacing: 10,
       origin: 0,
     },
-    mode: "free",
+    mode: "free-snap",
     slideChanged(slider) {
       setCurrentSlide(slider.track.details.rel);
     },

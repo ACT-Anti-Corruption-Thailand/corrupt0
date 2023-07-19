@@ -1,18 +1,28 @@
+import Link from "next/link";
+
 interface ImgCardProps {
   imgPath: string;
+  href?: string;
   children?: React.ReactNode;
 }
 
 const ImgCard = (props: ImgCardProps) => {
-  return (
+  return props.href ? (
+    <Link
+      href={props.href}
+      className="flex flex-col py-10 px-20 rounded-10 bg-cover bg-center text-white text-left md:px-30 md:py-20 md:min-h-[260px]"
+      style={{
+        backgroundImage: `url(${props.imgPath})`,
+      }}
+    >
+      {props.children}
+    </Link>
+  ) : (
     <div
-      style={
-        {
-          backgroundImage: `url(${props.imgPath})`,
-          backgroundPosition: "center",
-        } as React.CSSProperties
-      }
-      className="my-16 py-10 px-20 rounded-10 relative bg-cover flex flex-col text-white justify-start lg:min-h-[260px] lg:w-full"
+      className="flex flex-col py-10 px-20 rounded-10 bg-cover bg-center text-white text-left md:px-30 md:py-20 md:min-h-[260px]"
+      style={{
+        backgroundImage: `url(${props.imgPath})`,
+      }}
     >
       {props.children}
     </div>

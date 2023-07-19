@@ -12,16 +12,16 @@ export default function Navbar({ floating = false }: NavbarProps) {
     <>
       <nav
         className={clsx(
-          "h-50 flex items-center px-10 gap-5 z-10 b5",
-          floating ? "-mb-50" : "bg-black border-b border-b-gray-6"
+          "h-50 flex items-center px-10 gap-5 z-10 b5 md:h-[75px] md:px-20",
+          floating ? "-mb-50 md:-mb-[75px]" : "bg-black border-b border-b-gray-6"
         )}
       >
         <Link className="mr-auto" href="/">
           <Image
-            className="w-auto h-[23px]"
+            className="w-auto h-[43px] md:h-[64px]"
             src="/logos/actai-w.svg"
-            width={26.8}
-            height={20}
+            width={40.54}
+            height={43}
             alt="Act AI"
           />
         </Link>

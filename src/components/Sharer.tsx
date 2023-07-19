@@ -2,10 +2,11 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import clsx from "clsx";
 
 let didInit = false;
 
-export default function Sharer() {
+export default function Sharer({ desktopBigger }: { desktopBigger?: boolean }) {
   const [encodedURL, setEncodedURL] = useState("");
 
   useEffect(() => {
@@ -23,7 +24,7 @@ export default function Sharer() {
         rel="nofollow noopener noreferrer"
       >
         <Image
-          className="w-20"
+          className={clsx("w-20 h-auto", desktopBigger && "md:w-30")}
           src="/logos/share-fb.svg"
           width={20}
           height={20}
@@ -36,7 +37,7 @@ export default function Sharer() {
         rel="nofollow noopener noreferrer"
       >
         <Image
-          className="w-20"
+          className={clsx("w-20 h-auto", desktopBigger && "md:w-30")}
           src="/logos/share-tw.svg"
           width={20}
           height={20}
@@ -49,7 +50,7 @@ export default function Sharer() {
         rel="nofollow noopener noreferrer"
       >
         <Image
-          className="w-20"
+          className={clsx("w-20 h-auto", desktopBigger && "md:w-30")}
           src="/logos/share-line.svg"
           width={20}
           height={20}

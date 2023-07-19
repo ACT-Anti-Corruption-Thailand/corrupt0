@@ -57,7 +57,7 @@ const Spotlight = () => {
         />
 
         {/* <p className="text-white fixed bg-black">{JSON.stringify(mousePos)}</p> */}
-        <p className="text-black text-center text-24 mt-20 lg:b3">
+        <p className="text-black text-center b3 mt-20">
           ค้นหาและตรวจสอบข้อมูล
           <br />
           ความโปร่งใสของนักการเมือง
@@ -65,9 +65,9 @@ const Spotlight = () => {
           และเจ้าหน้าที่รัฐ
         </p>
       </div>
-      <div className="text-center">
-        <p className="text-14 text-gray-5 lg:b4">ร่วมพัฒนาโดย ACT / HAND SE / PUNCH UP</p>
-        <p className="text-20 text-gray-5 opacity-50 lg:b3">อัปเดตล่าสุด: 00/00/255</p>
+      <div className="text-center text-gray-5">
+        <p className="b4 font-bold">ร่วมพัฒนาโดย ACT / HAND SE / PUNCH UP</p>
+        <p className="opacity-50 b3">อัปเดตล่าสุด: 00/00/255</p>
       </div>
     </>
   );
