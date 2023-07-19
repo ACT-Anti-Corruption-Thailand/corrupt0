@@ -1,4 +1,5 @@
 import * as aq from "arquero";
+import { op } from "arquero";
 import fs from "fs/promises";
 import path from "path";
 
@@ -16,4 +17,42 @@ export const getDonationData = async () => {
   }
 
   return tables.reduce((all, curr) => all.concat(curr));
+};
+
+export const getEctDonationData = async () => {
+  const DATA_DONATION = await aq.loadCSV("data/raw/donation.csv");
+  const DATA_DONOR = await aq.loadCSV("data/raw/donor.csv");
+
+  const merged = DATA_DONATION.join_left(DATA_DONOR, ["donor_id 🗝", "donor_id "])
+    .rename({
+      party_name: "party",
+      title: "donor_title",
+      first_name: "donor_firstname",
+      last_name: "donor_lastname",
+      donation_type: "type",
+    })
+    .derive({
+      amount: (d) => op.parse_float(op.replace(d.valuation, /฿|,/g, "")),
+      donor_prefix: (d) => (d.is_individual === "TRUE" ? "บุคคลธรรมดา" : "นิติบุคคล"),
+      donor_fullname: (d) =>
+        d.is_individual === "TRUE"
+          ? `${d.donor_title}${d.donor_firstname} ${d.donor_lastname}`
+          : `${d.donor_title} ${d.donor_firstname} ${d.donor_lastname}`,
+    })
+    .select(
+      "year",
+      "month",
+      "day",
+      "party",
+      "donor_prefix",
+      "donor_title",
+      "donor_fullname",
+      "donor_firstname",
+      "donor_lastname",
+      "position",
+      "amount",
+      "type"
+    );
+
+  return merged;
 };
