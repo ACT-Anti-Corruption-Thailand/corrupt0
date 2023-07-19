@@ -1,3 +1,7 @@
+import fs from "fs";
+import path from "path";
+import { notFound } from "next/navigation";
+
 import InfoAssetMain from "@/components/Info/Asset/Main";
 import InfoAssetPopover from "@/components/Info/Asset/Popover";
 import Image from "next/image";
@@ -251,33 +255,6 @@ const EXAMPLE_VALUABLE_STATEMENTS2: InfoAssetValuableStatement = {
   ],
 };
 
-const YEARS: DropdownDetailedData[] = [
-  {
-    data: "2566",
-    label: (
-      <>
-        <span className="b5 font-bold">2566</span> (พ้นตำแหน่ง)
-      </>
-    ),
-  },
-  {
-    data: "2562",
-    label: (
-      <>
-        <span className="b5 font-bold">2562</span> (ดำรงตำแหน่ง)
-      </>
-    ),
-  },
-];
-
-const COMPARE_YEARS: DropdownDetailedData[] = [
-  {
-    data: null,
-    label: <span className="b6">เลือกปีเปรียบเทียบ</span>,
-  },
-  ...YEARS,
-];
-
 const STATEMENT_2562 = {
   cash: EXAMPLE_CASH_STATEMENTS,
   deposit: EXAMPLE_CASH_STATEMENTS,
@@ -327,6 +304,35 @@ interface AssetPageProps {
 }
 
 export default function Asset({ params }: AssetPageProps) {
+  const name = decodeURI(params.name);
+
+  let assets: Record<any, any> = {};
+
+  try {
+    const filePath = path.join(process.cwd(), "src", "data", "info", `${name}.json`);
+    const fileContents = fs.readFileSync(filePath, "utf8");
+    assets = JSON.parse(fileContents).assets; // pass this into the page
+  } catch (e) {
+    notFound();
+  }
+
+  const YEARS: DropdownDetailedData[] = Object.keys(assets).map((year) => ({
+    data: year,
+    label: (
+      <>
+        <span className="b5 font-bold">{year}</span> {/*(TODO - ใส่ว่าปีนี้เขาทำอะไร)*/}
+      </>
+    ),
+  }));
+
+  const COMPARE_YEARS: DropdownDetailedData[] = [
+    {
+      data: null,
+      label: <span className="b6">เลือกปีเปรียบเทียบ</span>,
+    },
+    ...YEARS,
+  ];
+
   return (
     <main>
       <header className="p-10 text-center">

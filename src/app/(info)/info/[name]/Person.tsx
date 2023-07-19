@@ -334,7 +334,7 @@ export default function Person({ params }: { params: { name: string } }) {
         }
       >
         {/* สถานะทางการเงิน */}
-        <InfoFinancialSection name={spacedName} />
+        <InfoFinancialSection name={name} />
 
         {/* ปุ่มเอกสาร */}
         <div className="flex gap-5 px-10 mb-10">
