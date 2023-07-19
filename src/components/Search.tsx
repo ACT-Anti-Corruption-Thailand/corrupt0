@@ -1,12 +1,12 @@
 "use client";
-import React from "react";
+import { useMemo, useState } from "react";
 
 import { Combobox } from "@headlessui/react";
 import Image from "next/image";
 import Link from "next/link";
 
-import type { Dispatch, ReactNode, SetStateAction } from "react";
 import clsx from "clsx";
+import type { Dispatch, ReactNode, SetStateAction } from "react";
 
 type SearchData = {
   name: string;
@@ -35,7 +35,9 @@ const ComboboxOpt = ({ person, children }: ComboboxOptProps) => {
   );
 };
 
-
+const filterPeople = (people: SearchData[], query: string) => {
+  return people.filter((e) => e.name.includes(query));
+};
 
 interface SearchProps<T extends SearchData> {
   data: T[];
@@ -45,15 +47,15 @@ interface SearchProps<T extends SearchData> {
 }
 
 function Search<T extends SearchData>(props: SearchProps<T>) {
-  const [query, setQuery] = React.useState("");
+  const [query, setQuery] = useState("");
 
-  const onBlank = () => {
-    props.setSelected(null);
-    return [];
-  }
-
-  const filteredPeople =
-    query === "" ? onBlank() : props.data.filter((e) => e.name.includes(query));
+  const filteredPeople = useMemo(() => {
+    if (query === "") {
+      props.setSelected(null);
+      return [];
+    }
+    return props.data.filter((e) => e.name.includes(query));
+  }, [props, query]);
 
   return (
     <Combobox value={props.selected} onChange={props.setSelected}>
