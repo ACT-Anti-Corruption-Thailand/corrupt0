@@ -9,6 +9,8 @@ import DATA_NAME_GEN from "@/data/people_gen.json";
 import DATA_NAME_NACC from "@/data/people_nacc.json";
 import DATA_PARTY from "@/data/parties.json";
 import DATA_BUSINESS from "@/data/businesses.json";
+import POLITICIAN_IMAGES from "@/data/politicianImages.json";
+import PARTY_ASSETS from "@/data/color/partyAssets.json";
 
 import { formatThousands, thaiMoneyFormatter } from "@/functions/moneyFormatter";
 
@@ -20,10 +22,14 @@ const PEOPLE = [...new Set([...DATA_NAME_NACC, ...DATA_NAME_GEN])]
   .map((e) => ({
     name: e.replace(/-/g, " "),
     link: e,
+    image: (POLITICIAN_IMAGES as Record<string, string | null>)[e],
   }));
 const PARTIES = DATA_PARTY.map((e) => ({
   name: e.replace("พรรค", ""),
   link: e,
+  image: (PARTY_ASSETS as Record<string, { color: string | null; image: string | null }>)[
+    e.replace("พรรค", "")
+  ]?.image,
 }));
 const BUSINESSES = DATA_BUSINESS.map((e) => ({
   name: e.replace(/-/g, " "),
@@ -58,7 +64,7 @@ interface DataEntry {
   name: string;
   link: string;
   position?: string;
-  image?: string;
+  image?: string | null;
 }
 
 interface Top3Entry extends DataEntry {
@@ -143,7 +149,7 @@ function Top3Thing({ name, placeholderImage, data, hidden }: Top3ThingProps) {
               <Link href={"/info/" + e.link} className="flex gap-5 py-5">
                 <Image
                   className="w-auto h-20 border rounded-full border-black"
-                  src={placeholderImage}
+                  src={e.image ?? placeholderImage}
                   width={20}
                   height={20}
                   alt=""
@@ -203,7 +209,7 @@ function SearchResult({
               <Link href={"/info/" + e.link} className="flex gap-5 py-5">
                 <Image
                   className="w-auto h-20 border rounded-full border-black"
-                  src={placeholderImage}
+                  src={e.image ?? placeholderImage}
                   width={20}
                   height={20}
                   alt=""
