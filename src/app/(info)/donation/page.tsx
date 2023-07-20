@@ -82,7 +82,7 @@ export default function Donation() {
 
         <Search
           placeholder="ค้นหาด้วยชื่อพรรคการเมือง"
-          data={PARTY_DONATION_Test[partyFilterYear].map((party: any) => ({ name: party.party, ...party}))}
+          data={PARTY_DONATION_Test[partyFilterYear].map((party: any) => ({ name: party.party, ...party }))}
           selected={partySearch}
           setSelected={setPartySearch}
         />
@@ -139,7 +139,34 @@ export default function Donation() {
         <div className="flex flex-col px-10 py-10 my-10 lg:my-30 border-1 rounded-5 border-gray-6 items-start w-[85vw] max-w-[800px]">
           <p className="b4 text-gray-3">สี = พรรค</p>
           <div className="flex gap-10 flex-wrap">
-            {Object.entries(PARTY_ASSETS).map(([name, { color }], index: number) => (
+            {
+              PARTY_DONATION_Test["ทุกปี"].map((d: any, index: number) => PARTY_ASSETS[d.party]?.color && PARTY_ASSETS[d.party]?.color != "#CCD8DD" ? (
+                <div key={index} className="flex justify-center items-center gap-5">
+                  <div
+                    style={
+                      {
+                        backgroundColor: PARTY_ASSETS[d.party].color,
+                      } as React.CSSProperties
+                    }
+                    className="w-8 h-8"
+                    key={index}
+                  />
+                  <p className="text-gray-3 b4">{d.party}</p>
+                </div>
+              ) : (<></>))
+            }
+            <div className="flex justify-center items-center gap-5">
+                  <div
+                    style={
+                      {
+                        backgroundColor: "#fff",
+                      } as React.CSSProperties
+                    }
+                    className="w-8 h-8"
+                  />
+                  <p className="text-gray-3 b4">พรรคอื่น ๆ</p>
+                </div>
+            {/* {Object.entries(PARTY_ASSETS).map(([name, { color }], index: number) => (
               <div key={index} className="flex justify-center items-center gap-5">
                 <div
                   style={
@@ -152,7 +179,7 @@ export default function Donation() {
                 />
                 <p className="text-gray-3 b4">{name}</p>
               </div>
-            ))}
+            ))} */}
           </div>
         </div>
         <Search
