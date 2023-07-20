@@ -29,14 +29,17 @@ const DONATION_FULLNAME = DONATION_TABLE.derive({
  */
 export const generateNamesAndId = async () => {
   // NACC
-  const nacc_names = DATA_NACC.derive({
-    full_name: (d) => op.replace(d.first_name + " " + d.last_name, /\s+/g, "-")
-  }).select("nacc_id", "full_name");
+  const nacc = DATA_NACC.derive({
+    full_name: (d) => op.replace(d.first_name + " " + d.last_name, /\s+/g, "-"),
+  }).select("nacc_id", "full_name", "Position", "submitted_case", "Submitted_Date");
+
+  const nacc_names = nacc.select("full_name").dedupe();
+  const nacc_ids_by_names = nacc.groupby("full_name").objects({ grouped: "object" });
 
   // HIGH RANK
   const high_rank_names = DATA_HIGH_RANK.rename({ full_name: "_full_name" })
     .derive({
-      full_name: (d) => op.replace(d._full_name, /\s+/g, "-")
+      full_name: (d) => op.replace(d._full_name, /\s+/g, "-"),
     })
     .select("full_name")
     .dedupe();
@@ -52,23 +55,48 @@ export const generateNamesAndId = async () => {
   const nacc_and_highrank_names = nacc_names
     .join_full(high_rank_names, (a, b) => op.equal(a.full_name, b.full_name))
     .derive({
-      full_name: (d) => d.full_name_1 || d.full_name_2
+      full_name: (d) => d.full_name_1 || d.full_name_2,
     })
-    .select("nacc_id", "full_name");
+    .select("full_name");
 
   // ALL
   const names = nacc_and_highrank_names
     .join_full(donation_names, (a, b) => op.equal(a.full_name, b.full_name))
     .derive({
-      full_name: (d) => d.full_name_1 || d.full_name_2
+      full_name: (d) => d.full_name_1 || d.full_name_2,
     })
-    .select("nacc_id", "full_name");
+    .select("full_name");
 
-  // SPLIT NACC/NONE NACC
-  const has_nacc = names.filter((d) => d.nacc_id);
-  const non_nacc = names.filter((d) => !d.nacc_id);
+  // MAP NACC
+  const [has_nacc, non_nacc] = names.objects().reduce(
+    (all, { full_name }) => {
+      const nacc_id = nacc_ids_by_names[full_name];
 
-  return [has_nacc.objects(), non_nacc.objects()];
+      if (nacc_id)
+        return [
+          [
+            ...all[0],
+            {
+              full_name,
+              nacc_id,
+            },
+          ],
+          all[1],
+        ];
+      return [
+        all[0],
+        [
+          ...all[1],
+          {
+            full_name,
+          },
+        ],
+      ];
+    },
+    [[], []]
+  );
+
+  return [has_nacc, non_nacc];
 };
 
 // ██████╗ ███████╗██████╗ ███████╗ ██████╗ ███╗   ██╗ █████╗ ██╗         ██╗███╗   ██╗███████╗ ██████╗
@@ -528,24 +556,56 @@ export const generatePeople = async () => {
 
   const namesAndId = [...has_nacc, ...non_nacc];
 
+  let idx = 1;
+  const ppllen = namesAndId.length;
+  // console.info(`ℹ Found ${ppllen} people.`);
   for (const { full_name, nacc_id } of namesAndId) {
+    // console.info(`ℹ Processing ${idx++}/${ppllen}...`);
+    const formattedNacc = nacc_id
+      ? Object.fromEntries(
+          nacc_id.map((e) => [
+            e.nacc_id,
+            { position: e.Position, case: e.submitted_case, date: e.Submitted_Date },
+          ])
+        )
+      : undefined;
+    const nacc_ids = nacc_id ? Object.keys(formattedNacc) : [];
+
     const person_data_json = await getPersonalData(full_name);
     const lawsuit = await getLawsuit(full_name);
     const donation = await getPersonDonation(full_name);
     const business = await getPersonBusiness(full_name);
 
-    const relationship = await getRelationship(nacc_id);
-    const assets = await getAsset(nacc_id);
-    const statement = await getStatement(nacc_id)
+    let relationship = [];
+    for (let nid of nacc_ids) {
+      const d = await getRelationship(+nid);
+      relationship.push(d);
+    }
+    relationship = [...new Set(relationship.flat().map((e) => JSON.stringify(e)))].map(
+      (e) => JSON.parse(e)
+    );
+
+    let assets = {};
+    for (let nid of nacc_ids) {
+      const d = await getAsset(+nid);
+      assets[nid] = d;
+    }
+
+    let statement = {};
+    for (let nid of nacc_ids) {
+      const d = await getStatement(+nid);
+      statement[nid] = d;
+    }
 
     const data = {
+      nacc: formattedNacc,
       ...person_data_json,
       lawsuit,
       relationship,
       assets,
       donation,
       business,
-      statement
+      statement,
     };
 
     await fs.writeFile(`src/data/info/${full_name}.json`, JSON.stringify(data));

@@ -24,9 +24,9 @@
       "@/*": ["./src/*"],
       "@components/*": ["./src/components/*"],
       "@functions/*": ["./src/functions/*"],
-      "@data/*": ["./src/data/*"],
+      "@data/*": ["./src/data/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "data"],
   "exclude": ["node_modules"]
 }
