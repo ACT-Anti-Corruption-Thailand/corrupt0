@@ -198,13 +198,13 @@ function SearchResult({
   const limitedData = useMemo(() => data.slice(0, showCount), [data, showCount]);
 
   return (
-    <section className={clsx("shadow-search", hidden && "hidden")}>
+    <section className={clsx("shadow-search overflow-hidden", hidden && "hidden")}>
       <h2 className="py-5 px-10 bg-gray-3 border-b border-b-gray-4 b5 text-gray-6">
         ชื่อ{type} (พบ {data.length.toLocaleString()} {type})
       </h2>
-      <ul className="px-10 pt-5 bg-gray-1">
-        {limitedData.map((e, i) => {
-          return (
+      {limitedData.length > 0 ? (
+        <ul className="px-10 pt-5 bg-gray-1">
+          {limitedData.map((e, i) => (
             <li key={i} className="border-b border-b-gray-2 last:border-b-0">
               <Link href={"/info/" + e.link} className="flex gap-5 py-5">
                 <Image
@@ -227,22 +227,26 @@ function SearchResult({
                 </div>
               </Link>
             </li>
-          );
-        })}
-        {showCount < data.length && (
-          <li className="flex gap-5 py-5 text-gray-4 justify-center items-center b4">
-            <button
-              type="button"
-              className="border-b border-b-gray-4"
-              onClick={() => setShowCount((e) => e + 10)}
-            >
-              {data.length - showCount < 10
-                ? `+ ดูอีก ${data.length - showCount} ${type}ที่เหลือ`
-                : `+ ดูเพิ่มอีก 10 ${type}`}
-            </button>
-          </li>
-        )}
-      </ul>
+          ))}
+          {showCount < data.length && (
+            <li className="flex gap-5 py-5 text-gray-4 justify-center items-center b4">
+              <button
+                type="button"
+                className="border-b border-b-gray-4"
+                onClick={() => setShowCount((e) => e + 10)}
+              >
+                {data.length - showCount < 10
+                  ? `+ ดูอีก ${data.length - showCount} ${type}ที่เหลือ`
+                  : `+ ดูเพิ่มอีก 10 ${type}`}
+              </button>
+            </li>
+          )}
+        </ul>
+      ) : (
+        <div className="p-10 bg-gray-1 b4 text-center">
+          ไม่พบ{type} จากคำค้นหา &quot;{query}&quot;
+        </div>
+      )}
     </section>
   );
 }
