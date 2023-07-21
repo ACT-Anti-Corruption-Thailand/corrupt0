@@ -91,7 +91,7 @@ const DetailsActor = ({ actor }: Omit<InfoAssetStatement, "value">) => {
   return (
     <span
       className={clsx(
-        "block rounded-5 b7 px-5 mr-auto mb-5",
+        "block rounded-5 b7 px-5 mr-auto mb-5 whitespace-nowrap",
         actor === "ผู้ยื่น" && "bg-black text-white",
         actor === "คู่สมรส" && "bg-black-40",
         actor === "บุตร" && "bg-black-20"
@@ -107,7 +107,7 @@ const DetailsFirstLine = ({ actor, name, value }: DetailsFirstLineProps) => {
     <span className="flex items-center">
       <span
         className={clsx(
-          "inline-block rounded-5 b7 px-5",
+          "inline-block rounded-5 b7 px-5 whitespace-nowrap",
           actor === "ผู้ยื่น" && "bg-black text-white",
           actor === "คู่สมรส" && "bg-black-40",
           actor === "บุตร" && "bg-black-20"
@@ -194,11 +194,12 @@ const Cash = ({ name, statements1, statements2 }: CashProps) => {
 };
 
 export interface InfoAssetLandStatement extends InfoAssetStatement {
-  type: "โฉนด" | "อื่น ๆ";
+  type: "โฉนด" | string;
   name: string;
   address?: string;
   receiveDate?: string;
   receiveFrom?: string;
+  land_doc_number?: string;
 }
 
 export interface LandProps {
@@ -230,10 +231,13 @@ const Land = ({ statements1, statements2 }: LandProps) => {
       <div className="flex">
         <ul className="flex-1">
           {statements1.map(
-            ({ value, actor, name, address, receiveDate, receiveFrom }, i) => (
+            (
+              { value, actor, name, address, receiveDate, receiveFrom, land_doc_number },
+              i
+            ) => (
               <DetailsBlock key={i}>
                 <DetailsActor actor={actor} />
-                <span className="b5">{name}</span>
+                <span className="b5">{`${name} เลขที่ ${land_doc_number}`}</span>
                 <DetailsListContainer>
                   <DetailsListList value={address} />
                   {receiveDate && (
@@ -251,10 +255,13 @@ const Land = ({ statements1, statements2 }: LandProps) => {
         <div className="w-1 bg-gray-3" />
         <ul className="flex-1">
           {statements2.map(
-            ({ value, actor, name, address, receiveDate, receiveFrom }, i) => (
+            (
+              { value, actor, name, address, receiveDate, receiveFrom, land_doc_number },
+              i
+            ) => (
               <DetailsBlock key={i}>
                 <DetailsActor actor={actor} />
-                <span className="b5">{name}</span>
+                <span className="b5">{`${name} เลขที่ ${land_doc_number}`}</span>
                 <DetailsListContainer>
                   <DetailsListList value={address} />
                   {receiveDate && (
@@ -276,8 +283,8 @@ const Land = ({ statements1, statements2 }: LandProps) => {
 
 export interface InfoAssetConcessionStatement extends InfoAssetStatement {
   name: string;
-  fromDate: string;
-  toDate: string;
+  receiveDate: string;
+  endDate: string;
 }
 
 export interface ConcessionProps {
@@ -301,20 +308,20 @@ const Concession = ({ statements1, statements2 }: ConcessionProps) => {
     >
       <div className="flex">
         <ul className="flex-1">
-          {statements1.map(({ value, actor, name, fromDate, toDate }, i) => (
+          {statements1.map(({ value, actor, name, receiveDate, endDate }, i) => (
             <DetailsBlock key={i}>
               <DetailsActor actor={actor} />
               <span className="b5">{name}</span>
               <DetailsListContainer>
-                {fromDate && toDate ? (
+                {receiveDate && endDate ? (
                   <DetailsListList
                     label="วันที่ได้มา–วันที่สิ้นสุด"
-                    value={fromDate + "–" + toDate}
+                    value={receiveDate + "–" + endDate}
                   />
-                ) : fromDate ? (
-                  <DetailsListList label="วันที่ได้มา" value={fromDate} />
+                ) : receiveDate ? (
+                  <DetailsListList label="วันที่ได้มา" value={receiveDate} />
                 ) : (
-                  <DetailsListList label="วันที่สิ้นสุด" value={toDate} />
+                  <DetailsListList label="วันที่สิ้นสุด" value={endDate} />
                 )}
               </DetailsListContainer>
               <span className="b5 font-bold">{value.toLocaleString("th-TH")}</span>
@@ -323,20 +330,20 @@ const Concession = ({ statements1, statements2 }: ConcessionProps) => {
         </ul>
         <div className="w-1 bg-gray-3" />
         <ul className="flex-1">
-          {statements2.map(({ value, actor, name, fromDate, toDate }, i) => (
+          {statements2.map(({ value, actor, name, receiveDate, endDate }, i) => (
             <DetailsBlock key={i}>
               <DetailsActor actor={actor} />
               <span className="b5">{name}</span>
               <DetailsListContainer>
-                {fromDate && toDate ? (
+                {receiveDate && endDate ? (
                   <DetailsListList
                     label="วันที่ได้มา–วันที่สิ้นสุด"
-                    value={fromDate + "–" + toDate}
+                    value={receiveDate + "–" + endDate}
                   />
-                ) : fromDate ? (
-                  <DetailsListList label="วันที่ได้มา" value={fromDate} />
+                ) : receiveDate ? (
+                  <DetailsListList label="วันที่ได้มา" value={receiveDate} />
                 ) : (
-                  <DetailsListList label="วันที่สิ้นสุด" value={toDate} />
+                  <DetailsListList label="วันที่สิ้นสุด" value={endDate} />
                 )}
               </DetailsListContainer>
               <span className="b5 font-bold">{value.toLocaleString("th-TH")}</span>
@@ -350,7 +357,7 @@ const Concession = ({ statements1, statements2 }: ConcessionProps) => {
 
 export interface InfoAssetBuildingStatement extends InfoAssetStatement {
   name: string;
-  docNumber?: string | number;
+  building_doc_number?: string | number;
   address?: string;
   receiveDate?: string;
   receiveFrom?: string;
@@ -378,12 +385,26 @@ const Building = ({ statements1, statements2 }: BuildingProps) => {
       <div className="flex">
         <ul className="flex-1">
           {statements1.map(
-            ({ value, actor, name, docNumber, address, receiveDate, receiveFrom }, i) => (
+            (
+              {
+                value,
+                actor,
+                name,
+                building_doc_number,
+                address,
+                receiveDate,
+                receiveFrom,
+              },
+              i
+            ) => (
               <DetailsBlock key={i}>
                 <DetailsActor actor={actor} />
                 <span className="b5">{name}</span>
                 <DetailsListContainer>
-                  <DetailsListList label="เอกสารสิทธิ์เลขที่" value={docNumber} />
+                  <DetailsListList
+                    label="เอกสารสิทธิ์เลขที่"
+                    value={building_doc_number}
+                  />
                   <DetailsListList value={address} />
                   <DetailsListList label="วันที่ได้มา" value={receiveDate} />
                   <DetailsListList label="การได้มา" value={receiveFrom} />
@@ -396,12 +417,26 @@ const Building = ({ statements1, statements2 }: BuildingProps) => {
         <div className="w-1 bg-gray-3" />
         <ul className="flex-1">
           {statements2.map(
-            ({ value, actor, name, docNumber, address, receiveDate, receiveFrom }, i) => (
+            (
+              {
+                value,
+                actor,
+                name,
+                building_doc_number,
+                address,
+                receiveDate,
+                receiveFrom,
+              },
+              i
+            ) => (
               <DetailsBlock key={i}>
                 <DetailsActor actor={actor} />
                 <span className="b5">{name}</span>
                 <DetailsListContainer>
-                  <DetailsListList label="เอกสารสิทธิ์เลขที่" value={docNumber} />
+                  <DetailsListList
+                    label="เอกสารสิทธิ์เลขที่"
+                    value={building_doc_number}
+                  />
                   <DetailsListList value={address} />
                   <DetailsListList label="วันที่ได้มา" value={receiveDate} />
                   <DetailsListList label="การได้มา" value={receiveFrom} />
@@ -418,7 +453,7 @@ const Building = ({ statements1, statements2 }: BuildingProps) => {
 
 export interface InfoAssetVehicleStatement extends InfoAssetStatement {
   name: string;
-  plate?: string;
+  registration_number?: string;
   province?: string;
   receiveDate?: string;
 }
@@ -444,33 +479,37 @@ const Vehicle = ({ statements1, statements2 }: VehicleProps) => {
     >
       <div className="flex">
         <ul className="flex-1">
-          {statements1.map(({ value, actor, name, plate, province, receiveDate }, i) => (
-            <DetailsBlock key={i}>
-              <DetailsActor actor={actor} />
-              <span className="b5">{name}</span>
-              <DetailsListContainer>
-                <DetailsListList value={plate} />
-                <DetailsListList value={province} />
-                <DetailsListList label="วันที่ได้มา" value={receiveDate} />
-              </DetailsListContainer>
-              <span className="b5 font-bold">{value.toLocaleString("th-TH")}</span>
-            </DetailsBlock>
-          ))}
+          {statements1.map(
+            ({ value, actor, name, registration_number, province, receiveDate }, i) => (
+              <DetailsBlock key={i}>
+                <DetailsActor actor={actor} />
+                <span className="b5">{name}</span>
+                <DetailsListContainer>
+                  <DetailsListList value={registration_number} />
+                  <DetailsListList value={province} />
+                  <DetailsListList label="วันที่ได้มา" value={receiveDate} />
+                </DetailsListContainer>
+                <span className="b5 font-bold">{value.toLocaleString("th-TH")}</span>
+              </DetailsBlock>
+            )
+          )}
         </ul>
         <div className="w-1 bg-gray-3" />
         <ul className="flex-1">
-          {statements2.map(({ value, actor, name, plate, province, receiveDate }, i) => (
-            <DetailsBlock key={i}>
-              <DetailsActor actor={actor} />
-              <span className="b5">{name}</span>
-              <DetailsListContainer>
-                <DetailsListList value={plate} />
-                <DetailsListList value={province} />
-                <DetailsListList label="วันที่ได้มา" value={receiveDate} />
-              </DetailsListContainer>
-              <span className="b5 font-bold">{value.toLocaleString("th-TH")}</span>
-            </DetailsBlock>
-          ))}
+          {statements2.map(
+            ({ value, actor, name, registration_number, province, receiveDate }, i) => (
+              <DetailsBlock key={i}>
+                <DetailsActor actor={actor} />
+                <span className="b5">{name}</span>
+                <DetailsListContainer>
+                  <DetailsListList value={registration_number} />
+                  <DetailsListList value={province} />
+                  <DetailsListList label="วันที่ได้มา" value={receiveDate} />
+                </DetailsListContainer>
+                <span className="b5 font-bold">{value.toLocaleString("th-TH")}</span>
+              </DetailsBlock>
+            )
+          )}
         </ul>
       </div>
     </Accordion>
@@ -520,11 +559,13 @@ const ValuableGroup = ({ name, statements1, statements2 }: ValuableGroupProps) =
         <ul className="flex-1">
           {statements1.map(({ value, actor, name, count, receiveDate }, i) => (
             <DetailsBlock key={i}>
-              <DetailsFirstLine actor={actor} name={name} value={value} />
+              <DetailsActor actor={actor} />
+              <span className="b5">{name}</span>
               <DetailsListContainer>
                 <DetailsListList value={count} extension="หน่วย" />
                 <DetailsListList label="วันที่ได้มา" value={receiveDate} />
               </DetailsListContainer>
+              <span className="b5 font-bold">{value.toLocaleString("th-TH")}</span>
             </DetailsBlock>
           ))}
         </ul>
@@ -532,11 +573,13 @@ const ValuableGroup = ({ name, statements1, statements2 }: ValuableGroupProps) =
         <ul className="flex-1">
           {statements2.map(({ value, actor, name, count, receiveDate }, i) => (
             <DetailsBlock key={i}>
-              <DetailsFirstLine actor={actor} name={name} value={value} />
+              <DetailsActor actor={actor} />
+              <span className="b5">{name}</span>
               <DetailsListContainer>
                 <DetailsListList value={count} extension="หน่วย" />
                 <DetailsListList label="วันที่ได้มา" value={receiveDate} />
               </DetailsListContainer>
+              <span className="b5 font-bold">{value.toLocaleString("th-TH")}</span>
             </DetailsBlock>
           ))}
         </ul>
@@ -578,7 +621,7 @@ const Valuable = ({ statements1, statements2 }: ValuableProps) => {
           length2={itemLength2}
           value2={itemValue2}
           nameExtension={
-            <InfoAssetPopover>
+            <InfoAssetPopover triggerDiv>
               <p>
                 <span className="font-bold block mb-5">ทรัพย์สินอื่น</span>
                 คือทรัพย์สินที่นอกจากที่ระบุ ในรายการทรัพย์สินที่ 1-8

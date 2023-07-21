@@ -10,13 +10,15 @@ import { usePopper } from "react-popper";
 import type { ReactNode } from "react";
 
 interface PersonPropertyPopoverProps {
-  className?: string;
   children: ReactNode;
+  className?: string;
+  triggerDiv?: boolean;
 }
 
 export default function InfoAssetPopover({
   className,
   children,
+  triggerDiv,
 }: PersonPropertyPopoverProps) {
   const [referenceElement, setReferenceElement] = useState<HTMLButtonElement | null>(
     null
@@ -42,7 +44,11 @@ export default function InfoAssetPopover({
 
   return (
     <Popover className={clsx("flex items-center", className)}>
-      <Popover.Button ref={setReferenceElement}>
+      <Popover.Button
+        ref={setReferenceElement}
+        as={triggerDiv ? "div" : "button"}
+        className="cursor-pointer"
+      >
         <Image
           className="md:w-20 md:h-20"
           src="/icons/question-light.svg"

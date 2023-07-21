@@ -19,271 +19,6 @@ import type {
 } from "@/components/Info/Asset/SingleAccordion";
 import type { Metadata } from "next";
 
-const EXAMPLE_CASH_STATEMENTS: InfoAssetStatement[] = [
-  {
-    actor: "ผู้ยื่น",
-    value: 10000000,
-  },
-  {
-    actor: "คู่สมรส",
-    value: 2000000,
-  },
-  {
-    actor: "บุตร",
-    value: 300000,
-  },
-];
-
-const EXAMPLE_LAND_STATEMENTS: InfoAssetLandStatement[] = [
-  {
-    actor: "ผู้ยื่น",
-    value: 10000000,
-    type: "โฉนด",
-    name: "โฉนด เลขที่ 5744",
-    address: "อ. ศรีประจันต์ จ. สุพรรณบุรี",
-    receiveDate: "28/06/2560",
-    receiveFrom: "ผู้จัดการมรดก",
-  },
-  {
-    actor: "คู่สมรส",
-    value: 2000000,
-    type: "อื่น ๆ",
-    name: "ไม่ใช่โฉนด เลขที่ 5744",
-    address: "อ. ศรีประจันต์ จ. สุพรรณบุรี",
-    receiveDate: "28/06/2560",
-    receiveFrom: "ผู้จัดการมรดก",
-  },
-  {
-    actor: "บุตร",
-    value: 300000,
-    type: "โฉนด",
-    name: "โฉนด เลขที่ 5744",
-    address: "อ. ศรีประจันต์ จ. สุพรรณบุรี",
-    receiveDate: "28/06/2560",
-    receiveFrom: "ผู้จัดการมรดก",
-  },
-];
-
-const EXAMPLE_CONCESSION_STATEMENTS: InfoAssetConcessionStatement[] = [
-  {
-    actor: "ผู้ยื่น",
-    value: 10000000,
-    name: "กรมธรรม์ เลขที่ T230301731",
-    fromDate: "28/06/2560",
-    toDate: "28/06/2560",
-  },
-  {
-    actor: "คู่สมรส",
-    value: 2000000,
-    name: "FWD ประกันชีวิต เลขที่ 41463739",
-    fromDate: "28/06/2560",
-    toDate: "28/06/2560",
-  },
-  {
-    actor: "บุตร",
-    value: 300000,
-    name: "FWD ประกันชีวิต เลขที่ 41463739",
-    fromDate: "28/06/2560",
-    toDate: "28/06/2560",
-  },
-];
-
-const EXAMPLE_BUILDING_STATEMENTS: InfoAssetBuildingStatement[] = [
-  {
-    actor: "ผู้ยื่น",
-    value: 10000000,
-    name: "บ้านเดี่ยว 2 ชั้น",
-    docNumber: 19476,
-    address: "อ. เมือง จ. สุพรรณบุรี",
-    receiveDate: "1/10/2557",
-    receiveFrom: "ปลูกสร้างเอง",
-  },
-  {
-    actor: "คู่สมรส",
-    value: 2000000,
-    name: "บ้านเดี่ยว 2 ชั้น",
-    docNumber: 19476,
-    address: "อ. เมือง จ. สุพรรณบุรี",
-    receiveDate: "1/10/2557",
-    receiveFrom: "ปลูกสร้างเอง",
-  },
-  {
-    actor: "บุตร",
-    value: 300000,
-    name: "บ้านเดี่ยว 2 ชั้น",
-    docNumber: 19476,
-    address: "อ. เมือง จ. สุพรรณบุรี",
-    receiveDate: "1/10/2557",
-    receiveFrom: "ปลูกสร้างเอง",
-  },
-];
-
-const EXAMPLE_VEHICLE_STATEMENTS: InfoAssetVehicleStatement[] = [
-  {
-    actor: "ผู้ยื่น",
-    value: 10000000,
-    name: "บ้านเดี่ยว 2 ชั้น",
-    plate: "ภฉ 1098",
-    province: "จ. ฉะเชิงเทรา",
-    receiveDate: "1/10/2557",
-  },
-  {
-    actor: "คู่สมรส",
-    value: 2000000,
-    name: "บ้านเดี่ยว 2 ชั้น",
-    plate: "ภฉ 1098",
-    province: "จ. ฉะเชิงเทรา",
-    receiveDate: "1/10/2557",
-  },
-  {
-    actor: "บุตร",
-    value: 300000,
-    name: "บ้านเดี่ยว 2 ชั้น",
-    plate: "ภฉ 1098",
-    province: "จ. ฉะเชิงเทรา",
-    receiveDate: "1/10/2557",
-  },
-];
-
-const EXAMPLE_VALUABLE_STATEMENTS1: InfoAssetValuableStatement = {
-  กระเป๋า: [],
-  อาวุธปืน: [],
-  นาฬิกา: [],
-  เครื่องประดับ: [],
-  วัตถุมงคล: [],
-  ทองคำ: [],
-  ของสะสมอื่น: [
-    {
-      actor: "ผู้ยื่น",
-      name: "กริ่งปวเรศ ทองคำ 3 บาท",
-      value: 10000,
-      count: 1,
-      receiveDate: "20/03/2557",
-    },
-    {
-      actor: "คู่สมรส",
-      name: "พระร่วงหลังรางปืน จ. สุโขทัย ทอง 2 บาท",
-      value: 741963,
-      count: 3,
-      receiveDate: "20/03/2557",
-    },
-    {
-      actor: "บุตร",
-      name: "พระสมเด็จไกเซอร์เลี่ยมทอง 2 บาท",
-      value: 20,
-      count: 200,
-      receiveDate: "20/03/2557",
-    },
-  ],
-  "งานศิลปะ โบราณวัตถุ": [
-    {
-      actor: "ผู้ยื่น",
-      name: "กริ่งปวเรศ ทองคำ 3 บาท",
-      value: 1000000,
-      count: 1,
-      receiveDate: "20/03/2557",
-    },
-    {
-      actor: "คู่สมรส",
-      name: "พระร่วงหลังรางปืน จ. สุโขทัย ทอง 2 บาท",
-      value: 1000000,
-      count: 3,
-      receiveDate: "20/03/2557",
-    },
-    {
-      actor: "บุตร",
-      name: "พระสมเด็จไกเซอร์เลี่ยมทอง 2 บาท",
-      value: 1000000,
-      count: 200,
-      receiveDate: "20/03/2557",
-    },
-  ],
-};
-
-const EXAMPLE_VALUABLE_STATEMENTS2: InfoAssetValuableStatement = {
-  กระเป๋า: [],
-  อาวุธปืน: [],
-  นาฬิกา: [],
-  เครื่องประดับ: [],
-  วัตถุมงคล: [],
-  ของสะสมอื่น: [],
-  ทองคำ: [
-    {
-      actor: "ผู้ยื่น",
-      name: "กริ่งปวเรศ ทองคำ 3 บาท",
-      value: 10000,
-      count: 1,
-      receiveDate: "20/03/2557",
-    },
-    {
-      actor: "คู่สมรส",
-      name: "พระร่วงหลังรางปืน จ. สุโขทัย ทอง 2 บาท",
-      value: 741963,
-      count: 3,
-      receiveDate: "20/03/2557",
-    },
-    {
-      actor: "บุตร",
-      name: "พระสมเด็จไกเซอร์เลี่ยมทอง 2 บาท",
-      value: 20,
-      count: 200,
-      receiveDate: "20/03/2557",
-    },
-  ],
-  "งานศิลปะ โบราณวัตถุ": [
-    {
-      actor: "ผู้ยื่น",
-      name: "กริ่งปวเรศ ทองคำ 3 บาท",
-      value: 1000000,
-      count: 1,
-      receiveDate: "20/03/2557",
-    },
-    {
-      actor: "คู่สมรส",
-      name: "พระร่วงหลังรางปืน จ. สุโขทัย ทอง 2 บาท",
-      value: 1000000,
-      count: 3,
-      receiveDate: "20/03/2557",
-    },
-    {
-      actor: "บุตร",
-      name: "พระสมเด็จไกเซอร์เลี่ยมทอง 2 บาท",
-      value: 1000000,
-      count: 200,
-      receiveDate: "20/03/2557",
-    },
-  ],
-};
-
-const STATEMENT_2562 = {
-  cash: EXAMPLE_CASH_STATEMENTS,
-  deposit: EXAMPLE_CASH_STATEMENTS,
-  investment: EXAMPLE_CASH_STATEMENTS,
-  loan: EXAMPLE_CASH_STATEMENTS,
-  land: EXAMPLE_LAND_STATEMENTS,
-  concession: EXAMPLE_CONCESSION_STATEMENTS,
-  building: EXAMPLE_BUILDING_STATEMENTS,
-  vehicle: EXAMPLE_VEHICLE_STATEMENTS,
-  valuable: EXAMPLE_VALUABLE_STATEMENTS1,
-};
-
-const STATEMENT_2566 = {
-  cash: EXAMPLE_CASH_STATEMENTS,
-  deposit: EXAMPLE_CASH_STATEMENTS,
-  investment: EXAMPLE_CASH_STATEMENTS,
-  loan: EXAMPLE_CASH_STATEMENTS,
-  land: EXAMPLE_LAND_STATEMENTS,
-  concession: EXAMPLE_CONCESSION_STATEMENTS,
-  building: EXAMPLE_BUILDING_STATEMENTS,
-  vehicle: EXAMPLE_VEHICLE_STATEMENTS,
-  valuable: EXAMPLE_VALUABLE_STATEMENTS2,
-};
-
-const STATEMENTS = {
-  "2566": STATEMENT_2566,
-  "2562": STATEMENT_2562,
-};
-
 export async function generateStaticParams() {
   return PEOPLE_NACC.map((name) => ({
     name,
@@ -306,21 +41,27 @@ interface AssetPageProps {
 export default function Asset({ params }: AssetPageProps) {
   const name = decodeURI(params.name);
 
-  let assets: Record<any, any> = {};
+  let file: Record<any, any> = {};
 
   try {
     const filePath = path.join(process.cwd(), "src", "data", "info", `${name}.json`);
     const fileContents = fs.readFileSync(filePath, "utf8");
-    assets = JSON.parse(fileContents).assets; // pass this into the page
+    file = JSON.parse(fileContents); // pass this into the page
   } catch (e) {
     notFound();
   }
 
-  const YEARS: DropdownDetailedData[] = Object.keys(assets).map((year) => ({
-    data: year,
+  const { assets, nacc } = file;
+
+  const YEARS: DropdownDetailedData[] = Object.keys(nacc).map((nacc_id) => ({
+    data: nacc_id,
     label: (
       <>
-        <span className="b5 font-bold">{year}</span> {/*(TODO - ใส่ว่าปีนี้เขาทำอะไร)*/}
+        <span className="b5 font-bold">
+          {new Date(nacc[nacc_id]?.date).getFullYear() + 543}
+        </span>{" "}
+        ({nacc[nacc_id]?.case.replace("กรณี", "")}
+        {nacc[nacc_id]?.position})
       </>
     ),
   }));
@@ -332,6 +73,87 @@ export default function Asset({ params }: AssetPageProps) {
     },
     ...YEARS,
   ];
+
+  const STATEMENTS = Object.fromEntries(
+    Object.keys(nacc).map((nacc_id) => [
+      nacc_id,
+      {
+        cash: assets[nacc_id].เงินสด
+          .map((e: any) => [
+            {
+              actor: "ผู้ยื่น",
+              value: e.valuation_submitter,
+            },
+            {
+              actor: "คู่สมรส",
+              value: e.valuation_spouse,
+            },
+            {
+              actor: "บุตร",
+              value: e.valuation_successor,
+            },
+          ])
+          .flat()
+          .filter((e: any) => e.value),
+        deposit: assets[nacc_id].เงินฝาก
+          .map((e: any) => [
+            {
+              actor: "ผู้ยื่น",
+              value: e.valuation_submitter,
+            },
+            {
+              actor: "คู่สมรส",
+              value: e.valuation_spouse,
+            },
+            {
+              actor: "บุตร",
+              value: e.valuation_successor,
+            },
+          ])
+          .flat()
+          .filter((e: any) => e.value),
+        investment: assets[nacc_id].เงินลงทุน
+          .map((e: any) => [
+            {
+              actor: "ผู้ยื่น",
+              value: e.valuation_submitter,
+            },
+            {
+              actor: "คู่สมรส",
+              value: e.valuation_spouse,
+            },
+            {
+              actor: "บุตร",
+              value: e.valuation_successor,
+            },
+          ])
+          .flat()
+          .filter((e: any) => e.value),
+        loan: assets[nacc_id].เงินให้กู้ยืม
+          .map((e: any) => [
+            {
+              actor: "ผู้ยื่น",
+              value: e.valuation_submitter,
+            },
+            {
+              actor: "คู่สมรส",
+              value: e.valuation_spouse,
+            },
+            {
+              actor: "บุตร",
+              value: e.valuation_successor,
+            },
+          ])
+          .flat()
+          .filter((e: any) => e.value),
+        land: assets[nacc_id].ที่ดิน,
+        concession: assets[nacc_id].สิทธิและสัมปทาน,
+        building: assets[nacc_id].โรงเรือนและสิ่งปลูกสร้าง,
+        vehicle: assets[nacc_id].ยานพาหนะ,
+        valuable: assets[nacc_id].ทรัพย์สินอื่น,
+      },
+    ])
+  );
 
   return (
     <main>

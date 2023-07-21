@@ -67,7 +67,7 @@ const DetailsFirstLine = ({ actor, name, value }: DetailsFirstLineProps) => {
     <span className="flex items-center">
       <span
         className={clsx(
-          "inline-block rounded-5 b7 px-5",
+          "inline-block rounded-5 b7 px-5 whitespace-nowrap",
           actor === "ผู้ยื่น" && "bg-black text-white",
           actor === "คู่สมรส" && "bg-black-40",
           actor === "บุตร" && "bg-black-20"
@@ -139,11 +139,12 @@ const Cash = ({ name, statements }: CashProps) => {
 };
 
 export interface InfoAssetLandStatement extends InfoAssetStatement {
-  type: "โฉนด" | "อื่น ๆ";
+  type: "โฉนด" | string;
   name: string;
   address?: string;
   receiveDate?: string;
   receiveFrom?: string;
+  land_doc_number?: string;
 }
 
 export interface LandProps {
@@ -171,9 +172,16 @@ const Land = ({ statements }: LandProps) => {
     >
       <ul>
         {statements.map(
-          ({ value, actor, name, address, receiveDate, receiveFrom }, i) => (
+          (
+            { value, actor, name, address, receiveDate, receiveFrom, land_doc_number },
+            i
+          ) => (
             <DetailsBlock key={i}>
-              <DetailsFirstLine actor={actor} name={name} value={value} />
+              <DetailsFirstLine
+                actor={actor}
+                name={`${name} เลขที่ ${land_doc_number}`}
+                value={value}
+              />
               <DetailsListContainer>
                 <DetailsListList value={address} />
                 {receiveDate && (
@@ -191,8 +199,8 @@ const Land = ({ statements }: LandProps) => {
 
 export interface InfoAssetConcessionStatement extends InfoAssetStatement {
   name: string;
-  fromDate: string;
-  toDate: string;
+  receiveDate: string;
+  endDate: string;
 }
 
 export interface ConcessionProps {
@@ -212,19 +220,19 @@ const Concession = ({ statements }: ConcessionProps) => {
       }
     >
       <ul>
-        {statements.map(({ value, actor, name, fromDate, toDate }, i) => (
+        {statements.map(({ value, actor, name, receiveDate, endDate }, i) => (
           <DetailsBlock key={i}>
             <DetailsFirstLine actor={actor} name={name} value={value} />
             <DetailsListContainer>
-              {fromDate && toDate ? (
+              {receiveDate && endDate ? (
                 <DetailsListList
                   label="วันที่ได้มา–วันที่สิ้นสุด"
-                  value={fromDate + "–" + toDate}
+                  value={receiveDate + "–" + endDate}
                 />
-              ) : fromDate ? (
-                <DetailsListList label="วันที่ได้มา" value={fromDate} />
+              ) : receiveDate ? (
+                <DetailsListList label="วันที่ได้มา" value={receiveDate} />
               ) : (
-                <DetailsListList label="วันที่สิ้นสุด" value={toDate} />
+                <DetailsListList label="วันที่สิ้นสุด" value={endDate} />
               )}
             </DetailsListContainer>
           </DetailsBlock>
@@ -236,7 +244,7 @@ const Concession = ({ statements }: ConcessionProps) => {
 
 export interface InfoAssetBuildingStatement extends InfoAssetStatement {
   name: string;
-  docNumber?: string | number;
+  building_doc_number?: string | number;
   address?: string;
   receiveDate?: string;
   receiveFrom?: string;
@@ -260,11 +268,22 @@ const Building = ({ statements }: BuildingProps) => {
     >
       <ul>
         {statements.map(
-          ({ value, actor, name, docNumber, address, receiveDate, receiveFrom }, i) => (
+          (
+            {
+              value,
+              actor,
+              name,
+              building_doc_number,
+              address,
+              receiveDate,
+              receiveFrom,
+            },
+            i
+          ) => (
             <DetailsBlock key={i}>
               <DetailsFirstLine actor={actor} name={name} value={value} />
               <DetailsListContainer>
-                <DetailsListList label="เอกสารสิทธิ์เลขที่" value={docNumber} />
+                <DetailsListList label="เอกสารสิทธิ์เลขที่" value={building_doc_number} />
                 <DetailsListList value={address} />
                 <DetailsListList label="วันที่ได้มา" value={receiveDate} />
                 <DetailsListList label="การได้มา" value={receiveFrom} />
@@ -279,7 +298,7 @@ const Building = ({ statements }: BuildingProps) => {
 
 export interface InfoAssetVehicleStatement extends InfoAssetStatement {
   name: string;
-  plate?: string;
+  registration_number?: string;
   province?: string;
   receiveDate?: string;
 }
@@ -301,16 +320,18 @@ const Vehicle = ({ statements }: VehicleProps) => {
       }
     >
       <ul>
-        {statements.map(({ value, actor, name, plate, province, receiveDate }, i) => (
-          <DetailsBlock key={i}>
-            <DetailsFirstLine actor={actor} name={name} value={value} />
-            <DetailsListContainer>
-              <DetailsListList value={plate} />
-              <DetailsListList value={province} />
-              <DetailsListList label="วันที่ได้มา" value={receiveDate} />
-            </DetailsListContainer>
-          </DetailsBlock>
-        ))}
+        {statements.map(
+          ({ value, actor, name, registration_number, province, receiveDate }, i) => (
+            <DetailsBlock key={i}>
+              <DetailsFirstLine actor={actor} name={name} value={value} />
+              <DetailsListContainer>
+                <DetailsListList value={registration_number} />
+                <DetailsListList value={province} />
+                <DetailsListList label="วันที่ได้มา" value={receiveDate} />
+              </DetailsListContainer>
+            </DetailsBlock>
+          )
+        )}
       </ul>
     </Accordion>
   );
@@ -390,7 +411,7 @@ const Valuable = ({ statements }: ValuableProps) => {
           length={itemLength}
           value={itemValue}
           nameExtension={
-            <InfoAssetPopover>
+            <InfoAssetPopover triggerDiv>
               <p>
                 <span className="font-bold block mb-5">ทรัพย์สินอื่น</span>
                 คือทรัพย์สินที่นอกจากที่ระบุ ในรายการทรัพย์สินที่ 1-8

@@ -106,12 +106,9 @@ export const generateNamesAndId = async () => {
 // ██║     ███████╗██║  ██║███████║╚██████╔╝██║ ╚████║██║  ██║███████╗    ██║██║ ╚████║██║     ╚██████╔╝
 // ╚═╝     ╚══════╝╚═╝  ╚═╝╚══════╝ ╚═════╝ ╚═╝  ╚═══╝╚═╝  ╚═╝╚══════╝    ╚═╝╚═╝  ╚═══╝╚═╝      ╚═════╝
 
-const DATA_PERSONAL_INFO = await aq.loadCSV(
-  "data/raw/political_office_holder.csv"
-);
+const DATA_PERSONAL_INFO = await aq.loadCSV("data/raw/political_office_holder.csv");
 const DATA_PERSONAL_INFO_TRANSFORMED = DATA_PERSONAL_INFO.derive({
-  full_name: (d) =>
-    op.replace(d.first_name_th + " " + d.last_name_th, /\s+/g, "-")
+  full_name: (d) => op.replace(d.first_name_th + " " + d.last_name_th, /\s+/g, "-"),
 }).select("position", "full_name", "age", "previous_jobs");
 
 /**
@@ -138,7 +135,7 @@ const getPersonalData = async (name) => {
           /None/g,
           "null"
         ) ?? "[]"
-      )
+      ),
     };
   }
 
@@ -155,7 +152,7 @@ const getPersonalData = async (name) => {
 const DATA_RELATIONSHIP_KEY = await aq.loadCSV("data/raw/relationship.csv");
 const DATA_RELATIVE_INFO = await aq.loadCSV("data/raw/relative_info.csv");
 const DATA_RELATIONSHIP_NORMALIZED = DATA_RELATIVE_INFO.derive({
-  full_name: (d) => d.first_name + " " + d.last_name
+  full_name: (d) => d.first_name + " " + d.last_name,
 })
   .join_left(DATA_RELATIONSHIP_KEY, "relationship_id")
   .select("nacc_id", "full_name", "relationship_name");
@@ -183,32 +180,23 @@ export const getRelationship = async (nacc_id) => {
 const DATA_LAW_SEC = await aq.loadCSV("data/raw/sec.csv");
 const DATA_LAW_JUDGEMENT = await aq.loadCSV("data/raw/judgement.csv");
 const DATA_LAW_NACC = await aq.loadCSV("data/raw/nacc_culpability.csv", {
-  parse: { note: String }
+  parse: { note: String },
 });
 
 const DATA_LAW_SEC_TRANSFORMED = DATA_LAW_SEC.derive({
-  full_name: (d) =>
-    op.replace(d.person_name + " " + d.person_surname, /\s+/g, "-")
+  full_name: (d) => op.replace(d.person_name + " " + d.person_surname, /\s+/g, "-"),
 });
 const DATA_LAW_JUDGEMENT_TRANSFORMED_1 = DATA_LAW_JUDGEMENT.derive({
   full_name: (d) =>
-    op.replace(
-      d.defendant_first_name1 + " " + d.defendant_last_name1,
-      /\s+/g,
-      "-"
-    )
+    op.replace(d.defendant_first_name1 + " " + d.defendant_last_name1, /\s+/g, "-"),
 });
 const DATA_LAW_JUDGEMENT_TRANSFORMED_2 = DATA_LAW_JUDGEMENT.derive({
   full_name: (d) =>
-    op.replace(
-      d.defendant_first_name2 + " " + d.defendant_last_name2,
-      /\s+/g,
-      "-"
-    )
+    op.replace(d.defendant_first_name2 + " " + d.defendant_last_name2, /\s+/g, "-"),
 });
 const DATA_LAW_NACC_TRANSFORMED = DATA_LAW_NACC.derive({
   full_name: (d) =>
-    op.replace(d.accused_first_name + " " + d.accused_last_name, /\s+/g, "-")
+    op.replace(d.accused_first_name + " " + d.accused_last_name, /\s+/g, "-"),
 });
 
 /**
@@ -232,7 +220,7 @@ export const getLawsuit = async (name) => {
   return {
     sec,
     judgement: [...judgement1, ...judgement2],
-    nacc
+    nacc,
   };
 };
 
@@ -244,115 +232,130 @@ export const getLawsuit = async (name) => {
 // ╚═╝  ╚═╝╚══════╝╚══════╝╚══════╝   ╚═╝
 
 let DATA = {
-  ASSET: await aq.loadCSV("data/raw/asset.csv").then((value)=>value.derive({
-    actor: (d)=>{
-      return d.owner_by_submitter ?
-      "ผู้ยื่น": d.owner_by_spouse ? 
-      "คู่สมรส": d.owner_by_child ? 
-      "บุตร": "ไม่ระบุ"
-    },
-    name: (d)=> d.asset_name,
-    value: (d)=> op.parse_float(op.replace(d.valuation,/,/g,"")),
-    acquiring_year: (d) => {
-      let year = op.parse_int(d.acquiring_year);
-      return year < 2200 ? year + 543 : year;
-    },
-    asset_year: (d) => {
-      let year = op.year(d.latest_submitted_date);
-      return year < 2200 ? year + 543 : year;
-    },
-    receiveDate: (d)=> {
-      let year = op.year(d.latest_submitted_date) < 2200 ? op.year(d.latest_submitted_date) + 543 : op.year(d.latest_submitted_date);
-      return `${op.date(d.latest_submitted_date)}/${op.month(d.latest_submitted_date)}/${year}`
-    }
-  })),
-  ASSET_LAND_INFO: await aq.loadCSV("data/raw/asset_land_info.csv").then(value=>value.derive({
-    address_land: (d)=> {
-      return `${d.sub_district} ${d.district} ${d.province}`
-    },
-  })),
-  ASSET_BUILDING_INFO: await aq.loadCSV("data/raw/asset_building_info.csv").then(value=>value.derive({
-    address_building: (d)=> {
-      return `${d.sub_district} ${d.district} ${d.province}`
-    },
-  })),
-  ASSET_OTHER_ASSET_INFO: await aq.loadCSV(
-    "data/raw/asset_other_asset_info.csv"
+  ASSET: await aq.loadCSV("data/raw/asset.csv").then((value) =>
+    value.derive({
+      actor: (d) => {
+        return d.owner_by_submitter
+          ? "ผู้ยื่น"
+          : d.owner_by_spouse
+          ? "คู่สมรส"
+          : d.owner_by_child
+          ? "บุตร"
+          : "ไม่ระบุ";
+      },
+      name: (d) => d.asset_name,
+      value: (d) => op.parse_float(op.replace(d.valuation, /,/g, "")),
+      acquiring_year: (d) => {
+        let year = op.parse_int(d.acquiring_year);
+        return year < 2200 ? year + 543 : year;
+      },
+      asset_year: (d) => {
+        let year = op.year(d.latest_submitted_date);
+        return year < 2200 ? year + 543 : year;
+      },
+      receiveDate: (d) => {
+        if (!(d.acquiring_year && d.acquiring_date && d.acquiring_month))
+          return undefined;
+        let year = d.acquiring_year < 2200 ? d.acquiring_year + 543 : d.acquiring_year;
+        return `${d.acquiring_date}/${d.acquiring_month}/${year}`;
+      },
+      endDate: (d) => {
+        if (!(d.ending_year && d.ending_date && d.ending_month)) return undefined;
+        let year = d.ending_year < 2200 ? d.ending_year + 543 : d.ending_year;
+        return `${d.ending_date}/${d.ending_month}/${year}`;
+      },
+    })
   ),
-  ASSET_VEHICLE_INFO: await aq.loadCSV("data/raw/asset_vehicle_info.csv").then(value=>value.derive({
-    plate: (d)=> d.registration_number,
-  })),
+  ASSET_LAND_INFO: await aq.loadCSV("data/raw/asset_land_info.csv").then((value) =>
+    value.derive({
+      address_land: (d) => {
+        return `${d.sub_district} ${d.district} ${d.province}`;
+      },
+    })
+  ),
+  ASSET_BUILDING_INFO: await aq
+    .loadCSV("data/raw/asset_building_info.csv")
+    .then((value) =>
+      value.derive({
+        address_building: (d) => {
+          return `${d.sub_district} ${d.district} ${d.province}`;
+        },
+      })
+    ),
+  ASSET_OTHER_ASSET_INFO: await aq.loadCSV("data/raw/asset_other_asset_info.csv"),
+  ASSET_VEHICLE_INFO: await aq.loadCSV("data/raw/asset_vehicle_info.csv").then((value) =>
+    value.derive({
+      plate: (d) => d.registration_number,
+    })
+  ),
 
   // lookup
-  ASSET_ACQUISITION_TYPE: await aq.loadCSV(
-    "data/raw/asset_acquisition_type.csv"
-  ),
+  ASSET_ACQUISITION_TYPE: await aq.loadCSV("data/raw/asset_acquisition_type.csv"),
   ASSET_TYPE: await aq.loadCSV("data/raw/asset_type.csv"),
 
   // statement
-  STATEMENT: await aq.loadCSV(
-    "data/raw/statement.csv"
-  ).then((value)=>value.derive({
-    asset_year: (d) => {
-      let year = op.year(d.latest_submitted_date);
-      return year < 2200 ? year + 543 : year;
-    },
-    total: (d)=> {
-      return op.parse_float(op.replace(d.valuation_submitter,/,/g,""))+
-        op.parse_float(op.replace(d.valuation_spouse,/,/g,""))+
-        op.parse_float(op.replace(d.valuation_child,/,/g,""))
-    }
-  })),
+  STATEMENT: await aq.loadCSV("data/raw/statement.csv").then((value) =>
+    value.derive({
+      asset_year: (d) => {
+        let year = op.year(d.latest_submitted_date);
+        return year < 2200 ? year + 543 : year;
+      },
+      total: (d) => {
+        return (
+          op.parse_float(op.replace(d.valuation_submitter, /,/g, "")) +
+          op.parse_float(op.replace(d.valuation_spouse, /,/g, "")) +
+          op.parse_float(op.replace(d.valuation_child, /,/g, ""))
+        );
+      },
+    })
+  ),
 
-  STATEMENT_DETAIL: await aq.loadCSV(
-    "data/raw/statement_detail.csv"
-  ).then((value)=>value.derive({
-    asset_year: (d) => {
-      let year = op.year(d.latest_submitted_date);
-      return year < 2200 ? year + 543 : year;
-    },
-    total: (d)=> {
-      return op.parse_float(op.replace(d.valuation_submitter,/,/g,""))+
-        op.parse_float(op.replace(d.valuation_spouse,/,/g,""))+
-        op.parse_float(op.replace(d.valuation_successor,/,/g,""))
-    }
-  })),
+  STATEMENT_DETAIL: await aq.loadCSV("data/raw/statement_detail.csv").then((value) =>
+    value.derive({
+      asset_year: (d) => {
+        let year = op.year(d.latest_submitted_date);
+        return year < 2200 ? year + 543 : year;
+      },
+      total: (d) => {
+        return (
+          op.parse_float(op.replace(d.valuation_submitter, /,/g, "")) +
+          op.parse_float(op.replace(d.valuation_spouse, /,/g, "")) +
+          op.parse_float(op.replace(d.valuation_successor, /,/g, ""))
+        );
+      },
+    })
+  ),
 
   // statement lookup
-  STATEMENT_TYPE: await aq.loadCSV(
-    "data/raw/statement_type.csv"
-  ),
-  STATEMENT_DETAIL_TYPE: await aq.loadCSV(
-    "data/raw/statement_detail_type.csv"
-  ),
+  STATEMENT_TYPE: await aq.loadCSV("data/raw/statement_type.csv"),
+  STATEMENT_DETAIL_TYPE: await aq.loadCSV("data/raw/statement_detail_type.csv"),
 };
 
-const ASSET_CATEGORY = DATA.ASSET_TYPE.dedupe(
+const ASSET_CATEGORY = DATA.ASSET_TYPE.dedupe("asset_type_main_type_name").array(
   "asset_type_main_type_name"
-).array("asset_type_main_type_name");
+);
 
 /**
  * @param {number} [nacc_id]
  * @returns {Promise<Object.<string, any>[]>}
  */
 export const getAsset = async (nacc_id) => {
-  if (!nacc_id) return [];
+  if (!nacc_id) return {};
 
-  let assets = DATA.ASSET
-    .params({ nacc_id })
+  let assets = DATA.ASSET.params({ nacc_id })
     .filter((d) => op.equal(d.nacc_id, nacc_id))
     .orderby("asset_year");
   let asset_building_info = DATA.ASSET_BUILDING_INFO.params({
-    nacc_id
+    nacc_id,
   }).filter((d) => op.equal(d.nacc_id, nacc_id));
   let asset_land_info = DATA.ASSET_LAND_INFO.params({ nacc_id }).filter((d) =>
     op.equal(d.nacc_id, nacc_id)
   );
   let asset_other_asset_info = DATA.ASSET_OTHER_ASSET_INFO.params({
-    nacc_id
+    nacc_id,
   }).filter((d) => op.equal(d.nacc_id, nacc_id));
-  let asset_vehicle_info = DATA.ASSET_VEHICLE_INFO.params({ nacc_id }).filter(
-    (d) => op.equal(d.nacc_id, nacc_id)
+  let asset_vehicle_info = DATA.ASSET_VEHICLE_INFO.params({ nacc_id }).filter((d) =>
+    op.equal(d.nacc_id, nacc_id)
   );
 
   let all_assets = assets
@@ -364,53 +367,102 @@ export const getAsset = async (nacc_id) => {
     .join_left(DATA.ASSET_ACQUISITION_TYPE, "asset_acquisition_type_id")
     .orderby("asset_id")
     .derive({
-      type: (d)=>d.asset_type_sub_type_name,
-      receiveFrom: (d)=>d.asset_acquisition_type_name,
-      address: (d)=> {
-        if(d.address_land) 
-          return d.address_land
-        if(d.address_building) 
-          return d.address_building
-        return ""
+      type: (d) => d.asset_type_sub_type_name,
+      receiveFrom: (d) => d.asset_acquisition_type_name,
+      address: (d) => {
+        if (d.address_land) return d.address_land;
+        if (d.address_building) return d.address_building;
+        return "";
+      },
+    });
+
+  let statement_detail = DATA.STATEMENT_DETAIL.params({ nacc_id })
+    .filter((d) => op.equal(d.nacc_id, nacc_id))
+    .join_left(DATA.STATEMENT_DETAIL_TYPE, "statement_detail_type_id");
+
+  let assetData = {};
+  ASSET_CATEGORY.forEach((cat) => {
+    assetData[cat] = {};
+    let allSubType = DATA.ASSET_TYPE.params({ cat })
+      .filter((d) => op.equal(d.asset_type_main_type_name, cat))
+      .array("asset_type_sub_type_name");
+    allSubType.forEach((sub_cat) => {
+      if (cat === "ทรัพย์สินอื่น") {
+        assetData[cat][sub_cat] = all_assets
+          .params({ cat, sub_cat })
+          .filter(
+            (d) =>
+              op.equal(d.asset_type_main_type_name, cat) &&
+              op.equal(d.asset_type_sub_type_name, sub_cat)
+          )
+          .select(
+            "actor",
+            "value",
+            "type",
+            "name",
+            "address",
+            "land_doc_number",
+            "building_doc_number",
+            "count",
+            "registration_number",
+            "receiveDate",
+            "endDate",
+            "receiveFrom",
+            "province"
+          )
+          .objects();
+      } else {
+        assetData[cat] = all_assets
+          .params({ cat })
+          .filter((d) => op.equal(d.asset_type_main_type_name, cat))
+          .select(
+            "actor",
+            "value",
+            "type",
+            "name",
+            "address",
+            "land_doc_number",
+            "building_doc_number",
+            "count",
+            "registration_number",
+            "receiveDate",
+            "endDate",
+            "receiveFrom",
+            "province"
+          )
+          .objects();
       }
     });
+  });
 
-  let statement_detail = DATA.STATEMENT_DETAIL.params({ nacc_id }).filter(
-      (d) => op.equal(d.nacc_id, nacc_id)
-  ).join_left(DATA.STATEMENT_DETAIL_TYPE,'statement_detail_type_id');
-
-  let yearUnique = all_assets.dedupe("asset_year").array("asset_year")
-  let assetData = {};
-  yearUnique.forEach((year)=>{
-    assetData[year] = {}
-    ASSET_CATEGORY.forEach((cat) => {
-      assetData[year][cat] = {}
-      let allSubType =  DATA.ASSET_TYPE.params({cat}).filter((d)=>op.equal(d.asset_type_main_type_name,cat)).array("asset_type_sub_type_name")
-      allSubType.forEach((sub_cat)=>{
-        assetData[year][cat][sub_cat] = all_assets.params({ year, cat, sub_cat })
-          .filter((d) => op.equal(d.asset_year, year) 
-            && op.equal(d.asset_type_main_type_name, cat) 
-            && op.equal(d.asset_type_sub_type_name, sub_cat))
-          .select("actor","value",'type','name','address','land_doc_number','building_doc_number','count','registration_number','receiveDate','receiveFrom')
-          .objects()
+  // statement
+  ["เงินสด", "เงินฝาก", "เงินลงทุน", "เงินให้กู้ยืม"].forEach((type) => {
+    assetData[type] = statement_detail
+      .params({ type })
+      .filter((d) => op.equal(d.statement_detail_sub_type_name, type))
+      .derive({
+        valuation_submitter: (d) =>
+          d.valuation_submitter
+            ? op.parse_float(op.replace(d.valuation_submitter, /,/g, ""))
+            : null,
+        valuation_spouse: (d) =>
+          d.valuation_spouse
+            ? op.parse_float(op.replace(d.valuation_spouse, /,/g, ""))
+            : null,
+        valuation_successor: (d) =>
+          d.valuation_successor
+            ? op.parse_float(op.replace(d.valuation_successor, /,/g, ""))
+            : null,
       })
-    });
-
-    // statement
-    ["เงินสด","เงินฝาก","เงินลงทุน","เงินให้กู้ยืม"].forEach((type)=>{
-      assetData[year][type] = statement_detail.params({year,type})
-        .filter((d)=> op.equal(d.asset_year, year) 
-          && op.equal(d.statement_detail_sub_type_name,type))
-        .select(
-          "valuation_submitter",
-          "valuation_spouse",
-          "valuation_successor",
-          "total",
-          "note"
-        )
-        .objects()
-    })
-  })
+      .select(
+        "valuation_submitter",
+        "valuation_spouse",
+        "valuation_successor",
+        "total",
+        "note"
+      )
+      .objects();
+  });
 
   return assetData;
 };
@@ -421,30 +473,38 @@ export const getAsset = async (nacc_id) => {
  */
 export const getStatement = async (nacc_id) => {
   // statement
-  let all_statement = DATA.STATEMENT.params({ nacc_id }).filter(
-    (d) => op.equal(d.nacc_id, nacc_id)
-  ).join_left(DATA.STATEMENT_TYPE,"statement_type_id");
+  let all_statement = DATA.STATEMENT.params({ nacc_id })
+    .filter((d) => op.equal(d.nacc_id, nacc_id))
+    .join_left(DATA.STATEMENT_TYPE, "statement_type_id");
 
-  let yearUnique = all_statement.dedupe("asset_year").array("asset_year")
   let statementData = {};
-  let statementTypeUnique = all_statement.dedupe("statement_type_name").array("statement_type_name")
-  yearUnique.forEach((year)=>{
-    statementData[year] = {}
-    statementTypeUnique.forEach((type)=>{
-      statementData[year][type] = all_statement.params({year,type})
-      .filter((d)=>op.equal(d.asset_year,year) && op.equal(d.statement_type_name,type))
-      .select(
-        "valuation_submitter",
-        "valuation_spouse",
-        "valuation_child",
-        "total",
-      )
-      .objects()
-    })
-    
-  })
-  return statementData
-}
+  let statementTypeUnique = all_statement
+    .dedupe("statement_type_name")
+    .array("statement_type_name");
+
+  statementTypeUnique.forEach((type) => {
+    statementData[type] = all_statement
+      .params({ type })
+      .filter((d) => op.equal(d.statement_type_name, type))
+      .derive({
+        valuation_submitter: (d) =>
+          d.valuation_submitter
+            ? op.parse_float(op.replace(d.valuation_submitter, /,/g, ""))
+            : null,
+        valuation_spouse: (d) =>
+          d.valuation_spouse
+            ? op.parse_float(op.replace(d.valuation_spouse, /,/g, ""))
+            : null,
+        valuation_child: (d) =>
+          d.valuation_child
+            ? op.parse_float(op.replace(d.valuation_child, /,/g, ""))
+            : null,
+      })
+      .select("valuation_submitter", "valuation_spouse", "valuation_child", "total")
+      .objects();
+  });
+  return statementData;
+};
 
 // ██████╗  ██████╗ ███╗   ██╗ █████╗ ████████╗██╗ ██████╗ ███╗   ██╗
 // ██╔══██╗██╔═══██╗████╗  ██║██╔══██╗╚══██╔══╝██║██╔═══██╗████╗  ██║
@@ -464,7 +524,7 @@ const getPersonDonation = async (name) => {
       .select("year", "month", "party", "amount")
       .rename({ amount: "amount", year: "_year" })
       .derive({
-        year: (d) => d._year + 543
+        year: (d) => d._year + 543,
       })
       .orderby("year", "month")
       // .groupby("year", "month", "party")
@@ -485,9 +545,7 @@ const getPersonDonation = async (name) => {
 export const createShareholderTable = async () => {
   const files = await fs.readdir("data/raw");
   const filePaths = files
-    .filter((file) =>
-      file.toLowerCase().includes("commitee_shareholder_split_")
-    )
+    .filter((file) => file.toLowerCase().includes("commitee_shareholder_split_"))
     .map((file) => path.join("data/raw", file));
 
   let tables = [];
@@ -509,12 +567,11 @@ const REDUCED_BUSINESS_INFO_TABLE = BUSINESS_INFO_TABLE.select(
   .rename({ name: "business_name", businessdomain: "type" })
   .dedupe();
 const REDUCED_SHAREHOLDER_TABLE = SHAREHOLDER_TABLE.rename({
-  position: "_position"
+  position: "_position",
 })
   .derive({
     full_name: (d) => op.replace(d.first_name + " " + d.last_name, /\s+/g, "-"),
-    position: (d) =>
-      d._position === "commitee" ? "คณะกรรมการบริษัท" : "ผู้ถือหุ้น"
+    position: (d) => (d._position === "commitee" ? "คณะกรรมการบริษัท" : "ผู้ถือหุ้น"),
   })
   .select("company_id", "full_name", "position")
   .dedupe();
@@ -547,11 +604,11 @@ export const generatePeople = async () => {
 
   await fs.writeFile(
     `src/data/people_nacc.json`,
-    JSON.stringify(has_nacc.map((e) => e.full_name))
+    JSON.stringify(has_nacc.map((e) => e.full_name).sort((a, z) => a.localeCompare(z)))
   );
   await fs.writeFile(
     `src/data/people_gen.json`,
-    JSON.stringify(non_nacc.map((e) => e.full_name))
+    JSON.stringify(non_nacc.map((e) => e.full_name).sort((a, z) => a.localeCompare(z)))
   );
 
   const namesAndId = [...has_nacc, ...non_nacc];
