@@ -15,7 +15,6 @@ const Slider = (props: Props) => {
     slides: {
       perView: "auto",
       spacing: 10,
-      origin: 0,
     },
     mode: "free-snap",
     slideChanged(slider) {

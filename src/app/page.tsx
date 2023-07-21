@@ -51,7 +51,7 @@ export default function Home() {
                 icon="/icons/person.svg"
               />
               <IndexDataCard
-                title="พรรคที่ได้รับบริจาคมากที่สุด"
+                title="มีรายได้มากที่สุด"
                 color="#ED1C24"
                 type="พรรค"
                 name="พลังประชารัฐ"
@@ -59,7 +59,7 @@ export default function Home() {
                 icon="/icons/person.svg"
               />
               <IndexDataCard
-                title="พรรคที่ได้รับบริจาคมากที่สุด"
+                title="มีความเกี่ยวข้องกับธุรกิจมากที่สุด"
                 color="#ED1C24"
                 type="พรรค"
                 name="พลังประชารัฐ"
@@ -67,15 +67,7 @@ export default function Home() {
                 icon="/icons/person.svg"
               />
               <IndexDataCard
-                title="พรรคที่ได้รับบริจาคมากที่สุด"
-                color="#ED1C24"
-                type="พรรค"
-                name="พลังประชารัฐ"
-                amount="500 ล้านบาท"
-                icon="/icons/person.svg"
-              />
-              <IndexDataCard
-                title="พรรคที่ได้รับบริจาคมากที่สุด"
+                title="เคยบริจาคให้พรรคการเมืองมากที่สุด"
                 color="#ED1C24"
                 type="พรรค"
                 name="พลังประชารัฐ"
@@ -115,7 +107,7 @@ export default function Home() {
                 icon="/icons/person.svg"
               />
               <IndexDataCard
-                title="พรรคที่ได้รับบริจาคมากที่สุด"
+                title="นิติบุคคลที่บริจาคให้พรรคการเมืองมากที่สุด"
                 color="#9B8CCD"
                 type="พรรค"
                 name="พลังประชารัฐ"
@@ -123,7 +115,7 @@ export default function Home() {
                 icon="/icons/person.svg"
               />
               <IndexDataCard
-                title="พรรคที่ได้รับบริจาคมากที่สุด"
+                title="นักการเมืองที่บริจาคเงินเยอะที่สุด"
                 color="#9B8CCD"
                 type="พรรค"
                 name="พลังประชารัฐ"
@@ -131,15 +123,7 @@ export default function Home() {
                 icon="/icons/person.svg"
               />
               <IndexDataCard
-                title="พรรคที่ได้รับบริจาคมากที่สุด"
-                color="#9B8CCD"
-                type="พรรค"
-                name="พลังประชารัฐ"
-                amount="500 ล้านบาท"
-                icon="/icons/person.svg"
-              />
-              <IndexDataCard
-                title="พรรคที่ได้รับบริจาคมากที่สุด"
+                title="บุคคลที่บริจาคเงินให้พรรคการเมืองมากที่สุด"
                 color="#9B8CCD"
                 type="พรรค"
                 name="พลังประชารัฐ"
