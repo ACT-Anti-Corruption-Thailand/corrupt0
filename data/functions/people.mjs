@@ -14,6 +14,7 @@ import { getDonationData } from "./donation.mjs";
 // ██║ ╚████║██║  ██║██║ ╚═╝ ██║███████╗    ██║██████╔╝
 // ╚═╝  ╚═══╝╚═╝  ╚═╝╚═╝     ╚═╝╚══════╝    ╚═╝╚═════╝
 
+const DATA_NACC_PDF = await aq.loadCSV("data/raw/nacc.csv");
 const DATA_NACC = await aq.loadCSV("data/raw/nacc_detail.csv");
 const DATA_HIGH_RANK = await aq.loadCSV(
   "data/raw/public_sector_high_ranking_officer.csv"
@@ -33,8 +34,39 @@ export const generateNamesAndId = async () => {
     full_name: (d) => op.replace(d.first_name + " " + d.last_name, /\s+/g, "-"),
   }).select("nacc_id", "full_name", "Position", "submitted_case", "Submitted_Date");
 
+  const nacc_pdf = DATA_NACC_PDF.derive({
+    full_name: (d) => op.replace(d.first_name + " " + d.last_name, /\s+/g, "-"),
+  }).select(
+    "full_name",
+    "position",
+    "document_submitted_type",
+    "submitted_date",
+    "pdf_disclosure_start_date"
+  );
+
   const nacc_names = nacc.select("full_name").dedupe();
-  const nacc_ids_by_names = nacc.groupby("full_name").objects({ grouped: "object" });
+  const nacc_ids_by_names = nacc
+    .join_left(
+      nacc_pdf,
+      (a, b) =>
+        op.equal(a.full_name, b.full_name) &&
+        op.equal(a.Position, b.position) &&
+        op.equal(a.submitted_case, b.document_submitted_type) &&
+        op.equal(a.Submitted_Date, b.submitted_date)
+    )
+    .rename({
+      full_name_1: "full_name",
+    })
+    .select(
+      "nacc_id",
+      "full_name",
+      "Position",
+      "submitted_case",
+      "Submitted_Date",
+      "pdf_disclosure_start_date"
+    )
+    .groupby("full_name")
+    .objects({ grouped: "object" });
 
   // HIGH RANK
   const high_rank_names = DATA_HIGH_RANK.rename({ full_name: "_full_name" })
@@ -622,7 +654,12 @@ export const generatePeople = async () => {
       ? Object.fromEntries(
           nacc_id.map((e) => [
             e.nacc_id,
-            { position: e.Position, case: e.submitted_case, date: e.Submitted_Date },
+            {
+              position: e.Position,
+              case: e.submitted_case,
+              date: e.Submitted_Date,
+              pdf: e.pdf_disclosure_start_date,
+            },
           ])
         )
       : undefined;

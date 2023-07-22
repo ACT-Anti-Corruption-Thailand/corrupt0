@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import InfoAssetMain from "@/components/Info/Asset/Main";
 import InfoAssetPopover from "@/components/Info/Asset/Popover";
 import Image from "next/image";
+import DownloadMenu from "@/components/Info/DownloadMenu";
 
 import PEOPLE_NACC from "@/data/people_nacc.json";
 
@@ -187,13 +188,7 @@ export default function Asset({ params }: AssetPageProps) {
       />
 
       <div className="flex gap-5 mt-10 mb-20 max-w-[850px] mx-auto">
-        <button
-          type="button"
-          className="b4 flex-1 flex gap-5 p-5 items-center border border-gray-6 justify-center rounded-5"
-        >
-          <Image src="/icons/pdf.svg" alt="" width={20} height={20} />
-          <span>ดูเอกสารจริง</span>
-        </button>
+        <DownloadMenu data={nacc} />
         <button
           type="button"
           className="b4 flex-1 flex gap-5 p-5 items-center border border-gray-6 justify-center rounded-5"
