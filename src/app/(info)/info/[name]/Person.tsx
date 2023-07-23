@@ -57,6 +57,7 @@ export default function Person({ params }: { params: { name: string } }) {
     business,
     statement,
     nacc,
+    topAssets,
   } = politicianData;
 
   const { sec, judgement, nacc: nacc_lawsuit } = politicianData.lawsuit;
@@ -93,14 +94,19 @@ export default function Person({ params }: { params: { name: string } }) {
     hasCorrupt0Page(getFileName(b.business_name))
   ).length;
 
+  const NACC_YEAR = Object.fromEntries(
+    Object.entries(nacc).map((e) => [
+      e[0],
+      new Date((e[1] as { date: number })?.date).getFullYear() + 543,
+    ])
+  );
+
   const YEARS: DropdownDetailedData[] = Object.keys(nacc).map((nacc_id) => ({
     data: nacc_id,
     label: (
       <>
-        <span className="b5 font-bold">
-          {new Date(nacc[nacc_id]?.date).getFullYear() + 543}
-        </span>{" "}
-        ({nacc[nacc_id]?.case.replace("กรณี", "")}
+        <span className="b5 font-bold">{NACC_YEAR[nacc_id]}</span> (
+        {nacc[nacc_id]?.case.replace("กรณี", "")}
         {nacc[nacc_id]?.position})
       </>
     ),
@@ -384,6 +390,8 @@ export default function Person({ params }: { params: { name: string } }) {
           compareYears={COMPARE_YEARS}
           spouseCount={SPOUSE_COUNT}
           childCount={CHILD_COUNT}
+          assetsData={topAssets}
+          naccYear={NACC_YEAR}
         />
 
         {/* ปุ่มเอกสาร */}

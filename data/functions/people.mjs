@@ -499,6 +499,40 @@ export const getAsset = async (nacc_id) => {
   return assetData;
 };
 
+const getTopAsset = (assetData) => {
+  const ที่ดิน = assetData["ที่ดิน"];
+  const โรงเรือนและสิ่งปลูกสร้าง = assetData["โรงเรือนและสิ่งปลูกสร้าง"];
+  const ยานพาหนะ = assetData["ยานพาหนะ"];
+  const สิทธิและสัมปทาน = assetData["สิทธิและสัมปทาน"];
+  const ทรัพย์สินอื่น = Object.values(assetData["ทรัพย์สินอื่น"]);
+  const เงินสด = assetData["เงินสด"];
+  const เงินฝาก = assetData["เงินฝาก"];
+  const เงินลงทุน = assetData["เงินลงทุน"];
+  const เงินให้กู้ยืม = assetData["เงินให้กู้ยืม"];
+
+  const all = [
+    ...ที่ดิน,
+    ...โรงเรือนและสิ่งปลูกสร้าง,
+    ...ยานพาหนะ,
+    ...สิทธิและสัมปทาน,
+    ...ทรัพย์สินอื่น,
+    ...เงินสด,
+    ...เงินฝาก,
+    ...เงินลงทุน,
+    ...เงินให้กู้ยืม,
+  ];
+
+  const max = all.reduce(
+    (a, c) => {
+      if (c.value > a[0]) return [c.value, c];
+      return a;
+    },
+    [-Infinity, {}]
+  );
+
+  return max[1];
+};
+
 // ███████╗████████╗ █████╗ ████████╗███████╗███╗   ███╗███████╗███╗   ██╗████████╗███████╗
 // ██╔════╝╚══██╔══╝██╔══██╗╚══██╔══╝██╔════╝████╗ ████║██╔════╝████╗  ██║╚══██╔══╝██╔════╝
 // ███████╗   ██║   ███████║   ██║   █████╗  ██╔████╔██║█████╗  ██╔██╗ ██║   ██║   ███████╗
@@ -566,31 +600,6 @@ export const getStatement = async (nacc_id) => {
     tax?.valuation_child ?? "",
   ].map((e) => +e.replace(/,/g, ""));
 
-  // let statementTypeUnique = all_statement
-  //   .dedupe("statement_type_name")
-  //   .array("statement_type_name");
-
-  // statementTypeUnique.forEach((type) => {
-  //   statementData[type] = all_statement
-  //     .params({ type })
-  //     .filter((d) => op.equal(d.statement_type_name, type))
-  //     .derive({
-  //       valuation_submitter: (d) =>
-  //         d.valuation_submitter
-  //           ? op.parse_float(op.replace(d.valuation_submitter, /,/g, ""))
-  //           : null,
-  //       valuation_spouse: (d) =>
-  //         d.valuation_spouse
-  //           ? op.parse_float(op.replace(d.valuation_spouse, /,/g, ""))
-  //           : null,
-  //       valuation_child: (d) =>
-  //         d.valuation_child
-  //           ? op.parse_float(op.replace(d.valuation_child, /,/g, ""))
-  //           : null,
-  //     })
-  //     .select("valuation_submitter", "valuation_spouse", "valuation_child", "total")
-  //     .objects();
-  // });
   return statementData;
 };
 
@@ -747,6 +756,12 @@ export const generatePeople = async () => {
       statement[nid] = d;
     }
 
+    let topAssets = {};
+    for (let nid of nacc_ids) {
+      const d = await getTopAsset(assets[nid]);
+      topAssets[nid] = d;
+    }
+
     const data = {
       nacc: formattedNacc,
       ...person_data_json,
@@ -756,6 +771,7 @@ export const generatePeople = async () => {
       donation,
       business,
       statement,
+      topAssets,
     };
 
     await fs.writeFile(`src/data/info/${full_name}.json`, JSON.stringify(data));

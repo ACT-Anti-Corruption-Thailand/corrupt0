@@ -162,8 +162,8 @@ export const InfoFinancialSingleCard = ({
 };
 interface InfoFinancialCompareCardProps {
   name: string;
-  year1: string;
-  year2: string;
+  year1: string | number;
+  year2: string | number;
   max: number;
   data1: InfoFinanceStatement[];
   data2: InfoFinanceStatement[];

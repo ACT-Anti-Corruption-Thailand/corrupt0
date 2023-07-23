@@ -35,17 +35,6 @@ interface InfoFinancial {
   ภาษี: ActorSpouseChildArr;
 }
 
-const ASSETS: Record<string, TopPropertyData> = {
-  "2566": {
-    name: "ห้องชุดเพนท์เฮาส์",
-    price: 92_120_000,
-  },
-  "2562": {
-    name: "ห้องชุดเพนท์เฮาส์",
-    price: 92_120_000,
-  },
-};
-
 const calcMax = (
   compareYear: boolean,
   currentYearData: InfoFinancial,
@@ -99,6 +88,14 @@ interface InfoFinancialSectionProps {
   years: DropdownDetailedData[];
   compareYears: DropdownDetailedData[];
   data: Record<string, InfoFinancial>;
+  assetsData: Record<
+    string,
+    {
+      value: number;
+      name: string;
+    }
+  >;
+  naccYear: Record<string | number, number>;
 }
 
 export default function InfoFinancialSection({
@@ -108,6 +105,8 @@ export default function InfoFinancialSection({
   years,
   compareYears,
   data,
+  assetsData,
+  naccYear,
 }: InfoFinancialSectionProps) {
   const [showActor, setShowActor] = useState(true);
   const [showSpouse, setShowSpouse] = useState(true);
@@ -162,8 +161,8 @@ export default function InfoFinancialSection({
             <>
               <InfoFinancialCompareCard
                 name="ทรัพย์สิน"
-                year1={currentYear.data}
-                year2={compareYear.data}
+                year1={naccYear[currentYear.data]}
+                year2={naccYear[compareYear.data]}
                 data1={currentYearData.ทรัพย์สิน}
                 data2={compareYearData.ทรัพย์สิน}
                 max={max}
@@ -175,8 +174,8 @@ export default function InfoFinancialSection({
               />
               <InfoFinancialCompareCard
                 name="หนี้สิน"
-                year1={currentYear.data}
-                year2={compareYear.data}
+                year1={naccYear[currentYear.data]}
+                year2={naccYear[compareYear.data]}
                 data1={currentYearData.หนี้สิน}
                 data2={compareYearData.หนี้สิน}
                 max={max}
@@ -189,8 +188,8 @@ export default function InfoFinancialSection({
               />
               <InfoFinancialCompareCard
                 name="รายได้"
-                year1={currentYear.data}
-                year2={compareYear.data}
+                year1={naccYear[currentYear.data]}
+                year2={naccYear[compareYear.data]}
                 data1={currentYearData.รายได้}
                 data2={compareYearData.รายได้}
                 max={max}
@@ -202,8 +201,8 @@ export default function InfoFinancialSection({
               />
               <InfoFinancialCompareCard
                 name="รายจ่าย"
-                year1={currentYear.data}
-                year2={compareYear.data}
+                year1={naccYear[currentYear.data]}
+                year2={naccYear[compareYear.data]}
                 data1={currentYearData.รายจ่าย}
                 data2={compareYearData.รายจ่าย}
                 max={max}
@@ -215,8 +214,8 @@ export default function InfoFinancialSection({
                 lessIsBetter
               />
               <InfoFinancialCompareTaxCard
-                year1={currentYear.data}
-                year2={compareYear.data}
+                year1={naccYear[currentYear.data]}
+                year2={naccYear[compareYear.data]}
                 tax1={currentYearData.ภาษี}
                 tax2={compareYearData.ภาษี}
                 max={max}
@@ -270,13 +269,13 @@ export default function InfoFinancialSection({
 
       {/* เจาะลึกทรัพย์สิน */}
       {
-        // <TopAssetCard
-        //   name={name}
-        //   year1={currentYear.data}
-        //   year2={compareYear.data}
-        //   property1={ASSETS[currentYear.data]}
-        //   property2={ASSETS[compareYear.data]}
-        // />
+        <TopAssetCard
+          name={name}
+          year1={naccYear[currentYear.data]}
+          year2={naccYear[compareYear.data]}
+          property1={assetsData[currentYear.data]}
+          property2={assetsData[compareYear.data]}
+        />
       }
     </section>
   );

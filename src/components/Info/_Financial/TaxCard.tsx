@@ -142,8 +142,8 @@ export const InfoFinancialSingleTaxCard = ({
 };
 
 interface InfoFinancialCompareTaxCardProps {
-  year1: string;
-  year2: string;
+  year1: string | number;
+  year2: string | number;
   tax1: ActorSpouseChildArr;
   tax2: ActorSpouseChildArr;
   max: number;

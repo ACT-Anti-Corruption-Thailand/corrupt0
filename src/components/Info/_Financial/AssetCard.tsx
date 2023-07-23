@@ -6,14 +6,14 @@ import { thaiMoneyFormatter, formatThousands } from "@/functions/moneyFormatter"
 
 export interface TopPropertyData {
   name: string;
-  price: number;
+  value: number;
 }
 
 interface TopAssetCardProps {
   name: string;
-  year1: string;
+  year1: string | number;
   property1: TopPropertyData;
-  year2?: string;
+  year2?: string | number;
   property2?: TopPropertyData;
 }
 
@@ -24,9 +24,9 @@ export function TopAssetCard({
   year2,
   property2,
 }: TopAssetCardProps): JSX.Element {
-  const [p1price, p1unit] = thaiMoneyFormatter(property1.price);
+  const [p1price, p1unit] = thaiMoneyFormatter(property1.value);
   const [p2price, p2unit] = property2
-    ? thaiMoneyFormatter(property2.price)
+    ? thaiMoneyFormatter(property2.value)
     : [null, null];
 
   return (
