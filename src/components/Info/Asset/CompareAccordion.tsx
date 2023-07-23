@@ -7,6 +7,8 @@ import InfoAssetPopover from "./Popover";
 
 import type { ReactNode } from "react";
 
+const notUndefinedOrNull = (value: any) => value !== null && value !== undefined;
+
 export interface InfoAssetStatement {
   actor: "ผู้ยื่น" | "คู่สมรส" | "บุตร";
   value: number;
@@ -116,7 +118,9 @@ const DetailsFirstLine = ({ actor, name, value }: DetailsFirstLineProps) => {
         {actor}
       </span>
       {name && <span className="b5 ml-5">{name}</span>}
-      <span className="b5 font-bold ml-auto">{value.toLocaleString("th-TH")}</span>
+      {notUndefinedOrNull(value) && (
+        <span className="b5 font-bold ml-auto">{value.toLocaleString("th-TH")}</span>
+      )}
     </span>
   );
 };
@@ -175,7 +179,9 @@ const Cash = ({ name, statements1, statements2 }: CashProps) => {
           {statements1.map(({ value, actor }, i) => (
             <DetailsBlock key={i}>
               <DetailsActor actor={actor} />
-              <span className="b5 font-bold">{value.toLocaleString("th-TH")}</span>
+              {notUndefinedOrNull(value) && (
+                <span className="b5 font-bold">{value.toLocaleString("th-TH")}</span>
+              )}
             </DetailsBlock>
           ))}
         </ul>
@@ -184,7 +190,9 @@ const Cash = ({ name, statements1, statements2 }: CashProps) => {
           {statements2.map(({ value, actor }, i) => (
             <DetailsBlock key={i}>
               <DetailsActor actor={actor} />
-              <span className="b5 font-bold">{value.toLocaleString("th-TH")}</span>
+              {notUndefinedOrNull(value) && (
+                <span className="b5 font-bold">{value.toLocaleString("th-TH")}</span>
+              )}
             </DetailsBlock>
           ))}
         </ul>
@@ -247,7 +255,9 @@ const Land = ({ statements1, statements2 }: LandProps) => {
                     <DetailsListList label="การได้มา" value={receiveFrom} />
                   )}
                 </DetailsListContainer>
-                <span className="b5 font-bold">{value.toLocaleString("th-TH")}</span>
+                {notUndefinedOrNull(value) && (
+                  <span className="b5 font-bold">{value.toLocaleString("th-TH")}</span>
+                )}
               </DetailsBlock>
             )
           )}
@@ -271,7 +281,9 @@ const Land = ({ statements1, statements2 }: LandProps) => {
                     <DetailsListList label="การได้มา" value={receiveFrom} />
                   )}
                 </DetailsListContainer>
-                <span className="b5 font-bold">{value.toLocaleString("th-TH")}</span>
+                {notUndefinedOrNull(value) && (
+                  <span className="b5 font-bold">{value.toLocaleString("th-TH")}</span>
+                )}
               </DetailsBlock>
             )
           )}
@@ -324,7 +336,9 @@ const Concession = ({ statements1, statements2 }: ConcessionProps) => {
                   <DetailsListList label="วันที่สิ้นสุด" value={endDate} />
                 )}
               </DetailsListContainer>
-              <span className="b5 font-bold">{value.toLocaleString("th-TH")}</span>
+              {notUndefinedOrNull(value) && (
+                <span className="b5 font-bold">{value.toLocaleString("th-TH")}</span>
+              )}
             </DetailsBlock>
           ))}
         </ul>
@@ -346,7 +360,9 @@ const Concession = ({ statements1, statements2 }: ConcessionProps) => {
                   <DetailsListList label="วันที่สิ้นสุด" value={endDate} />
                 )}
               </DetailsListContainer>
-              <span className="b5 font-bold">{value.toLocaleString("th-TH")}</span>
+              {notUndefinedOrNull(value) && (
+                <span className="b5 font-bold">{value.toLocaleString("th-TH")}</span>
+              )}
             </DetailsBlock>
           ))}
         </ul>
@@ -409,7 +425,9 @@ const Building = ({ statements1, statements2 }: BuildingProps) => {
                   <DetailsListList label="วันที่ได้มา" value={receiveDate} />
                   <DetailsListList label="การได้มา" value={receiveFrom} />
                 </DetailsListContainer>
-                <span className="b5 font-bold">{value.toLocaleString("th-TH")}</span>
+                {notUndefinedOrNull(value) && (
+                  <span className="b5 font-bold">{value.toLocaleString("th-TH")}</span>
+                )}
               </DetailsBlock>
             )
           )}
@@ -441,7 +459,9 @@ const Building = ({ statements1, statements2 }: BuildingProps) => {
                   <DetailsListList label="วันที่ได้มา" value={receiveDate} />
                   <DetailsListList label="การได้มา" value={receiveFrom} />
                 </DetailsListContainer>
-                <span className="b5 font-bold">{value.toLocaleString("th-TH")}</span>
+                {notUndefinedOrNull(value) && (
+                  <span className="b5 font-bold">{value.toLocaleString("th-TH")}</span>
+                )}
               </DetailsBlock>
             )
           )}
@@ -489,7 +509,9 @@ const Vehicle = ({ statements1, statements2 }: VehicleProps) => {
                   <DetailsListList value={province} />
                   <DetailsListList label="วันที่ได้มา" value={receiveDate} />
                 </DetailsListContainer>
-                <span className="b5 font-bold">{value.toLocaleString("th-TH")}</span>
+                {notUndefinedOrNull(value) && (
+                  <span className="b5 font-bold">{value.toLocaleString("th-TH")}</span>
+                )}
               </DetailsBlock>
             )
           )}
@@ -506,7 +528,9 @@ const Vehicle = ({ statements1, statements2 }: VehicleProps) => {
                   <DetailsListList value={province} />
                   <DetailsListList label="วันที่ได้มา" value={receiveDate} />
                 </DetailsListContainer>
-                <span className="b5 font-bold">{value.toLocaleString("th-TH")}</span>
+                {notUndefinedOrNull(value) && (
+                  <span className="b5 font-bold">{value.toLocaleString("th-TH")}</span>
+                )}
               </DetailsBlock>
             )
           )}
@@ -565,7 +589,9 @@ const ValuableGroup = ({ name, statements1, statements2 }: ValuableGroupProps) =
                 <DetailsListList value={count} extension="หน่วย" />
                 <DetailsListList label="วันที่ได้มา" value={receiveDate} />
               </DetailsListContainer>
-              <span className="b5 font-bold">{value.toLocaleString("th-TH")}</span>
+              {notUndefinedOrNull(value) && (
+                <span className="b5 font-bold">{value.toLocaleString("th-TH")}</span>
+              )}
             </DetailsBlock>
           ))}
         </ul>
@@ -579,7 +605,9 @@ const ValuableGroup = ({ name, statements1, statements2 }: ValuableGroupProps) =
                 <DetailsListList value={count} extension="หน่วย" />
                 <DetailsListList label="วันที่ได้มา" value={receiveDate} />
               </DetailsListContainer>
-              <span className="b5 font-bold">{value.toLocaleString("th-TH")}</span>
+              {notUndefinedOrNull(value) && (
+                <span className="b5 font-bold">{value.toLocaleString("th-TH")}</span>
+              )}
             </DetailsBlock>
           ))}
         </ul>

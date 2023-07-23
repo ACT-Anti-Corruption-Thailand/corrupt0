@@ -595,6 +595,11 @@ export const getStatement = async (nacc_id) => {
     }));
   }
 
+  if (!("รายได้" in statementData)) statementData.รายได้ = [];
+  if (!("รายจ่าย" in statementData)) statementData.รายจ่าย = [];
+  if (!("ทรัพย์สิน" in statementData)) statementData.ทรัพย์สิน = [];
+  if (!("หนี้สิน" in statementData)) statementData.หนี้สิน = [];
+
   const tax = DATA.STATEMENT.params({ nacc_id })
     .filter(
       (d) => op.equal(d.nacc_id, nacc_id) && op.equal(d.statement_type_id, 5) // NOTE - Assuming that tax is always id 5

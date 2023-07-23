@@ -234,7 +234,9 @@ export default function Person({ params }: { params: { name: string } }) {
 
             {/* Jumpnav */}
             <section className="p-10 bg-white">
-              {nacc && <FinancialJumpnav latestStatement={latestStatement} />}
+              {nacc && latestStatement && (
+                <FinancialJumpnav latestStatement={latestStatement} />
+              )}
               {business.length > 0 && (
                 <a
                   className="block p-10 bg-black border-b border-b-gray-6"
