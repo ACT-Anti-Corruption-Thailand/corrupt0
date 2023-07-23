@@ -133,7 +133,7 @@ export default function Person({ params }: { params: { name: string } }) {
       }
       return a;
     },
-    [1, 1] // FIXME - ถ้าทำคู่สมรสแล้วเปลี่ยนเป็น [0, 0] ด้วย
+    [0, 0]
   );
 
   return (
