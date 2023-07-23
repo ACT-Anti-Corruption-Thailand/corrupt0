@@ -65,49 +65,62 @@ const COMPARE_YEARS: DropdownDetailedData[] = [
   ...YEARS,
 ];
 
-const DATA_2566: InfoFinancial = {
+const DATA_62: InfoFinancial = {
   property: [
-    { type: "ทรัพย์สิน 1", value: [1e7, 0, 1e6] },
-    { type: "ทรัพย์สิน 2", value: [1e7, 5e6, 0] },
+    { type: "เงินสด", value: [1e7 * 1.2, 0 * 0.8, 1e6] },
+    { type: "เงินฝาก", value: [1e7 * 1.2, 5e6 * 0.8, 0] },
+    { type: "เงินลงทุน", value: [1e7 * 1.2, 0 * 0.8, 1e6] },
+    { type: "เงินให้กู้ยืม", value: [1e7 * 1.2, 5e6 * 0.8, 0] },
+    { type: "ที่ดิน", value: [1e7 * 1.2, 0 * 0.8, 1e6] },
+    { type: "สิทธิและสัมปทาน", value: [1e7 * 1.2, 5e6 * 0.8, 0] },
   ],
   debt: [
-    { type: "หนี้สิน 1", value: [3e6, 0, 1e6] },
-    { type: "หนี้สิน 2", value: [3e6, 2e6, 0] },
+    { type: "เงินเบิกเกินบัญชี", value: [3e6, 0, 1e6] },
+    { type: "เงินกู้จากธนาคารและสถาบันการเงินอื่น", value: [3e6, 2e6, 0] },
+    { type: "หนี้สินอื่น", value: [3e6, 2e6, 0] },
   ],
   income: [
-    { type: "รายได้ 1", value: [3e6, 2e6, 1e6] },
-    { type: "รายได้ 2", value: [3e6, 2e6, 1e6] },
+    { type: "รายได้จากการรับให้", value: [3e6, 2e6, 1e6] },
+    { type: "รายได้จากการทำเกษตร", value: [3e6, 2e6, 1e6] },
+    { type: "รายได้อื่นๆ", value: [3e6, 2e6, 1e6] },
+  ],
+  expense: [{ type: "รายจ่ายประจำ", value: [1e7, 5e6, 1e6] }],
+  tax: [5e6, 5e6, 1e6],
+};
+
+const DATA_66: InfoFinancial = {
+  property: [
+    { type: "เงินสด", value: [1e7, 0, 1e6] },
+    { type: "เงินฝาก", value: [1e7, 5e6, 0] },
+    { type: "เงินลงทุน", value: [1e7, 0, 1e6] },
+    { type: "เงินให้กู้ยืม", value: [1e7, 5e6, 0] },
+    { type: "ที่ดิน", value: [1e7, 0, 1e6] },
+    { type: "โรงเรือนและสิ่งปลูกสร้าง", value: [1e7, 5e6, 0] },
+    { type: "ยานพาหนะ", value: [1e7, 0, 1e6] },
+    { type: "สิทธิและสัมปทาน", value: [1e7, 5e6, 0] },
+    { type: "ทรัพย์สินอื่น", value: [1e7, 0, 1e6] },
+  ],
+  debt: [
+    { type: "เงินเบิกเกินบัญชี", value: [3e6, 0, 1e6] },
+    { type: "เงินกู้จากธนาคารและสถาบันการเงินอื่น", value: [3e6, 2e6, 0] },
+    { type: "หนี้สินที่มีหลักฐานเป็นหนังสือ", value: [3e6, 0, 1e6] },
+    { type: "หนี้สินอื่น", value: [3e6, 2e6, 0] },
+  ],
+  income: [
+    { type: "รายได้ประจำ", value: [3e6, 2e6, 1e6] },
+    { type: "รายได้จากทรัพย์สิน", value: [3e6, 2e6, 1e6] },
+    { type: "รายได้อื่นๆ", value: [3e6, 2e6, 1e6] },
   ],
   expense: [
-    { type: "รายจ่าย 1", value: [1e7, 5e6, 1e6] },
-    { type: "รายจ่าย 2", value: [1e7, 5e6, 1e6] },
+    { type: "รายจ่ายประจำ", value: [1e7, 5e6, 1e6] },
+    { type: "รายจ่ายอื่นๆ", value: [1e7, 5e6, 1e6] },
   ],
   tax: [5e6, 5e6, 1e6],
 };
 
-const DATA_2562: InfoFinancial = {
-  property: [
-    { type: "ทรัพย์สิน 1", value: [1e7 * 0.9, 0, 1e6 * 0.9] },
-    { type: "ทรัพย์สิน 2", value: [1e7 * 0.9, 5e6 * 0.9, 0] },
-  ],
-  debt: [
-    { type: "หนี้สิน 1", value: [3e6 * 1.1, 0, 1e6 * 1.1] },
-    { type: "หนี้สิน 2", value: [3e6 * 1.1, 2e6 * 1.1, 0] },
-  ],
-  income: [
-    { type: "รายได้ 1", value: [3e6, 2e6, 1e6] },
-    { type: "รายได้ 2", value: [3e6, 2e6, 1e6] },
-  ],
-  expense: [
-    { type: "รายจ่าย 1", value: [1e7 * 1.1, 5e6 * 0.9, 1e6] },
-    { type: "รายจ่าย 2", value: [1e7 * 1.1, 5e6 * 0.9, 1e6] },
-  ],
-  tax: [5e6 * 1.1, 5e6 * 0.9, 1e6 * 1.1],
-};
-
 const DATA: Record<string, InfoFinancial> = {
-  "2566": DATA_2566,
-  "2562": DATA_2562,
+  "2566": DATA_66,
+  "2562": DATA_62,
 };
 
 const ASSETS: Record<string, TopPropertyData> = {

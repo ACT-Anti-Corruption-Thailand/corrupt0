@@ -1,7 +1,7 @@
 "use client";
 import clsx from "clsx";
 import { InfoFinancialChart } from "./Chart";
-import { InfoFinancialSingleDetails } from "./Details";
+import { InfoFinancialCompareDetails, InfoFinancialSingleDetails } from "./Details";
 import type { InfoFinanceStatement } from "./Section";
 import { f$, fP, safePercent } from "./Section";
 
@@ -278,12 +278,14 @@ export const InfoFinancialCompareCard = ({
             <span className="block b4 font-bold">{f$(data2Total)}</span>
           </div>
         </div>
-        {/* <InfoFinancialDetails
-                  data={data1}
-                  showActor={showActor}
-                  showSpouse={showSpouse && !!spouseCount}
-                  showChild={showChild && !!childCount}
-                /> */}
+        <InfoFinancialCompareDetails
+          data1={data1}
+          data2={data2}
+          showActor={showActor}
+          showSpouse={showSpouse && !!spouseCount}
+          showChild={showChild && !!childCount}
+          lessIsBetter={lessIsBetter}
+        />
       </section>
     </div>
   );
