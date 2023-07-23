@@ -499,42 +499,98 @@ export const getAsset = async (nacc_id) => {
   return assetData;
 };
 
+// ███████╗████████╗ █████╗ ████████╗███████╗███╗   ███╗███████╗███╗   ██╗████████╗███████╗
+// ██╔════╝╚══██╔══╝██╔══██╗╚══██╔══╝██╔════╝████╗ ████║██╔════╝████╗  ██║╚══██╔══╝██╔════╝
+// ███████╗   ██║   ███████║   ██║   █████╗  ██╔████╔██║█████╗  ██╔██╗ ██║   ██║   ███████╗
+// ╚════██║   ██║   ██╔══██║   ██║   ██╔══╝  ██║╚██╔╝██║██╔══╝  ██║╚██╗██║   ██║   ╚════██║
+// ███████║   ██║   ██║  ██║   ██║   ███████╗██║ ╚═╝ ██║███████╗██║ ╚████║   ██║   ███████║
+// ╚══════╝   ╚═╝   ╚═╝  ╚═╝   ╚═╝   ╚══════╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═══╝   ╚═╝   ╚══════╝
+
 /**
  * @param {number} [nacc_id]
  * @returns {Promise<Object.<string, any>[]>}
  */
 export const getStatement = async (nacc_id) => {
-  // statement
-  let all_statement = DATA.STATEMENT.params({ nacc_id })
-    .filter((d) => op.equal(d.nacc_id, nacc_id))
-    .join_left(DATA.STATEMENT_TYPE, "statement_type_id");
+  if (!nacc_id) return {};
 
   let statementData = {};
-  let statementTypeUnique = all_statement
-    .dedupe("statement_type_name")
-    .array("statement_type_name");
 
-  statementTypeUnique.forEach((type) => {
-    statementData[type] = all_statement
-      .params({ type })
-      .filter((d) => op.equal(d.statement_type_name, type))
-      .derive({
-        valuation_submitter: (d) =>
-          d.valuation_submitter
-            ? op.parse_float(op.replace(d.valuation_submitter, /,/g, ""))
-            : null,
-        valuation_spouse: (d) =>
-          d.valuation_spouse
-            ? op.parse_float(op.replace(d.valuation_spouse, /,/g, ""))
-            : null,
-        valuation_child: (d) =>
-          d.valuation_child
-            ? op.parse_float(op.replace(d.valuation_child, /,/g, ""))
-            : null,
-      })
-      .select("valuation_submitter", "valuation_spouse", "valuation_child", "total")
-      .objects();
-  });
+  statementData = DATA.STATEMENT_DETAIL.params({ nacc_id })
+    .filter((d) => op.equal(d.nacc_id, nacc_id))
+    .join_left(DATA.STATEMENT_DETAIL_TYPE, "statement_detail_type_id")
+    .select(
+      "valuation_submitter",
+      "valuation_spouse",
+      "valuation_successor",
+      "statement_type_id",
+      "statement_detail_sub_type_name"
+    )
+    .derive({
+      valuation_submitter: (d) =>
+        d.valuation_submitter
+          ? op.parse_float(op.replace(d.valuation_submitter, /,/g, ""))
+          : 0,
+      valuation_spouse: (d) =>
+        d.valuation_spouse ? op.parse_float(op.replace(d.valuation_spouse, /,/g, "")) : 0,
+      valuation_successor: (d) =>
+        d.valuation_successor
+          ? op.parse_float(op.replace(d.valuation_successor, /,/g, ""))
+          : 0,
+    })
+    .groupby("statement_type_id", "statement_detail_sub_type_name")
+    .rollup({
+      a: (d) => op.sum(d.valuation_submitter),
+      b: (d) => op.sum(d.valuation_spouse),
+      c: (d) => op.sum(d.valuation_successor),
+    })
+    .groupby("statement_type_id")
+    .objects({ grouped: "object" });
+
+  for (const catg in statementData) {
+    statementData[catg] = statementData[catg].map((e) => ({
+      type: e.statement_detail_sub_type_name,
+      value: [e.a, e.b, e.c],
+    }));
+  }
+
+  const tax = DATA.STATEMENT.params({ nacc_id })
+    .filter(
+      (d) => op.equal(d.nacc_id, nacc_id) && op.equal(d.statement_type_id, 5) // NOTE - Assuming that tax is always id 5
+    )
+    .select("valuation_submitter", "valuation_spouse", "valuation_child")
+    .objects()[0];
+
+  statementData["ภาษี"] = [
+    tax?.valuation_submitter ?? "",
+    tax?.valuation_spouse ?? "",
+    tax?.valuation_child ?? "",
+  ].map((e) => +e.replace(/,/g, ""));
+
+  // let statementTypeUnique = all_statement
+  //   .dedupe("statement_type_name")
+  //   .array("statement_type_name");
+
+  // statementTypeUnique.forEach((type) => {
+  //   statementData[type] = all_statement
+  //     .params({ type })
+  //     .filter((d) => op.equal(d.statement_type_name, type))
+  //     .derive({
+  //       valuation_submitter: (d) =>
+  //         d.valuation_submitter
+  //           ? op.parse_float(op.replace(d.valuation_submitter, /,/g, ""))
+  //           : null,
+  //       valuation_spouse: (d) =>
+  //         d.valuation_spouse
+  //           ? op.parse_float(op.replace(d.valuation_spouse, /,/g, ""))
+  //           : null,
+  //       valuation_child: (d) =>
+  //         d.valuation_child
+  //           ? op.parse_float(op.replace(d.valuation_child, /,/g, ""))
+  //           : null,
+  //     })
+  //     .select("valuation_submitter", "valuation_spouse", "valuation_child", "total")
+  //     .objects();
+  // });
   return statementData;
 };
 

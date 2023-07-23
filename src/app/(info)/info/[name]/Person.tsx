@@ -17,6 +17,7 @@ import POLITICIAN_IMAGES from "@/data/politicianImages.json";
 
 import { hasCorrupt0Page } from "@/functions/navigation";
 import { formatThousands } from "@/functions/moneyFormatter";
+import type { DropdownDetailedData } from "@/components/BareDropdown";
 
 // from /data/functions/business.mjs
 const getFileName = (formal_name: string) =>
@@ -47,11 +48,19 @@ export default function Person({ params }: { params: { name: string } }) {
     notFound();
   }
 
-  const { age, position, previous_jobs, relationship, donation, business } =
-    politicianData;
+  const {
+    age,
+    position,
+    previous_jobs,
+    relationship,
+    donation,
+    business,
+    statement,
+    nacc,
+  } = politicianData;
 
-  const { sec, judgement, nacc } = politicianData.lawsuit;
-  const totalLawsuit = sec.length + judgement.length + nacc.length;
+  const { sec, judgement, nacc: nacc_lawsuit } = politicianData.lawsuit;
+  const totalLawsuit = sec.length + judgement.length + nacc_lawsuit.length;
 
   const hasDonation = donation.length > 0;
   const donationAllYears = (
@@ -83,6 +92,40 @@ export default function Person({ params }: { params: { name: string } }) {
   const businessInCorrupt0 = business.filter((b: any) =>
     hasCorrupt0Page(getFileName(b.business_name))
   ).length;
+
+  const YEARS: DropdownDetailedData[] = Object.keys(nacc).map((nacc_id) => ({
+    data: nacc_id,
+    label: (
+      <>
+        <span className="b5 font-bold">
+          {new Date(nacc[nacc_id]?.date).getFullYear() + 543}
+        </span>{" "}
+        ({nacc[nacc_id]?.case.replace("กรณี", "")}
+        {nacc[nacc_id]?.position})
+      </>
+    ),
+  }));
+
+  const COMPARE_YEARS: DropdownDetailedData[] = [
+    {
+      data: null,
+      label: <span className="b6">เลือกปีเปรียบเทียบ</span>,
+    },
+    ...YEARS,
+  ];
+
+  const [SPOUSE_COUNT, CHILD_COUNT] = relationship.reduce(
+    (a: [number, number], c: { relationship_name: string }) => {
+      switch (c.relationship_name) {
+        case "บุตร":
+          return [a[0], a[1] + 1];
+        case "คู่สมรส":
+          return [a[0] + 1, a[1]];
+      }
+      return a;
+    },
+    [1, 1] // FIXME - ถ้าทำคู่สมรสแล้วเปลี่ยนเป็น [0, 0] ด้วย
+  );
 
   return (
     <main>
@@ -334,7 +377,14 @@ export default function Person({ params }: { params: { name: string } }) {
         }
       >
         {/* สถานะทางการเงิน */}
-        <InfoFinancialSection name={name} />
+        <InfoFinancialSection
+          name={name}
+          data={statement}
+          years={YEARS}
+          compareYears={COMPARE_YEARS}
+          spouseCount={SPOUSE_COUNT}
+          childCount={CHILD_COUNT}
+        />
 
         {/* ปุ่มเอกสาร */}
         <div className="flex gap-5 px-10 mb-10">
@@ -399,8 +449,8 @@ export default function Person({ params }: { params: { name: string } }) {
               <span className="w-auto">ข้อมูลคดีความ</span>
             </header>
             <div className="p-10 flex flex-col gap-5">
-              {nacc.length > 0 &&
-                nacc.map((e: any, i: number) => (
+              {nacc_lawsuit.length > 0 &&
+                nacc_lawsuit.map((e: any, i: number) => (
                   <InfoLawsuitCard.Nacc
                     key={i}
                     description={e.indicment}

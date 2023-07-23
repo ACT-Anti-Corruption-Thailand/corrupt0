@@ -28,100 +28,12 @@ export interface InfoFinanceStatement {
 }
 
 interface InfoFinancial {
-  property: InfoFinanceStatement[];
-  debt: InfoFinanceStatement[];
-  income: InfoFinanceStatement[];
-  expense: InfoFinanceStatement[];
-  tax: ActorSpouseChildArr;
+  ทรัพย์สิน: InfoFinanceStatement[];
+  หนี้สิน: InfoFinanceStatement[];
+  รายได้: InfoFinanceStatement[];
+  รายจ่าย: InfoFinanceStatement[];
+  ภาษี: ActorSpouseChildArr;
 }
-
-const SPOUSE_COUNT = 2;
-const CHILD_COUNT = 1;
-
-const YEARS: DropdownDetailedData[] = [
-  {
-    data: "2566",
-    label: (
-      <>
-        <span className="b5 font-bold">2566</span> (พ้นตำแหน่ง)
-      </>
-    ),
-  },
-  {
-    data: "2562",
-    label: (
-      <>
-        <span className="b5 font-bold">2562</span> (ดำรงตำแหน่ง)
-      </>
-    ),
-  },
-];
-
-const COMPARE_YEARS: DropdownDetailedData[] = [
-  {
-    data: null,
-    label: <span className="b6">เลือกปีเปรียบเทียบ</span>,
-  },
-  ...YEARS,
-];
-
-const DATA_62: InfoFinancial = {
-  property: [
-    { type: "เงินสด", value: [1e7 * 1.2, 0 * 0.8, 1e6] },
-    { type: "เงินฝาก", value: [1e7 * 1.2, 5e6 * 0.8, 0] },
-    { type: "เงินลงทุน", value: [1e7 * 1.2, 0 * 0.8, 1e6] },
-    { type: "เงินให้กู้ยืม", value: [1e7 * 1.2, 5e6 * 0.8, 0] },
-    { type: "ที่ดิน", value: [1e7 * 1.2, 0 * 0.8, 1e6] },
-    { type: "สิทธิและสัมปทาน", value: [1e7 * 1.2, 5e6 * 0.8, 0] },
-  ],
-  debt: [
-    { type: "เงินเบิกเกินบัญชี", value: [3e6, 0, 1e6] },
-    { type: "เงินกู้จากธนาคารและสถาบันการเงินอื่น", value: [3e6, 2e6, 0] },
-    { type: "หนี้สินอื่น", value: [3e6, 2e6, 0] },
-  ],
-  income: [
-    { type: "รายได้จากการรับให้", value: [3e6, 2e6, 1e6] },
-    { type: "รายได้จากการทำเกษตร", value: [3e6, 2e6, 1e6] },
-    { type: "รายได้อื่นๆ", value: [3e6, 2e6, 1e6] },
-  ],
-  expense: [{ type: "รายจ่ายประจำ", value: [1e7, 5e6, 1e6] }],
-  tax: [5e6, 5e6, 1e6],
-};
-
-const DATA_66: InfoFinancial = {
-  property: [
-    { type: "เงินสด", value: [1e7, 0, 1e6] },
-    { type: "เงินฝาก", value: [1e7, 5e6, 0] },
-    { type: "เงินลงทุน", value: [1e7, 0, 1e6] },
-    { type: "เงินให้กู้ยืม", value: [1e7, 5e6, 0] },
-    { type: "ที่ดิน", value: [1e7, 0, 1e6] },
-    { type: "โรงเรือนและสิ่งปลูกสร้าง", value: [1e7, 5e6, 0] },
-    { type: "ยานพาหนะ", value: [1e7, 0, 1e6] },
-    { type: "สิทธิและสัมปทาน", value: [1e7, 5e6, 0] },
-    { type: "ทรัพย์สินอื่น", value: [1e7, 0, 1e6] },
-  ],
-  debt: [
-    { type: "เงินเบิกเกินบัญชี", value: [3e6, 0, 1e6] },
-    { type: "เงินกู้จากธนาคารและสถาบันการเงินอื่น", value: [3e6, 2e6, 0] },
-    { type: "หนี้สินที่มีหลักฐานเป็นหนังสือ", value: [3e6, 0, 1e6] },
-    { type: "หนี้สินอื่น", value: [3e6, 2e6, 0] },
-  ],
-  income: [
-    { type: "รายได้ประจำ", value: [3e6, 2e6, 1e6] },
-    { type: "รายได้จากทรัพย์สิน", value: [3e6, 2e6, 1e6] },
-    { type: "รายได้อื่นๆ", value: [3e6, 2e6, 1e6] },
-  ],
-  expense: [
-    { type: "รายจ่ายประจำ", value: [1e7, 5e6, 1e6] },
-    { type: "รายจ่ายอื่นๆ", value: [1e7, 5e6, 1e6] },
-  ],
-  tax: [5e6, 5e6, 1e6],
-};
-
-const DATA: Record<string, InfoFinancial> = {
-  "2566": DATA_66,
-  "2562": DATA_62,
-};
 
 const ASSETS: Record<string, TopPropertyData> = {
   "2566": {
@@ -139,36 +51,36 @@ const calcMax = (
   currentYearData: InfoFinancial,
   compareYearData: InfoFinancial
 ) => {
-  const propertyMax = currentYearData.property
+  const propertyMax = currentYearData.ทรัพย์สิน
     .map((e) => e.value.reduce((a: number, c) => a + (c ?? 0), 0))
     .reduce((a, c) => a + c, 0);
-  const debtMax = currentYearData.debt
+  const debtMax = currentYearData.หนี้สิน
     .map((e) => e.value.reduce((a: number, c) => a + (c ?? 0), 0))
     .reduce((a, c) => a + c, 0);
-  const incomeMax = currentYearData.income
+  const incomeMax = currentYearData.รายได้
     .map((e) => e.value.reduce((a: number, c) => a + (c ?? 0), 0))
     .reduce((a, c) => a + c, 0);
-  const expenseMax = currentYearData.expense
+  const expenseMax = currentYearData.รายจ่าย
     .map((e) => e.value.reduce((a: number, c) => a + (c ?? 0), 0))
     .reduce((a, c) => a + c, 0);
-  const taxMax = currentYearData.tax.reduce((a: number, c) => a + (c ?? 0), 0);
+  const taxMax = currentYearData.ภาษี.reduce((a: number, c) => a + (c ?? 0), 0);
 
   const currentMax = Math.max(propertyMax, debtMax, incomeMax, expenseMax, taxMax);
   if (!compareYear) return currentMax;
 
-  const comparePropertyMax = compareYearData.property
+  const comparePropertyMax = compareYearData.ทรัพย์สิน
     .map((e) => e.value.reduce((a: number, c) => a + (c ?? 0), 0))
     .reduce((a, c) => a + c, 0);
-  const compareDebtMax = compareYearData.debt
+  const compareDebtMax = compareYearData.หนี้สิน
     .map((e) => e.value.reduce((a: number, c) => a + (c ?? 0), 0))
     .reduce((a, c) => a + c, 0);
-  const compareIncomeMax = compareYearData.income
+  const compareIncomeMax = compareYearData.รายได้
     .map((e) => e.value.reduce((a: number, c) => a + (c ?? 0), 0))
     .reduce((a, c) => a + c, 0);
-  const compareExpenseMax = compareYearData.expense
+  const compareExpenseMax = compareYearData.รายจ่าย
     .map((e) => e.value.reduce((a: number, c) => a + (c ?? 0), 0))
     .reduce((a, c) => a + c, 0);
-  const compareTaxMax = compareYearData.tax.reduce((a: number, c) => a + (c ?? 0), 0);
+  const compareTaxMax = compareYearData.ภาษี.reduce((a: number, c) => a + (c ?? 0), 0);
 
   return Math.max(
     currentMax,
@@ -180,16 +92,32 @@ const calcMax = (
   );
 };
 
-export default function InfoFinancialSection({ name }: { name: string }) {
+interface InfoFinancialSectionProps {
+  name: string;
+  spouseCount: number;
+  childCount: number;
+  years: DropdownDetailedData[];
+  compareYears: DropdownDetailedData[];
+  data: Record<string, InfoFinancial>;
+}
+
+export default function InfoFinancialSection({
+  name,
+  spouseCount,
+  childCount,
+  years,
+  compareYears,
+  data,
+}: InfoFinancialSectionProps) {
   const [showActor, setShowActor] = useState(true);
   const [showSpouse, setShowSpouse] = useState(true);
   const [showChild, setShowChild] = useState(true);
 
-  const [currentYear, setCurrentYear] = useState(YEARS[0]);
-  const [compareYear, setCompareYear] = useState(COMPARE_YEARS[0]);
+  const [currentYear, setCurrentYear] = useState(years[0]);
+  const [compareYear, setCompareYear] = useState(compareYears[0]);
 
-  const currentYearData = DATA[currentYear.data];
-  const compareYearData = DATA[compareYear.data];
+  const currentYearData = data[currentYear.data];
+  const compareYearData = data[compareYear.data];
 
   const max = calcMax(compareYear.data, currentYearData, compareYearData);
 
@@ -207,8 +135,8 @@ export default function InfoFinancialSection({ name }: { name: string }) {
         </div>
         <div className="flex mb-10 gap-10">
           <InfoFinancialDropdowns
-            data={YEARS}
-            compare={COMPARE_YEARS}
+            data={years}
+            compare={compareYears}
             currentYear={currentYear}
             setCurrentYear={setCurrentYear}
             compareYear={compareYear}
@@ -236,11 +164,11 @@ export default function InfoFinancialSection({ name }: { name: string }) {
                 name="ทรัพย์สิน"
                 year1={currentYear.data}
                 year2={compareYear.data}
-                data1={currentYearData.property}
-                data2={compareYearData.property}
+                data1={currentYearData.ทรัพย์สิน}
+                data2={compareYearData.ทรัพย์สิน}
                 max={max}
-                spouseCount={SPOUSE_COUNT}
-                childCount={CHILD_COUNT}
+                spouseCount={spouseCount}
+                childCount={childCount}
                 showActor={showActor}
                 showSpouse={showSpouse}
                 showChild={showChild}
@@ -249,11 +177,11 @@ export default function InfoFinancialSection({ name }: { name: string }) {
                 name="หนี้สิน"
                 year1={currentYear.data}
                 year2={compareYear.data}
-                data1={currentYearData.debt}
-                data2={compareYearData.debt}
+                data1={currentYearData.หนี้สิน}
+                data2={compareYearData.หนี้สิน}
                 max={max}
-                spouseCount={SPOUSE_COUNT}
-                childCount={CHILD_COUNT}
+                spouseCount={spouseCount}
+                childCount={childCount}
                 showActor={showActor}
                 showSpouse={showSpouse}
                 showChild={showChild}
@@ -263,11 +191,11 @@ export default function InfoFinancialSection({ name }: { name: string }) {
                 name="รายได้"
                 year1={currentYear.data}
                 year2={compareYear.data}
-                data1={currentYearData.income}
-                data2={compareYearData.income}
+                data1={currentYearData.รายได้}
+                data2={compareYearData.รายได้}
                 max={max}
-                spouseCount={SPOUSE_COUNT}
-                childCount={CHILD_COUNT}
+                spouseCount={spouseCount}
+                childCount={childCount}
                 showActor={showActor}
                 showSpouse={showSpouse}
                 showChild={showChild}
@@ -276,11 +204,11 @@ export default function InfoFinancialSection({ name }: { name: string }) {
                 name="รายจ่าย"
                 year1={currentYear.data}
                 year2={compareYear.data}
-                data1={currentYearData.expense}
-                data2={compareYearData.expense}
+                data1={currentYearData.รายจ่าย}
+                data2={compareYearData.รายจ่าย}
                 max={max}
-                spouseCount={SPOUSE_COUNT}
-                childCount={CHILD_COUNT}
+                spouseCount={spouseCount}
+                childCount={childCount}
                 showActor={showActor}
                 showSpouse={showSpouse}
                 showChild={showChild}
@@ -289,11 +217,11 @@ export default function InfoFinancialSection({ name }: { name: string }) {
               <InfoFinancialCompareTaxCard
                 year1={currentYear.data}
                 year2={compareYear.data}
-                tax1={currentYearData.tax}
-                tax2={compareYearData.tax}
+                tax1={currentYearData.ภาษี}
+                tax2={compareYearData.ภาษี}
                 max={max}
-                spouseCount={SPOUSE_COUNT}
-                childCount={CHILD_COUNT}
+                spouseCount={spouseCount}
+                childCount={childCount}
                 showActor={showActor}
                 showSpouse={showSpouse}
                 showChild={showChild}
@@ -304,11 +232,11 @@ export default function InfoFinancialSection({ name }: { name: string }) {
               <InfoFinancialSingleCard
                 name1="ทรัพย์สิน"
                 name2="หนี้สิน"
-                data1={currentYearData.property}
-                data2={currentYearData.debt}
+                data1={currentYearData.ทรัพย์สิน}
+                data2={currentYearData.หนี้สิน}
                 max={max}
-                spouseCount={SPOUSE_COUNT}
-                childCount={CHILD_COUNT}
+                spouseCount={spouseCount}
+                childCount={childCount}
                 showActor={showActor}
                 showSpouse={showSpouse}
                 showChild={showChild}
@@ -316,21 +244,21 @@ export default function InfoFinancialSection({ name }: { name: string }) {
               <InfoFinancialSingleCard
                 name1="รายได้"
                 name2="รายจ่าย"
-                data1={currentYearData.income}
-                data2={currentYearData.expense}
+                data1={currentYearData.รายได้}
+                data2={currentYearData.รายจ่าย}
                 max={max}
-                spouseCount={SPOUSE_COUNT}
-                childCount={CHILD_COUNT}
+                spouseCount={spouseCount}
+                childCount={childCount}
                 showActor={showActor}
                 showSpouse={showSpouse}
                 showChild={showChild}
               />
               <InfoFinancialSingleTaxCard
-                tax={currentYearData.tax}
-                income={currentYearData.income}
+                tax={currentYearData.ภาษี}
+                income={currentYearData.รายได้}
                 max={max}
-                spouseCount={SPOUSE_COUNT}
-                childCount={CHILD_COUNT}
+                spouseCount={spouseCount}
+                childCount={childCount}
                 showActor={showActor}
                 showSpouse={showSpouse}
                 showChild={showChild}
@@ -342,13 +270,13 @@ export default function InfoFinancialSection({ name }: { name: string }) {
 
       {/* เจาะลึกทรัพย์สิน */}
       {
-        <TopAssetCard
-          name={name}
-          year1={currentYear.data}
-          year2={compareYear.data}
-          property1={ASSETS[currentYear.data]}
-          property2={ASSETS[compareYear.data]}
-        />
+        // <TopAssetCard
+        //   name={name}
+        //   year1={currentYear.data}
+        //   year2={compareYear.data}
+        //   property1={ASSETS[currentYear.data]}
+        //   property2={ASSETS[compareYear.data]}
+        // />
       }
     </section>
   );
