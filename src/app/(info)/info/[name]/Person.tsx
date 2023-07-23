@@ -5,6 +5,7 @@ import path from "path";
 import Accordion from "@/components/Accordion";
 import InfoBusinessCard from "@/components/Info/BusinessCard";
 import InfoDesktopAligner from "@/components/Info/DesktopAligner";
+import { FinancialJumpnav } from "@/components/Info/FinancialJumpnav";
 import GoTop from "@/components/Info/GoTop";
 import InfoLawsuitCard from "@/components/Info/LawsuitCard";
 import InfoDonationSection from "@/components/Info/_Donation/Section";
@@ -15,8 +16,9 @@ import Link from "next/link";
 
 import POLITICIAN_IMAGES from "@/data/politicianImages.json";
 
-import { hasCorrupt0Page } from "@/functions/navigation";
 import { formatThousands } from "@/functions/moneyFormatter";
+import { hasCorrupt0Page } from "@/functions/navigation";
+
 import type { DropdownDetailedData } from "@/components/BareDropdown";
 
 // from /data/functions/business.mjs
@@ -58,6 +60,7 @@ export default function Person({ params }: { params: { name: string } }) {
     statement,
     nacc,
     topAssets,
+    latestStatement,
   } = politicianData;
 
   const { sec, judgement, nacc: nacc_lawsuit } = politicianData.lawsuit;
@@ -231,61 +234,7 @@ export default function Person({ params }: { params: { name: string } }) {
 
             {/* Jumpnav */}
             <section className="p-10 bg-white">
-              <a
-                className="block p-10 bg-black border-b border-b-gray-6"
-                href="#financial"
-              >
-                <span className="flex gap-5 items-center mb-5">
-                  <Image src="/icons/financial.svg" alt="" width={20} height={20} />
-                  <span>
-                    <span className="b4 font-bold">สถานะการเงินปี 25xx</span>{" "}
-                    <span className="b7 text-gray-5">(ปีล่าสุดที่มีข้อมูลในระบบ)</span>
-                  </span>
-                  <Image
-                    className="ml-auto lg:-rotate-90"
-                    src="/icons/arr-g.svg"
-                    alt=""
-                    width={16}
-                    height={16}
-                  />
-                </span>
-                <div className="flex gap-2">
-                  <div className="flex-1 bg-value-negative-bg py-5 px-[7px] flex items-center">
-                    <div className="flex flex-col items-center flex-1">
-                      <span className="opacity-60 b5">ทรัพย์สิน</span>
-                      <span className="text-value-negative-text b1 font-bold">x,xxx</span>
-                      <span className="opacity-60 b6 text-value-negative-text">
-                        ล้านบาท
-                      </span>
-                    </div>
-                    <span className="text-value-negative-text b5 font-bold">&lt;</span>
-                    <div className="flex flex-col items-center flex-1">
-                      <span className="opacity-60 b5">หนี้สิน</span>
-                      <span className="text-value-negative-text b1 font-bold">x,xxx</span>
-                      <span className="opacity-60 b6 text-value-negative-text">
-                        ล้านบาท
-                      </span>
-                    </div>
-                  </div>
-                  <div className="flex-1 bg-value-positive-bg py-5 px-[7px] flex items-center">
-                    <div className="flex flex-col items-center flex-1">
-                      <span className="opacity-60 b5">รายได้</span>
-                      <span className="text-value-positive-text b1 font-bold">x,xxx</span>
-                      <span className="opacity-60 b6 text-value-positive-text">
-                        ล้านบาท
-                      </span>
-                    </div>
-                    <span className="text-value-positive-text b5 font-bold">&gt;</span>
-                    <div className="flex flex-col items-center flex-1">
-                      <span className="opacity-60 b5">รายจ่าย</span>
-                      <span className="text-value-positive-text b1 font-bold">x,xxx</span>
-                      <span className="opacity-60 b6 text-value-positive-text">
-                        ล้านบาท
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </a>
+              <FinancialJumpnav latestStatement={latestStatement} />
               {business.length > 0 && (
                 <a
                   className="block p-10 bg-black border-b border-b-gray-6"

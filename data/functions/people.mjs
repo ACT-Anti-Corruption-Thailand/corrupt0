@@ -603,6 +603,48 @@ export const getStatement = async (nacc_id) => {
   return statementData;
 };
 
+const getLatestStatementSummary = (nacc, statements) => {
+  if (!nacc) return undefined;
+
+  // 1. Find latest nacc
+  const [latestYear, latestNacc] = Object.entries(nacc).reduce(
+    (a, c) => {
+      const year = new Date(c[1].date).getFullYear();
+      if (year > a[0]) return [year, c[0]];
+      return a;
+    },
+    [-Infinity, null]
+  );
+
+  // 2. Summarize statements
+  try {
+    const s = statements[latestNacc];
+    const lastestStatement = {
+      year: latestYear + 543,
+      รายได้: s["รายได้"]
+        .map((e) => e.value)
+        .flat()
+        .reduce((a, c) => a + c),
+      รายจ่าย: s["รายจ่าย"]
+        .map((e) => e.value)
+        .flat()
+        .reduce((a, c) => a + c),
+      ทรัพย์สิน: s["ทรัพย์สิน"]
+        .map((e) => e.value)
+        .flat()
+        .reduce((a, c) => a + c),
+      หนี้สิน: s["หนี้สิน"]
+        .map((e) => e.value)
+        .flat()
+        .reduce((a, c) => a + c),
+    };
+
+    return lastestStatement;
+  } catch (e) {
+    return undefined;
+  }
+};
+
 // ██████╗  ██████╗ ███╗   ██╗ █████╗ ████████╗██╗ ██████╗ ███╗   ██╗
 // ██╔══██╗██╔═══██╗████╗  ██║██╔══██╗╚══██╔══╝██║██╔═══██╗████╗  ██║
 // ██║  ██║██║   ██║██╔██╗ ██║███████║   ██║   ██║██║   ██║██╔██╗ ██║
@@ -762,6 +804,8 @@ export const generatePeople = async () => {
       topAssets[nid] = d;
     }
 
+    let latestStatement = getLatestStatementSummary(formattedNacc, statement);
+
     const data = {
       nacc: formattedNacc,
       ...person_data_json,
@@ -772,6 +816,7 @@ export const generatePeople = async () => {
       business,
       statement,
       topAssets,
+      latestStatement,
     };
 
     await fs.writeFile(`src/data/info/${full_name}.json`, JSON.stringify(data));
