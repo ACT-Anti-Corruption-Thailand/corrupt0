@@ -508,15 +508,27 @@ export const getAsset = async (nacc_id) => {
 };
 
 const getTopAsset = (assetData) => {
-  const ที่ดิน = assetData["ที่ดิน"];
-  const โรงเรือนและสิ่งปลูกสร้าง = assetData["โรงเรือนและสิ่งปลูกสร้าง"];
-  const ยานพาหนะ = assetData["ยานพาหนะ"];
-  const สิทธิและสัมปทาน = assetData["สิทธิและสัมปทาน"];
-  const ทรัพย์สินอื่น = Object.values(assetData["ทรัพย์สินอื่น"]);
-  const เงินสด = assetData["เงินสด"];
-  const เงินฝาก = assetData["เงินฝาก"];
-  const เงินลงทุน = assetData["เงินลงทุน"];
-  const เงินให้กู้ยืม = assetData["เงินให้กู้ยืม"];
+  const ที่ดิน = assetData["ที่ดิน"].map((e) => ({ ...e, baseCatg: "ที่ดิน" }));
+  const โรงเรือนและสิ่งปลูกสร้าง = assetData["โรงเรือนและสิ่งปลูกสร้าง"].map((e) => ({
+    ...e,
+    baseCatg: "โรงเรือนและสิ่งปลูกสร้าง",
+  }));
+  const ยานพาหนะ = assetData["ยานพาหนะ"].map((e) => ({ ...e, baseCatg: "ยานพาหนะ" }));
+  const สิทธิและสัมปทาน = assetData["สิทธิและสัมปทาน"].map((e) => ({
+    ...e,
+    baseCatg: "สิทธิและสัมปทาน",
+  }));
+  const ทรัพย์สินอื่น = Object.values(assetData["ทรัพย์สินอื่น"]).map((e) => ({
+    ...e,
+    baseCatg: "ทรัพย์สินอื่น",
+  }));
+  const เงินสด = assetData["เงินสด"].map((e) => ({ ...e, baseCatg: "เงินสด" }));
+  const เงินฝาก = assetData["เงินฝาก"].map((e) => ({ ...e, baseCatg: "เงินฝาก" }));
+  const เงินลงทุน = assetData["เงินลงทุน"].map((e) => ({ ...e, baseCatg: "เงินลงทุน" }));
+  const เงินให้กู้ยืม = assetData["เงินให้กู้ยืม"].map((e) => ({
+    ...e,
+    baseCatg: "เงินให้กู้ยืม",
+  }));
 
   const all = [
     ...ที่ดิน,

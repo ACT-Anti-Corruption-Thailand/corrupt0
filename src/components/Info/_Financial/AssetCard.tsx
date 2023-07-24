@@ -4,9 +4,22 @@ import Link from "next/link";
 
 import { thaiMoneyFormatter, formatThousands } from "@/functions/moneyFormatter";
 
+const ICONS: Record<string, string> = {
+  เงินสด: "/icons/cash.svg",
+  เงินฝาก: "/icons/saving.svg",
+  เงินลงทุน: "/icons/invest.svg",
+  เงินให้กู้ยืม: "/icons/borrow.svg",
+  ที่ดิน: "/icons/land.svg",
+  โรงเรือนและสิ่งปลูกสร้าง: "/icons/building.svg",
+  ยานพาหนะ: "/icons/vehicle.svg",
+  สิทธิและสัมปทาน: "/icons/concession.svg",
+  ทรัพย์สินอื่น: "/icons/valuable.svg",
+};
+
 export interface TopPropertyData {
   name: string;
   value: number;
+  baseCatg: string;
 }
 
 interface TopAssetCardProps {
@@ -50,11 +63,11 @@ export function TopAssetCard({
         <span className="b4 text-gray-4 font-bold block mb-10">
           ทรัพย์สินที่แพงที่สุด
         </span>
-        {year2 ? (
+        {year2 && property2 ? (
           <div className="flex gap-5 items-stretch text-black">
             <div className="flex-1 flex flex-col gap-5 justify-center items-center">
               <span className="b3">{year1}</span>
-              <Image src="/icons/placeholder.svg" alt="" width={40} height={40} />
+              <Image src={ICONS[property1.baseCatg]} alt="" width={40} height={40} />
               <span className="b5">ห้องชุดเพนท์เฮาส์</span>
               <span className="b3 font-bold -mt-5">
                 {formatThousands(p1price)} {p1unit}
@@ -63,7 +76,7 @@ export function TopAssetCard({
             <div className="w-1 bg-gray-4" />
             <div className="flex-1 flex flex-col gap-5 justify-center items-center">
               <span className="b3">{year2}</span>
-              <Image src="/icons/placeholder.svg" alt="" width={40} height={40} />
+              <Image src={ICONS[property2.baseCatg]} alt="" width={40} height={40} />
               <span className="b5">ห้องชุดเพนท์เฮาส์</span>
               <span className="b3 font-bold -mt-5">
                 {p2price && formatThousands(p2price)} {p2unit}
@@ -72,7 +85,7 @@ export function TopAssetCard({
           </div>
         ) : (
           <div className="flex gap-5 items-start">
-            <Image src="/icons/placeholder.svg" alt="" width={40} height={40} />
+            <Image src={ICONS[property1.baseCatg]} alt="" width={40} height={40} />
             <div className="flex-1 text-black">
               <span className="block b5">{property1.name}</span>
               <span className="block b3 font-bold">
