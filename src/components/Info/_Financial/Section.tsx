@@ -5,6 +5,7 @@ import { useState } from "react";
 import InfoFinanceDialog from "@/components/Info/_Financial/Dialog";
 import InfoFinancialDropdowns from "@/components/Info/_Financial/Dropdowns";
 import Image from "next/image";
+import DownloadMenu from "../DownloadMenu";
 import { TopAssetCard } from "./AssetCard";
 import InfoFinancialCheckboxes from "./Checkboxes";
 import { InfoFinancialCompareCard, InfoFinancialSingleCard } from "./FinancialCard";
@@ -13,7 +14,6 @@ import { InfoFinancialCompareTaxCard, InfoFinancialSingleTaxCard } from "./TaxCa
 import { formatMillion, formatThousands } from "@/functions/moneyFormatter";
 
 import type { DropdownDetailedData } from "../../BareDropdown";
-import type { TopPropertyData } from "./AssetCard";
 
 export const f$ = (value: number) => formatThousands(formatMillion(value), 2);
 export const safePercent = (value: number, outof: number) => (value / (outof || 1)) * 100;
@@ -93,9 +93,11 @@ interface InfoFinancialSectionProps {
     {
       value: number;
       name: string;
+      baseCatg: string;
     }
   >;
   naccYear: Record<string | number, number>;
+  nacc: any;
 }
 
 export default function InfoFinancialSection({
@@ -107,6 +109,7 @@ export default function InfoFinancialSection({
   data,
   assetsData,
   naccYear,
+  nacc,
 }: InfoFinancialSectionProps) {
   const [showActor, setShowActor] = useState(true);
   const [showSpouse, setShowSpouse] = useState(true);
@@ -121,154 +124,154 @@ export default function InfoFinancialSection({
   const max = calcMax(compareYear.data, currentYearData, compareYearData);
 
   return (
-    <section id="financial">
-      <header className="py-8 flex gap-10 h4 justify-center items-center bg-gray-6">
-        <Image src="/icons/financial.svg" alt="" width={30} height={30} />
-        <span>สถานะทางการเงิน</span>
-      </header>
+    <>
+      <section id="financial">
+        <header className="py-8 flex gap-10 h4 justify-center items-center bg-gray-6">
+          <Image src="/icons/financial.svg" alt="" width={30} height={30} />
+          <span>สถานะทางการเงิน</span>
+        </header>
 
-      <div className="p-10">
-        <div className="mb-5 text-center">
-          <span className="b3 font-bold inline-block mr-2">ปีที่ยื่นบัญชี</span>
-          <span className="b5">(กรณีที่ยื่น)</span>
-        </div>
-        <div className="flex mb-10 gap-10">
-          <InfoFinancialDropdowns
-            data={years}
-            compare={compareYears}
-            currentYear={currentYear}
-            setCurrentYear={setCurrentYear}
-            compareYear={compareYear}
-            setCompareYear={setCompareYear}
-          />
-        </div>
-        {/* การ์ดเงิน */}
-        <div className="rounded-10 bg-white p-10 text-black">
-          <div className="flex gap-10 items-center justify-center b6 py-5 mb-5">
-            <InfoFinancialCheckboxes
-              showActor={showActor}
-              setShowActor={setShowActor}
-              showSpouse={showSpouse}
-              setShowSpouse={setShowSpouse}
-              showChild={showChild}
-              setShowChild={setShowChild}
+        <div className="p-10">
+          <div className="mb-5 text-center">
+            <span className="b3 font-bold inline-block mr-2">ปีที่ยื่นบัญชี</span>
+            <span className="b5">(กรณีที่ยื่น)</span>
+          </div>
+          <div className="flex mb-10 gap-10">
+            <InfoFinancialDropdowns
+              data={years}
+              compare={compareYears}
+              currentYear={currentYear}
+              setCurrentYear={setCurrentYear}
+              compareYear={compareYear}
+              setCompareYear={setCompareYear}
             />
           </div>
-          <div className="py-5 mb-5 ml-10">
-            <InfoFinanceDialog />
+          {/* การ์ดเงิน */}
+          <div className="rounded-10 bg-white p-10 text-black">
+            <div className="flex gap-10 items-center justify-center b6 py-5 mb-5">
+              <InfoFinancialCheckboxes
+                showActor={showActor}
+                setShowActor={setShowActor}
+                showSpouse={showSpouse}
+                setShowSpouse={setShowSpouse}
+                showChild={showChild}
+                setShowChild={setShowChild}
+              />
+            </div>
+            <div className="py-5 mb-5 ml-10">
+              <InfoFinanceDialog />
+            </div>
+            {compareYear.data ? (
+              <>
+                <InfoFinancialCompareCard
+                  name="ทรัพย์สิน"
+                  year1={naccYear[currentYear.data]}
+                  year2={naccYear[compareYear.data]}
+                  data1={currentYearData.ทรัพย์สิน}
+                  data2={compareYearData.ทรัพย์สิน}
+                  max={max}
+                  spouseCount={spouseCount}
+                  childCount={childCount}
+                  showActor={showActor}
+                  showSpouse={showSpouse}
+                  showChild={showChild}
+                />
+                <InfoFinancialCompareCard
+                  name="หนี้สิน"
+                  year1={naccYear[currentYear.data]}
+                  year2={naccYear[compareYear.data]}
+                  data1={currentYearData.หนี้สิน}
+                  data2={compareYearData.หนี้สิน}
+                  max={max}
+                  spouseCount={spouseCount}
+                  childCount={childCount}
+                  showActor={showActor}
+                  showSpouse={showSpouse}
+                  showChild={showChild}
+                  lessIsBetter
+                />
+                <InfoFinancialCompareCard
+                  name="รายได้"
+                  year1={naccYear[currentYear.data]}
+                  year2={naccYear[compareYear.data]}
+                  data1={currentYearData.รายได้}
+                  data2={compareYearData.รายได้}
+                  max={max}
+                  spouseCount={spouseCount}
+                  childCount={childCount}
+                  showActor={showActor}
+                  showSpouse={showSpouse}
+                  showChild={showChild}
+                />
+                <InfoFinancialCompareCard
+                  name="รายจ่าย"
+                  year1={naccYear[currentYear.data]}
+                  year2={naccYear[compareYear.data]}
+                  data1={currentYearData.รายจ่าย}
+                  data2={compareYearData.รายจ่าย}
+                  max={max}
+                  spouseCount={spouseCount}
+                  childCount={childCount}
+                  showActor={showActor}
+                  showSpouse={showSpouse}
+                  showChild={showChild}
+                  lessIsBetter
+                />
+                <InfoFinancialCompareTaxCard
+                  year1={naccYear[currentYear.data]}
+                  year2={naccYear[compareYear.data]}
+                  tax1={currentYearData.ภาษี}
+                  tax2={compareYearData.ภาษี}
+                  max={max}
+                  spouseCount={spouseCount}
+                  childCount={childCount}
+                  showActor={showActor}
+                  showSpouse={showSpouse}
+                  showChild={showChild}
+                />
+              </>
+            ) : (
+              <>
+                <InfoFinancialSingleCard
+                  name1="ทรัพย์สิน"
+                  name2="หนี้สิน"
+                  data1={currentYearData.ทรัพย์สิน}
+                  data2={currentYearData.หนี้สิน}
+                  max={max}
+                  spouseCount={spouseCount}
+                  childCount={childCount}
+                  showActor={showActor}
+                  showSpouse={showSpouse}
+                  showChild={showChild}
+                />
+                <InfoFinancialSingleCard
+                  name1="รายได้"
+                  name2="รายจ่าย"
+                  data1={currentYearData.รายได้}
+                  data2={currentYearData.รายจ่าย}
+                  max={max}
+                  spouseCount={spouseCount}
+                  childCount={childCount}
+                  showActor={showActor}
+                  showSpouse={showSpouse}
+                  showChild={showChild}
+                />
+                <InfoFinancialSingleTaxCard
+                  tax={currentYearData.ภาษี}
+                  income={currentYearData.รายได้}
+                  max={max}
+                  spouseCount={spouseCount}
+                  childCount={childCount}
+                  showActor={showActor}
+                  showSpouse={showSpouse}
+                  showChild={showChild}
+                />
+              </>
+            )}
           </div>
-          {compareYear.data ? (
-            <>
-              <InfoFinancialCompareCard
-                name="ทรัพย์สิน"
-                year1={naccYear[currentYear.data]}
-                year2={naccYear[compareYear.data]}
-                data1={currentYearData.ทรัพย์สิน}
-                data2={compareYearData.ทรัพย์สิน}
-                max={max}
-                spouseCount={spouseCount}
-                childCount={childCount}
-                showActor={showActor}
-                showSpouse={showSpouse}
-                showChild={showChild}
-              />
-              <InfoFinancialCompareCard
-                name="หนี้สิน"
-                year1={naccYear[currentYear.data]}
-                year2={naccYear[compareYear.data]}
-                data1={currentYearData.หนี้สิน}
-                data2={compareYearData.หนี้สิน}
-                max={max}
-                spouseCount={spouseCount}
-                childCount={childCount}
-                showActor={showActor}
-                showSpouse={showSpouse}
-                showChild={showChild}
-                lessIsBetter
-              />
-              <InfoFinancialCompareCard
-                name="รายได้"
-                year1={naccYear[currentYear.data]}
-                year2={naccYear[compareYear.data]}
-                data1={currentYearData.รายได้}
-                data2={compareYearData.รายได้}
-                max={max}
-                spouseCount={spouseCount}
-                childCount={childCount}
-                showActor={showActor}
-                showSpouse={showSpouse}
-                showChild={showChild}
-              />
-              <InfoFinancialCompareCard
-                name="รายจ่าย"
-                year1={naccYear[currentYear.data]}
-                year2={naccYear[compareYear.data]}
-                data1={currentYearData.รายจ่าย}
-                data2={compareYearData.รายจ่าย}
-                max={max}
-                spouseCount={spouseCount}
-                childCount={childCount}
-                showActor={showActor}
-                showSpouse={showSpouse}
-                showChild={showChild}
-                lessIsBetter
-              />
-              <InfoFinancialCompareTaxCard
-                year1={naccYear[currentYear.data]}
-                year2={naccYear[compareYear.data]}
-                tax1={currentYearData.ภาษี}
-                tax2={compareYearData.ภาษี}
-                max={max}
-                spouseCount={spouseCount}
-                childCount={childCount}
-                showActor={showActor}
-                showSpouse={showSpouse}
-                showChild={showChild}
-              />
-            </>
-          ) : (
-            <>
-              <InfoFinancialSingleCard
-                name1="ทรัพย์สิน"
-                name2="หนี้สิน"
-                data1={currentYearData.ทรัพย์สิน}
-                data2={currentYearData.หนี้สิน}
-                max={max}
-                spouseCount={spouseCount}
-                childCount={childCount}
-                showActor={showActor}
-                showSpouse={showSpouse}
-                showChild={showChild}
-              />
-              <InfoFinancialSingleCard
-                name1="รายได้"
-                name2="รายจ่าย"
-                data1={currentYearData.รายได้}
-                data2={currentYearData.รายจ่าย}
-                max={max}
-                spouseCount={spouseCount}
-                childCount={childCount}
-                showActor={showActor}
-                showSpouse={showSpouse}
-                showChild={showChild}
-              />
-              <InfoFinancialSingleTaxCard
-                tax={currentYearData.ภาษี}
-                income={currentYearData.รายได้}
-                max={max}
-                spouseCount={spouseCount}
-                childCount={childCount}
-                showActor={showActor}
-                showSpouse={showSpouse}
-                showChild={showChild}
-              />
-            </>
-          )}
         </div>
-      </div>
 
-      {/* เจาะลึกทรัพย์สิน */}
-      {
+        {/* เจาะลึกทรัพย์สิน */}
         <TopAssetCard
           name={name}
           year1={naccYear[currentYear.data]}
@@ -276,7 +279,19 @@ export default function InfoFinancialSection({
           property1={assetsData[currentYear.data]}
           property2={assetsData[compareYear.data]}
         />
-      }
-    </section>
+      </section>
+
+      {/* ปุ่มเอกสาร */}
+      <div className="flex gap-5 px-10 mb-10">
+        <DownloadMenu data={nacc} />
+        <button
+          type="button"
+          className="b4 flex-1 flex gap-5 p-5 items-center border border-gray-6 justify-center rounded-5"
+        >
+          <Image src="/icons/sheet.svg" alt="" width={20} height={20} />
+          <span>ดาวน์โหลดข้อมูล</span>
+        </button>
+      </div>
+    </>
   );
 }

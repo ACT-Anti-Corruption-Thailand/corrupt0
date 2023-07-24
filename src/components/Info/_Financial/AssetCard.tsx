@@ -2,7 +2,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import { thaiMoneyFormatter, formatThousands } from "@/functions/moneyFormatter";
+import { formatThousands, thaiMoneyFormatter } from "@/functions/moneyFormatter";
 
 const ICONS: Record<string, string> = {
   เงินสด: "/icons/cash.svg",
@@ -68,7 +68,7 @@ export function TopAssetCard({
             <div className="flex-1 flex flex-col gap-5 justify-center items-center">
               <span className="b3">{year1}</span>
               <Image src={ICONS[property1.baseCatg]} alt="" width={40} height={40} />
-              <span className="b5">ห้องชุดเพนท์เฮาส์</span>
+              <span className="b5">{property1.name}</span>
               <span className="b3 font-bold -mt-5">
                 {formatThousands(p1price)} {p1unit}
               </span>
@@ -77,7 +77,7 @@ export function TopAssetCard({
             <div className="flex-1 flex flex-col gap-5 justify-center items-center">
               <span className="b3">{year2}</span>
               <Image src={ICONS[property2.baseCatg]} alt="" width={40} height={40} />
-              <span className="b5">ห้องชุดเพนท์เฮาส์</span>
+              <span className="b5">{property2.name}</span>
               <span className="b3 font-bold -mt-5">
                 {p2price && formatThousands(p2price)} {p2unit}
               </span>

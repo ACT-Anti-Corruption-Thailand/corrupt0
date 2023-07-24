@@ -334,37 +334,18 @@ export default function Person({ params }: { params: { name: string } }) {
         }
       >
         {/* สถานะทางการเงิน */}
-        {nacc && (
-          <>
-            <InfoFinancialSection
-              name={name}
-              data={statement}
-              years={YEARS}
-              compareYears={COMPARE_YEARS}
-              spouseCount={SPOUSE_COUNT}
-              childCount={CHILD_COUNT}
-              assetsData={topAssets}
-              naccYear={NACC_YEAR}
-            />
-
-            {/* ปุ่มเอกสาร */}
-            <div className="flex gap-5 px-10 mb-10">
-              <button
-                type="button"
-                className="b4 flex-1 flex gap-5 p-5 items-center border border-gray-6 justify-center rounded-5"
-              >
-                <Image src="/icons/pdf.svg" alt="" width={20} height={20} />
-                <span>ดูเอกสารจริง</span>
-              </button>
-              <button
-                type="button"
-                className="b4 flex-1 flex gap-5 p-5 items-center border border-gray-6 justify-center rounded-5"
-              >
-                <Image src="/icons/sheet.svg" alt="" width={20} height={20} />
-                <span>ดาวน์โหลดข้อมูล</span>
-              </button>
-            </div>
-          </>
+        {nacc && latestStatement && (
+          <InfoFinancialSection
+            name={name}
+            data={statement}
+            years={YEARS}
+            compareYears={COMPARE_YEARS}
+            spouseCount={SPOUSE_COUNT}
+            childCount={CHILD_COUNT}
+            assetsData={topAssets}
+            naccYear={NACC_YEAR}
+            nacc={nacc}
+          />
         )}
 
         {/* ความเกี่ยวข้องกับธุรกิจและโครงการภาครัฐ */}
