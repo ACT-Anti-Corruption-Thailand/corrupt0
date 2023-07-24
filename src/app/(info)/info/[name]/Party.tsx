@@ -1,3 +1,8 @@
+import React from "react";
+import fs from "fs";
+import { notFound } from "next/navigation";
+import path from "path";
+
 import InfoDesktopAligner from "@/components/Info/DesktopAligner";
 import GoTop from "@/components/Info/GoTop";
 import InfoPartyDonationSection from "@/components/Info/_Donation/PartySection";
@@ -5,6 +10,8 @@ import Sharer from "@/components/Sharer";
 import Image from "next/image";
 
 import _PARTY_ASSETS from "@/data/color/partyAssets.json";
+import Dropdown from "@/components/Dropdown";
+import ChartSort from "@/components/ChartSort";
 const PARTY_ASSETS = _PARTY_ASSETS as Record<
   string,
   { color: string | null; image: string | null }
@@ -14,8 +21,19 @@ export default function Party({ params }: { params: { name: string } }) {
   const name = params.name;
   const spacedName = name.replace(/-/g, " ");
 
+  //importing data
+  let partyData: Record<any, any> = {};
+  try {
+    const filePath = path.join(process.cwd(), "src", "data", "info", `${name}.json`);
+    const fileContents = fs.readFileSync(filePath, "utf8");
+    partyData = JSON.parse(fileContents); // pass this into the page
+  } catch (e) {
+    notFound();
+  }
+
   const partyInfo = PARTY_ASSETS[name.replace("พรรค", "")];
   const logo = partyInfo?.image ?? "/placeholders/party.png";
+  const color = partyInfo?.color ?? "#CCD8DD";
 
   return (
     <main>
@@ -45,7 +63,7 @@ export default function Party({ params }: { params: { name: string } }) {
         }
       >
         {/* ประวัติการบริจาคเงินให้พรรคการเมือง */}
-        <InfoPartyDonationSection />
+        <InfoPartyDonationSection data={partyData} theme={color}/>
       </InfoDesktopAligner>
     </main>
   );
