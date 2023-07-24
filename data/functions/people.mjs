@@ -183,23 +183,31 @@ const getPersonalData = async (name) => {
 
 const DATA_RELATIONSHIP_KEY = await aq.loadCSV("data/raw/relationship.csv");
 const DATA_RELATIVE_INFO = await aq.loadCSV("data/raw/relative_info.csv");
+const DATA_SPOUSE_INFO = await aq.loadCSV("data/raw/spouse_info.csv");
+
 const DATA_RELATIONSHIP_NORMALIZED = DATA_RELATIVE_INFO.derive({
   full_name: (d) => d.first_name + " " + d.last_name,
 })
   .join_left(DATA_RELATIONSHIP_KEY, "relationship_id")
   .select("nacc_id", "full_name", "relationship_name");
+const DATA_SPOUSE_INFO_NORMALIZED = DATA_SPOUSE_INFO.derive({
+  full_name: (d) => d.first_name + " " + d.last_name,
+  relationship_name: (_) => "คู่สมรส",
+}).select("nacc_id", "full_name", "relationship_name");
+
+const DATA_RELATIVES = DATA_RELATIONSHIP_NORMALIZED.concat(DATA_SPOUSE_INFO_NORMALIZED);
 
 /**
  * @param {number} [nacc_id]
  * @returns {Promise<{full_name: string, relationship_name: string }[]>}
  */
 export const getRelationship = async (nacc_id) => {
-  if (nacc_id)
-    return DATA_RELATIONSHIP_NORMALIZED.params({ nacc_id: nacc_id })
-      .filter((d) => op.equal(d.nacc_id, nacc_id))
-      .select("full_name", "relationship_name")
-      .objects();
-  return [];
+  if (!nacc_id) return [];
+  return DATA_RELATIVES.params({ nacc_id })
+    .filter((d) => op.equal(d.nacc_id, nacc_id))
+    .select("full_name", "relationship_name")
+    .objects()
+    .sort((a, z) => a.full_name.localeCompare(z.full_name));
 };
 
 // ██╗      █████╗ ██╗    ██╗███████╗██╗   ██╗██╗████████╗
@@ -586,6 +594,11 @@ export const getStatement = async (nacc_id) => {
       value: [e.a, e.b, e.c],
     }));
   }
+
+  if (!("รายได้" in statementData)) statementData.รายได้ = [];
+  if (!("รายจ่าย" in statementData)) statementData.รายจ่าย = [];
+  if (!("ทรัพย์สิน" in statementData)) statementData.ทรัพย์สิน = [];
+  if (!("หนี้สิน" in statementData)) statementData.หนี้สิน = [];
 
   const tax = DATA.STATEMENT.params({ nacc_id })
     .filter(

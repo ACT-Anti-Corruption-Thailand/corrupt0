@@ -7,6 +7,8 @@ import InfoAssetPopover from "./Popover";
 
 import type { ReactNode } from "react";
 
+const notUndefinedOrNull = (value: any) => value !== null && value !== undefined;
+
 export interface InfoAssetStatement {
   actor: "ผู้ยื่น" | "คู่สมรส" | "บุตร";
   value: number;
@@ -42,9 +44,11 @@ const Trigger = ({
       <div className="b4 font-bold">{name}</div>
       {nameExtension}
       <span className="b7 text-black-50 nobr">{length} รายการ</span>
-      <div className="ml-auto b4 font-bold">{value.toLocaleString("th-TH")}</div>
+      {notUndefinedOrNull(value) && (
+        <div className="ml-auto b4 font-bold">{value.toLocaleString("th-TH")}</div>
+      )}
       <Image
-        className="accordion-arrow"
+        className={clsx("accordion-arrow", !notUndefinedOrNull(value) && "ml-auto")}
         src="/icons/caret-g.svg"
         width={12}
         height={12}
@@ -76,7 +80,9 @@ const DetailsFirstLine = ({ actor, name, value }: DetailsFirstLineProps) => {
         {actor}
       </span>
       {name && <span className="b5 ml-5">{name}</span>}
-      <span className="b5 font-bold ml-auto">{value.toLocaleString("th-TH")}</span>
+      {notUndefinedOrNull(value) && (
+        <span className="b5 font-bold ml-auto">{value.toLocaleString("th-TH")}</span>
+      )}
     </span>
   );
 };

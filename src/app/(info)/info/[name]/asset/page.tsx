@@ -54,6 +54,8 @@ export default function Asset({ params }: AssetPageProps) {
 
   const { assets, nacc } = file;
 
+  if (!nacc) notFound();
+
   const YEARS: DropdownDetailedData[] = Object.keys(nacc).map((nacc_id) => ({
     data: nacc_id,
     label: (
