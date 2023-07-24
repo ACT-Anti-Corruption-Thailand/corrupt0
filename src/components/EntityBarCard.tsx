@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { thaiMoneyFormatter } from "@/functions/moneyFormatter";
+import { formatThousands, thaiMoneyFormatter } from "@/functions/moneyFormatter";
 
 interface PersonCardProps {
   name: string;
@@ -24,7 +24,7 @@ const EntityBarCard = (props: PersonCardProps) => {
         <div className="flex flex-col w-full">
           <div className="flex justify-between text-gray-2">
             <p className="b3">{props.name}</p>
-            <p className="b4">{money}</p>
+            <p className="b4">{formatThousands(money)}</p>
           </div>
           <div className="flex justify-between text-right b6">
             <p>{props.title}</p>
