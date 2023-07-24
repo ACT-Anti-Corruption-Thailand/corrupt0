@@ -26,21 +26,11 @@ export const getPartyDonor = async (party) => {
   return DONATION_TABLE.select("party", "month", "year", "donor_prefix", "donor_fullname", "amount")
     .filter(aq.escape(d => d.party === party))
     .objects()
-    .reduce((acc, obj) => {
-      const { year } = obj;
-      const objWOYear = { ...obj };
-      delete objWOYear.year;
-      delete objWOYear.party;
-
-      if (year in acc) {
-        acc[year].push(objWOYear);
-      } else {
-        acc[year] = [objWOYear];
-      }
-
-      return acc;
-    }, {}
-    )
+    .map(obj => {
+      const { party, ...rest } = obj
+      return rest
+    })
+    .sort((a, b) => b.amount - a.amount)
 }
 
 // ███╗   ███╗ █████╗ ██╗███╗   ██╗
