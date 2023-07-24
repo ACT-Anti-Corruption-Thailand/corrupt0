@@ -18,8 +18,6 @@ const DATA = [
   { x: "2563", y1: 2, y2: 4 },
 ];
 
-const YEARS = ["ทุกปี", "2566", "2565", "2564", "2563", "2562"];
-
 interface PartySectionProps {
   data: any;
   theme: string;
@@ -27,6 +25,7 @@ interface PartySectionProps {
 
 export default function InfoPartyDonationSection(props: PartySectionProps) {
   const DONATION_TYPES = ["ทุกกลุ่มตำแหน่ง", ...new Set(props.data.map((d: any) => d.donor_prefix))] as string[];
+  const YEARS = ["ทุกปี", ...new Set(props.data.map((d: any) => String(d.year)))] as string[];
   const totalDonation = props.data.reduce((acc: any, curr:any) => acc + curr.amount, 0)
 
   const [year, setYear] = useState(YEARS[0]);
@@ -70,7 +69,7 @@ export default function InfoPartyDonationSection(props: PartySectionProps) {
         </div>
         <div className="flex gap-4 flex-col mt-10">{/* TODO: add search */}</div>
         {
-          props.data.filter((items: any) => type === "ทุกกลุ่มตำแหน่ง" ? true : items.donor_prefix === type).filter((d: any, idx: number) => idx < 10).map((d: any, index: number) => <EntityBarCard name={d.donor_fullname} title={d.donor_prefix} color={props.theme} imgPath="/placeholders/person.png" amount={d.amount} maxAmount={totalDonation} key={index} />)
+          props.data.filter((items: any) => year === "ทุกปี" ? true : String(items.year) === year).filter((items: any) => type === "ทุกกลุ่มตำแหน่ง" ? true : items.donor_prefix === type).filter((d: any, idx: number) => idx < 10).map((d: any, index: number) => <EntityBarCard name={d.donor_fullname} title={d.donor_prefix} color={props.theme} imgPath="/placeholders/person.png" amount={d.amount} maxAmount={totalDonation} key={index} />)
         }
       </div>
     </section>
