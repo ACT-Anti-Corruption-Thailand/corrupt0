@@ -8,8 +8,8 @@ import { f$, fP, safePercent } from "./Section";
 interface InfoFinancialSingleCardProps {
   name1: string;
   name2: string;
-  data1: InfoFinanceStatement[];
-  data2: InfoFinanceStatement[];
+  data1?: InfoFinanceStatement[];
+  data2?: InfoFinanceStatement[];
   max: number;
 
   spouseCount: number;
@@ -32,18 +32,22 @@ export const InfoFinancialSingleCard = ({
   showSpouse,
   showChild,
 }: InfoFinancialSingleCardProps) => {
-  const actor1Total = showActor ? data1.reduce((a, c) => a + c.value[0], 0) : 0;
+  const actor1Total = showActor ? data1?.reduce((a, c) => a + c.value[0], 0) ?? 0 : 0;
   const spouse1Total =
-    showSpouse && spouseCount ? data1.reduce((a, c) => a + (c.value[1] || 0), 0) : 0;
+    showSpouse && spouseCount
+      ? data1?.reduce((a, c) => a + (c.value[1] || 0), 0) ?? 0
+      : 0;
   const child1Total =
-    showChild && childCount ? data1.reduce((a, c) => a + (c.value[2] || 0), 0) : 0;
+    showChild && childCount ? data1?.reduce((a, c) => a + (c.value[2] || 0), 0) ?? 0 : 0;
   const data1Total = actor1Total + spouse1Total + child1Total;
 
-  const actor2Total = showActor ? data2.reduce((a, c) => a + c.value[0], 0) : 0;
+  const actor2Total = showActor ? data2?.reduce((a, c) => a + c.value[0], 0) ?? 0 : 0;
   const spouse2Total =
-    showSpouse && spouseCount ? data2.reduce((a, c) => a + (c.value[1] || 0), 0) : 0;
+    showSpouse && spouseCount
+      ? data2?.reduce((a, c) => a + (c.value[1] || 0), 0) ?? 0
+      : 0;
   const child2Total =
-    showChild && childCount ? data2.reduce((a, c) => a + (c.value[2] || 0), 0) : 0;
+    showChild && childCount ? data2?.reduce((a, c) => a + (c.value[2] || 0), 0) ?? 0 : 0;
   const data2Total = actor2Total + spouse2Total + child2Total;
 
   const dataDifference = data1Total - data2Total;
@@ -93,12 +97,14 @@ export const InfoFinancialSingleCard = ({
             <span className="block b4 font-bold">{f$(data1Total)}</span>
           </div>
         </div>
-        <InfoFinancialSingleDetails
-          data={data1}
-          showActor={showActor}
-          showSpouse={showSpouse && !!spouseCount}
-          showChild={showChild && !!childCount}
-        />
+        {data1 && (
+          <InfoFinancialSingleDetails
+            data={data1}
+            showActor={showActor}
+            showSpouse={showSpouse && !!spouseCount}
+            showChild={showChild && !!childCount}
+          />
+        )}
       </section>
       <section className="mb-10">
         <div className="block b3 font-bold mb-2">{name2}</div>
@@ -138,12 +144,14 @@ export const InfoFinancialSingleCard = ({
             <span className="block b4 font-bold">{f$(data2Total)}</span>
           </div>
         </div>
-        <InfoFinancialSingleDetails
-          data={data2}
-          showActor={showActor}
-          showSpouse={showSpouse && !!spouseCount}
-          showChild={showChild && !!childCount}
-        />
+        {data2 && (
+          <InfoFinancialSingleDetails
+            data={data2}
+            showActor={showActor}
+            showSpouse={showSpouse && !!spouseCount}
+            showChild={showChild && !!childCount}
+          />
+        )}
       </section>
       <p
         className={clsx(
@@ -165,8 +173,8 @@ interface InfoFinancialCompareCardProps {
   year1: string | number;
   year2: string | number;
   max: number;
-  data1: InfoFinanceStatement[];
-  data2: InfoFinanceStatement[];
+  data1?: InfoFinanceStatement[];
+  data2?: InfoFinanceStatement[];
   spouseCount: number;
   childCount: number;
   showActor: boolean;
@@ -189,18 +197,22 @@ export const InfoFinancialCompareCard = ({
   showChild,
   lessIsBetter,
 }: InfoFinancialCompareCardProps) => {
-  const actor1Total = showActor ? data1.reduce((a, c) => a + c.value[0], 0) : 0;
+  const actor1Total = showActor ? data1?.reduce((a, c) => a + c.value[0], 0) ?? 0 : 0;
   const spouse1Total =
-    showSpouse && spouseCount ? data1.reduce((a, c) => a + (c.value[1] || 0), 0) : 0;
+    showSpouse && spouseCount
+      ? data1?.reduce((a, c) => a + (c.value[1] || 0), 0) ?? 0
+      : 0;
   const child1Total =
-    showChild && childCount ? data1.reduce((a, c) => a + (c.value[2] || 0), 0) : 0;
+    showChild && childCount ? data1?.reduce((a, c) => a + (c.value[2] || 0), 0) ?? 0 : 0;
   const data1Total = actor1Total + spouse1Total + child1Total;
 
-  const actor2Total = showActor ? data2.reduce((a, c) => a + c.value[0], 0) : 0;
+  const actor2Total = showActor ? data2?.reduce((a, c) => a + c.value[0], 0) ?? 0 : 0;
   const spouse2Total =
-    showSpouse && spouseCount ? data2.reduce((a, c) => a + (c.value[1] || 0), 0) : 0;
+    showSpouse && spouseCount
+      ? data2?.reduce((a, c) => a + (c.value[1] || 0), 0) ?? 0
+      : 0;
   const child2Total =
-    showChild && childCount ? data2.reduce((a, c) => a + (c.value[2] || 0), 0) : 0;
+    showChild && childCount ? data2?.reduce((a, c) => a + (c.value[2] || 0), 0) ?? 0 : 0;
   const data2Total = actor2Total + spouse2Total + child2Total;
 
   const percentDiff = safePercent(data2Total, data1Total);

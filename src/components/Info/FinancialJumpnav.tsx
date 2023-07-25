@@ -66,13 +66,15 @@ export function FinancialJumpnav({ latestStatement }: FinancialJumpnavProps) {
         >
           <div className="flex flex-col items-center">
             <span className="opacity-60 b5 text-white">ทรัพย์สิน</span>
-            <span className="b1 font-bold">{f$(latestStatement.ทรัพย์สิน)}</span>
+            <span className="b2 font-bold leading-1">
+              {f$(latestStatement.ทรัพย์สิน)}
+            </span>
             <span className="opacity-60 b6">ล้านบาท</span>
           </div>
           <span className="b5 font-bold">{compareทรัพย์สินหนี้สิน}</span>
           <div className="flex flex-col items-center">
             <span className="opacity-60 b5 text-white">หนี้สิน</span>
-            <span className="b1 font-bold">{f$(latestStatement.หนี้สิน)}</span>
+            <span className="b2 font-bold leading-1">{f$(latestStatement.หนี้สิน)}</span>
             <span className="opacity-60 b6">ล้านบาท</span>
           </div>
         </div>
@@ -85,13 +87,13 @@ export function FinancialJumpnav({ latestStatement }: FinancialJumpnavProps) {
         >
           <div className="flex flex-col items-center">
             <span className="opacity-60 b5 text-white">รายได้</span>
-            <span className="b1 font-bold">{f$(latestStatement.รายได้)}</span>
+            <span className="b2 font-bold leading-1">{f$(latestStatement.รายได้)}</span>
             <span className="opacity-60 b6">ล้านบาท</span>
           </div>
           <span className="b5 font-bold">{compareรายได้รายจ่าย}</span>
           <div className="flex flex-col items-center">
             <span className="opacity-60 b5 text-white">รายจ่าย</span>
-            <span className="b1 font-bold">{f$(latestStatement.รายจ่าย)}</span>
+            <span className="b2 font-bold leading-1">{f$(latestStatement.รายจ่าย)}</span>
             <span className="opacity-60 b6">ล้านบาท</span>
           </div>
         </div>

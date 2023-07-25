@@ -495,6 +495,7 @@ export const getAsset = async (nacc_id) => {
             : null,
       })
       .select(
+        "detail",
         "valuation_submitter",
         "valuation_spouse",
         "valuation_successor",
@@ -502,33 +503,69 @@ export const getAsset = async (nacc_id) => {
         "note"
       )
       .objects();
+
+    assetData[type] = assetData[type]
+      .map((e) => [
+        {
+          actor: "ผู้ยื่น",
+          name: e.detail || type,
+          value: e.valuation_submitter,
+        },
+        {
+          actor: "คู่สมรส",
+          name: e.detail || type,
+          value: e.valuation_spouse,
+        },
+        {
+          actor: "บุตร",
+          name: e.detail || type,
+          value: e.valuation_successor,
+        },
+      ])
+      .flat()
+      .filter((e) => e.value);
   });
+
+  // remove undefined
+  for (const type in assetData) {
+    if (type === "ทรัพย์สินอื่น") {
+      for (const subtype in assetData["ทรัพย์สินอื่น"]) {
+        if (assetData["ทรัพย์สินอื่น"][subtype].length === 0)
+          delete assetData["ทรัพย์สินอื่น"][subtype];
+      }
+    } else {
+      if (assetData[type].length === 0) delete assetData[type];
+    }
+  }
+
+  if (JSON.stringify(assetData["ทรัพย์สินอื่น"]) === "{}")
+    delete assetData["ทรัพย์สินอื่น"];
+  if (JSON.stringify(assetData) === "{}") return;
 
   return assetData;
 };
 
 const getTopAsset = (assetData) => {
-  const ที่ดิน = assetData["ที่ดิน"].map((e) => ({ ...e, baseCatg: "ที่ดิน" }));
-  const โรงเรือนและสิ่งปลูกสร้าง = assetData["โรงเรือนและสิ่งปลูกสร้าง"].map((e) => ({
-    ...e,
-    baseCatg: "โรงเรือนและสิ่งปลูกสร้าง",
-  }));
-  const ยานพาหนะ = assetData["ยานพาหนะ"].map((e) => ({ ...e, baseCatg: "ยานพาหนะ" }));
-  const สิทธิและสัมปทาน = assetData["สิทธิและสัมปทาน"].map((e) => ({
-    ...e,
-    baseCatg: "สิทธิและสัมปทาน",
-  }));
-  const ทรัพย์สินอื่น = Object.values(assetData["ทรัพย์สินอื่น"]).map((e) => ({
-    ...e,
-    baseCatg: "ทรัพย์สินอื่น",
-  }));
-  const เงินสด = assetData["เงินสด"].map((e) => ({ ...e, baseCatg: "เงินสด" }));
-  const เงินฝาก = assetData["เงินฝาก"].map((e) => ({ ...e, baseCatg: "เงินฝาก" }));
-  const เงินลงทุน = assetData["เงินลงทุน"].map((e) => ({ ...e, baseCatg: "เงินลงทุน" }));
-  const เงินให้กู้ยืม = assetData["เงินให้กู้ยืม"].map((e) => ({
-    ...e,
-    baseCatg: "เงินให้กู้ยืม",
-  }));
+  if (!assetData) return;
+
+  const ที่ดิน = assetData["ที่ดิน"]?.map((e) => ({ ...e, baseCatg: "ที่ดิน" })) ?? [];
+  const โรงเรือนและสิ่งปลูกสร้าง =
+    assetData["โรงเรือนและสิ่งปลูกสร้าง"]?.map((e) => ({
+      ...e,
+      baseCatg: "โรงเรือนและสิ่งปลูกสร้าง",
+    })) ?? [];
+  const ยานพาหนะ =
+    assetData["ยานพาหนะ"]?.map((e) => ({ ...e, baseCatg: "ยานพาหนะ" })) ?? [];
+  const สิทธิและสัมปทาน =
+    assetData["สิทธิและสัมปทาน"]?.map((e) => ({
+      ...e,
+      baseCatg: "สิทธิและสัมปทาน",
+    })) ?? [];
+  const ทรัพย์สินอื่น =
+    Object.values(assetData["ทรัพย์สินอื่น"])?.map((e) => ({
+      ...e,
+      baseCatg: "ทรัพย์สินอื่น",
+    })) ?? [];
 
   const all = [
     ...ที่ดิน,
@@ -536,10 +573,6 @@ const getTopAsset = (assetData) => {
     ...ยานพาหนะ,
     ...สิทธิและสัมปทาน,
     ...ทรัพย์สินอื่น,
-    ...เงินสด,
-    ...เงินฝาก,
-    ...เงินลงทุน,
-    ...เงินให้กู้ยืม,
   ];
 
   const max = all.reduce(
@@ -607,11 +640,6 @@ export const getStatement = async (nacc_id) => {
     }));
   }
 
-  if (!("รายได้" in statementData)) statementData.รายได้ = [];
-  if (!("รายจ่าย" in statementData)) statementData.รายจ่าย = [];
-  if (!("ทรัพย์สิน" in statementData)) statementData.ทรัพย์สิน = [];
-  if (!("หนี้สิน" in statementData)) statementData.หนี้สิน = [];
-
   const tax = DATA.STATEMENT.params({ nacc_id })
     .filter(
       (d) => op.equal(d.nacc_id, nacc_id) && op.equal(d.statement_type_id, 5) // NOTE - Assuming that tax is always id 5
@@ -625,11 +653,15 @@ export const getStatement = async (nacc_id) => {
     tax?.valuation_child ?? "",
   ].map((e) => +e.replace(/,/g, ""));
 
+  if (statementData["ภาษี"].reduce((a, c) => a + c) === 0) delete statementData["ภาษี"];
+
+  if (JSON.stringify(statementData) === "{}") return;
+
   return statementData;
 };
 
 const getLatestStatementSummary = (nacc, statements) => {
-  if (!nacc) return undefined;
+  if (!nacc) return;
 
   // 1. Find latest nacc
   const [latestYear, latestNacc] = Object.entries(nacc).reduce(
@@ -666,7 +698,7 @@ const getLatestStatementSummary = (nacc, statements) => {
 
     return lastestStatement;
   } catch (e) {
-    return undefined;
+    return;
   }
 };
 
@@ -777,8 +809,8 @@ export const generatePeople = async () => {
 
   const namesAndId = [...has_nacc, ...non_nacc];
 
-  let idx = 1;
-  const ppllen = namesAndId.length;
+  // let idx = 1;
+  // const ppllen = namesAndId.length;
   // console.info(`ℹ Found ${ppllen} people.`);
   for (const { full_name, nacc_id } of namesAndId) {
     // console.info(`ℹ Processing ${idx++}/${ppllen}...`);

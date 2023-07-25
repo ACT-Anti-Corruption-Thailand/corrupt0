@@ -4,34 +4,31 @@ import { InfoFinancialChart } from "./Chart";
 import type { ActorSpouseChildArr, InfoFinanceStatement } from "./Section";
 import { f$, fP, safePercent } from "./Section";
 
-interface InfoFinancialSingleTaxCardProps {
-  tax: ActorSpouseChildArr;
+interface CompareIncomeProps {
+  totalTax: number;
   income: InfoFinanceStatement[];
-  max: number;
-
-  spouseCount: number;
-  childCount: number;
-
+  taxActor: number;
+  taxSpouse: number;
+  taxChild: number;
   showActor: boolean;
   showSpouse: boolean;
+  spouseCount: number;
   showChild: boolean;
+  childCount: number;
 }
 
-export const InfoFinancialSingleTaxCard = ({
-  tax,
+function CompareIncome({
+  totalTax,
   income,
-  max,
-  spouseCount,
-  childCount,
+  taxActor,
+  taxSpouse,
+  taxChild,
   showActor,
   showSpouse,
+  spouseCount,
   showChild,
-}: InfoFinancialSingleTaxCardProps) => {
-  const taxActor = showActor ? tax[0] : 0;
-  const taxSpouse = showSpouse ? tax[1] ?? 0 : 0;
-  const taxChild = showChild ? tax[2] ?? 0 : 0;
-
-  const totalTax = taxActor + taxSpouse + taxChild;
+  childCount,
+}: CompareIncomeProps) {
   const [totalActorIncome, totalSpouseIncome, totalChildIncome] = income.reduce(
     (a, c) => {
       return [a[0] + c.value[0], a[1] + (c.value[1] ?? 0), a[2] + (c.value[2] ?? 0)];
@@ -63,6 +60,70 @@ export const InfoFinancialSingleTaxCard = ({
     totalCompare > 100
       ? ["มากกว่า", totalCompare - 100]
       : ["น้อยกว่า", 100 - totalCompare];
+
+  return (
+    <div className="flex flex-col gap-5 py-5 border-y border-y-gray-4">
+      <span className="block b3 font-bold">เปรียบเทียบกับรายได้จริง</span>
+      <div className="flex">
+        {showActor && (
+          <div className="flex-1">
+            <span className="block b4">{actorWording}</span>
+            <span className="block b5">{fP(actorValue)}%</span>
+          </div>
+        )}
+        {showSpouse && spouseCount > 0 && (
+          <div className="opacity-80 flex-1 flex">
+            <div className={clsx(showActor && "mx-auto")}>
+              <span className="block b4">{spouseWording}</span>
+              <span className="block b5">{fP(spouseValue)}%</span>
+            </div>
+          </div>
+        )}
+        {showChild && childCount > 0 && (
+          <div className="opacity-80 flex-1 flex">
+            <div className={clsx((showActor || showSpouse) && "mx-auto")}>
+              <span className="block b4">{childWording}</span>
+              <span className="block b5">{fP(childValue)}%</span>
+            </div>
+          </div>
+        )}
+        <div className="text-right flex-1">
+          <span className="block b4">{totalWording}</span>
+          <span className="block b5">{fP(totalValue)}%</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+interface InfoFinancialSingleTaxCardProps {
+  tax: ActorSpouseChildArr;
+  income?: InfoFinanceStatement[];
+  max: number;
+
+  spouseCount: number;
+  childCount: number;
+
+  showActor: boolean;
+  showSpouse: boolean;
+  showChild: boolean;
+}
+
+export const InfoFinancialSingleTaxCard = ({
+  tax,
+  income,
+  max,
+  spouseCount,
+  childCount,
+  showActor,
+  showSpouse,
+  showChild,
+}: InfoFinancialSingleTaxCardProps) => {
+  const taxActor = showActor ? tax[0] : 0;
+  const taxSpouse = showSpouse ? tax[1] ?? 0 : 0;
+  const taxChild = showChild ? tax[2] ?? 0 : 0;
+
+  const totalTax = taxActor + taxSpouse + taxChild;
 
   return (
     <div className="bg-gray-1 p-10">
@@ -105,37 +166,20 @@ export const InfoFinancialSingleTaxCard = ({
             <span className="block b4 font-bold">{f$(totalTax)}</span>
           </div>
         </div>
-        <div className="flex flex-col gap-5 py-5 border-y border-y-gray-4">
-          <span className="block b3 font-bold">เปรียบเทียบกับรายได้จริง</span>
-          <div className="flex">
-            {showActor && (
-              <div className="flex-1">
-                <span className="block b4">{actorWording}</span>
-                <span className="block b5">{fP(actorValue)}%</span>
-              </div>
-            )}
-            {showSpouse && spouseCount > 0 && (
-              <div className="opacity-80 flex-1 flex">
-                <div className={clsx(showActor && "mx-auto")}>
-                  <span className="block b4">{spouseWording}</span>
-                  <span className="block b5">{fP(spouseValue)}%</span>
-                </div>
-              </div>
-            )}
-            {showChild && childCount > 0 && (
-              <div className="opacity-80 flex-1 flex">
-                <div className={clsx((showActor || showSpouse) && "mx-auto")}>
-                  <span className="block b4">{childWording}</span>
-                  <span className="block b5">{fP(childValue)}%</span>
-                </div>
-              </div>
-            )}
-            <div className="text-right flex-1">
-              <span className="block b4">{totalWording}</span>
-              <span className="block b5">{fP(totalValue)}%</span>
-            </div>
-          </div>
-        </div>
+        {income && (
+          <CompareIncome
+            income={income}
+            totalTax={totalTax}
+            taxActor={taxActor}
+            taxSpouse={taxSpouse}
+            taxChild={taxChild}
+            showActor={showActor}
+            showSpouse={showSpouse}
+            spouseCount={spouseCount}
+            showChild={showChild}
+            childCount={childCount}
+          />
+        )}
       </section>
     </div>
   );

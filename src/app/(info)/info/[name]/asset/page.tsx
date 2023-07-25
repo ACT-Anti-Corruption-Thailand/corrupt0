@@ -54,9 +54,9 @@ export default function Asset({ params }: AssetPageProps) {
 
   const { assets, nacc } = file;
 
-  if (!nacc) notFound();
+  if (JSON.stringify(assets) === "{}") notFound();
 
-  const YEARS: DropdownDetailedData[] = Object.keys(nacc).map((nacc_id) => ({
+  const YEARS: DropdownDetailedData[] = Object.keys(assets).map((nacc_id) => ({
     data: nacc_id,
     label: (
       <>
@@ -76,87 +76,6 @@ export default function Asset({ params }: AssetPageProps) {
     },
     ...YEARS,
   ];
-
-  const STATEMENTS = Object.fromEntries(
-    Object.keys(nacc).map((nacc_id) => [
-      nacc_id,
-      {
-        cash: assets[nacc_id].เงินสด
-          .map((e: any) => [
-            {
-              actor: "ผู้ยื่น",
-              value: e.valuation_submitter,
-            },
-            {
-              actor: "คู่สมรส",
-              value: e.valuation_spouse,
-            },
-            {
-              actor: "บุตร",
-              value: e.valuation_successor,
-            },
-          ])
-          .flat()
-          .filter((e: any) => e.value),
-        deposit: assets[nacc_id].เงินฝาก
-          .map((e: any) => [
-            {
-              actor: "ผู้ยื่น",
-              value: e.valuation_submitter,
-            },
-            {
-              actor: "คู่สมรส",
-              value: e.valuation_spouse,
-            },
-            {
-              actor: "บุตร",
-              value: e.valuation_successor,
-            },
-          ])
-          .flat()
-          .filter((e: any) => e.value),
-        investment: assets[nacc_id].เงินลงทุน
-          .map((e: any) => [
-            {
-              actor: "ผู้ยื่น",
-              value: e.valuation_submitter,
-            },
-            {
-              actor: "คู่สมรส",
-              value: e.valuation_spouse,
-            },
-            {
-              actor: "บุตร",
-              value: e.valuation_successor,
-            },
-          ])
-          .flat()
-          .filter((e: any) => e.value),
-        loan: assets[nacc_id].เงินให้กู้ยืม
-          .map((e: any) => [
-            {
-              actor: "ผู้ยื่น",
-              value: e.valuation_submitter,
-            },
-            {
-              actor: "คู่สมรส",
-              value: e.valuation_spouse,
-            },
-            {
-              actor: "บุตร",
-              value: e.valuation_successor,
-            },
-          ])
-          .flat()
-          .filter((e: any) => e.value),
-        land: assets[nacc_id].ที่ดิน,
-        concession: assets[nacc_id].สิทธิและสัมปทาน,
-        building: assets[nacc_id].โรงเรือนและสิ่งปลูกสร้าง,
-        vehicle: assets[nacc_id].ยานพาหนะ,
-        valuable: assets[nacc_id].ทรัพย์สินอื่น,
-      },
-    ])
-  );
 
   return (
     <main>
@@ -183,11 +102,7 @@ export default function Asset({ params }: AssetPageProps) {
         </h1>
       </header>
 
-      <InfoAssetMain
-        years={YEARS}
-        compare_years={COMPARE_YEARS}
-        statements={STATEMENTS}
-      />
+      <InfoAssetMain years={YEARS} compare_years={COMPARE_YEARS} statements={assets} />
 
       <div className="flex gap-5 mt-10 mb-20 max-w-[850px] mx-auto">
         <DownloadMenu data={nacc} />

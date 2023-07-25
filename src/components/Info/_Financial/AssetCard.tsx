@@ -37,9 +37,9 @@ export function TopAssetCard({
   year2,
   property2,
 }: TopAssetCardProps): JSX.Element {
-  const [p1price, p1unit] = thaiMoneyFormatter(property1.value);
+  const [p1price, p1unit] = thaiMoneyFormatter(property1?.value ?? 0);
   const [p2price, p2unit] = property2
-    ? thaiMoneyFormatter(property2.value)
+    ? thaiMoneyFormatter(property2?.value ?? 0)
     : [null, null];
 
   return (
@@ -67,30 +67,42 @@ export function TopAssetCard({
           <div className="flex gap-5 items-stretch text-black">
             <div className="flex-1 flex flex-col gap-5 justify-center items-center">
               <span className="b3">{year1}</span>
-              <Image src={ICONS[property1.baseCatg]} alt="" width={40} height={40} />
-              <span className="b5">{property1.name}</span>
-              <span className="b3 font-bold -mt-5">
-                {formatThousands(p1price)} {p1unit}
-              </span>
+              {property1 && (
+                <Image src={ICONS[property1.baseCatg]} alt="" width={40} height={40} />
+              )}
+              <span className="b5">{property1?.name ?? "ไม่มีข้อมูล"}</span>
+              {property1 && (
+                <span className="b3 font-bold -mt-5">
+                  {formatThousands(p1price)} {p1unit}
+                </span>
+              )}
             </div>
             <div className="w-1 bg-gray-4" />
             <div className="flex-1 flex flex-col gap-5 justify-center items-center">
               <span className="b3">{year2}</span>
-              <Image src={ICONS[property2.baseCatg]} alt="" width={40} height={40} />
-              <span className="b5">{property2.name}</span>
-              <span className="b3 font-bold -mt-5">
-                {p2price && formatThousands(p2price)} {p2unit}
-              </span>
+              {property2 && (
+                <Image src={ICONS[property2.baseCatg]} alt="" width={40} height={40} />
+              )}
+              <span className="b5">{property2?.name ?? "ไม่มีข้อมูล"}</span>
+              {property2 && (
+                <span className="b3 font-bold -mt-5">
+                  {p2price && formatThousands(p2price)} {p2unit}
+                </span>
+              )}
             </div>
           </div>
         ) : (
           <div className="flex gap-5 items-start">
-            <Image src={ICONS[property1.baseCatg]} alt="" width={40} height={40} />
+            {property1 && (
+              <Image src={ICONS[property1.baseCatg]} alt="" width={40} height={40} />
+            )}
             <div className="flex-1 text-black">
-              <span className="block b5">{property1.name}</span>
-              <span className="block b3 font-bold">
-                {formatThousands(p1price)} {p1unit}
-              </span>
+              <span className="block b5">{property1?.name ?? "ไม่มีข้อมูล"}</span>
+              {property1 && (
+                <span className="block b3 font-bold">
+                  {formatThousands(p1price)} {p1unit}
+                </span>
+              )}
             </div>
           </div>
         )}

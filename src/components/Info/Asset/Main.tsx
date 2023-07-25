@@ -39,15 +39,15 @@ const EMPTY_STATEMENT = {
 };
 
 interface InfoAssetStatements {
-  cash: InfoAssetStatement[];
-  deposit: InfoAssetStatement[];
-  investment: InfoAssetStatement[];
-  loan: InfoAssetStatement[];
-  land: InfoAssetLandStatement[];
-  concession: InfoAssetConcessionStatement[];
-  building: InfoAssetBuildingStatement[];
-  vehicle: InfoAssetVehicleStatement[];
-  valuable: InfoAssetValuableStatement;
+  เงินสด: InfoAssetStatement[];
+  เงินฝาก: InfoAssetStatement[];
+  เงินลงทุน: InfoAssetStatement[];
+  เงินให้กู้ยืม: InfoAssetStatement[];
+  ที่ดิน: InfoAssetLandStatement[];
+  สิทธิและสัมปทาน: InfoAssetConcessionStatement[];
+  โรงเรือนและสิ่งปลูกสร้าง: InfoAssetBuildingStatement[];
+  ยานพาหนะ: InfoAssetVehicleStatement[];
+  ทรัพย์สินอื่น: InfoAssetValuableStatement;
 }
 
 interface InfoAssetMainProps {
@@ -102,65 +102,67 @@ export default function InfoAssetMain({
         <>
           <InfoAssetCompareAccordion.Cash
             name="เงินสด"
-            statements1={statements1.cash}
-            statements2={statements2.cash}
+            statements1={statements1.เงินสด}
+            statements2={statements2.เงินสด}
           />
           <InfoAssetCompareAccordion.Cash
             name="เงินฝาก"
-            statements1={statements1.deposit}
-            statements2={statements2.deposit}
+            statements1={statements1.เงินฝาก}
+            statements2={statements2.เงินฝาก}
           />
           <InfoAssetCompareAccordion.Cash
             name="เงินลงทุน"
-            statements1={statements1.investment}
-            statements2={statements2.investment}
+            statements1={statements1.เงินลงทุน}
+            statements2={statements2.เงินลงทุน}
           />
           <InfoAssetCompareAccordion.Cash
             name="เงินให้กู้ยืม"
-            statements1={statements1.loan}
-            statements2={statements2.loan}
+            statements1={statements1.เงินให้กู้ยืม}
+            statements2={statements2.เงินให้กู้ยืม}
           />
           <InfoAssetCompareAccordion.Land
-            statements1={statements1.land}
-            statements2={statements2.land}
+            statements1={statements1.ที่ดิน}
+            statements2={statements2.ที่ดิน}
           />
           <InfoAssetCompareAccordion.Concession
-            statements1={statements1.concession}
-            statements2={statements2.concession}
+            statements1={statements1.สิทธิและสัมปทาน}
+            statements2={statements2.สิทธิและสัมปทาน}
           />
           <InfoAssetCompareAccordion.Building
-            statements1={statements1.building}
-            statements2={statements2.building}
+            statements1={statements1.โรงเรือนและสิ่งปลูกสร้าง}
+            statements2={statements2.โรงเรือนและสิ่งปลูกสร้าง}
           />
           <InfoAssetCompareAccordion.Vehicle
-            statements1={statements1.vehicle}
-            statements2={statements2.vehicle}
+            statements1={statements1.ยานพาหนะ}
+            statements2={statements2.ยานพาหนะ}
           />
           <InfoAssetCompareAccordion.Valuable
-            statements1={statements1.valuable}
-            statements2={statements2.valuable}
+            statements1={statements1.ทรัพย์สินอื่น}
+            statements2={statements2.ทรัพย์สินอื่น}
           />
         </>
       ) : (
         <>
-          <InfoAssetSingleAccordion.Cash name="เงินสด" statements={statements1.cash} />
+          <InfoAssetSingleAccordion.Cash name="เงินสด" statements={statements1.เงินสด} />
           <InfoAssetSingleAccordion.Cash
             name="เงินฝาก"
-            statements={statements1.deposit}
+            statements={statements1.เงินฝาก}
           />
           <InfoAssetSingleAccordion.Cash
             name="เงินลงทุน"
-            statements={statements1.investment}
+            statements={statements1.เงินลงทุน}
           />
           <InfoAssetSingleAccordion.Cash
             name="เงินให้กู้ยืม"
-            statements={statements1.loan}
+            statements={statements1.เงินให้กู้ยืม}
           />
-          <InfoAssetSingleAccordion.Land statements={statements1.land} />
-          <InfoAssetSingleAccordion.Concession statements={statements1.concession} />
-          <InfoAssetSingleAccordion.Building statements={statements1.building} />
-          <InfoAssetSingleAccordion.Vehicle statements={statements1.vehicle} />
-          <InfoAssetSingleAccordion.Valuable statements={statements1.valuable} />
+          <InfoAssetSingleAccordion.Land statements={statements1.ที่ดิน} />
+          <InfoAssetSingleAccordion.Concession statements={statements1.สิทธิและสัมปทาน} />
+          <InfoAssetSingleAccordion.Building
+            statements={statements1.โรงเรือนและสิ่งปลูกสร้าง}
+          />
+          <InfoAssetSingleAccordion.Vehicle statements={statements1.ยานพาหนะ} />
+          <InfoAssetSingleAccordion.Valuable statements={statements1.ทรัพย์สินอื่น} />
         </>
       )}
     </section>

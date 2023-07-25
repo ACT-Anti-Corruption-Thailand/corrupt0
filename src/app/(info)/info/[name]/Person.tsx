@@ -104,7 +104,7 @@ export default function Person({ params }: { params: { name: string } }) {
     ])
   );
 
-  const YEARS: DropdownDetailedData[] = Object.keys(nacc ?? {}).map((nacc_id) => ({
+  const YEARS: DropdownDetailedData[] = Object.keys(statement ?? {}).map((nacc_id) => ({
     data: nacc_id,
     label: (
       <>

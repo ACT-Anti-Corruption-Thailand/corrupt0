@@ -28,11 +28,11 @@ export interface InfoFinanceStatement {
 }
 
 interface InfoFinancial {
-  ทรัพย์สิน: InfoFinanceStatement[];
-  หนี้สิน: InfoFinanceStatement[];
-  รายได้: InfoFinanceStatement[];
-  รายจ่าย: InfoFinanceStatement[];
-  ภาษี: ActorSpouseChildArr;
+  ทรัพย์สิน?: InfoFinanceStatement[];
+  หนี้สิน?: InfoFinanceStatement[];
+  รายได้?: InfoFinanceStatement[];
+  รายจ่าย?: InfoFinanceStatement[];
+  ภาษี?: ActorSpouseChildArr;
 }
 
 const calcMax = (
@@ -40,36 +40,54 @@ const calcMax = (
   currentYearData: InfoFinancial,
   compareYearData: InfoFinancial
 ) => {
-  const propertyMax = currentYearData.ทรัพย์สิน
-    .map((e) => e.value.reduce((a: number, c) => a + (c ?? 0), 0))
-    .reduce((a, c) => a + c, 0);
-  const debtMax = currentYearData.หนี้สิน
-    .map((e) => e.value.reduce((a: number, c) => a + (c ?? 0), 0))
-    .reduce((a, c) => a + c, 0);
-  const incomeMax = currentYearData.รายได้
-    .map((e) => e.value.reduce((a: number, c) => a + (c ?? 0), 0))
-    .reduce((a, c) => a + c, 0);
-  const expenseMax = currentYearData.รายจ่าย
-    .map((e) => e.value.reduce((a: number, c) => a + (c ?? 0), 0))
-    .reduce((a, c) => a + c, 0);
-  const taxMax = currentYearData.ภาษี.reduce((a: number, c) => a + (c ?? 0), 0);
+  const propertyMax =
+    currentYearData.ทรัพย์สิน
+      ?.map((e) => e.value)
+      .flat()
+      .reduce((a, c) => (a ?? 0) + (c ?? 0), 0) ?? -Infinity;
+  const debtMax =
+    currentYearData.หนี้สิน
+      ?.map((e) => e.value)
+      .flat()
+      .reduce((a, c) => (a ?? 0) + (c ?? 0), 0) ?? -Infinity;
+  const incomeMax =
+    currentYearData.รายได้
+      ?.map((e) => e.value)
+      .flat()
+      .reduce((a, c) => (a ?? 0) + (c ?? 0), 0) ?? -Infinity;
+  const expenseMax =
+    currentYearData.รายจ่าย
+      ?.map((e) => e.value)
+      .flat()
+      .reduce((a, c) => (a ?? 0) + (c ?? 0), 0) ?? -Infinity;
+  const taxMax =
+    currentYearData.ภาษี?.reduce((a: number, c) => a + (c ?? 0), 0) ?? -Infinity;
 
   const currentMax = Math.max(propertyMax, debtMax, incomeMax, expenseMax, taxMax);
   if (!compareYear) return currentMax;
 
-  const comparePropertyMax = compareYearData.ทรัพย์สิน
-    .map((e) => e.value.reduce((a: number, c) => a + (c ?? 0), 0))
-    .reduce((a, c) => a + c, 0);
-  const compareDebtMax = compareYearData.หนี้สิน
-    .map((e) => e.value.reduce((a: number, c) => a + (c ?? 0), 0))
-    .reduce((a, c) => a + c, 0);
-  const compareIncomeMax = compareYearData.รายได้
-    .map((e) => e.value.reduce((a: number, c) => a + (c ?? 0), 0))
-    .reduce((a, c) => a + c, 0);
-  const compareExpenseMax = compareYearData.รายจ่าย
-    .map((e) => e.value.reduce((a: number, c) => a + (c ?? 0), 0))
-    .reduce((a, c) => a + c, 0);
-  const compareTaxMax = compareYearData.ภาษี.reduce((a: number, c) => a + (c ?? 0), 0);
+  const comparePropertyMax =
+    compareYearData.ทรัพย์สิน
+      ?.map((e) => e.value)
+      .flat()
+      .reduce((a, c) => (a ?? 0) + (c ?? 0), 0) ?? -Infinity;
+  const compareDebtMax =
+    compareYearData.หนี้สิน
+      ?.map((e) => e.value)
+      .flat()
+      .reduce((a, c) => (a ?? 0) + (c ?? 0), 0) ?? -Infinity;
+  const compareIncomeMax =
+    compareYearData.รายได้
+      ?.map((e) => e.value)
+      .flat()
+      .reduce((a, c) => (a ?? 0) + (c ?? 0), 0) ?? -Infinity;
+  const compareExpenseMax =
+    compareYearData.รายจ่าย
+      ?.map((e) => e.value)
+      .flat()
+      .reduce((a, c) => (a ?? 0) + (c ?? 0), 0) ?? -Infinity;
+  const compareTaxMax =
+    compareYearData.ภาษี?.reduce((a: number, c) => a + (c ?? 0), 0) ?? -Infinity;
 
   return Math.max(
     currentMax,
@@ -217,18 +235,20 @@ export default function InfoFinancialSection({
                   showChild={showChild}
                   lessIsBetter
                 />
-                <InfoFinancialCompareTaxCard
-                  year1={naccYear[currentYear.data]}
-                  year2={naccYear[compareYear.data]}
-                  tax1={currentYearData.ภาษี}
-                  tax2={compareYearData.ภาษี}
-                  max={max}
-                  spouseCount={spouseCount}
-                  childCount={childCount}
-                  showActor={showActor}
-                  showSpouse={showSpouse}
-                  showChild={showChild}
-                />
+                {currentYearData.ภาษี && compareYearData.ภาษี && (
+                  <InfoFinancialCompareTaxCard
+                    year1={naccYear[currentYear.data]}
+                    year2={naccYear[compareYear.data]}
+                    tax1={currentYearData.ภาษี}
+                    tax2={compareYearData.ภาษี}
+                    max={max}
+                    spouseCount={spouseCount}
+                    childCount={childCount}
+                    showActor={showActor}
+                    showSpouse={showSpouse}
+                    showChild={showChild}
+                  />
+                )}
               </>
             ) : (
               <>
@@ -256,16 +276,24 @@ export default function InfoFinancialSection({
                   showSpouse={showSpouse}
                   showChild={showChild}
                 />
-                <InfoFinancialSingleTaxCard
-                  tax={currentYearData.ภาษี}
-                  income={currentYearData.รายได้}
-                  max={max}
-                  spouseCount={spouseCount}
-                  childCount={childCount}
-                  showActor={showActor}
-                  showSpouse={showSpouse}
-                  showChild={showChild}
-                />
+                {currentYearData.ภาษี ? (
+                  <InfoFinancialSingleTaxCard
+                    tax={currentYearData.ภาษี}
+                    income={currentYearData.รายได้}
+                    max={max}
+                    spouseCount={spouseCount}
+                    childCount={childCount}
+                    showActor={showActor}
+                    showSpouse={showSpouse}
+                    showChild={showChild}
+                  />
+                ) : (
+                  <div className="bg-gray-1 p-10 font-bold b3">
+                    <div className="b2">การเสียภาษี</div>
+                    <span className="block mb-5">เงินได้พึงประเมิน</span>
+                    <span className="block text-gray-5">ไม่ได้ระบุไว้</span>
+                  </div>
+                )}
               </>
             )}
           </div>

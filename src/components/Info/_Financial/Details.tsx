@@ -78,8 +78,8 @@ const InfoFinanceCompareEntry = ({
   showChild,
   lessIsBetter,
 }: InfoFinanceCompareEntryProps) => {
-  const data1Entry = data1.find((e) => e.type === type) ?? { value: [0, 0, 0] };
-  const data2Entry = data2.find((e) => e.type === type) ?? { value: [0, 0, 0] };
+  const data1Entry = data1?.find((e) => e.type === type) ?? { value: [0, 0, 0] };
+  const data2Entry = data2?.find((e) => e.type === type) ?? { value: [0, 0, 0] };
 
   const data1Value = data1Entry.value;
   const data2Value = data2Entry.value;
@@ -154,8 +154,8 @@ const InfoFinanceCompareEntry = ({
 };
 
 interface InfoFinancialCompareDetailsProps {
-  data1: InfoFinanceStatement[];
-  data2: InfoFinanceStatement[];
+  data1?: InfoFinanceStatement[];
+  data2?: InfoFinanceStatement[];
   showActor: boolean;
   showSpouse: boolean;
   showChild: boolean;
@@ -171,7 +171,10 @@ export const InfoFinancialCompareDetails = ({
   lessIsBetter,
 }: InfoFinancialCompareDetailsProps) => {
   const uniqType = [
-    ...new Set([...data1.map((e) => e.type), ...data2.map((e) => e.type)]),
+    ...new Set([
+      ...(data1?.map((e) => e.type) ?? []),
+      ...(data2?.map((e) => e.type) ?? []),
+    ]),
   ].sort((a, z) => a.localeCompare(z));
 
   return (

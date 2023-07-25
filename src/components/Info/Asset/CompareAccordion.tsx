@@ -665,6 +665,8 @@ const Valuable = ({ statements1, statements2 }: ValuableProps) => {
         const groupStatement2 = statements2[name];
 
         return (
+          groupStatement1 &&
+          groupStatement2 &&
           groupStatement1.length + groupStatement2.length > 0 && (
             <ValuableGroup
               key={i}
