@@ -808,6 +808,7 @@ export const generatePeople = async () => {
   );
 
   const namesAndId = [...has_nacc, ...non_nacc];
+  const namesAndPosition = [];
 
   // let idx = 1;
   // const ppllen = namesAndId.length;
@@ -830,6 +831,11 @@ export const generatePeople = async () => {
     const nacc_ids = nacc_id ? Object.keys(formattedNacc) : [];
 
     const person_data_json = await getPersonalData(full_name);
+
+    if (person_data_json.position)
+      namesAndPosition.push(full_name + "|" + person_data_json.position);
+    else namesAndPosition.push(full_name.replace(/-/g, " "));
+
     const lawsuit = await getLawsuit(full_name);
     const donation = await getPersonDonation(full_name);
     const business = await getPersonBusiness(full_name);
@@ -878,6 +884,11 @@ export const generatePeople = async () => {
 
     await fs.writeFile(`src/data/info/${full_name}.json`, JSON.stringify(data));
   }
+
+  await fs.writeFile(
+    `src/data/people_search.json`,
+    JSON.stringify(namesAndPosition.sort((a, z) => a.localeCompare(z)))
+  );
 };
 
 console.info(`ℹ Generating People`);

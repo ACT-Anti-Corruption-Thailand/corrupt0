@@ -5,8 +5,7 @@ import clsx from "clsx";
 import Image from "next/image";
 import { RadioGroup } from "@headlessui/react";
 
-import DATA_NAME_GEN from "@/data/people_gen.json";
-import DATA_NAME_NACC from "@/data/people_nacc.json";
+import DATA_PEOPLE from "@/data/people_search.json";
 import DATA_PARTY from "@/data/parties.json";
 import DATA_BUSINESS from "@/data/businesses.json";
 import POLITICIAN_IMAGES from "@/data/politicianImages.json";
@@ -17,13 +16,15 @@ import { formatThousands, thaiMoneyFormatter } from "@/functions/moneyFormatter"
 import type { Dispatch, SetStateAction } from "react";
 import Link from "next/link";
 
-const PEOPLE = [...new Set([...DATA_NAME_NACC, ...DATA_NAME_GEN])]
-  .sort((a, z) => a.localeCompare(z))
-  .map((e) => ({
-    name: e.replace(/-/g, " "),
-    link: e,
-    image: (POLITICIAN_IMAGES as Record<string, string | null>)[e],
-  }));
+const PEOPLE = DATA_PEOPLE.map((e) => {
+  const [link, position] = e.split("|");
+  return {
+    name: link.replace(/-/g, " "),
+    link,
+    position,
+    image: (POLITICIAN_IMAGES as Record<string, string | null>)[link],
+  };
+});
 const PARTIES = DATA_PARTY.map((e) => ({
   name: e.replace("พรรค", ""),
   link: e,
@@ -206,7 +207,10 @@ function SearchResult({
         <ul className="px-10 pt-5 bg-gray-1">
           {limitedData.map((e, i) => (
             <li key={i} className="border-b border-b-gray-2 last:border-b-0">
-              <Link href={"/info/" + e.link} className="flex gap-5 py-5">
+              <Link
+                href={"/info/" + e.link}
+                className={clsx("flex gap-5 py-5", !e.position && "items-center")}
+              >
                 <Image
                   className="w-auto h-20 border rounded-full border-black"
                   src={e.image ?? placeholderImage}
@@ -222,7 +226,12 @@ function SearchResult({
                     }}
                   />
                   {e.position && (
-                    <span className="b5 leading-1 text-gray-6 block">{e.position}</span>
+                    <span
+                      className="b5 leading-1 text-gray-6 block"
+                      dangerouslySetInnerHTML={{
+                        __html: highlightChar(e.position, query),
+                      }}
+                    />
                   )}
                 </div>
               </Link>
@@ -257,7 +266,7 @@ export const Main = () => {
 
   const peopleResult: DataEntry[] =
     query !== "" && (group === "ทั้งหมด" || group === "บุคคล")
-      ? PEOPLE.filter((e) => e.name.includes(query))
+      ? PEOPLE.filter((e) => e.name.includes(query) || e.position?.includes(query))
       : [];
   const businessResult: DataEntry[] =
     query !== "" && (group === "ทั้งหมด" || group === "นิติบุคคล")
