@@ -104,65 +104,130 @@ export default function InfoAssetMain({
             name="เงินสด"
             statements1={statements1.เงินสด}
             statements2={statements2.เงินสด}
+            showActor={showActor}
+            showSpouse={showSpouse}
+            showChild={showChild}
           />
           <InfoAssetCompareAccordion.Cash
             name="เงินฝาก"
             statements1={statements1.เงินฝาก}
             statements2={statements2.เงินฝาก}
+            showActor={showActor}
+            showSpouse={showSpouse}
+            showChild={showChild}
           />
           <InfoAssetCompareAccordion.Cash
             name="เงินลงทุน"
             statements1={statements1.เงินลงทุน}
             statements2={statements2.เงินลงทุน}
+            showActor={showActor}
+            showSpouse={showSpouse}
+            showChild={showChild}
           />
           <InfoAssetCompareAccordion.Cash
             name="เงินให้กู้ยืม"
             statements1={statements1.เงินให้กู้ยืม}
             statements2={statements2.เงินให้กู้ยืม}
+            showActor={showActor}
+            showSpouse={showSpouse}
+            showChild={showChild}
           />
           <InfoAssetCompareAccordion.Land
             statements1={statements1.ที่ดิน}
             statements2={statements2.ที่ดิน}
+            showActor={showActor}
+            showSpouse={showSpouse}
+            showChild={showChild}
           />
           <InfoAssetCompareAccordion.Concession
             statements1={statements1.สิทธิและสัมปทาน}
             statements2={statements2.สิทธิและสัมปทาน}
+            showActor={showActor}
+            showSpouse={showSpouse}
+            showChild={showChild}
           />
           <InfoAssetCompareAccordion.Building
             statements1={statements1.โรงเรือนและสิ่งปลูกสร้าง}
             statements2={statements2.โรงเรือนและสิ่งปลูกสร้าง}
+            showActor={showActor}
+            showSpouse={showSpouse}
+            showChild={showChild}
           />
           <InfoAssetCompareAccordion.Vehicle
             statements1={statements1.ยานพาหนะ}
             statements2={statements2.ยานพาหนะ}
+            showActor={showActor}
+            showSpouse={showSpouse}
+            showChild={showChild}
           />
           <InfoAssetCompareAccordion.Valuable
             statements1={statements1.ทรัพย์สินอื่น}
             statements2={statements2.ทรัพย์สินอื่น}
+            showActor={showActor}
+            showSpouse={showSpouse}
+            showChild={showChild}
           />
         </>
       ) : (
         <>
-          <InfoAssetSingleAccordion.Cash name="เงินสด" statements={statements1.เงินสด} />
+          <InfoAssetSingleAccordion.Cash
+            name="เงินสด"
+            statements={statements1.เงินสด}
+            showActor={showActor}
+            showSpouse={showSpouse}
+            showChild={showChild}
+          />
           <InfoAssetSingleAccordion.Cash
             name="เงินฝาก"
             statements={statements1.เงินฝาก}
+            showActor={showActor}
+            showSpouse={showSpouse}
+            showChild={showChild}
           />
           <InfoAssetSingleAccordion.Cash
             name="เงินลงทุน"
             statements={statements1.เงินลงทุน}
+            showActor={showActor}
+            showSpouse={showSpouse}
+            showChild={showChild}
           />
           <InfoAssetSingleAccordion.Cash
             name="เงินให้กู้ยืม"
             statements={statements1.เงินให้กู้ยืม}
+            showActor={showActor}
+            showSpouse={showSpouse}
+            showChild={showChild}
           />
-          <InfoAssetSingleAccordion.Land statements={statements1.ที่ดิน} />
-          <InfoAssetSingleAccordion.Concession statements={statements1.สิทธิและสัมปทาน} />
+          <InfoAssetSingleAccordion.Land
+            statements={statements1.ที่ดิน}
+            showActor={showActor}
+            showSpouse={showSpouse}
+            showChild={showChild}
+          />
+          <InfoAssetSingleAccordion.Concession
+            statements={statements1.สิทธิและสัมปทาน}
+            showActor={showActor}
+            showSpouse={showSpouse}
+            showChild={showChild}
+          />
           <InfoAssetSingleAccordion.Building
             statements={statements1.โรงเรือนและสิ่งปลูกสร้าง}
+            showActor={showActor}
+            showSpouse={showSpouse}
+            showChild={showChild}
           />
-          <InfoAssetSingleAccordion.Vehicle statements={statements1.ยานพาหนะ} />
-          <InfoAssetSingleAccordion.Valuable statements={statements1.ทรัพย์สินอื่น} />
+          <InfoAssetSingleAccordion.Vehicle
+            statements={statements1.ยานพาหนะ}
+            showActor={showActor}
+            showSpouse={showSpouse}
+            showChild={showChild}
+          />
+          <InfoAssetSingleAccordion.Valuable
+            statements={statements1.ทรัพย์สินอื่น}
+            showActor={showActor}
+            showSpouse={showSpouse}
+            showChild={showChild}
+          />
         </>
       )}
     </section>

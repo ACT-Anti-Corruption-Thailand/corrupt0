@@ -119,22 +119,32 @@ const CASH_ICONS = {
 export interface CashProps {
   name: "เงินสด" | "เงินฝาก" | "เงินลงทุน" | "เงินให้กู้ยืม";
   statements: InfoAssetStatement[];
+
+  showActor: boolean;
+  showSpouse: boolean;
+  showChild: boolean;
 }
 
-const Cash = ({ name, statements }: CashProps) => {
+const Cash = ({ name, statements, showActor, showSpouse, showChild }: CashProps) => {
+  const filteredS = statements.filter((e) =>
+    [showActor && "ผู้ยื่น", showSpouse && "คู่สมรส", showChild && "บุตร"]
+      .filter((e) => e)
+      .includes(e.actor)
+  );
+
   return (
     <Accordion
       trigger={
         <Trigger
           icon={CASH_ICONS[name]}
           name={name}
-          length={statements.length}
-          value={statements.reduce((a, c) => a + c.value, 0)}
+          length={filteredS.length}
+          value={filteredS.reduce((a, c) => a + c.value, 0)}
         />
       }
     >
       <ul>
-        {statements.map(({ value, actor }, i) => (
+        {filteredS.map(({ value, actor }, i) => (
           <DetailsBlock key={i}>
             <DetailsFirstLine actor={actor} value={value} />
           </DetailsBlock>
@@ -155,9 +165,19 @@ export interface InfoAssetLandStatement extends InfoAssetStatement {
 
 export interface LandProps {
   statements: InfoAssetLandStatement[];
+
+  showActor: boolean;
+  showSpouse: boolean;
+  showChild: boolean;
 }
 
-const Land = ({ statements }: LandProps) => {
+const Land = ({ statements, showActor, showSpouse, showChild }: LandProps) => {
+  const filteredS = statements.filter((e) =>
+    [showActor && "ผู้ยื่น", showSpouse && "คู่สมรส", showChild && "บุตร"]
+      .filter((e) => e)
+      .includes(e.actor)
+  );
+
   return (
     <Accordion
       trigger={
@@ -165,19 +185,19 @@ const Land = ({ statements }: LandProps) => {
           icon="/icons/land.svg"
           name="ที่ดิน"
           nameExtension={
-            statements.some((e) => e.type !== "โฉนด") && (
+            filteredS.some((e) => e.type !== "โฉนด") && (
               <div className="bg-value-negative-bg text-value-negative-text b7 px-10 rounded-full">
                 มีที่ดินที่ไม่ใช่โฉนด
               </div>
             )
           }
-          length={statements.length}
-          value={statements.reduce((a, c) => a + c.value, 0)}
+          length={filteredS.length}
+          value={filteredS.reduce((a, c) => a + c.value, 0)}
         />
       }
     >
       <ul>
-        {statements.map(
+        {filteredS.map(
           (
             { value, actor, name, address, receiveDate, receiveFrom, land_doc_number },
             i
@@ -211,22 +231,37 @@ export interface InfoAssetConcessionStatement extends InfoAssetStatement {
 
 export interface ConcessionProps {
   statements: InfoAssetConcessionStatement[];
+
+  showActor: boolean;
+  showSpouse: boolean;
+  showChild: boolean;
 }
 
-const Concession = ({ statements }: ConcessionProps) => {
+const Concession = ({
+  statements,
+  showActor,
+  showSpouse,
+  showChild,
+}: ConcessionProps) => {
+  const filteredS = statements.filter((e) =>
+    [showActor && "ผู้ยื่น", showSpouse && "คู่สมรส", showChild && "บุตร"]
+      .filter((e) => e)
+      .includes(e.actor)
+  );
+
   return (
     <Accordion
       trigger={
         <Trigger
           icon="/icons/concession.svg"
           name="สิทธิและสัมปทาน"
-          length={statements.length}
-          value={statements.reduce((a, c) => a + c.value, 0)}
+          length={filteredS.length}
+          value={filteredS.reduce((a, c) => a + c.value, 0)}
         />
       }
     >
       <ul>
-        {statements.map(({ value, actor, name, receiveDate, endDate }, i) => (
+        {filteredS.map(({ value, actor, name, receiveDate, endDate }, i) => (
           <DetailsBlock key={i}>
             <DetailsFirstLine actor={actor} name={name} value={value} />
             <DetailsListContainer>
@@ -258,22 +293,32 @@ export interface InfoAssetBuildingStatement extends InfoAssetStatement {
 
 export interface BuildingProps {
   statements: InfoAssetBuildingStatement[];
+
+  showActor: boolean;
+  showSpouse: boolean;
+  showChild: boolean;
 }
 
-const Building = ({ statements }: BuildingProps) => {
+const Building = ({ statements, showActor, showSpouse, showChild }: BuildingProps) => {
+  const filteredS = statements.filter((e) =>
+    [showActor && "ผู้ยื่น", showSpouse && "คู่สมรส", showChild && "บุตร"]
+      .filter((e) => e)
+      .includes(e.actor)
+  );
+
   return (
     <Accordion
       trigger={
         <Trigger
           icon="/icons/building.svg"
           name="โรงเรือนและสิ่งปลูกสร้าง"
-          length={statements.length}
-          value={statements.reduce((a, c) => a + c.value, 0)}
+          length={filteredS.length}
+          value={filteredS.reduce((a, c) => a + c.value, 0)}
         />
       }
     >
       <ul>
-        {statements.map(
+        {filteredS.map(
           (
             {
               value,
@@ -311,22 +356,32 @@ export interface InfoAssetVehicleStatement extends InfoAssetStatement {
 
 export interface VehicleProps {
   statements: InfoAssetVehicleStatement[];
+
+  showActor: boolean;
+  showSpouse: boolean;
+  showChild: boolean;
 }
 
-const Vehicle = ({ statements }: VehicleProps) => {
+const Vehicle = ({ statements, showActor, showSpouse, showChild }: VehicleProps) => {
+  const filteredS = statements.filter((e) =>
+    [showActor && "ผู้ยื่น", showSpouse && "คู่สมรส", showChild && "บุตร"]
+      .filter((e) => e)
+      .includes(e.actor)
+  );
+
   return (
     <Accordion
       trigger={
         <Trigger
           icon="/icons/vehicle.svg"
           name="ยานพาหนะ"
-          length={statements.length}
-          value={statements.reduce((a, c) => a + c.value, 0)}
+          length={filteredS.length}
+          value={filteredS.reduce((a, c) => a + c.value, 0)}
         />
       }
     >
       <ul>
-        {statements.map(
+        {filteredS.map(
           ({ value, actor, name, registration_number, province, receiveDate }, i) => (
             <DetailsBlock key={i}>
               <DetailsFirstLine actor={actor} name={name} value={value} />
@@ -392,6 +447,25 @@ const ValuableGroup = ({ name, statements }: ValuableGroupProps) => {
   );
 };
 
+const filterValuableStatement = (
+  statements: InfoAssetValuableStatement,
+
+  showActor: boolean,
+  showSpouse: boolean,
+  showChild: boolean
+) => {
+  const s: InfoAssetValuableStatement = JSON.parse(JSON.stringify(statements));
+  for (const catg in s) {
+    const c = catg as keyof InfoAssetValuableStatement;
+    s[c] = s[c].filter((e) =>
+      [showActor && "ผู้ยื่น", showSpouse && "คู่สมรส", showChild && "บุตร"]
+        .filter((e) => e)
+        .includes(e.actor)
+    );
+  }
+  return s;
+};
+
 export type InfoAssetValuableStatement = Record<
   (typeof VALUABLE_GROUPS)[number],
   InfoAssetValuableGroupStatement[]
@@ -399,11 +473,17 @@ export type InfoAssetValuableStatement = Record<
 
 export interface ValuableProps {
   statements: InfoAssetValuableStatement;
+
+  showActor: boolean;
+  showSpouse: boolean;
+  showChild: boolean;
 }
 
-const Valuable = ({ statements }: ValuableProps) => {
-  const itemLength = Object.values(statements).reduce((a, c) => a + c.length, 0);
-  const itemValue = Object.values(statements).reduce(
+const Valuable = ({ statements, showActor, showSpouse, showChild }: ValuableProps) => {
+  const filteredS = filterValuableStatement(statements, showActor, showSpouse, showChild);
+
+  const itemLength = Object.values(filteredS).reduce((a, c) => a + c.length, 0);
+  const itemValue = Object.values(filteredS).reduce(
     (a, c) => a + c.reduce((b, d) => b + d.value, 0),
     0
   );
@@ -429,7 +509,7 @@ const Valuable = ({ statements }: ValuableProps) => {
       }
     >
       {VALUABLE_GROUPS.map((name, i) => {
-        const groupStatement = statements[name];
+        const groupStatement = filteredS[name];
 
         return (
           groupStatement &&
