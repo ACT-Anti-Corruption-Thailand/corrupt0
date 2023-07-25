@@ -197,6 +197,11 @@ const DATA_SPOUSE_INFO_NORMALIZED = DATA_SPOUSE_INFO.derive({
 
 const DATA_RELATIVES = DATA_RELATIONSHIP_NORMALIZED.concat(DATA_SPOUSE_INFO_NORMALIZED);
 
+const getRelationshipRank = (relationship) =>
+  ["บิดา", "มารดา", "พี่น้อง", "บุตร", "คู่สมรส", "บิดาคู่สมรส", "มารดาคู่สมรส"].indexOf(
+    relationship
+  );
+
 /**
  * @param {number} [nacc_id]
  * @returns {Promise<{full_name: string, relationship_name: string }[]>}
@@ -207,7 +212,12 @@ export const getRelationship = async (nacc_id) => {
     .filter((d) => op.equal(d.nacc_id, nacc_id))
     .select("full_name", "relationship_name")
     .objects()
-    .sort((a, z) => a.full_name.localeCompare(z.full_name));
+    .sort((a, z) => a.full_name.localeCompare(z.full_name))
+    .sort(
+      (a, z) =>
+        getRelationshipRank(a.relationship_name) -
+        getRelationshipRank(z.relationship_name)
+    );
 };
 
 // ██╗      █████╗ ██╗    ██╗███████╗██╗   ██╗██╗████████╗
