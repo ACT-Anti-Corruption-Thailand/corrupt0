@@ -17,37 +17,16 @@ import type {
   InfoAssetVehicleStatement,
 } from "@/components/Info/Asset/SingleAccordion";
 
-const EMPTY_STATEMENT = {
-  cash: [],
-  deposit: [],
-  investment: [],
-  loan: [],
-  land: [],
-  concession: [],
-  building: [],
-  vehicle: [],
-  valuable: {
-    กระเป๋า: [],
-    อาวุธปืน: [],
-    นาฬิกา: [],
-    เครื่องประดับ: [],
-    วัตถุมงคล: [],
-    ทองคำ: [],
-    ของสะสมอื่น: [],
-    "งานศิลปะ โบราณวัตถุ": [],
-  },
-};
-
 interface InfoAssetStatements {
-  เงินสด: InfoAssetStatement[];
-  เงินฝาก: InfoAssetStatement[];
-  เงินลงทุน: InfoAssetStatement[];
-  เงินให้กู้ยืม: InfoAssetStatement[];
-  ที่ดิน: InfoAssetLandStatement[];
-  สิทธิและสัมปทาน: InfoAssetConcessionStatement[];
-  โรงเรือนและสิ่งปลูกสร้าง: InfoAssetBuildingStatement[];
-  ยานพาหนะ: InfoAssetVehicleStatement[];
-  ทรัพย์สินอื่น: InfoAssetValuableStatement;
+  เงินสด?: InfoAssetStatement[];
+  เงินฝาก?: InfoAssetStatement[];
+  เงินลงทุน?: InfoAssetStatement[];
+  เงินให้กู้ยืม?: InfoAssetStatement[];
+  ที่ดิน?: InfoAssetLandStatement[];
+  สิทธิและสัมปทาน?: InfoAssetConcessionStatement[];
+  โรงเรือนและสิ่งปลูกสร้าง?: InfoAssetBuildingStatement[];
+  ยานพาหนะ?: InfoAssetVehicleStatement[];
+  ทรัพย์สินอื่น?: InfoAssetValuableStatement;
 }
 
 interface InfoAssetMainProps {
@@ -68,8 +47,8 @@ export default function InfoAssetMain({
   const [currentYear, setCurrentYear] = useState(years[0]);
   const [compareYear, setCompareYear] = useState(compare_years[0]);
 
-  const statements1 = statements[currentYear.data] ?? EMPTY_STATEMENT;
-  const statements2 = statements[compareYear.data] ?? EMPTY_STATEMENT;
+  const statements1 = statements[currentYear.data];
+  const statements2 = statements[compareYear.data];
 
   return (
     <section className="bg-gray-2 pt-10 rounded-5 text-black max-w-[850px] mx-auto overflow-hidden">

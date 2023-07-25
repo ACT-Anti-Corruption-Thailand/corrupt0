@@ -118,14 +118,14 @@ const CASH_ICONS = {
 
 export interface CashProps {
   name: "เงินสด" | "เงินฝาก" | "เงินลงทุน" | "เงินให้กู้ยืม";
-  statements: InfoAssetStatement[];
+  statements?: InfoAssetStatement[];
 
   showActor: boolean;
   showSpouse: boolean;
   showChild: boolean;
 }
 
-const Cash = ({ name, statements, showActor, showSpouse, showChild }: CashProps) => {
+const Cash = ({ name, statements = [], showActor, showSpouse, showChild }: CashProps) => {
   const filteredS = statements.filter((e) =>
     [showActor && "ผู้ยื่น", showSpouse && "คู่สมรส", showChild && "บุตร"]
       .filter((e) => e)
@@ -164,14 +164,14 @@ export interface InfoAssetLandStatement extends InfoAssetStatement {
 }
 
 export interface LandProps {
-  statements: InfoAssetLandStatement[];
+  statements?: InfoAssetLandStatement[];
 
   showActor: boolean;
   showSpouse: boolean;
   showChild: boolean;
 }
 
-const Land = ({ statements, showActor, showSpouse, showChild }: LandProps) => {
+const Land = ({ statements = [], showActor, showSpouse, showChild }: LandProps) => {
   const filteredS = statements.filter((e) =>
     [showActor && "ผู้ยื่น", showSpouse && "คู่สมรส", showChild && "บุตร"]
       .filter((e) => e)
@@ -230,7 +230,7 @@ export interface InfoAssetConcessionStatement extends InfoAssetStatement {
 }
 
 export interface ConcessionProps {
-  statements: InfoAssetConcessionStatement[];
+  statements?: InfoAssetConcessionStatement[];
 
   showActor: boolean;
   showSpouse: boolean;
@@ -238,7 +238,7 @@ export interface ConcessionProps {
 }
 
 const Concession = ({
-  statements,
+  statements = [],
   showActor,
   showSpouse,
   showChild,
@@ -292,14 +292,19 @@ export interface InfoAssetBuildingStatement extends InfoAssetStatement {
 }
 
 export interface BuildingProps {
-  statements: InfoAssetBuildingStatement[];
+  statements?: InfoAssetBuildingStatement[];
 
   showActor: boolean;
   showSpouse: boolean;
   showChild: boolean;
 }
 
-const Building = ({ statements, showActor, showSpouse, showChild }: BuildingProps) => {
+const Building = ({
+  statements = [],
+  showActor,
+  showSpouse,
+  showChild,
+}: BuildingProps) => {
   const filteredS = statements.filter((e) =>
     [showActor && "ผู้ยื่น", showSpouse && "คู่สมรส", showChild && "บุตร"]
       .filter((e) => e)
@@ -355,14 +360,14 @@ export interface InfoAssetVehicleStatement extends InfoAssetStatement {
 }
 
 export interface VehicleProps {
-  statements: InfoAssetVehicleStatement[];
+  statements?: InfoAssetVehicleStatement[];
 
   showActor: boolean;
   showSpouse: boolean;
   showChild: boolean;
 }
 
-const Vehicle = ({ statements, showActor, showSpouse, showChild }: VehicleProps) => {
+const Vehicle = ({ statements = [], showActor, showSpouse, showChild }: VehicleProps) => {
   const filteredS = statements.filter((e) =>
     [showActor && "ผู้ยื่น", showSpouse && "คู่สมรส", showChild && "บุตร"]
       .filter((e) => e)
@@ -457,7 +462,7 @@ const filterValuableStatement = (
   const s: InfoAssetValuableStatement = JSON.parse(JSON.stringify(statements));
   for (const catg in s) {
     const c = catg as keyof InfoAssetValuableStatement;
-    s[c] = s[c].filter((e) =>
+    s[c] = s[c]?.filter((e) =>
       [showActor && "ผู้ยื่น", showSpouse && "คู่สมรส", showChild && "บุตร"]
         .filter((e) => e)
         .includes(e.actor)
@@ -466,20 +471,24 @@ const filterValuableStatement = (
   return s;
 };
 
-export type InfoAssetValuableStatement = Record<
-  (typeof VALUABLE_GROUPS)[number],
-  InfoAssetValuableGroupStatement[]
+export type InfoAssetValuableStatement = Partial<
+  Record<(typeof VALUABLE_GROUPS)[number], InfoAssetValuableGroupStatement[]>
 >;
 
 export interface ValuableProps {
-  statements: InfoAssetValuableStatement;
+  statements?: InfoAssetValuableStatement;
 
   showActor: boolean;
   showSpouse: boolean;
   showChild: boolean;
 }
 
-const Valuable = ({ statements, showActor, showSpouse, showChild }: ValuableProps) => {
+const Valuable = ({
+  statements = {},
+  showActor,
+  showSpouse,
+  showChild,
+}: ValuableProps) => {
   const filteredS = filterValuableStatement(statements, showActor, showSpouse, showChild);
 
   const itemLength = Object.values(filteredS).reduce((a, c) => a + c.length, 0);

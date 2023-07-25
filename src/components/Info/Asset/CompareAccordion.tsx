@@ -156,8 +156,8 @@ const CASH_ICONS = {
 
 export interface CashProps {
   name: "เงินสด" | "เงินฝาก" | "เงินลงทุน" | "เงินให้กู้ยืม";
-  statements1: InfoAssetStatement[];
-  statements2: InfoAssetStatement[];
+  statements1?: InfoAssetStatement[];
+  statements2?: InfoAssetStatement[];
 
   showActor: boolean;
   showSpouse: boolean;
@@ -166,8 +166,8 @@ export interface CashProps {
 
 const Cash = ({
   name,
-  statements1,
-  statements2,
+  statements1 = [],
+  statements2 = [],
   showActor,
   showSpouse,
   showChild,
@@ -233,8 +233,8 @@ export interface InfoAssetLandStatement extends InfoAssetStatement {
 }
 
 export interface LandProps {
-  statements1: InfoAssetLandStatement[];
-  statements2: InfoAssetLandStatement[];
+  statements1?: InfoAssetLandStatement[];
+  statements2?: InfoAssetLandStatement[];
 
   showActor: boolean;
   showSpouse: boolean;
@@ -242,8 +242,8 @@ export interface LandProps {
 }
 
 const Land = ({
-  statements1,
-  statements2,
+  statements1 = [],
+  statements2 = [],
   showActor,
   showSpouse,
   showChild,
@@ -343,8 +343,8 @@ export interface InfoAssetConcessionStatement extends InfoAssetStatement {
 }
 
 export interface ConcessionProps {
-  statements1: InfoAssetConcessionStatement[];
-  statements2: InfoAssetConcessionStatement[];
+  statements1?: InfoAssetConcessionStatement[];
+  statements2?: InfoAssetConcessionStatement[];
 
   showActor: boolean;
   showSpouse: boolean;
@@ -352,8 +352,8 @@ export interface ConcessionProps {
 }
 
 const Concession = ({
-  statements1,
-  statements2,
+  statements1 = [],
+  statements2 = [],
   showActor,
   showSpouse,
   showChild,
@@ -444,8 +444,8 @@ export interface InfoAssetBuildingStatement extends InfoAssetStatement {
 }
 
 export interface BuildingProps {
-  statements1: InfoAssetBuildingStatement[];
-  statements2: InfoAssetBuildingStatement[];
+  statements1?: InfoAssetBuildingStatement[];
+  statements2?: InfoAssetBuildingStatement[];
 
   showActor: boolean;
   showSpouse: boolean;
@@ -453,8 +453,8 @@ export interface BuildingProps {
 }
 
 const Building = ({
-  statements1,
-  statements2,
+  statements1 = [],
+  statements2 = [],
   showActor,
   showSpouse,
   showChild,
@@ -564,8 +564,8 @@ export interface InfoAssetVehicleStatement extends InfoAssetStatement {
 }
 
 export interface VehicleProps {
-  statements1: InfoAssetVehicleStatement[];
-  statements2: InfoAssetVehicleStatement[];
+  statements1?: InfoAssetVehicleStatement[];
+  statements2?: InfoAssetVehicleStatement[];
 
   showActor: boolean;
   showSpouse: boolean;
@@ -573,8 +573,8 @@ export interface VehicleProps {
 }
 
 const Vehicle = ({
-  statements1,
-  statements2,
+  statements1 = [],
+  statements2 = [],
   showActor,
   showSpouse,
   showChild,
@@ -732,7 +732,7 @@ const filterValuableStatement = (
   const s: InfoAssetValuableStatement = JSON.parse(JSON.stringify(statements));
   for (const catg in s) {
     const c = catg as keyof InfoAssetValuableStatement;
-    s[c] = s[c].filter((e) =>
+    s[c] = s[c]?.filter((e) =>
       [showActor && "ผู้ยื่น", showSpouse && "คู่สมรส", showChild && "บุตร"]
         .filter((e) => e)
         .includes(e.actor)
@@ -741,14 +741,13 @@ const filterValuableStatement = (
   return s;
 };
 
-export type InfoAssetValuableStatement = Record<
-  (typeof VALUABLE_GROUPS)[number],
-  InfoAssetValuableGroupStatement[]
+export type InfoAssetValuableStatement = Partial<
+  Record<(typeof VALUABLE_GROUPS)[number], InfoAssetValuableGroupStatement[]>
 >;
 
 export interface ValuableProps {
-  statements1: InfoAssetValuableStatement;
-  statements2: InfoAssetValuableStatement;
+  statements1?: InfoAssetValuableStatement;
+  statements2?: InfoAssetValuableStatement;
 
   showActor: boolean;
   showSpouse: boolean;
@@ -756,8 +755,8 @@ export interface ValuableProps {
 }
 
 const Valuable = ({
-  statements1,
-  statements2,
+  statements1 = {},
+  statements2 = {},
   showActor,
   showSpouse,
   showChild,
