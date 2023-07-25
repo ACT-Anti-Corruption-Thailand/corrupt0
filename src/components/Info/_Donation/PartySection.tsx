@@ -8,6 +8,7 @@ import InfoDonationChart from "./Chart";
 import ChartSort from "@/components/ChartSort";
 import EntityBarCard from "@/components/EntityBarCard";
 import { ResponsiveContainer } from "recharts";
+import { formatThousands, thaiMoneyFormatter } from "@/functions/moneyFormatter";
 
 const DATA = [
   { x: "2558", y1: 1, y2: 3 },
@@ -31,6 +32,7 @@ export default function InfoPartyDonationSection(props: PartySectionProps) {
   const [type, setType] = useState(DONATION_TYPES[0]);
 
   const totalDonation = props.data.filter((items: any) => year === "ทุกปี" ? true : String(items.year) === year).filter((items: any) => type === "ทุกกลุ่มตำแหน่ง" ? true : items.donor_prefix === type).reduce((acc: any, curr:any) => acc + curr.amount, 0)
+  const [amount, unit] = thaiMoneyFormatter(totalDonation);
 
   return (
     <section id="donation">
@@ -50,7 +52,7 @@ export default function InfoPartyDonationSection(props: PartySectionProps) {
         <p className="text-center mb-8">
           <span className="b4 font-bold">เงินบริจาครวม</span>
           <br />
-          <span className="b2">000 ล้านบาท</span>
+          <span className="b2">{formatThousands(amount) + " " + unit}</span>
         </p>
         <InfoDonationChart
           x="x"
