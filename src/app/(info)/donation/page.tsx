@@ -43,6 +43,9 @@ export default function Donation() {
     DONATION_TYPES[0]
   );
 
+  const selected_assets = PARTY_DONATION_Test[partyFilterYear].map((d: any, index: number) => PARTY_ASSETS[d.party]?.color && PARTY_ASSETS[d.party]?.color != "#CCD8DD" ? { party: d.party, color: PARTY_ASSETS[d.party]?.color, image: PARTY_ASSETS[d.party]?.image } : null).filter((e:object) => e != null).filter((d: any, index: number) => index < 10)
+  console.log(selected_assets)
+
   //TODO: Ascending and Descending sort approach (consult with p'mumu)
   return (
     <>
@@ -140,20 +143,20 @@ export default function Donation() {
           <p className="b4 text-gray-3">สี = พรรค</p>
           <div className="flex gap-10 flex-wrap">
             {
-              PARTY_DONATION_Test["ทุกปี"].map((d: any, index: number) => PARTY_ASSETS[d.party]?.color && PARTY_ASSETS[d.party]?.color != "#CCD8DD" ? (
+              selected_assets.map((obj: any, index: number) => (
                 <div key={index} className="flex justify-center items-center gap-5">
                   <div
                     style={
                       {
-                        backgroundColor: PARTY_ASSETS[d.party].color,
+                        backgroundColor: obj.color,
                       } as React.CSSProperties
                     }
                     className="w-8 h-8"
                     key={index}
                   />
-                  <p className="text-gray-3 b4">{d.party}</p>
+                  <p className="text-gray-3 b4">{obj.party}</p>
                 </div>
-              ) : (<></>))
+              ))
             }
             <div className="flex justify-center items-center gap-5">
                   <div
@@ -166,20 +169,6 @@ export default function Donation() {
                   />
                   <p className="text-gray-3 b4">พรรคอื่น ๆ</p>
                 </div>
-            {/* {Object.entries(PARTY_ASSETS).map(([name, { color }], index: number) => (
-              <div key={index} className="flex justify-center items-center gap-5">
-                <div
-                  style={
-                    {
-                      backgroundColor: color ?? "#fff",
-                    } as React.CSSProperties
-                  }
-                  className="w-8 h-8"
-                  key={index}
-                />
-                <p className="text-gray-3 b4">{name}</p>
-              </div>
-            ))} */}
           </div>
         </div>
         <Search
@@ -196,6 +185,7 @@ export default function Donation() {
               data={individualSearch.donation}
               maxAmount={DONOR_DATA[0].total}
               imgPath="/icons/person.svg"
+              assets={selected_assets}
             />
           ) : (
             DONOR_DATA.filter((items: any) => individualFilterType === "ทุกกลุ่มตำแหน่ง" ? true : items.title === individualFilterType).filter((item: any, idx: any) => idx < 10).map((individual: any, index: any) => (
@@ -206,6 +196,7 @@ export default function Donation() {
                 maxAmount={DONOR_DATA[0].total}
                 imgPath="/icons/person.svg"
                 key={index}
+                assets={selected_assets}
               />
             ))
           )}

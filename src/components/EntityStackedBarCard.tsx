@@ -14,12 +14,14 @@ interface PersonCardProps {
     data: { amount: number; party: string }[];
     maxAmount: number;
     imgPath: string;
+    assets: { party: string; color: string | null; image: string | null }[];
 }
 
 interface barProps {
     party: string;
     amount: number;
     maxAmount: number;
+    assets: { party: string; color: string | null; image: string | null }[];
 }
 
 const Bar = (props: barProps) => {
@@ -33,7 +35,7 @@ const Bar = (props: barProps) => {
             style={
                 {
                     "--progress": progress,
-                    backgroundColor: PARTY_ASSETS[props.party]?.color ?? "#fff",
+                    backgroundColor: props.assets.find(d => d.party === props.party) ?? "#fff",
                 } as React.CSSProperties
             }
             className="h-10 lg:h-20 w-[var(--progress)]"
@@ -70,7 +72,7 @@ const EntityStackedBarCard = (props: PersonCardProps) => {
             <div className="mt-10 flex">
                 {
                     props.data.sort((a, b) => b.amount - a.amount).sort((a,z) => a.party.localeCompare(z.party)).map((item, index) => (
-                        <Bar key={index} party={item.party} amount={item.amount} maxAmount={props.maxAmount} />
+                        <Bar key={index} party={item.party} amount={item.amount} maxAmount={props.maxAmount} assets={props.assets}/>
                     ))
                 }
             </div>
