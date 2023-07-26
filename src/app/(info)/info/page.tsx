@@ -48,7 +48,7 @@ export default function Info() {
           setSelected={setSelected}
         />
         <div className="w-[90vw] border-1 border-gray-4 lg:mt-20 lg:w-full" />
-        <p className="h3 font-black text-white my-15 lg:my-30 lg:h2">
+        <p className="h3 font-black text-white mt-15 mb-10 lg:mt-30 lg:mb-20 lg:h2">
           สำรวจตามกลุ่มตำแหน่ง
         </p>
         <div className="flex flex-col items-center text-center b6 lg:b5 pb-10 lg:pb-30 w-[90vw] min-w-[300px] max-w-[850px]">
@@ -73,7 +73,7 @@ export default function Info() {
                 <div className="flex items-center justify-center gap-5 my-10 lg:my-20 text-act">
                   <div className="w-20 border-1 border-dashed" />
                   <p className="leading-1">
-                    ทรัพย์สินเฉลี่ยต่อครัวเรือน ปี 2564 = 1.80 ล้านบาท
+                    ทรัพย์สินเฉลี่ยต่อครัวเรือน ปี 2564 = <strong>1.8 ล้านบาท</strong>
                   </p>
                   <InfoPopover buttonImg="/icons/info.svg">
                     <p className="b5 no-balance">ที่มา: สำนักงานสถิติแห่งชาติ</p>
@@ -162,7 +162,7 @@ export default function Info() {
                 <div className="flex items-center justify-center gap-5 my-10 lg:my-20 text-act">
                   <div className="w-20 border-1 border-dashed" />
                   <p className="leading-1">
-                    หนี้สินเฉลี่ยต่อครัวเรือน ปี 2564 = 205,679 บาท
+                    หนี้สินเฉลี่ยต่อครัวเรือน ปี 2564 = <strong>205,679 บาท</strong>
                   </p>
                   <InfoPopover buttonImg="/icons/info.svg">
                     <p className="b5 no-balance">ที่มา: สำนักงานสถิติแห่งชาติ</p>
@@ -246,7 +246,41 @@ export default function Info() {
                   refValue={205679}
                 />
               </Tab.Panel>
-              <Tab.Panel>{/* ทั้งคู่ Scatterplot */}</Tab.Panel>
+              <Tab.Panel>
+                {/* ทั้งคู่ Scatterplot */}
+                <div className="grid grid-cols-[max-content_auto_max-content] my-10 lg:my-20 w-fit mx-auto text-left gap-5 items-center">
+                  <div className="w-20 h-0 border-1 border-dashed border-red" />
+                  <p className="leading-1 text-red">
+                    ทรัพย์สินเฉลี่ยต่อครัวเรือน ปี 2564 = <strong>1.8 ล้านบาท</strong>
+                  </p>
+                  <InfoPopover buttonImg="/icons/info.svg">
+                    <p className="b5 no-balance">ที่มา: สำนักงานสถิติแห่งชาติ</p>
+                  </InfoPopover>
+                  <div className="w-20 h-0 border-1 border-dashed border-gray-4" />
+                  <p className="leading-1 text-gray-4">
+                    Forbes 50 Thailand 2566 = <strong>120,208.6 ล้านบาท</strong>
+                  </p>
+                  <InfoPopover buttonImg="/icons/info.svg">
+                    <p className="b5 no-balance">ที่มา: Forbes</p>
+                  </InfoPopover>
+
+                  <div className="w-20 h-0 border-1 border-dashed border-red" />
+                  <p className="leading-1 text-red">
+                    หนี้สินเฉลี่ยต่อครัวเรือน ปี 2564 = <strong>205,679 บาท</strong>
+                  </p>
+                  <InfoPopover buttonImg="/icons/info.svg">
+                    <p className="b5 no-balance">ที่มา: สำนักงานสถิติแห่งชาติ</p>
+                  </InfoPopover>
+                </div>
+                <div className="flex flex-col gap-10 lg:gap-30 lg:flex-row">
+                  <div className="flex-1 py-50 border border-white border-dashed">
+                    Chart แบบปังๆ ตัวแม่
+                  </div>
+                  <div className="py-50 px-20 border border-white border-dashed">
+                    ตัวกรอง
+                  </div>
+                </div>
+              </Tab.Panel>
             </Tab.Panels>
           </Tab.Group>
         </div>
