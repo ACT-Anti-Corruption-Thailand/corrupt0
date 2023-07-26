@@ -36,7 +36,7 @@ const InfoHistChart = (props: GraphCardProps) => {
         <p className="b5 lg:b3 text-white font-bold">{props.title}</p>
         <p className="b6 lg:b4">{props.number.join(" ")}</p>
       </div>
-      <div className="flex-2 min-w-0">
+      <div className="flex-2 min-w-0 pointer-events-none flex items-center">
         <ResponsiveContainer height={110}>
           <BarChart width={200} height={150} data={data}>
             {props.refValue && (

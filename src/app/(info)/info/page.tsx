@@ -11,6 +11,7 @@ import DATA_NAME_GEN from "@/data/people_gen.json";
 import DATA_NAME_NACC from "@/data/people_nacc.json";
 
 import { thaiMoneyFormatter } from "@/functions/moneyFormatter";
+import InfoPopover from "@/components/Info/Popover";
 
 const PEOPLE = [...new Set([...DATA_NAME_NACC, ...DATA_NAME_GEN])]
   .sort((a, z) => a.localeCompare(z))
@@ -26,7 +27,7 @@ export default function Info() {
     <>
       <section className="flex flex-col items-center">
         <ImgCard imgPath="/images/asset_politician.png">
-          <div className="flex flex-col justify-center my-auto py-30 lg:mx-[10vw] xl:mx-[10vw] lg:p-[70px]">
+          <div className="flex flex-col justify-center my-auto py-30 lg:mx-[25vw] xl:mx-[35vw] lg:p-[70px]">
             <Image
               className="self-center mb-10 h-[45px] lg:h-100"
               src="./icons/financial.svg"
@@ -69,16 +70,28 @@ export default function Info() {
             <Tab.Panels className="w-full">
               <Tab.Panel>
                 {/* ทรัพย์สิน */}
-                <div className="flex items-center justify-center my-10 lg:my-20 text-act">
-                  <div className="w-20 border-1 border-dashed mr-5" />
-                  <p>ทรัพย์สินเฉลี่ยต่อครัวเรือน ปี 2564 = 1.80 ล้านบาท</p>
-                </div>
-                <div className="flex items-center justify-around py-10 text-gray-4 border-t-1 border-gray-6">
-                  <p>กลุ่มตำแหน่ง</p>
-                  <p>การกระจายตัว</p>
-                  <p>
-                    <span className="text-value-positive-text">สูงสุด</span> - ต่ำสุด
+                <div className="flex items-center justify-center gap-5 my-10 lg:my-20 text-act">
+                  <div className="w-20 border-1 border-dashed" />
+                  <p className="leading-1">
+                    ทรัพย์สินเฉลี่ยต่อครัวเรือน ปี 2564 = 1.80 ล้านบาท
                   </p>
+                  <InfoPopover buttonImg="/icons/info.svg">
+                    <p className="b5 no-balance">ที่มา: สำนักงานสถิติแห่งชาติ</p>
+                  </InfoPopover>
+                </div>
+                <div className="flex items-center justify-around py-10 text-gray-4 border-t-1 border-gray-6 leading-1">
+                  <div>กลุ่มตำแหน่ง</div>
+                  <div className="flex gap-2">
+                    การกระจายตัว{" "}
+                    <InfoPopover>
+                      <p className="b5 no-balance">
+                        บ่งบอกว่าคนในกลุ่มมีปริมาณทรัพย์สินอยู่ในช่วงไหนบ้าง
+                      </p>
+                    </InfoPopover>
+                  </div>
+                  <div>
+                    <span className="text-value-positive-text">สูงสุด</span> - ต่ำสุด
+                  </div>
                 </div>
                 <InfoHistChart
                   title="นายกรัฐมนตรีและรัฐมนตรี"
@@ -146,16 +159,28 @@ export default function Info() {
               </Tab.Panel>
               <Tab.Panel>
                 {/* หนี้สิน */}
-                <div className="flex flex-row items-center justify-center my-10 lg:my-20 text-act">
-                  <div className="w-20 border-1 border-dashed mr-5" />
-                  <p>หนี้สินเฉลี่ยต่อครัวเรือน ปี 2564 = 205,679 บาท</p>
-                </div>
-                <div className="flex items-center justify-around py-10 text-gray-4 border-t-1 border-gray-6">
-                  <p>กลุ่มตำแหน่ง</p>
-                  <p>การกระจายตัว</p>
-                  <p>
-                    <span className="text-value-positive-text">สูงสุด</span> - ต่ำสุด
+                <div className="flex items-center justify-center gap-5 my-10 lg:my-20 text-act">
+                  <div className="w-20 border-1 border-dashed" />
+                  <p className="leading-1">
+                    หนี้สินเฉลี่ยต่อครัวเรือน ปี 2564 = 205,679 บาท
                   </p>
+                  <InfoPopover buttonImg="/icons/info.svg">
+                    <p className="b5 no-balance">ที่มา: สำนักงานสถิติแห่งชาติ</p>
+                  </InfoPopover>
+                </div>
+                <div className="flex items-center justify-around py-10 text-gray-4 border-t-1 border-gray-6 leading-1">
+                  <div>กลุ่มตำแหน่ง</div>
+                  <div className="flex gap-2">
+                    การกระจายตัว{" "}
+                    <InfoPopover>
+                      <p className="b5 no-balance">
+                        บ่งบอกว่าคนในกลุ่มมีปริมาณทรัพย์สินอยู่ในช่วงไหนบ้าง
+                      </p>
+                    </InfoPopover>
+                  </div>
+                  <div>
+                    <span className="text-value-positive-text">สูงสุด</span> - ต่ำสุด
+                  </div>
                 </div>
                 <InfoHistChart
                   title="นายกรัฐมนตรีและรัฐมนตรี"
