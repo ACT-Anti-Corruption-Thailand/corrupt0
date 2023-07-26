@@ -127,6 +127,9 @@ module.exports = {
         "3eq": "repeat(3,1fr)",
         "4eq": "repeat(4,1fr)",
       },
+      flex: {
+        2: "2 2 0%",
+      },
     },
   },
   plugins: [require("@headlessui/tailwindcss")],
