@@ -26,13 +26,23 @@ interface PartySectionProps {
 
 export default function InfoPartyDonationSection(props: PartySectionProps) {
   const DONATION_TYPES = ["ทุกกลุ่มตำแหน่ง", ...new Set(props.data.map((d: any) => d.donor_prefix))] as string[];
-  const YEARS = ["ทุกปี", ...new Set(props.data.map((d: any) => String(d.year)))] as string[];
+  const YEARS = ["ทุกปี", ...new Set(props.data.map((d: any) => String(d.year)))].sort((a: any, b: any) => +b - +a) as string[];
 
   const [year, setYear] = useState(YEARS[0]);
   const [type, setType] = useState(DONATION_TYPES[0]);
 
   const totalDonation = props.data.filter((items: any) => year === "ทุกปี" ? true : String(items.year) === year).filter((items: any) => type === "ทุกกลุ่มตำแหน่ง" ? true : items.donor_prefix === type).reduce((acc: any, curr:any) => acc + curr.amount, 0)
   const [amount, unit] = thaiMoneyFormatter(totalDonation);
+
+  const displayData = Object.values(props.data.filter((items: any) => year === "ทุกปี" ? true : String(items.year) === year).filter((items: any) => type === "ทุกกลุ่มตำแหน่ง" ? true : items.donor_prefix === type).reduce((acc: any, curr: any) => {
+    const donor_fullname = curr.donor_fullname;
+    if (acc[donor_fullname]) {
+      acc[donor_fullname].amount += curr.amount;
+    } else {
+      acc[donor_fullname] = { ...curr };
+    }
+    return acc;
+  }, {})).sort((a: any,b: any) => b.amount - a.amount)
 
   return (
     <section id="donation">
@@ -72,7 +82,7 @@ export default function InfoPartyDonationSection(props: PartySectionProps) {
         </div>
         <div className="flex gap-4 flex-col mt-10">{/* TODO: add search */}</div>
         {
-          props.data.filter((items: any) => year === "ทุกปี" ? true : String(items.year) === year).filter((items: any) => type === "ทุกกลุ่มตำแหน่ง" ? true : items.donor_prefix === type).filter((d: any, idx: number) => idx < 10).map((d: any, index: number) => <EntityBarCard name={d.donor_fullname} title={d.donor_prefix} color={props.theme} imgPath="/placeholders/person.png" amount={d.amount} maxAmount={totalDonation} key={index} />)
+          displayData.filter((d: any, idx: number) => idx < 10).map((d: any, index: number) => <EntityBarCard name={d.donor_fullname} title={d.donor_prefix} color={props.theme} imgPath="/placeholders/person.png" amount={d.amount} maxAmount={totalDonation} key={index} />)
         }
       </div>
     </section>
