@@ -844,7 +844,7 @@ export const generatePeople = async () => {
 
     if (person_data_json.position)
       namesAndPosition.push(full_name + "|" + person_data_json.position);
-    else namesAndPosition.push(full_name.replace(/-/g, " "));
+    else namesAndPosition.push(full_name);
 
     const lawsuit = await getLawsuit(full_name);
     const donation = await getPersonDonation(full_name);
