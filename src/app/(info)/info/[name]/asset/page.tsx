@@ -19,6 +19,7 @@ import type {
   InfoAssetVehicleStatement,
 } from "@/components/Info/Asset/SingleAccordion";
 import type { Metadata } from "next";
+import Link from "next/link";
 
 export async function generateStaticParams() {
   return PEOPLE_NACC.map((name) => ({
@@ -106,13 +107,27 @@ export default function Asset({ params }: AssetPageProps) {
 
       <div className="flex gap-5 mt-10 mb-20 max-w-[850px] mx-auto">
         <DownloadMenu data={nacc} />
-        <button
-          type="button"
-          className="b4 flex-1 flex gap-5 p-5 items-center border border-gray-6 justify-center rounded-5"
+        <Link
+          href={`/data/${name}.json`}
+          className="b4 flex-1 flex gap-5 p-5 items-center border border-gray-6 justify-center rounded-5 no-underline text-white hover:bg-white hover:text-black"
+          download
         >
-          <Image src="/icons/sheet.svg" alt="" width={20} height={20} />
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 20 21"
+            width={20}
+            height={20}
+          >
+            <path
+              fill="currentColor"
+              fillRule="evenodd"
+              d="M8.375 2.544v3c0 .759-.616 1.374-1.375 1.374H4v9.626a1 1 0 001 1h10a1 1 0 001-1v-13a1 1 0 00-1-1H8.375zm-4 3.624H7c.345 0 .625-.28.625-.625V2.918l-3.25 3.25zM9.5 9.543H7v2h2.5v-2zm-2.5 5v-2h2.5v2H7zm3.5 0v-2H13v2h-2.5zm2.5-5v2h-2.5v-2H13zm-7-1v7h8v-7H6z"
+              clipRule="evenodd"
+            />
+          </svg>
           <span>ดาวน์โหลดข้อมูล</span>
-        </button>
+        </Link>
       </div>
     </main>
   );

@@ -17,7 +17,7 @@
     "process:total-donation": "node data/functions/totalDonation.mjs",
     "process:party-assets": "node data/functions/partyAssets.mjs",
     "process:politician-images": "node data/functions/politicianImages.mjs",
-    "process": "pnpm run process:clear && pnpm run /^process:[^c]/"
+    "process": "pnpm run process:clear && pnpm run /^process:[^c]/ && cp -r ./src/data/info/ ./public/data"
   },
   "dependencies": {
     "@headlessui/react": "^1.7.15",

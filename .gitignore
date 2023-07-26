@@ -37,6 +37,7 @@ next-env.d.ts
 # data
 data/raw
 src/data
+public/data
 
 # vscode
 .vscode/*
