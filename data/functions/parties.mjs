@@ -4,7 +4,11 @@ import { op } from "arquero";
 import * as aq from "arquero";
 
 const RAW_DONATION_TABLE = await getDonationData();
-const DONATION_TABLE = RAW_DONATION_TABLE.derive({ year: (d) => op.parse_int(d.year + 543) })
+const DONATION_TABLE = RAW_DONATION_TABLE
+  .derive({ year: (d) => op.parse_int(d.year + 543) })
+  .derive({
+    donor_fullname: (d) => op.equal(d.donor_prefix, "นิติบุคคล") ? d.donor_fullname : op.replace(d.donor_firstname + " " + d.donor_lastname, /\s+|\/|\\/g, " ")
+  })
 
 // ██████╗  █████╗ ██████╗ ████████╗██╗███████╗███████╗
 // ██╔══██╗██╔══██╗██╔══██╗╚══██╔══╝██║██╔════╝██╔════╝

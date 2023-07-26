@@ -6,7 +6,12 @@ import { getDonationData } from "./donation.mjs";
 const getTotalDonation = async () => {
   const rawTable = await getDonationData();
   
-  const table = rawTable.derive({ party: (d) => op.replace( d.party,"พรรค", "") }).derive({ year: (d) => op.parse_int(d.year + 543) })
+  const table = rawTable
+    .derive({ party: (d) => op.replace( d.party,"พรรค", "") })
+    .derive({ year: (d) => op.parse_int(d.year + 543) })
+    .derive({
+      donor_fullname: (d) => op.equal(d.donor_prefix, "นิติบุคคล") ? d.donor_fullname : op.replace(d.donor_firstname + " " + d.donor_lastname, /\s+|\/|\\/g, " ")
+    })
 
   const totalPerYearTable = table
     .select("year", "amount")
