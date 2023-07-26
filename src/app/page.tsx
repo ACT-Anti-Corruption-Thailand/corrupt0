@@ -1,13 +1,24 @@
-import Image from "next/image";
-
+import Footer from "@/components/Footer";
+import ImgCard from "@/components/ImgCard";
+import IndexDataCard from "@/components/Index/IndexDataCard";
 import Navbar from "@/components/Navbar";
 import Sharer from "@/components/Sharer";
-import Footer from "@/components/Footer";
-import Spotlight from "@/components/Spotlight";
-import ImgCard from "@/components/ImgCard";
 import Slider from "@/components/Slider";
-import IndexDataCard from "@/components/Index/IndexDataCard";
-import React from "react";
+import Spotlight from "@/components/Spotlight";
+import Image from "next/image";
+
+import PARTY_ASSETS from "@/data/color/partyAssets.json";
+import PERSON_DONATION from "@/data/donation/donor.json";
+import PARTY_DONATION from "@/data/donation/partyPerYearWithTotal.json";
+
+const normalizeName = (name: string) =>
+  name.trim().replace(/\s+/g, " ").replace(/ํา/g, "ำ");
+const getFileName = (formal_name: string) =>
+  formal_name.replace("ห้างหุ้นส่วนจำกัด", "หจก").replace(/\s+|\/|\\/g, "-");
+
+const TOP_PERSON = PERSON_DONATION.filter((e) => e.title === "บุคคลธรรมดา")[0];
+const TOP_BUSINESS = PERSON_DONATION.filter((e) => e.title === "นิติบุคคล")[0];
+const TOP_PARTY = PARTY_DONATION.ทุกปี[0];
 
 export default function Home() {
   return (
@@ -44,35 +55,27 @@ export default function Home() {
             <Slider>
               <IndexDataCard
                 title="มีทรัพย์สินมากที่สุด"
-                color="#ED1C24"
-                type="พรรค"
-                name="พลังประชารัฐ"
-                amount="500 ล้านบาท"
-                icon="/icons/person.svg"
+                color="red"
+                name="สุชาติ ภิญโญ"
+                type="สมาชิกสภาผู้แทนราษฎร"
+                amount={500000000}
+                icon="/placeholders/person.png"
               />
               <IndexDataCard
                 title="มีรายได้มากที่สุด"
-                color="#ED1C24"
-                type="พรรค"
-                name="พลังประชารัฐ"
-                amount="500 ล้านบาท"
-                icon="/icons/person.svg"
+                color="red"
+                name="สุชาติ ภิญโญ"
+                type="สมาชิกสภาผู้แทนราษฎร"
+                amount={500000000}
+                icon="/placeholders/person.png"
               />
               <IndexDataCard
                 title="มีความเกี่ยวข้องกับธุรกิจมากที่สุด"
-                color="#ED1C24"
-                type="พรรค"
-                name="พลังประชารัฐ"
-                amount="500 ล้านบาท"
-                icon="/icons/person.svg"
-              />
-              <IndexDataCard
-                title="เคยบริจาคให้พรรคการเมืองมากที่สุด"
-                color="#ED1C24"
-                type="พรรค"
-                name="พลังประชารัฐ"
-                amount="500 ล้านบาท"
-                icon="/icons/person.svg"
+                color="red"
+                name="สุชาติ ภิญโญ"
+                type="สมาชิกสภาผู้แทนราษฎร"
+                amount={500000000}
+                icon="/placeholders/person.png"
               />
             </Slider>
           </div>
@@ -100,50 +103,44 @@ export default function Home() {
             <Slider>
               <IndexDataCard
                 title="พรรคที่ได้รับบริจาคมากที่สุด"
-                color="#9B8CCD"
-                type="พรรค"
-                name="พลังประชารัฐ"
-                amount="500 ล้านบาท"
-                icon="/icons/person.svg"
+                color="purple"
+                name={"พรรค" + TOP_PARTY.party}
+                amount={TOP_PARTY.amount}
+                icon={
+                  (
+                    PARTY_ASSETS as Record<
+                      string,
+                      { color: string | null; image: string | null }
+                    >
+                  )[TOP_PARTY.party]?.image ?? "/placeholders/party.png"
+                }
+                link={"พรรค" + TOP_PARTY.party}
               />
               <IndexDataCard
                 title="นิติบุคคลที่บริจาคให้พรรคการเมืองมากที่สุด"
-                color="#9B8CCD"
-                type="พรรค"
-                name="พลังประชารัฐ"
-                amount="500 ล้านบาท"
-                icon="/icons/person.svg"
+                color="purple"
+                name={TOP_BUSINESS.name}
+                amount={TOP_BUSINESS.total}
+                icon="/placeholders/business.png"
+                link={getFileName(normalizeName(TOP_BUSINESS.name))}
               />
               <IndexDataCard
-                title="นักการเมืองที่บริจาคเงินเยอะที่สุด"
-                color="#9B8CCD"
-                type="พรรค"
-                name="พลังประชารัฐ"
-                amount="500 ล้านบาท"
-                icon="/icons/person.svg"
-              />
-              <IndexDataCard
-                title="บุคคลที่บริจาคเงินให้พรรคการเมืองมากที่สุด"
-                color="#9B8CCD"
-                type="พรรค"
-                name="พลังประชารัฐ"
-                amount="500 ล้านบาท"
-                icon="/icons/person.svg"
+                title="บุคคลที่บริจาคให้พรรคการเมืองมากที่สุด"
+                color="purple"
+                name={TOP_PERSON.name}
+                amount={TOP_PERSON.total}
+                icon="/placeholders/person.png"
+                link={TOP_PERSON.name.replace(/\s/g, "-")}
               />
             </Slider>
           </div>
         </section>
 
         <section
-          style={
-            {
-              backgroundImage: "url('/images/asset_political_transparency_bg.png')",
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-              backgroundRepeat: "no-repeat",
-            } as React.CSSProperties
-          }
-          className="flex flex-col justify-center items-center mb-20 lg:mb-30 b5 lg:b3 px-10 lg:px-[30vw]"
+          style={{
+            backgroundImage: "url('/images/asset_political_transparency_bg.png')",
+          }}
+          className="flex flex-col justify-center items-center bg-cover bg-center bg-no-repeat mb-20 lg:mb-30 b5 lg:b3 px-10 lg:px-[30vw]"
         >
           <Image
             className="h-[208px] w-[208px] lg:h-[310px] lg:w-[310px] object-cover mb-20 mt-40 lg:mb-40 lg:mt-[200px]"
@@ -168,11 +165,9 @@ export default function Home() {
             ข้อมูลในฐานข้อมูล ความโปร่งใสของ ACT Ai
           </p>
           <div
-            style={
-              {
-                backgroundImage: `url('/images/asset_digital_data.png')`,
-              } as React.CSSProperties
-            }
+            style={{
+              backgroundImage: `url('/images/asset_digital_data.png')`,
+            }}
             className="my-30 py-[25px] px-30 rounded-5 bg-cover bg-center flex items-center text-white mx-20 border border-gray-5"
           >
             <p className="b3 text-right">ร่วมแปลงข้อมูลเป็นดิจิทัล</p>
