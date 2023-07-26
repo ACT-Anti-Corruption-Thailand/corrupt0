@@ -11,6 +11,9 @@ import DATA_BUSINESS from "@/data/businesses.json";
 import POLITICIAN_IMAGES from "@/data/politicianImages.json";
 import PARTY_ASSETS from "@/data/color/partyAssets.json";
 
+import PARTY_DONATION from "@/data/donation/partyPerYearWithTotal.json";
+import BUSINESS_DONATION from "@/data/donation/donor.json";
+
 import { formatThousands, thaiMoneyFormatter } from "@/functions/moneyFormatter";
 
 import type { Dispatch, SetStateAction } from "react";
@@ -93,41 +96,27 @@ const TOP3PERSON: Top3Entry[] = [
   },
 ];
 
-const TOP3PARTY: Top3Entry[] = [
-  {
-    name: "พลังประชารัฐ",
-    value: 14_565_000_000,
-    link: "พลังประชารัฐ",
-  },
-  {
-    name: "พลังประชารัฐ",
-    value: 14_564_000_000,
-    link: "พลังประชารัฐ",
-  },
-  {
-    name: "พลังประชารัฐ",
-    value: 14_563_000_000,
-    link: "พลังประชารัฐ",
-  },
-];
+const TOP3PARTY: Top3Entry[] = PARTY_DONATION.ทุกปี.slice(0, 3).map((e) => ({
+  name: e.party,
+  value: e.amount,
+  image: (PARTY_ASSETS as Record<string, { color: string | null; image: string | null }>)[
+    e.party
+  ]?.image,
+  link: "พรรค" + e.party,
+}));
 
-const TOP3BUSINESS: Top3Entry[] = [
-  {
-    name: "บริษัท ทีเอ พีเอ็น เปเปอร์ จำกัด",
-    value: 76_000_000,
-    link: "บริษัท-ทีเอ-พีเอ็น-เปเปอร์-จำกัด",
-  },
-  {
-    name: "บริษัท ทีเอ พีเอ็น เปเปอร์ จำกัด",
-    value: 75_000_000,
-    link: "บริษัท-ทีเอ-พีเอ็น-เปเปอร์-จำกัด",
-  },
-  {
-    name: "บริษัท ทีเอ พีเอ็น เปเปอร์ จำกัด",
-    value: 74_000_000,
-    link: "บริษัท-ทีเอ-พีเอ็น-เปเปอร์-จำกัด",
-  },
-];
+const normalizeName = (name: string) =>
+  name.trim().replace(/\s+/g, " ").replace(/ํา/g, "ำ");
+const getFileName = (formal_name: string) =>
+  formal_name.replace("ห้างหุ้นส่วนจำกัด", "หจก").replace(/\s+|\/|\\/g, "-");
+
+const TOP3BUSINESS: Top3Entry[] = BUSINESS_DONATION.filter((e) => e.title === "นิติบุคคล")
+  .slice(0, 3)
+  .map((e) => ({
+    name: e.name,
+    value: e.total,
+    link: getFileName(normalizeName(e.name)),
+  }));
 
 interface Top3ThingProps {
   name: string;
@@ -149,7 +138,7 @@ function Top3Thing({ name, placeholderImage, data, hidden }: Top3ThingProps) {
             <li key={i} className="border-b border-b-gray-2 last:border-b-0">
               <Link href={"/info/" + e.link} className="flex gap-5 py-5">
                 <Image
-                  className="w-auto h-20 border rounded-full border-black"
+                  className="w-auto h-20 border rounded-full border-black mt-4"
                   src={e.image ?? placeholderImage}
                   width={20}
                   height={20}
@@ -207,12 +196,9 @@ function SearchResult({
         <ul className="px-10 pt-5 bg-gray-1">
           {limitedData.map((e, i) => (
             <li key={i} className="border-b border-b-gray-2 last:border-b-0">
-              <Link
-                href={"/info/" + e.link}
-                className={clsx("flex gap-5 py-5", !e.position && "items-center")}
-              >
+              <Link href={"/info/" + e.link} className={"flex gap-5 py-5"}>
                 <Image
-                  className="w-auto h-20 border rounded-full border-black"
+                  className="w-auto h-20 border rounded-full border-black mt-4"
                   src={e.image ?? placeholderImage}
                   width={20}
                   height={20}
