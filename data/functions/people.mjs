@@ -789,7 +789,7 @@ const SHAREHOLDER_BUSINESS_TABLE = REDUCED_SHAREHOLDER_TABLE.join(
 
 /**
  * @param {string} name kebab-case full name
- * @returns {Promise<{position: string, business_name: string, businessdomain:string}[]>>}
+ * @returns {Promise<{position: string, business_name: string, businessdomain:string}[]>}
  */
 const getPersonBusiness = async (name) => {
   return SHAREHOLDER_BUSINESS_TABLE.params({ name })
@@ -819,11 +819,12 @@ export const generatePeople = async () => {
 
   const namesAndId = [...has_nacc, ...non_nacc];
   const namesAndPosition = [];
+  const businessCount = [];
 
   // let idx = 1;
   // const ppllen = namesAndId.length;
   // console.info(`ℹ Found ${ppllen} people.`);
-  for (const { full_name, nacc_id } of namesAndId) {
+  for (const { full_name: dashed_full_name, nacc_id } of namesAndId) {
     // console.info(`ℹ Processing ${idx++}/${ppllen}...`);
     const formattedNacc = nacc_id
       ? Object.fromEntries(
@@ -840,15 +841,22 @@ export const generatePeople = async () => {
       : undefined;
     const nacc_ids = nacc_id ? Object.keys(formattedNacc) : [];
 
-    const person_data_json = await getPersonalData(full_name);
+    const person_data_json = await getPersonalData(dashed_full_name);
 
     if (person_data_json.position)
-      namesAndPosition.push(full_name + "|" + person_data_json.position);
-    else namesAndPosition.push(full_name);
+      namesAndPosition.push(dashed_full_name + "|" + person_data_json.position);
+    else namesAndPosition.push(dashed_full_name);
 
-    const lawsuit = await getLawsuit(full_name);
-    const donation = await getPersonDonation(full_name);
-    const business = await getPersonBusiness(full_name);
+    const lawsuit = await getLawsuit(dashed_full_name);
+    const donation = await getPersonDonation(dashed_full_name);
+    const business = await getPersonBusiness(dashed_full_name);
+
+    if (business.length > 1) {
+      businessCount.push({
+        count: business.length,
+        name: dashed_full_name,
+      });
+    }
 
     let relationship = [];
     for (let nid of nacc_ids) {
@@ -892,8 +900,13 @@ export const generatePeople = async () => {
       latestStatement,
     };
 
-    await fs.writeFile(`src/data/info/${full_name}.json`, JSON.stringify(data));
+    await fs.writeFile(`src/data/info/${dashed_full_name}.json`, JSON.stringify(data));
   }
+
+  await fs.writeFile(
+    `src/data/business_count.json`,
+    JSON.stringify(businessCount.sort((a, z) => z.count - a.count))
+  );
 
   await fs.writeFile(
     `src/data/people_search.json`,

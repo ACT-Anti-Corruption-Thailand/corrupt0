@@ -13,6 +13,7 @@ interface CardProps {
   icon: string;
   amount: number;
   link?: string;
+  unit?: string;
 }
 
 const IndexDataCard = (props: CardProps) => {
@@ -47,7 +48,7 @@ const IndexDataCard = (props: CardProps) => {
       </div>
       <div className="flex-1 w-[120px] border-b border-b-gray-5 mt-20 mb-5 mx-auto" />
       <p className="b4 font-bold">
-        {formatThousands(val)} {unit}
+        {formatThousands(val)} {props.unit ?? unit}
       </p>
       <Link
         href={"/info/" + (props.link ?? "")}

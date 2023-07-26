@@ -10,6 +10,7 @@ import Image from "next/image";
 import PARTY_ASSETS from "@/data/color/partyAssets.json";
 import PERSON_DONATION from "@/data/donation/donor.json";
 import PARTY_DONATION from "@/data/donation/partyPerYearWithTotal.json";
+import PERSON_BUSINESS_COUNT from "@/data/business_count.json";
 
 const normalizeName = (name: string) =>
   name.trim().replace(/\s+/g, " ").replace(/ํา/g, "ำ");
@@ -72,10 +73,11 @@ export default function Home() {
               <IndexDataCard
                 title="มีความเกี่ยวข้องกับธุรกิจมากที่สุด"
                 color="red"
-                name="สุชาติ ภิญโญ"
-                type="สมาชิกสภาผู้แทนราษฎร"
-                amount={500000000}
+                name={PERSON_BUSINESS_COUNT[0].name.replace(/-/g, " ")}
+                amount={PERSON_BUSINESS_COUNT[0].count}
+                unit="ธุรกิจ"
                 icon="/placeholders/person.png"
+                link={PERSON_BUSINESS_COUNT[0].name}
               />
             </Slider>
           </div>
