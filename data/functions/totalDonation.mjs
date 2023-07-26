@@ -6,7 +6,7 @@ import { getDonationData } from "./donation.mjs";
 const getTotalDonation = async () => {
   const rawTable = await getDonationData();
   
-  const table = rawTable.derive({ party: (d) => op.replace( d.party,"พรรค", "") }).derive({ year: (d) => op.parse_int(op.substring(d.year) + 543) })
+  const table = rawTable.derive({ party: (d) => op.replace( d.party,"พรรค", "") }).derive({ year: (d) => op.parse_int(d.year + 543) })
 
   const totalPerYearTable = table
     .select("year", "amount")
