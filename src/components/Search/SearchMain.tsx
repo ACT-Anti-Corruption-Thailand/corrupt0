@@ -237,7 +237,7 @@ function SearchResult({
   );
 }
 
-export const Main = () => {
+export const SearchMain = () => {
   const [query, setQuery] = useState("");
   const [group, setGroup] = useState<(typeof SEARCH_GROUP)[number]>(SEARCH_GROUP[0]);
 
@@ -263,6 +263,7 @@ export const Main = () => {
           placeholder="ค้นหา..."
           onInput={(e) => setQuery(() => (e.target as HTMLInputElement).value)}
           value={query}
+          autoFocus
         />
         <Image
           className="w-auto h-20"

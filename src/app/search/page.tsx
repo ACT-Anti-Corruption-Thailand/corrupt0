@@ -1,5 +1,5 @@
 import SearchBackButton from "@/components/SearchBackButton";
-import { Main } from "@/components/Search/SearchMain";
+import { SearchMain } from "@/components/Search/SearchMain";
 
 export default function Search() {
   return (
@@ -9,7 +9,7 @@ export default function Search() {
         <span className="block text-center text-black b6">
           อัปเดตข้อมูลเมื่อวันที่ {new Date().toLocaleDateString("th-TH")}
         </span>
-        <Main />
+        <SearchMain />
       </div>
     </main>
   );
