@@ -10,9 +10,9 @@ import DATA_PARTY from "@/data/parties.json";
 import DATA_BUSINESS from "@/data/businesses.json";
 import POLITICIAN_IMAGES from "@/data/politicianImages.json";
 import PARTY_ASSETS from "@/data/color/partyAssets.json";
-
 import PARTY_DONATION from "@/data/donation/partyPerYearWithTotal.json";
 import BUSINESS_DONATION from "@/data/donation/donor.json";
+import TOP_INCOME_ASSETS from "@/data/top_income_assets.json";
 
 import { formatThousands, thaiMoneyFormatter } from "@/functions/moneyFormatter";
 
@@ -75,26 +75,17 @@ interface Top3Entry extends DataEntry {
   value: number;
 }
 
-const TOP3PERSON: Top3Entry[] = [
-  {
-    name: "สุชาติ ภิญโญ",
-    position: "สมาชิกสภาผู้แทนราษฎร",
-    value: 4_765_000_000,
-    link: "สุชาติ-ภิญโญ",
-  },
-  {
-    name: "สุชาติ ภิญโญ",
-    position: "สมาชิกสภาผู้แทนราษฎร",
-    value: 4_764_000_000,
-    link: "สุชาติ-ภิญโญ",
-  },
-  {
-    name: "สุชาติ ภิญโญ",
-    position: "สมาชิกสภาผู้แทนราษฎร",
-    value: 4_763_000_000,
-    link: "สุชาติ-ภิญโญ",
-  },
-];
+const TOP3PERSON: Top3Entry[] = TOP_INCOME_ASSETS.assets.map((e) => {
+  const data = PEOPLE.find((e) => e.link === e.name);
+
+  return {
+    name: e.name.replace(/-/g, " "),
+    position: data?.position,
+    image: data?.image,
+    value: e.value,
+    link: e.name,
+  };
+});
 
 const TOP3PARTY: Top3Entry[] = PARTY_DONATION.ทุกปี.slice(0, 3).map((e) => ({
   name: e.party,

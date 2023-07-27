@@ -11,6 +11,7 @@ import PARTY_ASSETS from "@/data/color/partyAssets.json";
 import PERSON_DONATION from "@/data/donation/donor.json";
 import PARTY_DONATION from "@/data/donation/partyPerYearWithTotal.json";
 import PERSON_BUSINESS_COUNT from "@/data/business_count.json";
+import TOP_INCOME_ASSETS from "@/data/top_income_assets.json";
 
 const normalizeName = (name: string) =>
   name.trim().replace(/\s+/g, " ").replace(/ํา/g, "ำ");
@@ -57,18 +58,18 @@ export default function Home() {
               <IndexDataCard
                 title="มีทรัพย์สินมากที่สุด"
                 color="red"
-                name="สุชาติ ภิญโญ"
-                type="สมาชิกสภาผู้แทนราษฎร"
-                amount={500000000}
+                name={TOP_INCOME_ASSETS.assets[0].name.replace(/-/g, " ")}
+                amount={TOP_INCOME_ASSETS.assets[0].value}
                 icon="/placeholders/person.png"
+                link={TOP_INCOME_ASSETS.assets[0].name}
               />
               <IndexDataCard
                 title="มีรายได้มากที่สุด"
                 color="red"
-                name="สุชาติ ภิญโญ"
-                type="สมาชิกสภาผู้แทนราษฎร"
-                amount={500000000}
+                name={TOP_INCOME_ASSETS.income[0].name.replace(/-/g, " ")}
+                amount={TOP_INCOME_ASSETS.income[0].value}
                 icon="/placeholders/person.png"
+                link={TOP_INCOME_ASSETS.income[0].name}
               />
               <IndexDataCard
                 title="มีความเกี่ยวข้องกับธุรกิจมากที่สุด"
