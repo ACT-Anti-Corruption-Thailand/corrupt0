@@ -154,7 +154,14 @@ export default function Donation() {
               ))
           )}
         </div>
-        <button className="b4 text-gray-4 pb-20" onClick={() => {setIndividualView(individualView+10)}}>+ ดูเพิ่มอีก 10 พรรค</button>
+        <button
+          className="b4 text-gray-4 pb-20"
+          onClick={() => {
+            setPartyView((e) => e + 10);
+          }}
+        >
+          + ดูเพิ่มอีก 10 พรรค
+        </button>
         <div className="flex justify-center items-center gap-10 bg-gray-6 w-screen py-10 my-10 lg:py-15 lg:my-30 text-24 lg:h3">
           <Image
             src="./icons/donate.svg"
@@ -267,7 +274,14 @@ export default function Donation() {
               ))
           )}
         </div>
-        <button className="b4 text-gray-4 pb-20" onClick={() => {setIndividualView(individualView+10)}}>+ ดูเพิ่มเติมอีก 10 คน</button>
+        <button
+          className="b4 text-gray-4 pb-20"
+          onClick={() => {
+            setIndividualView((e) => e + 10);
+          }}
+        >
+          + ดูเพิ่มเติมอีก 10 คน
+        </button>
       </section>
     </>
   );
