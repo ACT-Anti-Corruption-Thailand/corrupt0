@@ -31,7 +31,7 @@ export default function InfoPartyDonationSection(props: PartySectionProps) {
 
   const DATA = YEARS.slice(1).reverse().map((year: string) => ({ x: year, y1: props.data.filter((item: any) => String(item.year) === year).reduce((acc: any, curr: any) => acc + +curr.amount, 0) }))
 
-  console.log(DATA)
+  // console.log(DATA)
 
   const displayData = Object.values(props.data.filter((items: any) => year === "ทุกปี" ? true : String(items.year) === year).filter((items: any) => type === "ทุกกลุ่มตำแหน่ง" ? true : items.donor_prefix === type).reduce((acc: any, curr: any) => {
     const donor_fullname = curr.donor_fullname;
