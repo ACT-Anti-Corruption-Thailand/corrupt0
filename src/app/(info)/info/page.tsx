@@ -275,7 +275,7 @@ export default function Info() {
                 </div>
                 <div className="flex flex-col gap-10 lg:gap-30 lg:flex-row">
                   <div className="flex-1 py-50 border border-white border-dashed">
-                    Chart แบบปังๆ ตัวแม่
+                    Chart
                   </div>
                   <div className="py-50 px-20 border border-white border-dashed">
                     ตัวกรอง
