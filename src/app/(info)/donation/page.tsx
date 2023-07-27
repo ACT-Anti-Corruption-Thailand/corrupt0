@@ -15,6 +15,7 @@ import _PARTY_DONATION_Test from "@data/donation/partyPerYearWithTotal.json";
 import _PARTY_TOTAL_DONATION from "@data/donation/totalPerYearWithTotal.json";
 import _PARTY_ASSETS from "@/data/color/partyAssets.json";
 import _DONOR_DATA from "@data/donation/donor.json";
+import Link from "next/link";
 
 const PARTY_DONATION_Test = _PARTY_DONATION_Test as any;
 const PARTY_TOTAL_DONATION = _PARTY_TOTAL_DONATION as any;
@@ -24,13 +25,25 @@ const PARTY_ASSETS = _PARTY_ASSETS as Record<
   { color: string | null; image: string | null }
 >;
 
+const getFormalName = (donation_full_name: string) =>
+  donation_full_name
+    .replace(/บริษัท จำกัด \(มหาชน\)(.+)/g, "บริษัท $1 จำกัด (มหาชน)")
+    .replace(/บริษัท จำกัด(.+)/g, "บริษัท $1 จำกัด")
+    .replace("(มหาชน) จำกัด", "จำกัด (มหาชน)")
+    .replace("หจก.", "ห้างหุ้นส่วนจำกัด ")
+    .replace(/ห้างหุ้นส่วนจำกัด(.)/g, "ห้างหุ้นส่วนจำกัด $1");
+const getFileName = (formal_name: string) =>
+  formal_name.replace("ห้างหุ้นส่วนจำกัด", "หจก").replace(/\s+|\/|\\/g, "-");
+
 const YEARS = Object.keys(PARTY_DONATION_Test).reverse();
-const DONATION_TYPES = ["ทุกกลุ่มตำแหน่ง", ...new Set(DONOR_DATA.map((item: any) => item.title))] as string[];
+const DONATION_TYPES = [
+  "ทุกกลุ่มตำแหน่ง",
+  ...new Set(DONOR_DATA.map((item: any) => item.title)),
+] as string[];
 
 // TODO: Manually Typing
 type PartySearchSchema = (typeof PARTY_DONATION_Test)[number];
 type IndividualDonorSchema = (typeof DONOR_DATA)[number];
-
 
 export default function Donation() {
   const [partySearch, setPartySearch] = React.useState<PartySearchSchema | null>(null);
@@ -43,8 +56,19 @@ export default function Donation() {
     DONATION_TYPES[0]
   );
 
-  const selected_assets = PARTY_DONATION_Test[partyFilterYear].map((d: any, index: number) => PARTY_ASSETS[d.party]?.color && PARTY_ASSETS[d.party]?.color != "#CCD8DD" ? { party: d.party, color: PARTY_ASSETS[d.party]?.color, image: PARTY_ASSETS[d.party]?.image } : null).filter((e:object) => e != null).filter((d: any, index: number) => index < 10)
-  console.log(selected_assets)
+  const selected_assets = PARTY_DONATION_Test[partyFilterYear]
+    .map((d: any, index: number) =>
+      PARTY_ASSETS[d.party]?.color && PARTY_ASSETS[d.party]?.color != "#CCD8DD"
+        ? {
+            party: d.party,
+            color: PARTY_ASSETS[d.party]?.color,
+            image: PARTY_ASSETS[d.party]?.image,
+          }
+        : null
+    )
+    .filter((e: object) => e != null)
+    .filter((d: any, index: number) => index < 10);
+  console.log(selected_assets);
 
   //TODO: Ascending and Descending sort approach (consult with p'mumu)
   return (
@@ -85,32 +109,47 @@ export default function Donation() {
 
         <Search
           placeholder="ค้นหาด้วยชื่อพรรคการเมือง"
-          data={PARTY_DONATION_Test[partyFilterYear].map((party: any) => ({ name: party.party, ...party }))}
+          data={PARTY_DONATION_Test[partyFilterYear].map((party: any) => ({
+            name: party.party,
+            ...party,
+          }))}
           selected={partySearch}
           setSelected={setPartySearch}
         />
         <div className="flex flex-col items-center text-center text-18 lg:b4 pb-10 lg:pb-30 w-[90vw] min-w-[300px] max-w-[850px]">
           {partySearch ? (
-            <EntityBarCard
-              name={partySearch.name}
-              title=""
-              color={PARTY_ASSETS[partySearch.name]?.color ?? "#fff"}
-              amount={partySearch.amount}
-              maxAmount={PARTY_TOTAL_DONATION[partyFilterYear][0].total}
-              imgPath={PARTY_ASSETS[partySearch.name]?.image ?? "/icons/person.svg"}
-            />
-          ) : (
-            PARTY_DONATION_Test[partyFilterYear].filter((item: any, idx: any) => idx < 10).map((party: any, index: number) => (
+            <Link
+              href={"/info/พรรค" + partySearch.name}
+              className="block no-underline w-full"
+            >
               <EntityBarCard
-                name={party.party}
+                name={partySearch.name}
                 title=""
-                color={PARTY_ASSETS[party.party]?.color ?? "#fff"}
-                amount={party.amount}
+                color={PARTY_ASSETS[partySearch.name]?.color ?? "#fff"}
+                amount={partySearch.amount}
                 maxAmount={PARTY_TOTAL_DONATION[partyFilterYear][0].total}
-                imgPath={PARTY_ASSETS[party.party]?.image ?? "/icons/person.svg"}
-                key={index}
+                imgPath={PARTY_ASSETS[partySearch.name]?.image ?? "/icons/person.svg"}
               />
-            ))
+            </Link>
+          ) : (
+            PARTY_DONATION_Test[partyFilterYear]
+              .filter((item: any, idx: any) => idx < 10)
+              .map((party: any, index: number) => (
+                <Link
+                  href={"/info/พรรค" + party.party}
+                  key={party.party}
+                  className="block no-underline w-full"
+                >
+                  <EntityBarCard
+                    name={party.party}
+                    title=""
+                    color={PARTY_ASSETS[party.party]?.color ?? "#fff"}
+                    amount={party.amount}
+                    maxAmount={PARTY_TOTAL_DONATION[partyFilterYear][0].total}
+                    imgPath={PARTY_ASSETS[party.party]?.image ?? "/icons/person.svg"}
+                  />
+                </Link>
+              ))
           )}
         </div>
         <div className="flex justify-center items-center gap-10 bg-gray-6 w-screen py-10 my-10 lg:py-15 lg:my-30 text-24 lg:h3">
@@ -142,33 +181,31 @@ export default function Donation() {
         <div className="flex flex-col px-10 py-10 my-10 lg:my-30 border-1 rounded-5 border-gray-6 items-start w-[85vw] max-w-[800px]">
           <p className="b4 text-gray-3">สี = พรรค</p>
           <div className="flex gap-10 flex-wrap">
-            {
-              selected_assets.map((obj: any, index: number) => (
-                <div key={index} className="flex justify-center items-center gap-5">
-                  <div
-                    style={
-                      {
-                        backgroundColor: obj.color,
-                      } as React.CSSProperties
-                    }
-                    className="w-8 h-8"
-                    key={index}
-                  />
-                  <p className="text-gray-3 b4">{obj.party}</p>
-                </div>
-              ))
-            }
+            {selected_assets.map((obj: any, index: number) => (
+              <div key={index} className="flex justify-center items-center gap-5">
+                <div
+                  style={
+                    {
+                      backgroundColor: obj.color,
+                    } as React.CSSProperties
+                  }
+                  className="w-8 h-8"
+                  key={index}
+                />
+                <p className="text-gray-3 b4">{obj.party}</p>
+              </div>
+            ))}
             <div className="flex justify-center items-center gap-5">
-                  <div
-                    style={
-                      {
-                        backgroundColor: "#fff",
-                      } as React.CSSProperties
-                    }
-                    className="w-8 h-8"
-                  />
-                  <p className="text-gray-3 b4">พรรคอื่น ๆ</p>
-                </div>
+              <div
+                style={
+                  {
+                    backgroundColor: "#fff",
+                  } as React.CSSProperties
+                }
+                className="w-8 h-8"
+              />
+              <p className="text-gray-3 b4">พรรคอื่น ๆ</p>
+            </div>
           </div>
         </div>
         <Search
@@ -179,26 +216,52 @@ export default function Donation() {
         />
         <div className="flex flex-col items-center text-center text-18 lg:b4 pb-10 lg:pb-30 w-[90vw] min-w-[300px] max-w-[850px]">
           {individualSearch ? (
-            <EntityStackedBarCard
-              name={individualSearch.name}
-              title={individualSearch.title}
-              data={individualSearch.donation}
-              maxAmount={DONOR_DATA[0].total}
-              imgPath="/icons/person.svg"
-              assets={selected_assets}
-            />
-          ) : (
-            DONOR_DATA.filter((items: any) => individualFilterType === "ทุกกลุ่มตำแหน่ง" ? true : items.title === individualFilterType).filter((item: any, idx: any) => idx < 10).map((individual: any, index: any) => (
+            <Link
+              href={
+                "/info/" +
+                (individualSearch.title === "นิติบุคคล"
+                  ? getFileName(getFormalName(individualSearch.name))
+                  : getFileName(individualSearch.name))
+              }
+              className="block no-underline w-full"
+            >
               <EntityStackedBarCard
-                name={individual.name}
-                title={individual.title}
-                data={individual.donation}
+                name={individualSearch.name}
+                title={individualSearch.title}
+                data={individualSearch.donation}
                 maxAmount={DONOR_DATA[0].total}
                 imgPath="/icons/person.svg"
-                key={index}
                 assets={selected_assets}
               />
-            ))
+            </Link>
+          ) : (
+            DONOR_DATA.filter((items: any) =>
+              individualFilterType === "ทุกกลุ่มตำแหน่ง"
+                ? true
+                : items.title === individualFilterType
+            )
+              .filter((item: any, idx: any) => idx < 10)
+              .map((individual: any, index: any) => (
+                <Link
+                  href={
+                    "/info/" +
+                    (individual.title === "นิติบุคคล"
+                      ? getFileName(getFormalName(individual.name))
+                      : getFileName(individual.name))
+                  }
+                  className="block no-underline w-full"
+                  key={index}
+                >
+                  <EntityStackedBarCard
+                    name={individual.name}
+                    title={individual.title}
+                    data={individual.donation}
+                    maxAmount={DONOR_DATA[0].total}
+                    imgPath="/icons/person.svg"
+                    assets={selected_assets}
+                  />
+                </Link>
+              ))
           )}
         </div>
       </section>
