@@ -66,7 +66,7 @@ export default function Position({ params }: { params: { name: string } }) {
           </div>
         </ImgCard>
         <p className="text-gray-5 b3 lg:b6 mt-20">
-          อัพเดทข้อมูลเมื่อวันที่ {new Date().toLocaleDateString("th")}
+          อัปเดตข้อมูลเมื่อวันที่ {new Date().toLocaleDateString("th")}
         </p>
         <Search
           placeholder="ค้นหาด้วยชื่อ/นามสกุล"
