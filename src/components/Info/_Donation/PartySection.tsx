@@ -24,6 +24,8 @@ export default function InfoPartyDonationSection(props: PartySectionProps) {
   const [year, setYear] = useState(YEARS[0]);
   const [type, setType] = useState(DONATION_TYPES[0]);
 
+  const [individualView, setIndividualView] = useState(10)
+
   const totalDonation = props.data.filter((items: any) => year === "ทุกปี" ? true : String(items.year) === year).filter((items: any) => type === "ทุกกลุ่มตำแหน่ง" ? true : items.donor_prefix === type).reduce((acc: any, curr: any) => acc + curr.amount, 0)
   const [amount, unit] = thaiMoneyFormatter(totalDonation);
 
@@ -79,8 +81,9 @@ export default function InfoPartyDonationSection(props: PartySectionProps) {
         </div>
         <div className="flex gap-4 flex-col mt-10">{/* TODO: add search */}</div>
         {
-          displayData.filter((d: any, idx: number) => idx < 10).map((d: any, index: number) => <EntityBarCard name={d.donor_fullname} title={d.donor_prefix} color={props.theme} imgPath="/placeholders/person.png" amount={d.amount} maxAmount={totalDonation} key={index} />)
+          displayData.filter((d: any, idx: number) => idx < individualView).map((d: any, index: number) => <EntityBarCard name={d.donor_fullname} title={d.donor_prefix} color={props.theme} imgPath="/placeholders/person.png" amount={d.amount} maxAmount={totalDonation} key={index} />)
         }
+        <button className="b4 text-gray-4 pb-20" onClick={() => {setIndividualView(individualView+10)}}>+ ดูเพิ่มเติมอีก {displayData.length - individualView} คน</button>
       </div>
     </section>
   );
