@@ -35,7 +35,7 @@ const Bar = (props: barProps) => {
             style={
                 {
                     "--progress": progress,
-                    backgroundColor: props.assets.find(d => d.party === props.party) ?? "#fff",
+                    backgroundColor: props.assets.find(d => d.party === props.party)?.color ?? "#fff",
                 } as React.CSSProperties
             }
             className="h-10 lg:h-20 w-[var(--progress)]"
