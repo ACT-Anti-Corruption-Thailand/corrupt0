@@ -13,6 +13,11 @@ import PARTY_DONATION from "@/data/donation/partyPerYearWithTotal.json";
 import PERSON_BUSINESS_COUNT from "@/data/business_count.json";
 import TOP_INCOME_ASSETS from "@/data/top_income_assets.json";
 
+import DATA_PEOPLE from "@/data/people_search.json";
+const PEOPLE_POSITION = Object.fromEntries(
+  DATA_PEOPLE.map((e) => e.split("|")).filter((e) => e[1])
+);
+
 const normalizeName = (name: string) =>
   name.trim().replace(/\s+/g, " ").replace(/ํา/g, "ำ");
 const getFileName = (formal_name: string) =>
@@ -59,6 +64,7 @@ export default function Home() {
                 title="มีทรัพย์สินมากที่สุด"
                 color="red"
                 name={TOP_INCOME_ASSETS.assets[0].name.replace(/-/g, " ")}
+                type={PEOPLE_POSITION[TOP_INCOME_ASSETS.assets[0].name]}
                 amount={TOP_INCOME_ASSETS.assets[0].value}
                 icon="/placeholders/person.png"
                 link={TOP_INCOME_ASSETS.assets[0].name}
@@ -67,6 +73,7 @@ export default function Home() {
                 title="มีรายได้มากที่สุด"
                 color="red"
                 name={TOP_INCOME_ASSETS.income[0].name.replace(/-/g, " ")}
+                type={PEOPLE_POSITION[TOP_INCOME_ASSETS.income[0].name]}
                 amount={TOP_INCOME_ASSETS.income[0].value}
                 icon="/placeholders/person.png"
                 link={TOP_INCOME_ASSETS.income[0].name}
@@ -75,6 +82,7 @@ export default function Home() {
                 title="มีความเกี่ยวข้องกับธุรกิจมากที่สุด"
                 color="red"
                 name={PERSON_BUSINESS_COUNT[0].name.replace(/-/g, " ")}
+                type={PEOPLE_POSITION[PERSON_BUSINESS_COUNT[0].name]}
                 amount={PERSON_BUSINESS_COUNT[0].count}
                 unit="ธุรกิจ"
                 icon="/placeholders/person.png"
@@ -131,6 +139,7 @@ export default function Home() {
                 title="บุคคลที่บริจาคให้พรรคการเมืองมากที่สุด"
                 color="purple"
                 name={TOP_PERSON.name}
+                type={PEOPLE_POSITION[TOP_PERSON.name]}
                 amount={TOP_PERSON.total}
                 icon="/placeholders/person.png"
                 link={TOP_PERSON.name.replace(/\s/g, "-")}
