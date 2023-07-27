@@ -67,7 +67,9 @@ const Spotlight = () => {
       </div>
       <div className="text-center text-gray-5">
         <p className="b4 font-bold">ร่วมพัฒนาโดย ACT / HAND SE / PUNCH UP</p>
-        <p className="opacity-50 b3">อัปเดตล่าสุด: 00/00/255</p>
+        <p className="opacity-50 b3">
+          อัปเดตล่าสุด: {new Date().toLocaleDateString("th")}
+        </p>
       </div>
     </>
   );

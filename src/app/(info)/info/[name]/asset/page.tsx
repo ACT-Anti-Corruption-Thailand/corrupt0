@@ -82,7 +82,7 @@ export default function Asset({ params }: AssetPageProps) {
     <main>
       <header className="p-10 text-center">
         <span className="block mb-10 b6 text-gray-5">
-          อัปเดตข้อมูลเมื่อวันที่ 00/00/2556
+          อัปเดตข้อมูลเมื่อวันที่ {new Date().toLocaleDateString("th")}
         </span>
         <h1 className="h2 flex gap-5 items-center justify-center">
           เจาะลึกทรัพย์สินรวม
