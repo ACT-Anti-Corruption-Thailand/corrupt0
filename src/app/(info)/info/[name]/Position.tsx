@@ -1,22 +1,32 @@
-// TODO!!
-// Find a way to pass query parameter (consult with p'mumu)
 "use client";
-
 import React from "react";
-import ImgCard from "@/components/ImgCard";
-import Image from "next/image";
-import { Tab } from "@headlessui/react";
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  ResponsiveContainer,
-  ReferenceLine,
-  CartesianGrid,
-} from "recharts";
-import { moneyFormatter } from "@/functions/moneyFormatter";
-import Search from "@/components/Search";
+
 import EntityBarCard from "@/components/EntityBarCard";
+import ImgCard from "@/components/ImgCard";
+import Search from "@/components/Search";
+import { Tab } from "@headlessui/react";
+import Image from "next/image";
+import {
+  Bar,
+  BarChart,
+  CartesianGrid,
+  ReferenceLine,
+  ResponsiveContainer,
+  XAxis,
+} from "recharts";
+
+import DATA_PEOPLE from "@/data/people_search.json";
+
+import { moneyFormatter } from "@/functions/moneyFormatter";
+
+const PEOPLE = DATA_PEOPLE.map((e) => {
+  const [link, position] = e.split("|");
+  return {
+    name: link.replace(/-/g, " "),
+    link,
+    title: position,
+  };
+});
 
 const DATA = [
   {
@@ -31,15 +41,6 @@ const DATA = [
     name: 5000000,
     amount: 8,
   },
-];
-
-const PEOPLE = [
-  { id: 1, name: "Wade Cooper", title: "Regional Paradigm Technician" },
-  { id: 2, name: "Arlene Mccoy", title: "Hello" },
-  { id: 3, name: "Devon Webb", title: "jasf" },
-  { id: 4, name: "Tom Cook", title: "asf" },
-  { id: 5, name: "Tanya Fox", title: "asf" },
-  { id: 6, name: "Hellen Schmidt", title: "asf" },
 ];
 
 export default function Position({ params }: { params: { name: string } }) {

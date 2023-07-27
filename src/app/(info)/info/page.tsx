@@ -2,23 +2,24 @@
 import { useState } from "react";
 
 import ImgCard from "@/components/ImgCard";
+import InfoPopover from "@/components/Info/Popover";
 import InfoHistChart from "@/components/InfoHistChart";
 import Search from "@/components/Search";
 import { Tab } from "@headlessui/react";
 import Image from "next/image";
 
-import DATA_NAME_GEN from "@/data/people_gen.json";
-import DATA_NAME_NACC from "@/data/people_nacc.json";
+import DATA_PEOPLE from "@/data/people_search.json";
 
 import { thaiMoneyFormatter } from "@/functions/moneyFormatter";
-import InfoPopover from "@/components/Info/Popover";
 
-const PEOPLE = [...new Set([...DATA_NAME_NACC, ...DATA_NAME_GEN])]
-  .sort((a, z) => a.localeCompare(z))
-  .map((e) => ({
-    name: e.replace(/-/g, " "),
-    link: `/info/${e}`,
-  }));
+const PEOPLE = DATA_PEOPLE.map((e) => {
+  const [link, position] = e.split("|");
+  return {
+    name: link.replace(/-/g, " "),
+    link,
+    title: position,
+  };
+});
 
 export default function Info() {
   const [selected, setSelected] = useState<(typeof PEOPLE)[number] | null>(null);
