@@ -7,17 +7,10 @@ import Dropdown from "../../Dropdown";
 import InfoDonationChart from "./Chart";
 import ChartSort from "@/components/ChartSort";
 import EntityBarCard from "@/components/EntityBarCard";
-import { ResponsiveContainer } from "recharts";
 import { formatThousands, thaiMoneyFormatter } from "@/functions/moneyFormatter";
 
-const DATA = [
-  { x: "2558", y1: 1, y2: 3 },
-  { x: "2559", y1: 2, y2: 2 },
-  { x: "2560", y1: 3, y2: 1 },
-  { x: "2561", y1: 4, y2: 2 },
-  { x: "2562", y1: 3, y2: 3 },
-  { x: "2563", y1: 2, y2: 4 },
-];
+import _PARTY_ASSETS from "@/data/color/partyAssets.json";
+import { data } from "autoprefixer";
 
 interface PartySectionProps {
   data: any;
@@ -31,8 +24,12 @@ export default function InfoPartyDonationSection(props: PartySectionProps) {
   const [year, setYear] = useState(YEARS[0]);
   const [type, setType] = useState(DONATION_TYPES[0]);
 
-  const totalDonation = props.data.filter((items: any) => year === "ทุกปี" ? true : String(items.year) === year).filter((items: any) => type === "ทุกกลุ่มตำแหน่ง" ? true : items.donor_prefix === type).reduce((acc: any, curr:any) => acc + curr.amount, 0)
+  const totalDonation = props.data.filter((items: any) => year === "ทุกปี" ? true : String(items.year) === year).filter((items: any) => type === "ทุกกลุ่มตำแหน่ง" ? true : items.donor_prefix === type).reduce((acc: any, curr: any) => acc + curr.amount, 0)
   const [amount, unit] = thaiMoneyFormatter(totalDonation);
+
+  const DATA = YEARS.slice(1).reverse().map((year: string) => ({ x: year, y1: props.data.filter((item: any) => String(item.year) === year).reduce((acc: any, curr: any) => acc + +curr.amount, 0) }))
+
+  console.log(DATA)
 
   const displayData = Object.values(props.data.filter((items: any) => year === "ทุกปี" ? true : String(items.year) === year).filter((items: any) => type === "ทุกกลุ่มตำแหน่ง" ? true : items.donor_prefix === type).reduce((acc: any, curr: any) => {
     const donor_fullname = curr.donor_fullname;
@@ -42,7 +39,7 @@ export default function InfoPartyDonationSection(props: PartySectionProps) {
       acc[donor_fullname] = { ...curr };
     }
     return acc;
-  }, {})).sort((a: any,b: any) => b.amount - a.amount)
+  }, {})).sort((a: any, b: any) => b.amount - a.amount)
 
   return (
     <section id="donation">
@@ -66,8 +63,8 @@ export default function InfoPartyDonationSection(props: PartySectionProps) {
         </p>
         <InfoDonationChart
           x="x"
-          y={["y1", "y2"]}
-          yColors={["#6DD4FF", "#4993FE"]}
+          y={["y1"]}
+          yColors={[props.theme]}
           data={DATA}
         />
         <p className="b6 text-gray-4">หมายเหตุ: แสดงเฉพาะยอดบริจากที่เกิน 5,000 บาท</p>
