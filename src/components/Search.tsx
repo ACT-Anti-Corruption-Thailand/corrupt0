@@ -42,8 +42,8 @@ const filterPeople = (people: SearchData[], query: string) => {
 interface SearchProps<T extends SearchData> {
   data: T[];
   placeholder: string;
-  selected: T | null;
-  setSelected: Dispatch<SetStateAction<T | null>>;
+  selected?: T;
+  setSelected?: Dispatch<SetStateAction<T | null>>;
 }
 
 function Search<T extends SearchData>(props: SearchProps<T>) {
@@ -51,7 +51,7 @@ function Search<T extends SearchData>(props: SearchProps<T>) {
 
   const filteredPeople = useMemo(() => {
     if (query === "") {
-      props.setSelected(null);
+      props.setSelected?.(null);
       return [];
     }
     return props.data.filter((e) => e.name.includes(query));

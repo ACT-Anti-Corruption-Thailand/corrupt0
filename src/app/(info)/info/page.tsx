@@ -1,6 +1,4 @@
 "use client";
-import { useState } from "react";
-
 import ImgCard from "@/components/ImgCard";
 import InfoPopover from "@/components/Info/Popover";
 import InfoHistChart from "@/components/InfoHistChart";
@@ -16,14 +14,12 @@ const PEOPLE = DATA_PEOPLE.map((e) => {
   const [link, position] = e.split("|");
   return {
     name: link.replace(/-/g, " "),
-    link,
+    link: "/info/" + link,
     title: position,
   };
 });
 
 export default function Info() {
-  const [selected, setSelected] = useState<(typeof PEOPLE)[number] | null>(null);
-
   return (
     <>
       <section className="flex flex-col items-center">
@@ -36,20 +32,13 @@ export default function Info() {
               height={100}
               alt="financial"
             />
-            <p className="font-black text-center h1">
-              ดูข้อมูลนักการเมืองเเละเจ้าหน้าที่รัฐ
-            </p>
+            <p className="text-center h1">ดูข้อมูลนักการเมืองเเละเจ้าหน้าที่รัฐ</p>
           </div>
         </ImgCard>
         <p className="text-gray-5 b3 lg:b6 mt-20">
           อัปเดตข้อมูลเมื่อวันที่ {new Date().toLocaleDateString("th")}
         </p>
-        <Search
-          placeholder="ค้นหาด้วยชื่อ/นามสกุล"
-          data={PEOPLE}
-          selected={selected}
-          setSelected={setSelected}
-        />
+        <Search placeholder="ค้นหาด้วยชื่อ/นามสกุล" data={PEOPLE} />
         <div className="w-[90vw] border-1 border-gray-4 lg:mt-20 lg:w-full" />
         <p className="h3 font-black text-white mt-15 mb-10 lg:mt-30 lg:mb-20 lg:h2">
           สำรวจตามกลุ่มตำแหน่ง
