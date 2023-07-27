@@ -10,8 +10,6 @@ import Sharer from "@/components/Sharer";
 import Image from "next/image";
 
 import _PARTY_ASSETS from "@/data/color/partyAssets.json";
-import Dropdown from "@/components/Dropdown";
-import ChartSort from "@/components/ChartSort";
 const PARTY_ASSETS = _PARTY_ASSETS as Record<
   string,
   { color: string | null; image: string | null }
@@ -63,7 +61,7 @@ export default function Party({ params }: { params: { name: string } }) {
         }
       >
         {/* ประวัติการบริจาคเงินให้พรรคการเมือง */}
-        <InfoPartyDonationSection data={partyData} theme={color}/>
+        <InfoPartyDonationSection data={partyData} theme={color} />
       </InfoDesktopAligner>
     </main>
   );
