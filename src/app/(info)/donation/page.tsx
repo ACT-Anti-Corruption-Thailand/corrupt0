@@ -46,6 +46,9 @@ type PartySearchSchema = (typeof PARTY_DONATION_Test)[number];
 type IndividualDonorSchema = (typeof DONOR_DATA)[number];
 
 export default function Donation() {
+  const [partyView, setPartyView] = React.useState(10);
+  const [individualView, setIndividualView] = React.useState(10);
+
   const [partySearch, setPartySearch] = React.useState<PartySearchSchema | null>(null);
   const [partyFilterYear, setPartySortYear] = React.useState(YEARS[0]);
 
@@ -68,7 +71,6 @@ export default function Donation() {
     )
     .filter((e: object) => e != null)
     .filter((d: any, index: number) => index < 10);
-  console.log(selected_assets);
 
   //TODO: Ascending and Descending sort approach (consult with p'mumu)
   return (
@@ -133,7 +135,7 @@ export default function Donation() {
             </Link>
           ) : (
             PARTY_DONATION_Test[partyFilterYear]
-              .filter((item: any, idx: any) => idx < 10)
+              .filter((item: any, idx: any) => idx < partyView)
               .map((party: any, index: number) => (
                 <Link
                   href={"/info/พรรค" + party.party}
@@ -152,6 +154,7 @@ export default function Donation() {
               ))
           )}
         </div>
+        <button className="b4 text-gray-4 pb-20" onClick={() => {setIndividualView(individualView+10)}}>+ ดูเพิ่มอีก 10 พรรค</button>
         <div className="flex justify-center items-center gap-10 bg-gray-6 w-screen py-10 my-10 lg:py-15 lg:my-30 text-24 lg:h3">
           <Image
             src="./icons/donate.svg"
@@ -240,7 +243,7 @@ export default function Donation() {
                 ? true
                 : items.title === individualFilterType
             )
-              .filter((item: any, idx: any) => idx < 10)
+              .filter((item: any, idx: any) => idx < individualView)
               .map((individual: any, index: any) => (
                 <Link
                   href={
@@ -264,6 +267,7 @@ export default function Donation() {
               ))
           )}
         </div>
+        <button className="b4 text-gray-4 pb-20" onClick={() => {setIndividualView(individualView+10)}}>+ ดูเพิ่มเติมอีก 10 คน</button>
       </section>
     </>
   );
