@@ -85,15 +85,11 @@ export default function Donation() {
               height={100}
               alt="financial"
             />
-            <p className="font-black text-40 text-center lg:h1">
-              ดูข้อมูลเงินบริจากพรรคการเมือง
-            </p>
+            <p className="font-black text-center h1">ดูข้อมูลเงินบริจากพรรคการเมือง</p>
           </div>
         </ImgCard>
-        <p className="text-gray-5 text-18 mt-10 lg:mt-30">
-          อัพเดทข้อมูลเมื่อวันที่ 00/00/2556
-        </p>
-        <div className="flex justify-center items-center gap-10 bg-gray-6 w-screen py-10 my-10 lg:py-15 lg:my-30 text-24 lg:h3">
+        <p className="text-gray-5 b3 lg:b6 mt-20">อัพเดทข้อมูลเมื่อวันที่ 00/00/2556</p>
+        <div className="flex justify-center items-center gap-10 bg-gray-6 w-screen py-10 my-10 lg:py-15 lg:my-30 h3">
           <Image
             src="./icons/borrow.svg"
             width={60}
@@ -118,7 +114,7 @@ export default function Donation() {
           selected={partySearch}
           setSelected={setPartySearch}
         />
-        <div className="flex flex-col items-center text-center text-18 lg:b4 pb-10 lg:pb-30 w-[90vw] min-w-[300px] max-w-[850px]">
+        <div className="flex flex-col items-center text-center b4 pb-10 lg:pb-30 w-[90vw] min-w-[300px] max-w-[850px]">
           {partySearch ? (
             <Link
               href={"/info/พรรค" + partySearch.name}
@@ -162,7 +158,7 @@ export default function Donation() {
         >
           + ดูเพิ่มอีก 10 พรรค
         </button>
-        <div className="flex justify-center items-center gap-10 bg-gray-6 w-screen py-10 my-10 lg:py-15 lg:my-30 text-24 lg:h3">
+        <div className="flex justify-center items-center gap-10 bg-gray-6 w-screen py-10 my-10 lg:py-15 lg:my-30 h3">
           <Image
             src="./icons/donate.svg"
             width={60}
@@ -224,7 +220,7 @@ export default function Donation() {
           selected={individualSearch}
           setSelected={setIndividualSearch}
         />
-        <div className="flex flex-col items-center text-center text-18 lg:b4 pb-10 lg:pb-30 w-[90vw] min-w-[300px] max-w-[850px]">
+        <div className="flex flex-col items-center text-center b4 pb-10 lg:pb-30 w-[90vw] min-w-[300px] max-w-[850px]">
           {individualSearch ? (
             <Link
               href={

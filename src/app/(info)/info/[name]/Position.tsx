@@ -60,14 +60,12 @@ export default function Position({ params }: { params: { name: string } }) {
               height={100}
               alt="financial"
             />
-            <p className="font-black text-40 text-center lg:h1">
+            <p className="font-black text-center h1">
               ดูข้อมูลนักการเมืองเเละเจ้าหน้าที่รัฐ
             </p>
           </div>
         </ImgCard>
-        <p className="text-gray-5 text-18 mt-20 mb-10">
-          อัพเดทข้อมูลเมื่อวันที่ 00/00/2556
-        </p>
+        <p className="text-gray-5 b3 lg:b6 mt-20">อัพเดทข้อมูลเมื่อวันที่ 00/00/2556</p>
         <Search
           placeholder="ค้นหาด้วยชื่อ/นามสกุล"
           data={PEOPLE}
@@ -75,8 +73,8 @@ export default function Position({ params }: { params: { name: string } }) {
           setSelected={setSelected}
         />
         <div className="w-[85vw] border-1 border-gray-4 lg:mt-20 lg:w-full" />
-        <p className="text-30 font-black text-white my-15 lg:h2">{position}</p>
-        <div className="flex flex-col items-center text-center text-18 lg:b4">
+        <p className="h3 text-white my-15 lg:h2">{position}</p>
+        <div className="flex flex-col items-center text-center b6 lg:b5">
           <Tab.Group>
             <Tab.List className="flex flex-row items-center">
               <p className="text-gray-4 mr-10 bg-black">เเสดงข้อมูล</p>
