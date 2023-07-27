@@ -27,8 +27,8 @@ export default function Info() {
   return (
     <>
       <section className="flex flex-col items-center">
-        <ImgCard imgPath="/images/asset_politician.png">
-          <div className="flex flex-col justify-center my-auto py-30 lg:mx-[25vw] xl:mx-[35vw] lg:p-[70px]">
+        <ImgCard imgPath="/images/asset_politician.png" className="w-full">
+          <div className="flex flex-col justify-center my-auto py-30 lg:mx-[20vw] lg:p-[70px]">
             <Image
               className="self-center mb-10 h-[45px] lg:h-100"
               src="./icons/financial.svg"
