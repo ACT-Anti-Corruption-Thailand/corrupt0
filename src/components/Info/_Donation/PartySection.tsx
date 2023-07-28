@@ -10,7 +10,6 @@ import EntityBarCard from "@/components/EntityBarCard";
 import { formatThousands, thaiMoneyFormatter } from "@/functions/moneyFormatter";
 
 import _PARTY_ASSETS from "@/data/color/partyAssets.json";
-import { data } from "autoprefixer";
 
 interface PartySectionProps {
   data: any;
@@ -29,9 +28,38 @@ export default function InfoPartyDonationSection(props: PartySectionProps) {
   const totalDonation = props.data.filter((items: any) => year === "ทุกปี" ? true : String(items.year) === year).filter((items: any) => type === "ทุกกลุ่มตำแหน่ง" ? true : items.donor_prefix === type).reduce((acc: any, curr: any) => acc + curr.amount, 0)
   const [amount, unit] = thaiMoneyFormatter(totalDonation);
 
-  const DATA = YEARS.slice(1).reverse().map((year: string) => ({ x: year, y1: props.data.filter((item: any) => String(item.year) === year).reduce((acc: any, curr: any) => acc + +curr.amount, 0) }))
+  let DATA = YEARS.slice(1).reverse().map((year: string) => ({ x: year, y1: props.data.filter((item: any) => String(item.year) === year).reduce((acc: any, curr: any) => acc + +curr.amount, 0) }))
 
-  // console.log(DATA)
+  if (year !== "ทุกปี") {
+    const unfilledMonthData =
+      Object.values(
+        props.data.filter((item: any) => String(item.year) === year)
+          .reduce((acc: any, curr: any) => {
+            const { amount, month } = curr;
+            if (month in acc) {
+              acc[month].y1 += amount;
+            } else {
+              acc[month] = { x: month, y1: amount };
+            }
+
+            return acc;
+
+          }, {})
+      )
+
+    DATA = Array.from({ length: 12 }, (_, index) => index + 1).reduce((acc: any, x: any) => {
+      if (!acc.some((obj: any) => obj.x === x)) {
+        acc.push({ x: x, y1: 0 });
+      }
+      return acc;
+    }, unfilledMonthData).sort((a: any, b: any) => a.x - b.x)
+
+    console.log("เลือกปี:", DATA)
+  } else {
+    DATA = YEARS.slice(1).reverse().map((year: string) => ({ x: year, y1: props.data.filter((item: any) => String(item.year) === year).reduce((acc: any, curr: any) => acc + +curr.amount, 0) }))
+
+    console.log("ทุกปี:", DATA)
+  }
 
   const displayData = Object.values(props.data.filter((items: any) => year === "ทุกปี" ? true : String(items.year) === year).filter((items: any) => type === "ทุกกลุ่มตำแหน่ง" ? true : items.donor_prefix === type).reduce((acc: any, curr: any) => {
     const donor_fullname = curr.donor_fullname;
@@ -68,6 +96,7 @@ export default function InfoPartyDonationSection(props: PartySectionProps) {
           y={["y1"]}
           yColors={[props.theme]}
           data={DATA}
+          isMonth={year === "ทุกปี" ? false : true}
         />
         <p className="b6 text-gray-4">หมายเหตุ: แสดงเฉพาะยอดบริจากที่เกิน 5,000 บาท</p>
         <div className="flex flex-row items-center gap-10 my-10 lg:my-30">
@@ -83,7 +112,7 @@ export default function InfoPartyDonationSection(props: PartySectionProps) {
         {
           displayData.filter((d: any, idx: number) => idx < individualView).map((d: any, index: number) => <EntityBarCard name={d.donor_fullname} title={d.donor_prefix} color={props.theme} imgPath="/placeholders/person.png" amount={d.amount} maxAmount={totalDonation} key={index} />)
         }
-        <button className="b4 text-gray-4 pb-20" onClick={() => {setIndividualView(individualView+10)}}>+ ดูเพิ่มเติมอีก {displayData.length - individualView} คน</button>
+        <button className="b4 text-gray-4 pb-20" onClick={() => { setIndividualView(individualView + 10) }}>+ ดูเพิ่มเติมอีก {displayData.length - individualView} คน</button>
       </div>
     </section>
   );
