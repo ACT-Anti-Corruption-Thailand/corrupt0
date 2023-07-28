@@ -41,9 +41,7 @@ export default function InfoPartyDonationSection(props: PartySectionProps) {
             } else {
               acc[month] = { x: month, y1: amount };
             }
-
             return acc;
-
           }, {})
       )
 
@@ -53,12 +51,8 @@ export default function InfoPartyDonationSection(props: PartySectionProps) {
       }
       return acc;
     }, unfilledMonthData).sort((a: any, b: any) => a.x - b.x)
-
-    console.log("เลือกปี:", DATA)
   } else {
     DATA = YEARS.slice(1).reverse().map((year: string) => ({ x: year, y1: props.data.filter((item: any) => String(item.year) === year).reduce((acc: any, curr: any) => acc + +curr.amount, 0) }))
-
-    console.log("ทุกปี:", DATA)
   }
 
   const displayData = Object.values(props.data.filter((items: any) => year === "ทุกปี" ? true : String(items.year) === year).filter((items: any) => type === "ทุกกลุ่มตำแหน่ง" ? true : items.donor_prefix === type).reduce((acc: any, curr: any) => {
