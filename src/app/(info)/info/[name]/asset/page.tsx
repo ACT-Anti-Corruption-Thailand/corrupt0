@@ -29,10 +29,10 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: AssetPageProps): Promise<Metadata> {
   const name = decodeURI(params.name);
-  const spacedName = name.replace(/-/g, " ");
+  const formalName = name.replace(/-/g, " ");
 
   return {
-    title: `เจาะลึกทรัพย์สิน ${spacedName} | Corrupt0 — ACT Ai`,
+    title: `เจาะลึกทรัพย์สิน ${formalName} | Corrupt0 — ACT Ai`,
   };
 }
 
@@ -42,6 +42,7 @@ interface AssetPageProps {
 
 export default function Asset({ params }: AssetPageProps) {
   const name = decodeURI(params.name);
+  const formalName = name.replace(/-/g, " ");
 
   let file: Record<any, any> = {};
 
@@ -80,7 +81,7 @@ export default function Asset({ params }: AssetPageProps) {
 
   return (
     <main>
-      <header className="p-10 text-center">
+      <header className="p-10 text-center md:mb-10">
         <span className="block mb-10 b6 text-gray-5">
           อัปเดตข้อมูลเมื่อวันที่ {new Date().toLocaleDateString("th")}
         </span>
@@ -101,6 +102,7 @@ export default function Asset({ params }: AssetPageProps) {
             </ol>
           </InfoAssetPopover>
         </h1>
+        <p className="b1 leading-1">{formalName}</p>
       </header>
 
       <InfoAssetMain years={YEARS} compare_years={COMPARE_YEARS} statements={assets} />
