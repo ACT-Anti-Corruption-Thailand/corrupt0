@@ -155,7 +155,7 @@ export const InfoFinancialSingleCard = ({
       </section>
       <p
         className={clsx(
-          "b4 font-bold text-center no-balance",
+          "b4 font-bold text-left no-balance",
           dataDifference >= 0 ? "text-value-positive-text" : "text-value-negative-text"
         )}
       >
