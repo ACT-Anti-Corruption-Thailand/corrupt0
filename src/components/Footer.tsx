@@ -41,7 +41,11 @@ export default function Footer({ className }: { className?: string }) {
             <span className="block mb-5 font-bold">แหล่งข้อมูล</span>
             <ul className="flex flex-col gap-5">
               <li>
-                <a href="/" target="_blank" rel="nofollow noopener noreferrer">
+                <a
+                  href="https://opendata.actai.co"
+                  target="_blank"
+                  rel="nofollow noopener noreferrer"
+                >
                   Open Data ACT Ai
                 </a>
               </li>
