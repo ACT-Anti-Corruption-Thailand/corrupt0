@@ -46,7 +46,7 @@ type PartySearchSchema = (typeof PARTY_DONATION_Test)[number];
 type IndividualDonorSchema = (typeof DONOR_DATA)[number];
 
 export default function Donation() {
-  const [partyView, setPartyView] = React.useState(10);
+  const [partyView, setPartyView] = React.useState(5);
   const [individualView, setIndividualView] = React.useState(10);
 
   const [partySearch, setPartySearch] = React.useState<PartySearchSchema | null>(null);
