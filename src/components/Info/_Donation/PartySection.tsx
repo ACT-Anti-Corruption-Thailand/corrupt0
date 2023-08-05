@@ -27,7 +27,7 @@ interface PartySectionProps {
 
 export default function InfoPartyDonationSection(props: PartySectionProps) {
   const DONATION_TYPES = [
-    "ทุกกลุ่มตำแหน่ง",
+    "ทุกประเภทบุคคล",
     ...new Set(props.data.map((d: any) => d.donor_prefix)),
   ] as string[];
   const YEARS = ["ทุกปี", ...new Set(props.data.map((d: any) => String(d.year)))].sort(
@@ -42,7 +42,7 @@ export default function InfoPartyDonationSection(props: PartySectionProps) {
   const totalDonation = props.data
     .filter((items: any) => (year === "ทุกปี" ? true : String(items.year) === year))
     .filter((items: any) =>
-      type === "ทุกกลุ่มตำแหน่ง" ? true : items.donor_prefix === type
+      type === "ทุกประเภทบุคคล" ? true : items.donor_prefix === type
     )
     .reduce((acc: any, curr: any) => acc + curr.amount, 0);
   const [amount, unit] = thaiMoneyFormatter(totalDonation);
@@ -94,7 +94,7 @@ export default function InfoPartyDonationSection(props: PartySectionProps) {
     props.data
       .filter((items: any) => (year === "ทุกปี" ? true : String(items.year) === year))
       .filter((items: any) =>
-        type === "ทุกกลุ่มตำแหน่ง" ? true : items.donor_prefix === type
+        type === "ทุกประเภทบุคคล" ? true : items.donor_prefix === type
       )
       .reduce((acc: any, curr: any) => {
         const donor_fullname = curr.donor_fullname;

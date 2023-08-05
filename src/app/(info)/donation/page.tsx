@@ -37,7 +37,7 @@ const getFileName = (formal_name: string) =>
 
 const YEARS = Object.keys(PARTY_DONATION_Test).reverse();
 const DONATION_TYPES = [
-  "ทุกกลุ่มตำแหน่ง",
+  "ทุกประเภทบุคคล",
   ...new Set(DONOR_DATA.map((item: any) => item.title)),
 ] as string[];
 
@@ -244,7 +244,7 @@ export default function Donation() {
             </Link>
           ) : (
             DONOR_DATA.filter((items: any) =>
-              individualFilterType === "ทุกกลุ่มตำแหน่ง"
+              individualFilterType === "ทุกประเภทบุคคล"
                 ? true
                 : items.title === individualFilterType
             )
