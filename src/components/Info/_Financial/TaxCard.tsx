@@ -1,7 +1,7 @@
 "use client";
 import clsx from "clsx";
 import { InfoFinancialChart } from "./Chart";
-import type { ActorSpouseChildArr, InfoFinanceStatement } from "./Section";
+import type { TaxArray, InfoFinanceStatement } from "./Section";
 import { f$, fP, safePercent } from "./Section";
 
 interface CompareIncomeProps {
@@ -9,12 +9,9 @@ interface CompareIncomeProps {
   income: InfoFinanceStatement[];
   taxActor: number;
   taxSpouse: number;
-  taxChild: number;
   showActor: boolean;
   showSpouse: boolean;
   spouseCount: number;
-  showChild: boolean;
-  childCount: number;
 }
 
 function CompareIncome({
@@ -22,27 +19,20 @@ function CompareIncome({
   income,
   taxActor,
   taxSpouse,
-  taxChild,
   showActor,
   showSpouse,
   spouseCount,
-  showChild,
-  childCount,
 }: CompareIncomeProps) {
-  const [totalActorIncome, totalSpouseIncome, totalChildIncome] = income.reduce(
+  const [totalActorIncome, totalSpouseIncome] = income.reduce(
     (a, c) => {
-      return [a[0] + c.value[0], a[1] + (c.value[1] ?? 0), a[2] + (c.value[2] ?? 0)];
+      return [a[0] + c.value[0], a[1] + (c.value[1] ?? 0)];
     },
-    [0, 0, 0]
+    [0, 0]
   );
 
   const actorCompare = safePercent(taxActor, totalActorIncome);
   const spouseCompare = safePercent(taxSpouse, totalSpouseIncome);
-  const childCompare = safePercent(taxChild, totalChildIncome);
-  const totalCompare = safePercent(
-    totalTax,
-    totalActorIncome + totalSpouseIncome + totalChildIncome
-  );
+  const totalCompare = safePercent(totalTax, totalActorIncome + totalSpouseIncome);
 
   const [actorWording, actorValue] =
     actorCompare > 100
@@ -52,10 +42,6 @@ function CompareIncome({
     spouseCompare > 100
       ? ["มากกว่า", spouseCompare - 100]
       : ["น้อยกว่า", 100 - spouseCompare];
-  const [childWording, childValue] =
-    childCompare > 100
-      ? ["มากกว่า", childCompare - 100]
-      : ["น้อยกว่า", 100 - childCompare];
   const [totalWording, totalValue] =
     totalCompare > 100
       ? ["มากกว่า", totalCompare - 100]
@@ -79,14 +65,6 @@ function CompareIncome({
             </div>
           </div>
         )}
-        {showChild && childCount > 0 && (
-          <div className="opacity-80 flex-1 flex">
-            <div className={clsx((showActor || showSpouse) && "mx-auto")}>
-              <span className="block b4">{childWording}</span>
-              <span className="block b5">{fP(childValue)}%</span>
-            </div>
-          </div>
-        )}
         <div className="text-right flex-1">
           <span className="block b4">{totalWording}</span>
           <span className="block b5">{fP(totalValue)}%</span>
@@ -97,16 +75,14 @@ function CompareIncome({
 }
 
 interface InfoFinancialSingleTaxCardProps {
-  tax: ActorSpouseChildArr;
+  tax: TaxArray;
   income?: InfoFinanceStatement[];
   max: number;
 
   spouseCount: number;
-  childCount: number;
 
   showActor: boolean;
   showSpouse: boolean;
-  showChild: boolean;
 }
 
 export const InfoFinancialSingleTaxCard = ({
@@ -114,28 +90,20 @@ export const InfoFinancialSingleTaxCard = ({
   income,
   max,
   spouseCount,
-  childCount,
   showActor,
   showSpouse,
-  showChild,
 }: InfoFinancialSingleTaxCardProps) => {
   const taxActor = showActor ? tax[0] : 0;
   const taxSpouse = showSpouse ? tax[1] ?? 0 : 0;
-  const taxChild = showChild ? tax[2] ?? 0 : 0;
 
-  const totalTax = taxActor + taxSpouse + taxChild;
+  const totalTax = taxActor + taxSpouse;
 
   return (
     <div className="bg-gray-1 p-10">
       <div className="block b2 font-bold">การเสียภาษี</div>
       <section>
         <span className="block b3 font-bold mb-2">เงินได้พึงประเมิน</span>
-        <InfoFinancialChart
-          actor={taxActor}
-          spouse={taxSpouse}
-          child={taxChild}
-          max={max}
-        />
+        <InfoFinancialChart actor={taxActor} spouse={taxSpouse} child={0} max={max} />
         <div className="flex pt-5 mb-10">
           {showActor && (
             <div className="flex-1">
@@ -148,14 +116,6 @@ export const InfoFinancialSingleTaxCard = ({
               <div className={clsx(showActor && "mx-auto")}>
                 <span className="block b7 leading-1">คู่สมรส {spouseCount} คน</span>
                 <span className="block b4">{f$(taxSpouse)}</span>
-              </div>
-            </div>
-          )}
-          {showChild && childCount > 0 && (
-            <div className="opacity-80 flex-1 flex">
-              <div className={clsx((showActor || showSpouse) && "mx-auto")}>
-                <span className="block b7 leading-1">บุตร {childCount} คน</span>
-                <span className="block b4">{f$(taxChild)}</span>
               </div>
             </div>
           )}
@@ -172,12 +132,9 @@ export const InfoFinancialSingleTaxCard = ({
             totalTax={totalTax}
             taxActor={taxActor}
             taxSpouse={taxSpouse}
-            taxChild={taxChild}
             showActor={showActor}
             showSpouse={showSpouse}
             spouseCount={spouseCount}
-            showChild={showChild}
-            childCount={childCount}
           />
         )}
       </section>
@@ -188,16 +145,14 @@ export const InfoFinancialSingleTaxCard = ({
 interface InfoFinancialCompareTaxCardProps {
   year1: string | number;
   year2: string | number;
-  tax1: ActorSpouseChildArr;
-  tax2: ActorSpouseChildArr;
+  tax1: TaxArray;
+  tax2: TaxArray;
   max: number;
 
   spouseCount: number;
-  childCount: number;
 
   showActor: boolean;
   showSpouse: boolean;
-  showChild: boolean;
 }
 
 export const InfoFinancialCompareTaxCard = ({
@@ -207,20 +162,16 @@ export const InfoFinancialCompareTaxCard = ({
   tax2,
   max,
   spouseCount,
-  childCount,
   showActor,
   showSpouse,
-  showChild,
 }: InfoFinancialCompareTaxCardProps) => {
   const taxActor1 = showActor ? tax1[0] : 0;
   const taxSpouse1 = showSpouse ? tax1[1] ?? 0 : 0;
-  const taxChild1 = showChild ? tax1[2] ?? 0 : 0;
-  const totalTax1 = taxActor1 + taxSpouse1 + taxChild1;
+  const totalTax1 = taxActor1 + taxSpouse1;
 
   const taxActor2 = showActor ? tax2[0] : 0;
   const taxSpouse2 = showSpouse ? tax2[1] ?? 0 : 0;
-  const taxChild2 = showChild ? tax2[2] ?? 0 : 0;
-  const totalTax2 = taxActor2 + taxSpouse2 + taxChild2;
+  const totalTax2 = taxActor2 + taxSpouse2;
 
   const percentDiff = safePercent(totalTax2, totalTax1);
 
@@ -239,19 +190,9 @@ export const InfoFinancialCompareTaxCard = ({
       <section>
         <div className="b3 font-bold">เงินได้พึงประเมิน</div>
         <div className="b4 font-bold">{year1}</div>
-        <InfoFinancialChart
-          actor={taxActor1}
-          spouse={taxSpouse1}
-          child={taxChild1}
-          max={max}
-        />
+        <InfoFinancialChart actor={taxActor1} spouse={taxSpouse1} child={0} max={max} />
         <div className="b4 font-bold">{year2}</div>
-        <InfoFinancialChart
-          actor={taxActor2}
-          spouse={taxSpouse2}
-          child={taxChild2}
-          max={max}
-        />
+        <InfoFinancialChart actor={taxActor2} spouse={taxSpouse2} child={0} max={max} />
         <div className="flex pt-5">
           {showActor && (
             <div className="flex-1">
@@ -266,15 +207,6 @@ export const InfoFinancialCompareTaxCard = ({
                 <span className="block b7 leading-1">คู่สมรส {spouseCount} คน</span>
                 <span className="block b4">{f$(taxSpouse1)}</span>
                 <span className="block b4">{f$(taxSpouse2)}</span>
-              </div>
-            </div>
-          )}
-          {showChild && childCount > 0 && (
-            <div className="opacity-80 flex-1 flex">
-              <div className={clsx((showActor || showSpouse) && "mx-auto")}>
-                <span className="block b7 leading-1">บุตร {childCount} คน</span>
-                <span className="block b4">{f$(taxChild1)}</span>
-                <span className="block b4">{f$(taxChild2)}</span>
               </div>
             </div>
           )}

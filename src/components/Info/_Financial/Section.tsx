@@ -21,11 +21,12 @@ export const safePercent = (value: number, outof: number) => (value / (outof || 
 export const fP = (value: number) => Math.floor(value * 1e2) / 1e2;
 
 type NumberNullUndefined = number | null | undefined;
-export type ActorSpouseChildArr = [number, NumberNullUndefined, NumberNullUndefined];
+export type TaxArray = [number, NumberNullUndefined];
+export type FinanceArray = [number, NumberNullUndefined, NumberNullUndefined];
 
 export interface InfoFinanceStatement {
   type: string;
-  value: ActorSpouseChildArr;
+  value: FinanceArray;
 }
 
 interface InfoFinancial {
@@ -33,7 +34,7 @@ interface InfoFinancial {
   หนี้สิน?: InfoFinanceStatement[];
   รายได้?: InfoFinanceStatement[];
   รายจ่าย?: InfoFinanceStatement[];
-  ภาษี?: ActorSpouseChildArr;
+  ภาษี?: TaxArray;
 }
 
 const calcMax = (
@@ -244,10 +245,8 @@ export default function InfoFinancialSection({
                     tax2={compareYearData.ภาษี}
                     max={max}
                     spouseCount={spouseCount}
-                    childCount={childCount}
                     showActor={showActor}
                     showSpouse={showSpouse}
-                    showChild={showChild}
                   />
                 )}
               </>
@@ -283,10 +282,8 @@ export default function InfoFinancialSection({
                     income={currentYearData.รายได้}
                     max={max}
                     spouseCount={spouseCount}
-                    childCount={childCount}
                     showActor={showActor}
                     showSpouse={showSpouse}
-                    showChild={showChild}
                   />
                 ) : (
                   <div className="bg-gray-1 p-10 font-bold b3">

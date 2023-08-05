@@ -669,13 +669,12 @@ export const getStatement = async (nacc_id) => {
     .filter(
       (d) => op.equal(d.nacc_id, nacc_id) && op.equal(d.statement_type_id, 5) // NOTE - Assuming that tax is always id 5
     )
-    .select("valuation_submitter", "valuation_spouse", "valuation_child")
+    .select("valuation_submitter", "valuation_spouse")
     .objects()[0];
 
   statementData["ภาษี"] = [
     tax?.valuation_submitter ?? "",
     tax?.valuation_spouse ?? "",
-    tax?.valuation_child ?? "",
   ].map((e) => +e.replace(/,/g, ""));
 
   if (statementData["ภาษี"].reduce((a, c) => a + c) === 0) delete statementData["ภาษี"];
