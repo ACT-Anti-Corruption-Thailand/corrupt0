@@ -1,15 +1,24 @@
 "use client";
-
 import { useState } from "react";
 
-import Image from "next/image";
-import Dropdown from "../../Dropdown";
-import InfoDonationChart from "./Chart";
 import ChartSort from "@/components/ChartSort";
 import EntityBarCard from "@/components/EntityBarCard";
+import Image from "next/image";
+import Link from "next/link";
+import Dropdown from "../../Dropdown";
+import InfoDonationChart from "./Chart";
+
 import { formatThousands, thaiMoneyFormatter } from "@/functions/moneyFormatter";
 
-import _PARTY_ASSETS from "@/data/color/partyAssets.json";
+const getFormalName = (donation_full_name: string) =>
+  donation_full_name
+    .replace(/บริษัท จำกัด \(มหาชน\)(.+)/g, "บริษัท $1 จำกัด (มหาชน)")
+    .replace(/บริษัท จำกัด(.+)/g, "บริษัท $1 จำกัด")
+    .replace("(มหาชน) จำกัด", "จำกัด (มหาชน)")
+    .replace("หจก.", "ห้างหุ้นส่วนจำกัด ")
+    .replace(/ห้างหุ้นส่วนจำกัด(.)/g, "ห้างหุ้นส่วนจำกัด $1");
+const getFileName = (formal_name: string) =>
+  formal_name.replace("ห้างหุ้นส่วนจำกัด", "หจก").replace(/\s+|\/|\\/g, "-");
 
 interface PartySectionProps {
   data: any;
@@ -17,53 +26,86 @@ interface PartySectionProps {
 }
 
 export default function InfoPartyDonationSection(props: PartySectionProps) {
-  const DONATION_TYPES = ["ทุกกลุ่มตำแหน่ง", ...new Set(props.data.map((d: any) => d.donor_prefix))] as string[];
-  const YEARS = ["ทุกปี", ...new Set(props.data.map((d: any) => String(d.year)))].sort((a: any, b: any) => +b - +a) as string[];
+  const DONATION_TYPES = [
+    "ทุกกลุ่มตำแหน่ง",
+    ...new Set(props.data.map((d: any) => d.donor_prefix)),
+  ] as string[];
+  const YEARS = ["ทุกปี", ...new Set(props.data.map((d: any) => String(d.year)))].sort(
+    (a: any, b: any) => +b - +a
+  ) as string[];
 
   const [year, setYear] = useState(YEARS[0]);
   const [type, setType] = useState(DONATION_TYPES[0]);
 
-  const [individualView, setIndividualView] = useState(10)
+  const [individualView, setIndividualView] = useState(10);
 
-  const totalDonation = props.data.filter((items: any) => year === "ทุกปี" ? true : String(items.year) === year).filter((items: any) => type === "ทุกกลุ่มตำแหน่ง" ? true : items.donor_prefix === type).reduce((acc: any, curr: any) => acc + curr.amount, 0)
+  const totalDonation = props.data
+    .filter((items: any) => (year === "ทุกปี" ? true : String(items.year) === year))
+    .filter((items: any) =>
+      type === "ทุกกลุ่มตำแหน่ง" ? true : items.donor_prefix === type
+    )
+    .reduce((acc: any, curr: any) => acc + curr.amount, 0);
   const [amount, unit] = thaiMoneyFormatter(totalDonation);
 
-  let DATA = YEARS.slice(1).reverse().map((year: string) => ({ x: year, y1: props.data.filter((item: any) => String(item.year) === year).reduce((acc: any, curr: any) => acc + +curr.amount, 0) }))
+  let DATA = YEARS.slice(1)
+    .reverse()
+    .map((year: string) => ({
+      x: year,
+      y1: props.data
+        .filter((item: any) => String(item.year) === year)
+        .reduce((acc: any, curr: any) => acc + +curr.amount, 0),
+    }));
 
   if (year !== "ทุกปี") {
-    const unfilledMonthData =
-      Object.values(
-        props.data.filter((item: any) => String(item.year) === year)
-          .reduce((acc: any, curr: any) => {
-            const { amount, month } = curr;
-            if (month in acc) {
-              acc[month].y1 += amount;
-            } else {
-              acc[month] = { x: month, y1: amount };
-            }
-            return acc;
-          }, {})
-      )
+    const unfilledMonthData = Object.values(
+      props.data
+        .filter((item: any) => String(item.year) === year)
+        .reduce((acc: any, curr: any) => {
+          const { amount, month } = curr;
+          if (month in acc) {
+            acc[month].y1 += amount;
+          } else {
+            acc[month] = { x: month, y1: amount };
+          }
+          return acc;
+        }, {})
+    );
 
-    DATA = Array.from({ length: 12 }, (_, index) => index + 1).reduce((acc: any, x: any) => {
-      if (!acc.some((obj: any) => obj.x === x)) {
-        acc.push({ x: x, y1: 0 });
-      }
-      return acc;
-    }, unfilledMonthData).sort((a: any, b: any) => a.x - b.x)
+    DATA = Array.from({ length: 12 }, (_, index) => index + 1)
+      .reduce((acc: any, x: any) => {
+        if (!acc.some((obj: any) => obj.x === x)) {
+          acc.push({ x: x, y1: 0 });
+        }
+        return acc;
+      }, unfilledMonthData)
+      .sort((a: any, b: any) => a.x - b.x);
   } else {
-    DATA = YEARS.slice(1).reverse().map((year: string) => ({ x: year, y1: props.data.filter((item: any) => String(item.year) === year).reduce((acc: any, curr: any) => acc + +curr.amount, 0) }))
+    DATA = YEARS.slice(1)
+      .reverse()
+      .map((year: string) => ({
+        x: year,
+        y1: props.data
+          .filter((item: any) => String(item.year) === year)
+          .reduce((acc: any, curr: any) => acc + +curr.amount, 0),
+      }));
   }
 
-  const displayData = Object.values(props.data.filter((items: any) => year === "ทุกปี" ? true : String(items.year) === year).filter((items: any) => type === "ทุกกลุ่มตำแหน่ง" ? true : items.donor_prefix === type).reduce((acc: any, curr: any) => {
-    const donor_fullname = curr.donor_fullname;
-    if (acc[donor_fullname]) {
-      acc[donor_fullname].amount += curr.amount;
-    } else {
-      acc[donor_fullname] = { ...curr };
-    }
-    return acc;
-  }, {})).sort((a: any, b: any) => b.amount - a.amount)
+  const displayData = Object.values(
+    props.data
+      .filter((items: any) => (year === "ทุกปี" ? true : String(items.year) === year))
+      .filter((items: any) =>
+        type === "ทุกกลุ่มตำแหน่ง" ? true : items.donor_prefix === type
+      )
+      .reduce((acc: any, curr: any) => {
+        const donor_fullname = curr.donor_fullname;
+        if (acc[donor_fullname]) {
+          acc[donor_fullname].amount += curr.amount;
+        } else {
+          acc[donor_fullname] = { ...curr };
+        }
+        return acc;
+      }, {})
+  ).sort((a: any, b: any) => b.amount - a.amount);
 
   return (
     <section id="donation">
@@ -95,18 +137,41 @@ export default function InfoPartyDonationSection(props: PartySectionProps) {
         <p className="b6 text-gray-4">หมายเหตุ: แสดงเฉพาะยอดบริจากที่เกิน 5,000 บาท</p>
         <div className="flex flex-row items-center gap-10 my-10 lg:my-30">
           <p className="text-gray-4 b4 lg:b3">แสดง</p>
-          <Dropdown
-            data={DONATION_TYPES}
-            value={type}
-            setValue={setType}
-          />
+          <Dropdown data={DONATION_TYPES} value={type} setValue={setType} />
           <ChartSort name="individual-donation-sort" />
         </div>
         <div className="flex gap-4 flex-col mt-10">{/* TODO: add search */}</div>
-        {
-          displayData.filter((d: any, idx: number) => idx < individualView).map((d: any, index: number) => <EntityBarCard name={d.donor_fullname} title={d.donor_prefix} color={props.theme} imgPath="/placeholders/person.png" amount={d.amount} maxAmount={totalDonation} key={index} />)
-        }
-        <button className="b4 text-gray-4 pb-20" onClick={() => { setIndividualView(individualView + 10) }}>+ ดูเพิ่มเติมอีก {displayData.length - individualView} คน</button>
+        {displayData
+          .filter((d: any, idx: number) => idx < individualView)
+          .map((d: any) => (
+            <Link
+              key={d.donor_fullname}
+              href={
+                "/info/" +
+                (d.donor_prefix.title === "นิติบุคคล"
+                  ? getFileName(getFormalName(d.donor_fullname))
+                  : getFileName(d.donor_fullname))
+              }
+              className="block no-underline w-full"
+            >
+              <EntityBarCard
+                name={d.donor_fullname}
+                title={d.donor_prefix}
+                color={props.theme}
+                imgPath="/placeholders/person.png"
+                amount={d.amount}
+                maxAmount={totalDonation}
+              />
+            </Link>
+          ))}
+        <button
+          className="b4 text-gray-4 pb-20"
+          onClick={() => {
+            setIndividualView(individualView + 10);
+          }}
+        >
+          + ดูเพิ่มเติมอีก 10 คน
+        </button>
       </div>
     </section>
   );
