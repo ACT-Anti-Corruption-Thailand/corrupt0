@@ -182,7 +182,7 @@ export default function InfoPartyDonationSection(props: PartySectionProps) {
               color={props.theme}
               imgPath="/placeholders/person.png"
               amount={d.amount}
-              maxAmount={totalDonation}
+              maxAmount={displayData[0].amount}
             />
           </Link>
         ))}

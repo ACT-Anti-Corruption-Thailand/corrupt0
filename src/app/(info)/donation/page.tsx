@@ -138,29 +138,27 @@ export default function Donation() {
                 title=""
                 color={PARTY_ASSETS[partySearch.name]?.color ?? "#fff"}
                 amount={partySearch.amount}
-                maxAmount={PARTY_TOTAL_DONATION[partyFilterYear][0].total}
+                maxAmount={PARTY_DONATION_Test[partyFilterYear][0].amount}
                 imgPath={PARTY_ASSETS[partySearch.name]?.image ?? "/icons/person.svg"}
               />
             </Link>
           ) : (
-            PARTY_DONATION_Test[partyFilterYear]
-              .filter((item: any, idx: any) => idx < partyView)
-              .map((party: any, index: number) => (
-                <Link
-                  href={"/info/พรรค" + party.party}
-                  key={party.party}
-                  className="block no-underline w-full"
-                >
-                  <EntityBarCard
-                    name={party.party}
-                    title=""
-                    color={PARTY_ASSETS[party.party]?.color ?? "#fff"}
-                    amount={party.amount}
-                    maxAmount={PARTY_TOTAL_DONATION[partyFilterYear][0].total}
-                    imgPath={PARTY_ASSETS[party.party]?.image ?? "/icons/person.svg"}
-                  />
-                </Link>
-              ))
+            PARTY_DONATION_Test[partyFilterYear].slice(0, partyView).map((party: any) => (
+              <Link
+                href={"/info/พรรค" + party.party}
+                key={party.party}
+                className="block no-underline w-full"
+              >
+                <EntityBarCard
+                  name={party.party}
+                  title=""
+                  color={PARTY_ASSETS[party.party]?.color ?? "#fff"}
+                  amount={party.amount}
+                  maxAmount={PARTY_DONATION_Test[partyFilterYear][0].amount}
+                  imgPath={PARTY_ASSETS[party.party]?.image ?? "/placeholders/party.png"}
+                />
+              </Link>
+            ))
           )}
         </div>
         <button
