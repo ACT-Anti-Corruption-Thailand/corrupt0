@@ -27,18 +27,20 @@ const PEOPLE = DATA_PEOPLE.map((e) => {
     position,
     image: (POLITICIAN_IMAGES as Record<string, string | null>)[link],
   };
-});
+}).sort((a, z) => a.name.localeCompare(z.name));
+
 const PARTIES = DATA_PARTY.map((e) => ({
   name: e.replace("พรรค", ""),
   link: e,
   image: (PARTY_ASSETS as Record<string, { color: string | null; image: string | null }>)[
     e.replace("พรรค", "")
   ]?.image,
-}));
+})).sort((a, z) => a.name.localeCompare(z.name));
+
 const BUSINESSES = DATA_BUSINESS.map((e) => ({
   name: e.replace(/-/g, " "),
   link: e,
-}));
+})).sort((a, z) => a.name.localeCompare(z.name));
 
 const SEARCH_GROUP = ["ทั้งหมด", "บุคคล", "พรรค", "นิติบุคคล"] as const;
 
