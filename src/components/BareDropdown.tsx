@@ -104,10 +104,7 @@ export default function BareDropdown<T extends DropdownData>({
           )}
         </Listbox.Button>
         <Listbox.Options
-          className={clsx(
-            "absolute z-10 min-w-full w-max select-none",
-            className?.listbox
-          )}
+          className={clsx("absolute z-10 w-full select-none", className?.listbox)}
         >
           {data.map((d) => (
             <Listbox.Option
