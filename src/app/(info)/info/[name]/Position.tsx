@@ -6,6 +6,7 @@ import Navbar from "@/components/Navbar";
 import Search from "@/components/Search";
 import { Tab } from "@headlessui/react";
 import Image from "next/image";
+import Link from "next/link";
 import {
   Bar,
   BarChart,
@@ -72,9 +73,20 @@ export default function Position({ params }: { params: { name: string } }) {
         </p>
         <Search placeholder="ค้นหาด้วยชื่อ/นามสกุล" data={PEOPLE} />
         <div className="w-[90vw] border-1 border-gray-4 lg:mt-20 lg:w-full" />
-        <p className="h3 font-black text-white mt-15 mb-10 lg:mt-30 lg:mb-20 lg:h2">
-          {position}
-        </p>
+        <Link
+          href="/info"
+          className="flex w-auto mr-auto ml-15 mt-10 gap-5 items-center b4 font-bold text-gray-4 lg:mt-20 lg:ml-20"
+        >
+          <Image
+            className="w-auto h-[16px] rotate-90"
+            src="/icons/arr-g.svg"
+            width={18}
+            height={16}
+            alt=""
+          />
+          <span>สำรวจตามกลุ่มตำแหน่ง</span>
+        </Link>
+        <p className="h3 font-black text-white my-10 lg:my-20 lg:h2">{position}</p>
         <div className="flex flex-col items-center text-center b6 lg:b5 pb-10 lg:pb-30 w-[90vw] min-w-[300px] max-w-[850px]">
           <Tab.Group>
             <Tab.List className="flex flex-row items-center">
