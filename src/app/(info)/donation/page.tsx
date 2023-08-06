@@ -47,6 +47,8 @@ const DONATION_TYPES = [
 type PartySearchSchema = (typeof PARTY_DONATION_Test)[number];
 type IndividualDonorSchema = (typeof DONOR_DATA)[number];
 
+const removeNull = (element: any): element is Exclude<typeof element, null> => !!element;
+
 export default function Donation() {
   const [partyView, setPartyView] = useState(5);
   const [individualView, setIndividualView] = useState(10);
@@ -61,7 +63,7 @@ export default function Donation() {
   const [individualFilterType, setIndividualFilterType] = useState(DONATION_TYPES[0]);
 
   const selected_assets = PARTY_DONATION_Test[partyFilterYear]
-    .map((d: any, index: number) =>
+    .map((d: any) =>
       PARTY_ASSETS[d.party]?.color && PARTY_ASSETS[d.party]?.color != "#CCD8DD"
         ? {
             party: d.party,
@@ -70,8 +72,8 @@ export default function Donation() {
           }
         : null
     )
-    .filter((e: object) => e != null)
-    .filter((d: any, index: number) => index < 10);
+    .filter(removeNull)
+    .slice(0, 10);
 
   //TODO: Ascending and Descending sort approach (consult with p'mumu)
   return (
@@ -261,7 +263,7 @@ export default function Donation() {
                 ? true
                 : items.title === individualFilterType
             )
-              .filter((item: any, idx: any) => idx < individualView)
+              .slice(0, individualView)
               .map((individual: any, index: any) => (
                 <Link
                   href={
