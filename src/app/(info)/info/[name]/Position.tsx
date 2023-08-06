@@ -1,6 +1,8 @@
 "use client";
 import EntityBarCard from "@/components/EntityBarCard";
 import ImgCard from "@/components/ImgCard";
+import InfoPopover from "@/components/Info/Popover";
+import Navbar from "@/components/Navbar";
 import Search from "@/components/Search";
 import { Tab } from "@headlessui/react";
 import Image from "next/image";
@@ -16,7 +18,6 @@ import {
 import DATA_PEOPLE from "@/data/people_search.json";
 
 import { moneyFormatter } from "@/functions/moneyFormatter";
-import InfoPopover from "@/components/Info/Popover";
 
 const PEOPLE = DATA_PEOPLE.map((e) => {
   const [link, position] = e.split("|");
@@ -47,6 +48,12 @@ export default function Position({ params }: { params: { name: string } }) {
 
   return (
     <>
+      <Navbar
+        back={{
+          href: "/",
+          text: "หน้าหลัก",
+        }}
+      />
       <section className="flex flex-col items-center">
         <ImgCard imgPath="/images/asset_politician.png" className="w-full">
           <div className="flex flex-col justify-center my-auto py-30 lg:mx-[20vw] lg:p-[70px]">

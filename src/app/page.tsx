@@ -30,7 +30,7 @@ const TOP_PARTY = PARTY_DONATION.ทุกปี[0];
 export default function Home() {
   return (
     <>
-      <Navbar floating />
+      <Navbar />
       <Spotlight />
       <main className="text-center pt-50">
         <p className="text-white h3 mb-20 lg:h1">มีอะไรให้ดูใน ACT Ai?</p>

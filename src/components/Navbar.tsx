@@ -1,19 +1,21 @@
 import clsx from "clsx";
 import Image from "next/image";
 import Link from "next/link";
-import BackButton from "@/components/BackButton";
 
 interface NavbarProps {
-  floating?: boolean;
+  back?: {
+    text: string;
+    href: string;
+  };
 }
 
-export default function Navbar({ floating = false }: NavbarProps) {
+export default function Navbar({ back }: NavbarProps) {
   return (
     <>
       <nav
         className={clsx(
           "h-50 flex items-center px-10 gap-5 z-10 b5 md:h-[75px] md:px-20",
-          floating ? "-mb-50 md:-mb-[75px]" : "bg-black border-b border-b-gray-6"
+          back ? "bg-black border-b border-b-gray-6" : "-mb-50 md:-mb-[75px]"
         )}
       >
         <Link className="mr-auto" href="/">
@@ -44,7 +46,21 @@ export default function Navbar({ floating = false }: NavbarProps) {
           <Image src="/icons/search.svg" width={18} height={18} alt="ค้นหา" />
         </Link>
       </nav>
-      {!floating && <BackButton />}
+      {back && (
+        <Link
+          href={back.href}
+          className="flex w-auto mr-auto px-15 h-40 gap-5 items-center b4 font-bold"
+        >
+          <Image
+            className="w-auto h-[16px] rotate-90"
+            src="/icons/arr-w.svg"
+            width={18}
+            height={16}
+            alt=""
+          />
+          <span>{back.text}</span>
+        </Link>
+      )}
     </>
   );
 }

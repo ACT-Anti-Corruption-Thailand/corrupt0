@@ -2,6 +2,7 @@
 import ImgCard from "@/components/ImgCard";
 import InfoPopover from "@/components/Info/Popover";
 import InfoHistChart from "@/components/InfoHistChart";
+import Navbar from "@/components/Navbar";
 import Search from "@/components/Search";
 import { Tab } from "@headlessui/react";
 import Image from "next/image";
@@ -22,6 +23,12 @@ const PEOPLE = DATA_PEOPLE.map((e) => {
 export default function Info() {
   return (
     <>
+      <Navbar
+        back={{
+          href: "/",
+          text: "หน้าหลัก",
+        }}
+      />
       <section className="flex flex-col items-center">
         <ImgCard imgPath="/images/asset_politician.png" className="w-full">
           <div className="flex flex-col justify-center my-auto py-30 lg:mx-[20vw] lg:p-[70px]">

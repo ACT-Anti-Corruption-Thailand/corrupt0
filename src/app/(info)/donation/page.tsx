@@ -1,21 +1,23 @@
 "use client";
-
-import React from "react";
-import ImgCard from "@/components/ImgCard";
-import Image from "next/image";
-import EntityBarCard from "@/components/EntityBarCard";
-import Search from "@/components/Search";
-import EntityStackedBarCard from "@/components/EntityStackedBarCard";
+import { useState } from "react";
 
 import ChartSort from "@/components/ChartSort";
 import Dropdown from "@/components/Dropdown";
+import EntityBarCard from "@/components/EntityBarCard";
+import EntityStackedBarCard from "@/components/EntityStackedBarCard";
+import ImgCard from "@/components/ImgCard";
+import Navbar from "@/components/Navbar";
+import Search from "@/components/Search";
+import Image from "next/image";
+import Link from "next/link";
 
 //For Party Section
-import _PARTY_DONATION_Test from "@data/donation/partyPerYearWithTotal.json";
-import _PARTY_TOTAL_DONATION from "@data/donation/totalPerYearWithTotal.json";
 import _PARTY_ASSETS from "@/data/color/partyAssets.json";
 import _DONOR_DATA from "@data/donation/donor.json";
-import Link from "next/link";
+import _PARTY_DONATION_Test from "@data/donation/partyPerYearWithTotal.json";
+import _PARTY_TOTAL_DONATION from "@data/donation/totalPerYearWithTotal.json";
+
+import type { CSSProperties } from "react";
 
 const PARTY_DONATION_Test = _PARTY_DONATION_Test as any;
 const PARTY_TOTAL_DONATION = _PARTY_TOTAL_DONATION as any;
@@ -46,18 +48,17 @@ type PartySearchSchema = (typeof PARTY_DONATION_Test)[number];
 type IndividualDonorSchema = (typeof DONOR_DATA)[number];
 
 export default function Donation() {
-  const [partyView, setPartyView] = React.useState(5);
-  const [individualView, setIndividualView] = React.useState(10);
+  const [partyView, setPartyView] = useState(5);
+  const [individualView, setIndividualView] = useState(10);
 
-  const [partySearch, setPartySearch] = React.useState<PartySearchSchema | null>(null);
-  const [partyFilterYear, setPartySortYear] = React.useState(YEARS[0]);
+  const [partySearch, setPartySearch] = useState<PartySearchSchema | null>(null);
+  const [partyFilterYear, setPartySortYear] = useState(YEARS[0]);
 
-  const [individualSearch, setIndividualSearch] =
-    React.useState<IndividualDonorSchema | null>(null);
-  const [individualFilterYear, setIndividualFilterYear] = React.useState(YEARS[0]);
-  const [individualFilterType, setIndividualFilterType] = React.useState(
-    DONATION_TYPES[0]
+  const [individualSearch, setIndividualSearch] = useState<IndividualDonorSchema | null>(
+    null
   );
+  const [individualFilterYear, setIndividualFilterYear] = useState(YEARS[0]);
+  const [individualFilterType, setIndividualFilterType] = useState(DONATION_TYPES[0]);
 
   const selected_assets = PARTY_DONATION_Test[partyFilterYear]
     .map((d: any, index: number) =>
@@ -75,6 +76,12 @@ export default function Donation() {
   //TODO: Ascending and Descending sort approach (consult with p'mumu)
   return (
     <>
+      <Navbar
+        back={{
+          href: "/",
+          text: "หน้าหลัก",
+        }}
+      />
       <section className="flex flex-col items-center">
         <ImgCard imgPath="/images/asset_donation.png" className="w-full">
           <div className="flex flex-col justify-center my-auto py-30 lg:mx-[15vw] lg:p-[70px]">
@@ -91,7 +98,11 @@ export default function Donation() {
         <p className="text-gray-5 b3 lg:b6 mt-20">
           อัปเดตข้อมูลเมื่อวันที่ {new Date().toLocaleDateString("th")}
         </p>
-        <div className="flex justify-center items-center gap-10 bg-gray-6 w-screen py-10 my-10 lg:py-15 lg:my-30 h3">
+
+        <div
+          id="parties"
+          className="flex justify-center items-center gap-10 bg-gray-6 w-screen py-10 my-10 lg:py-15 lg:my-30 h3"
+        >
           <Image
             src="./icons/borrow.svg"
             width={60}
@@ -160,7 +171,11 @@ export default function Donation() {
         >
           + ดูเพิ่มอีก 10 พรรค
         </button>
-        <div className="flex justify-center items-center gap-10 bg-gray-6 w-screen py-10 my-10 lg:py-15 lg:my-30 h3">
+
+        <div
+          id="individuals"
+          className="flex justify-center items-center gap-10 bg-gray-6 w-screen py-10 my-10 lg:py-15 lg:my-30 h3"
+        >
           <Image
             src="./icons/donate.svg"
             width={60}
@@ -195,7 +210,7 @@ export default function Donation() {
                   style={
                     {
                       backgroundColor: obj.color,
-                    } as React.CSSProperties
+                    } as CSSProperties
                   }
                   className="w-8 h-8"
                   key={index}
@@ -208,7 +223,7 @@ export default function Donation() {
                 style={
                   {
                     backgroundColor: "#fff",
-                  } as React.CSSProperties
+                  } as CSSProperties
                 }
                 className="w-8 h-8"
               />
