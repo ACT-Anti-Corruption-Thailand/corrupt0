@@ -1,22 +1,24 @@
 "use client";
-
-import React from "react";
 import Image from "next/image";
+import { useEffect, useState } from "react";
+
+import type { CSSProperties } from "react";
+
+const useMousePosition = () => {
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+
+  useEffect(() => {
+    const updateMousePosition = (ev: MouseEvent) => {
+      setMousePosition({ x: ev.clientX, y: ev.clientY });
+    };
+    window.addEventListener("mousemove", updateMousePosition);
+    return () => window.removeEventListener("mousemove", updateMousePosition);
+  }, []);
+
+  return mousePosition;
+};
 
 const Spotlight = () => {
-  const useMousePosition = () => {
-    const [mousePosition, setMousePosition] = React.useState({ x: 0, y: 0 });
-    React.useEffect(() => {
-      const updateMousePosition = (ev: MouseEvent) => {
-        setMousePosition({ x: ev.clientX, y: ev.clientY });
-      };
-      window.addEventListener("mousemove", updateMousePosition);
-      return () => window.removeEventListener("mousemove", updateMousePosition);
-    }, []);
-
-    return mousePosition;
-  };
-
   const mousePos = useMousePosition();
 
   return (
@@ -35,7 +37,7 @@ const Spotlight = () => {
               mousePos.y ? mousePos.y + "px" : "50vh"
             } - 50vh)/10), 30px)`,
             "--rec-x": `calc(var(--x) + 50%)`,
-          } as React.CSSProperties
+          } as CSSProperties
         }
         className="bg-black flex flex-col justify-center items-center h-[70vh] lg:h-[90vh] py-[10vh] relative overflow-hidden"
       >

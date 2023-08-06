@@ -1,15 +1,15 @@
 "use client";
 import "keen-slider/keen-slider.min.css";
 import { useKeenSlider } from "keen-slider/react";
-import React from "react";
+import { useState } from "react";
 
 interface Props {
   children: React.ReactNode;
 }
 
 const Slider = (props: Props) => {
-  const [currentSlide, setCurrentSlide] = React.useState(0);
-  const [loaded, setLoaded] = React.useState(false);
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [loaded, setLoaded] = useState(false);
   const [sliderRef, instanceRef] = useKeenSlider<HTMLDivElement>({
     initial: 0,
     slides: {
