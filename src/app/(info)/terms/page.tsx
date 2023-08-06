@@ -11,7 +11,7 @@ const TermsAccordion = ({ name, children }: TermsAccordionProps) => {
   return (
     <Accordion
       trigger={
-        <div className="flex b6 bg-gray-6 justify-between px-10 py-5 mt-4 md:mt-8 md:p-20 md:py-10">
+        <div className="flex b6 bg-gray-6 justify-between px-10 py-5 mt-4 md:mt-8 md:p-20 md:py-10 text-left no-balance">
           <span>{name}</span>
           <Image
             className="ui-open:rotate-180 w-10 h-auto md:w-15"
@@ -560,7 +560,7 @@ export default function Terms() {
           ไม่ว่าการกระทำดังกล่าวจะเป็นการกระทำโดยจงใจหรือประมาทเลินเล่อก็ตาม
         </p>
       </TermsAccordion>
-      <TermsAccordion name="การชดเชยความเสียหายโดยผู้ใช้บริการ">
+      <TermsAccordion name="การจำกัดความรับผิดขององค์กรต่อต้านคอร์รัปชัน (ประเทศไทย)">
         <ol className="list-decimal list-outside ml-[2ch]">
           <li className="mb-20">
             ผู้ใช้บริการยอมรับและตกลงว่าภายใต้ขอบเขตสูงสุดที่กฎหมายที่มีผลบังคับใช้อนุญาต
