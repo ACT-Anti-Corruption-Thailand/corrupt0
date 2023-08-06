@@ -193,11 +193,11 @@ export default function Terms() {
                     เข้าถึงได้จาก{" "}
                     <a
                       className="underline"
-                      href="https://www.ect.go.th/ect_th/news_all.php?cid=19"
+                      href="https://www.ect.go.th/ect_th/th/db_119_ect_th_download_22"
                       target="_blank"
                       rel="nofollow noopener noreferrer"
                     >
-                      https://www.ect.go.th/ect_th/news_all.php?cid=19
+                      https://www.ect.go.th/ect_th/th/db_119_ect_th_download_22
                     </a>
                   </li>
                 </ol>

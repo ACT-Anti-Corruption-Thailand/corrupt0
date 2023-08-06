@@ -87,7 +87,7 @@ export default function Footer({ className }: { className?: string }) {
               </li>
               <li>
                 <a
-                  href="https://www.ect.go.th/ect_th/news_all.php?cid=22"
+                  href="https://www.ect.go.th/ect_th/th/db_119_ect_th_download_22"
                   target="_blank"
                   rel="nofollow noopener noreferrer"
                 >
