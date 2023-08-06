@@ -3,6 +3,7 @@ import { useState } from "react";
 
 import ChartSort from "@/components/ChartSort";
 import EntityBarCard from "@/components/EntityBarCard";
+import Search from "@/components/Search";
 import Image from "next/image";
 import Link from "next/link";
 import Dropdown from "../../Dropdown";
@@ -96,16 +97,27 @@ export default function InfoPartyDonationSection(props: PartySectionProps) {
       .filter((items: any) =>
         type === "ทุกประเภทบุคคล" ? true : items.donor_prefix === type
       )
-      .reduce((acc: any, curr: any) => {
-        const donor_fullname = curr.donor_fullname;
-        if (acc[donor_fullname]) {
-          acc[donor_fullname].amount += curr.amount;
-        } else {
-          acc[donor_fullname] = { ...curr };
+      .reduce(
+        (acc: any, curr: any) => {
+          const donor_fullname = curr.donor_fullname;
+          if (acc[donor_fullname]) {
+            acc[donor_fullname].amount += curr.amount;
+          } else {
+            acc[donor_fullname] = { ...curr };
+          }
+          return acc;
+        },
+        {} as {
+          donor_fullname: string;
+          donor_prefix: string;
+          amount: number;
         }
-        return acc;
-      }, {})
-  ).sort((a: any, b: any) => b.amount - a.amount);
+      ) as {
+      donor_fullname: string;
+      donor_prefix: string;
+      amount: number;
+    }[]
+  ).sort((a, b) => b.amount - a.amount);
 
   return (
     <section id="donation">
@@ -140,30 +152,40 @@ export default function InfoPartyDonationSection(props: PartySectionProps) {
           <Dropdown data={DONATION_TYPES} value={type} setValue={setType} />
           <ChartSort name="individual-donation-sort" />
         </div>
-        <div className="flex gap-4 flex-col mt-10">{/* TODO: add search */}</div>
-        {displayData
-          .filter((d: any, idx: number) => idx < individualView)
-          .map((d: any) => (
-            <Link
-              key={d.donor_fullname}
-              href={
-                "/info/" +
-                (d.donor_prefix.title === "นิติบุคคล"
-                  ? getFileName(getFormalName(d.donor_fullname))
-                  : getFileName(d.donor_fullname))
-              }
-              className="block no-underline w-full"
-            >
-              <EntityBarCard
-                name={d.donor_fullname}
-                title={d.donor_prefix}
-                color={props.theme}
-                imgPath="/placeholders/person.png"
-                amount={d.amount}
-                maxAmount={totalDonation}
-              />
-            </Link>
-          ))}
+        <Search
+          placeholder="ค้นหาด้วยชื่อ"
+          data={displayData.map((d) => ({
+            name: d.donor_fullname,
+            link:
+              d.donor_prefix === "นิติบุคคล"
+                ? getFileName(getFormalName(d.donor_fullname))
+                : getFileName(d.donor_fullname),
+          }))}
+        />
+        <p className="b3 text-center text-gray-4 lg:pt-30">
+          ทั้งหมด {displayData.length.toLocaleString()} คน
+        </p>
+        {displayData.slice(0, individualView).map((d) => (
+          <Link
+            key={d.donor_fullname}
+            href={
+              "/info/" +
+              (d.donor_prefix === "นิติบุคคล"
+                ? getFileName(getFormalName(d.donor_fullname))
+                : getFileName(d.donor_fullname))
+            }
+            className="block no-underline w-full"
+          >
+            <EntityBarCard
+              name={d.donor_fullname}
+              title={d.donor_prefix}
+              color={props.theme}
+              imgPath="/placeholders/person.png"
+              amount={d.amount}
+              maxAmount={totalDonation}
+            />
+          </Link>
+        ))}
         <button
           className="b4 text-gray-4 pb-20"
           onClick={() => {
