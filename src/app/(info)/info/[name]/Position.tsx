@@ -20,7 +20,7 @@ import DATA_PEOPLE from "@/data/people_search.json";
 
 import { moneyFormatter } from "@/functions/moneyFormatter";
 
-const PEOPLE = DATA_PEOPLE.map((e) => {
+const PEOPLE = DATA_PEOPLE.filter((e) => e.at(-1) === "|").map((e) => {
   const [link, position] = e.split("|");
   return {
     name: link.replace(/-/g, " "),

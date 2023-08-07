@@ -819,7 +819,7 @@ export const generatePeople = async () => {
   );
 
   const namesAndId = [...has_nacc, ...non_nacc];
-  const namesAndPosition = [];
+  const searchIndexer = [];
   const businessCount = [];
   const assetsValueList = [];
   const incomeValueList = [];
@@ -847,14 +847,16 @@ export const generatePeople = async () => {
     const person_data_json = await getPersonalData(dashed_full_name);
 
     if (person_data_json.position)
-      namesAndPosition.push(dashed_full_name + "|" + person_data_json.position);
-    else namesAndPosition.push(dashed_full_name);
+      searchIndexer.push(
+        dashed_full_name + "|" + person_data_json.position + (nacc_id ? "|" : "")
+      );
+    else searchIndexer.push(dashed_full_name);
 
     const lawsuit = await getLawsuit(dashed_full_name);
     const donation = await getPersonDonation(dashed_full_name);
     const business = await getPersonBusiness(dashed_full_name);
 
-    if (business.length > 1) {
+    if (business.length > 1 && nacc_id) {
       businessCount.push({
         count: business.length,
         name: dashed_full_name,
@@ -952,7 +954,7 @@ export const generatePeople = async () => {
 
   await fs.writeFile(
     `src/data/people_search.json`,
-    JSON.stringify(namesAndPosition.sort((a, z) => a.localeCompare(z)))
+    JSON.stringify(searchIndexer.sort((a, z) => a.localeCompare(z)))
   );
 };
 
