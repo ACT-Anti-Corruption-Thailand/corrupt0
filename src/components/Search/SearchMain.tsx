@@ -280,7 +280,7 @@ export const SearchMain = () => {
       {query !== "" && (
         <SearchResult
           data={peopleResult}
-          placeholderImage="/placeholders/politician.png"
+          placeholderImage="/placeholders/person.png"
           type="บุคคล"
           hidden={!(group === "ทั้งหมด" || group === "บุคคล")}
           query={query}
@@ -309,7 +309,7 @@ export const SearchMain = () => {
 
       <Top3Thing
         name="บุคคลที่มีทรัพย์สินมากที่สุด"
-        placeholderImage="/placeholders/politician.png"
+        placeholderImage="/placeholders/person.png"
         data={TOP3PERSON}
         hidden={!(query === "" && (group === "ทั้งหมด" || group === "บุคคล"))}
       />
