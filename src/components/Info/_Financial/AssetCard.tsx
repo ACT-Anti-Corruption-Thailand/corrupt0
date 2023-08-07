@@ -61,7 +61,7 @@ export function TopAssetCard({
       </header>
       <div className="p-10">
         <span className="b4 text-gray-4 font-bold block mb-10">
-          ทรัพย์สินที่แพงที่สุด
+          ทรัพย์สินที่มีมูลค่ามากที่สุด
         </span>
         {year2 && property2 ? (
           <div className="flex gap-5 items-stretch text-black">

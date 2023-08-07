@@ -169,7 +169,7 @@ export default function Business({ params }: { params: { name: string } }) {
                         width={12}
                         height={12}
                       />
-                      ดูข้อมูลงานในโครงการภาครัฐ
+                      ดูข้อมูลความเกี่ยวข้องกับโครงการภาครัฐ
                     </span>
                     <span className="block text-gray-4">www.actai.co</span>
                   </a>
