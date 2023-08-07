@@ -1,17 +1,24 @@
 "use client";
-
 import {
   CartesianGrid,
   Label,
   Line,
   LineChart,
   ResponsiveContainer,
+  Tooltip,
   XAxis,
   YAxis,
 } from "recharts";
-import { moneyFormatter } from "@/functions/moneyFormatter";
 
 import { MONTHS } from "@/constants/abbr";
+
+import {
+  formatThousands,
+  moneyFormatter,
+  thaiMoneyFormatter,
+} from "@/functions/moneyFormatter";
+
+import type { Payload } from "recharts/types/component/DefaultTooltipContent";
 
 // AxisTick
 interface TickProps {
@@ -77,6 +84,37 @@ const LineDot = ({ key, cx, cy, width, height, stroke, r, value }: LineDotProps)
     />
   );
 
+// Tooltip
+const fmtThMoney = (value: number) => {
+  const [val, unit] = thaiMoneyFormatter(value);
+  return `${formatThousands(val)} ${unit}`;
+};
+
+interface TooltipProps {
+  payload: Payload<string | number | (string | number)[], string | number>[];
+  label: string;
+  isMonth: boolean;
+}
+
+const StyledTooltip = ({ payload, label, isMonth }: TooltipProps) => (
+  <div className="rounded-5 bg-black-50 text-white b6 p-5">
+    <p className="font-bold leading-1">{isMonth ? MONTHS[+label - 1] : label}</p>
+    <ul>
+      {[...payload]
+        .sort((a, z) => {
+          if (typeof a.value === "number" && typeof z.value === "number")
+            return z.value - a.value;
+          return 0;
+        })
+        .map((e) => (
+          <li key={e.name} className="leading-1">
+            {e.name}: {fmtThMoney(+(e?.value ?? 0))}
+          </li>
+        ))}
+    </ul>
+  </div>
+);
+
 // Main
 interface InfoDonationChartProps<X extends string, Y extends readonly string[]> {
   x: X;
@@ -129,6 +167,14 @@ export default function InfoDonationChart<X extends string, Y extends readonly s
             width={1}
           />
         </YAxis>
+        <Tooltip
+          content={(e) =>
+            e.active &&
+            e.payload?.length && (
+              <StyledTooltip isMonth={isMonth} label={e.label} payload={e.payload} />
+            )
+          }
+        />
         {y.map((yKey, i) => (
           <Line
             key={yKey}
