@@ -206,16 +206,21 @@ export default function Person({ params }: { params: { name: string } }) {
                         >
                           <div className="rounded-5 bg-gray-2 b7 text-gray-5 p-5">
                             <ul className="flex flex-col gap-5 fake-bullet">
-                              {politicianData.previous_jobs.map(
-                                (job: any, i: number) =>
-                                  job.position_title && (
-                                    <li key={i}>
-                                      {job.position_title} ({job.start_year}
-                                      {job.start_year && job.end_year && "–"}
-                                      {job.end_year})
-                                    </li>
-                                  )
-                              )}
+                              {[...politicianData.previous_jobs]
+                                .sort((a, z) => +(z?.end_year ?? 0) - +(a?.end_year ?? 0))
+                                .sort(
+                                  (a, z) => +(z?.start_year ?? 0) - +(a?.start_year ?? 0)
+                                )
+                                .map(
+                                  (job: any, i: number) =>
+                                    job.position_title && (
+                                      <li key={i}>
+                                        {job.position_title} ({job.start_year}
+                                        {job.start_year && job.end_year && "–"}
+                                        {job.end_year})
+                                      </li>
+                                    )
+                                )}
                             </ul>
                           </div>
                         </Accordion>
