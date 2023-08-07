@@ -1,6 +1,7 @@
 import clsx from "clsx";
 import Image from "next/image";
 import Link from "next/link";
+import { twMerge } from "tailwind-merge";
 
 interface NavbarProps {
   back?: {
@@ -13,9 +14,11 @@ export default function Navbar({ back }: NavbarProps) {
   return (
     <>
       <nav
-        className={clsx(
-          "h-50 flex items-center px-10 gap-5 z-10 b5 md:h-[75px] md:px-20",
-          back ? "bg-black border-b border-b-gray-6" : "-mb-50 md:-mb-[75px]"
+        className={twMerge(
+          clsx(
+            "h-50 flex items-center px-10 gap-5 z-10 b5 md:h-[75px] md:px-20 border-b border-b-transparent",
+            back ? "bg-black border-b-gray-6" : "-mb-50 md:-mb-[75px]"
+          )
         )}
       >
         <Link className="mr-auto" href="/">
