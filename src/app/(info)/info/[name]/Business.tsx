@@ -134,6 +134,8 @@ export default function Business({ params }: { params: { name: string } }) {
                   <a
                     href={`https://data.creden.co/search?q=${encodeURIComponent(name)}`}
                     className="py-4 px-10 b7 border border-gray-2 rounded-5 flex flex-col justify-center"
+                    target="_blank"
+                    rel="nofollow noopener noreferrer"
                   >
                     <span>
                       <Image
@@ -156,6 +158,8 @@ export default function Business({ params }: { params: { name: string } }) {
                   <a
                     href={`https://actai.co/Project?search="${encodeURIComponent(name)}"`}
                     className="py-4 px-10 b7 border border-gray-2 rounded-5 flex flex-col justify-center"
+                    target="_blank"
+                    rel="nofollow noopener noreferrer"
                   >
                     <span>
                       <Image
