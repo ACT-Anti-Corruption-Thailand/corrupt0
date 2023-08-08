@@ -39,6 +39,8 @@ export default function InfoFinancialDropdowns({
   setCompareYear,
   light = false,
 }: FinancialDropdownsProps) {
+  // TODO: Consult Designer when has 1 data
+  const compareData = compare.filter((e) => e.data !== currentYear.data);
   return (
     <>
       <BareDropdown
@@ -50,9 +52,10 @@ export default function InfoFinancialDropdowns({
       />
       <div className="flex-1 min-w-0 flex items-center gap-10">
         <BareDropdown
-          data={compare}
+          data={compareData}
           value={compareYear}
           setValue={setCompareYear}
+          hideNull
           arrowSrc={light ? "/icons/caret-k.svg" : "/icons/caret-w.svg"}
           className={light ? CLASSNAMES_BLACK : CLASSNAMES_WHITE}
         />

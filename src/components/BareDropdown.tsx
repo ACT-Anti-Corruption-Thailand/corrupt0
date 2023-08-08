@@ -16,6 +16,7 @@ export type DropdownData = string[] | DropdownDetailedData[];
 
 export interface BareDropdownBaseProps<T extends DropdownData> {
   data: T;
+  hideNull?: boolean;
   arrowSrc?: string;
   className?: {
     root?: string;
@@ -44,6 +45,7 @@ export default function BareDropdown<T extends DropdownData>({
   value,
   setValue,
   multiple = true,
+  hideNull,
   arrowSrc,
   className,
 }: BareDropdownMultipleProps<T>): JSX.Element;
@@ -52,6 +54,7 @@ export default function BareDropdown<T extends DropdownData>({
   value,
   setValue,
   multiple = false,
+  hideNull,
   arrowSrc,
   className,
 }: BareDropdownSingleProps<T>): JSX.Element;
@@ -60,6 +63,7 @@ export default function BareDropdown<T extends DropdownData>({
   value,
   setValue,
   multiple = undefined,
+  hideNull,
   arrowSrc,
   className,
 }: BareDropdownSingleProps<T>): JSX.Element;
@@ -68,6 +72,7 @@ export default function BareDropdown<T extends DropdownData>({
   value,
   setValue,
   multiple,
+  hideNull,
   arrowSrc,
   className,
 }: BareDropdownSingleProps<T> | BareDropdownMultipleProps<T>) {
@@ -106,40 +111,43 @@ export default function BareDropdown<T extends DropdownData>({
         <Listbox.Options
           className={clsx("absolute z-10 w-full select-none", className?.listbox)}
         >
-          {data.map((d) => (
-            <Listbox.Option
-              className={clsx(
-                "select-none cursor-pointer",
-                multiple && "flex items-center gap-5",
-                !multiple && "ui-selected:cursor-default",
-                className?.option
-              )}
-              key={typeof d === "string" ? d : d.data}
-              value={d}
-            >
-              {multiple && (
-                <div
+          {data.map(
+            (d) =>
+              ((typeof d === "string" ? d : d.data) || !hideNull) && (
+                <Listbox.Option
                   className={clsx(
-                    "w-[15px] h-[15px] rounded-[2px] border flex items-center justify-center",
-                    value.some((v) => v === d) && "bg-black"
+                    "select-none cursor-pointer",
+                    multiple && "flex items-center gap-5",
+                    !multiple && "ui-selected:cursor-default",
+                    className?.option
                   )}
-                  arid-hidden="true"
+                  key={typeof d === "string" ? d : d.data}
+                  value={d}
                 >
-                  <Image
-                    className={clsx(
-                      "w-10 h-8 transition-opacity duration-100 opacity-0",
-                      value.some((v) => v === d) && "opacity-100"
-                    )}
-                    src="/icons/check-w.svg"
-                    width={10}
-                    height={8}
-                    alt=""
-                  />
-                </div>
-              )}
-              {typeof d === "string" ? d : d.label}
-            </Listbox.Option>
-          ))}
+                  {multiple && (
+                    <div
+                      className={clsx(
+                        "w-[15px] h-[15px] rounded-[2px] border flex items-center justify-center",
+                        value.some((v) => v === d) && "bg-black"
+                      )}
+                      arid-hidden="true"
+                    >
+                      <Image
+                        className={clsx(
+                          "w-10 h-8 transition-opacity duration-100 opacity-0",
+                          value.some((v) => v === d) && "opacity-100"
+                        )}
+                        src="/icons/check-w.svg"
+                        width={10}
+                        height={8}
+                        alt=""
+                      />
+                    </div>
+                  )}
+                  {typeof d === "string" ? d : d.label}
+                </Listbox.Option>
+              )
+          )}
         </Listbox.Options>
       </div>
     </Listbox>
