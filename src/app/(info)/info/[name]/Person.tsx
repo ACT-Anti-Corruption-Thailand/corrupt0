@@ -109,9 +109,9 @@ export default function Person({ params }: { params: { name: string } }) {
     data: nacc_id,
     label: (
       <>
-        <span className="b5 font-bold">{NACC_YEAR[nacc_id]}</span> (
+        <span className="b5 font-bold">{NACC_YEAR[nacc_id]}</span>{" "}
         {nacc[nacc_id]?.case.replace("กรณี", "")}
-        {nacc[nacc_id]?.position})
+        {nacc[nacc_id]?.position}
       </>
     ),
   }));

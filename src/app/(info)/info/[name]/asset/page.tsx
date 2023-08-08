@@ -57,8 +57,8 @@ export default function Asset({ params }: AssetPageProps) {
         <span className="b5 font-bold">
           {new Date(nacc[nacc_id]?.date).getFullYear() + 543}
         </span>{" "}
-        ({nacc[nacc_id]?.case.replace("กรณี", "")}
-        {nacc[nacc_id]?.position})
+        {nacc[nacc_id]?.case.replace("กรณี", "")}
+        {nacc[nacc_id]?.position}
       </>
     ),
   }));
