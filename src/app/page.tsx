@@ -210,13 +210,15 @@ export default function Home() {
         <hr className="w-3/5 mx-auto" />
         <div className="flex gap-8 items-center justify-center">
           <span>Powered by</span>
-          <Image
-            className="w-auto h-30 md:h-40"
-            src="/logos/actai-k.svg"
-            width={26.8}
-            height={20}
-            alt="act ai"
-          />
+          <a href="https://actai.co/" target="_blank" rel="nofollow noopener noreferrer">
+            <Image
+              className="w-auto h-30 md:h-40"
+              src="/logos/actai.svg"
+              width={26.8}
+              height={20}
+              alt="act ai"
+            />
+          </a>
         </div>
         <div className="flex gap-8 items-center justify-center">
           <span>Co-Developed by</span>

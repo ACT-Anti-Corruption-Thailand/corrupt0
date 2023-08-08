@@ -19,7 +19,7 @@ export default function Footer({ className }: { className?: string }) {
         >
           <Image
             className="w-auto h-20 md:h-40"
-            src="/logos/actai-k.svg"
+            src="/logos/c0-k.svg"
             width={26.8}
             height={20}
             alt="ไปเว็บไซต์ actai.co"
@@ -188,11 +188,11 @@ export default function Footer({ className }: { className?: string }) {
           Term & Conditions
         </Link>
         <hr className="border-gray-2 w-4/5 mx-auto mix-blend-multiply" />
-        <div className="flex flex-wrap items-center gap-5 justify-center">
+        <div className="flex flex-wrap items-center justify-center gap-5 md:gap-10">
           <span className="text-[#92989F]">Co-Developed by</span>
           <Image
             className="w-auto h-15 md:h-[35px]"
-            src="/logos/act.png"
+            src="/logos/act.svg"
             width={15}
             height={15}
             alt="act"

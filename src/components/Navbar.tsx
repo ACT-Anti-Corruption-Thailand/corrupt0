@@ -24,7 +24,7 @@ export default function Navbar({ back }: NavbarProps) {
         <Link className="mr-auto" href="/">
           <Image
             className="w-auto h-[43px] md:h-[64px]"
-            src="/logos/actai-w.svg"
+            src="/logos/c0-w.svg"
             width={40.54}
             height={43}
             alt="Act AI"
