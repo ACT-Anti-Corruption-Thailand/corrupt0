@@ -195,7 +195,7 @@ export default function Home() {
       </main>
 
       <section className="bg-white text-black rounded-t-5 py-30 px-[25px] text-center flex flex-col gap-10 b4 md:gap-20">
-        <p className="font-bold">
+        <p className="font-bold mx-auto max-w-[600px]">
           แชร์ชวนเพื่อน ร่วมเป็นส่วนหนึ่งในการค้นหาและตรวจสอบ
           เพื่อสร้างความโปร่งใสทางการเมือง (Political Transparency) ไปกับ ACT Ai
         </p>
