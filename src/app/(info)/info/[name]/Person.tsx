@@ -384,9 +384,21 @@ export default function Person({ params }: { params: { name: string } }) {
                   />
                 ))}
               </div>
-              <footer className="flex gap-2 items-center justify-center text-gray-5 my-10">
+              <footer className="flex gap-2 items-baseline justify-center text-gray-5 my-10">
                 <span>Credit:</span>
-                <Image src="/logos/creden.svg" alt="" width={56} height={11} />
+                <a
+                  href="https://creden.co/"
+                  target="_blank"
+                  rel="nofollow noopener noreferrer"
+                >
+                  <Image
+                    className="w-auto h-[11px] md:h-15"
+                    src="/logos/creden.svg"
+                    alt=""
+                    width={56}
+                    height={11}
+                  />
+                </a>
               </footer>
             </section>
           )}
