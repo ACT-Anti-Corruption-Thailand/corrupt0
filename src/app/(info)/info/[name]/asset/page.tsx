@@ -85,7 +85,7 @@ export default function Asset({ params }: AssetPageProps) {
             อัปเดตข้อมูลเมื่อวันที่ {new Date().toLocaleDateString("th")}
           </span>
           <h1 className="h2 flex gap-5 items-center justify-center">
-            เจาะลึกทรัพย์สินรวม
+            เจาะลึกทรัพย์สิน
             <InfoAssetPopover>
               <span className="font-bold block">รายการทรัพย์สิน ประกอบด้วย</span>
               <ol className="list-decimal ml-[2ch]">

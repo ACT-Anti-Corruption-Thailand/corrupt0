@@ -300,11 +300,11 @@ let DATA = {
   ASSET: await aq.loadCSV("data/raw/asset.csv").then((value) =>
     value.derive({
       actor: (d) => {
-        return d.owner_by_submitter
+        return d.owner_by_submitter === "TRUE"
           ? "ผู้ยื่น"
-          : d.owner_by_spouse
+          : d.owner_by_spouse === "TRUE"
           ? "คู่สมรส"
-          : d.owner_by_child
+          : d.owner_by_child === "TRUE"
           ? "บุตร"
           : "ไม่ระบุ";
       },
@@ -348,11 +348,7 @@ let DATA = {
       })
     ),
   ASSET_OTHER_ASSET_INFO: await aq.loadCSV("data/raw/asset_other_asset_info.csv"),
-  ASSET_VEHICLE_INFO: await aq.loadCSV("data/raw/asset_vehicle_info.csv").then((value) =>
-    value.derive({
-      plate: (d) => d.registration_number,
-    })
-  ),
+  ASSET_VEHICLE_INFO: await aq.loadCSV("data/raw/asset_vehicle_info.csv"),
 
   // lookup
   ASSET_ACQUISITION_TYPE: await aq.loadCSV("data/raw/asset_acquisition_type.csv"),
@@ -399,6 +395,9 @@ let DATA = {
 const ASSET_CATEGORY = DATA.ASSET_TYPE.dedupe("asset_type_main_type_name").array(
   "asset_type_main_type_name"
 );
+
+const getAssetActorRank = (actor) =>
+  ["ผู้ยื่น", "คู่สมรส", "บุตร", "ไม่ระบุ"].indexOf(actor);
 
 /**
  * @param {number} [nacc_id]
@@ -460,22 +459,10 @@ export const getAsset = async (nacc_id) => {
               op.equal(d.asset_type_main_type_name, cat) &&
               op.equal(d.asset_type_sub_type_name, sub_cat)
           )
-          .select(
-            "actor",
-            "value",
-            "type",
-            "name",
-            "address",
-            "land_doc_number",
-            "building_doc_number",
-            "count",
-            "registration_number",
-            "receiveDate",
-            "endDate",
-            "receiveFrom",
-            "province"
-          )
-          .objects();
+          .select("actor", "value", "name", "count", "receiveDate")
+          .objects()
+          .sort((a, z) => z.value - a.value)
+          .sort((a, z) => getAssetActorRank(a.actor) - getAssetActorRank(z.actor));
       } else {
         assetData[cat] = all_assets
           .params({ cat })
@@ -493,9 +480,12 @@ export const getAsset = async (nacc_id) => {
             "receiveDate",
             "endDate",
             "receiveFrom",
-            "province"
+            "province",
+            "vehicle_model"
           )
-          .objects();
+          .objects()
+          .sort((a, z) => z.value - a.value)
+          .sort((a, z) => getAssetActorRank(a.actor) - getAssetActorRank(z.actor));
       }
     });
   });

@@ -561,6 +561,7 @@ export interface InfoAssetVehicleStatement extends InfoAssetStatement {
   registration_number?: string;
   province?: string;
   receiveDate?: string;
+  vehicle_model?: string;
 }
 
 export interface VehicleProps {
@@ -606,10 +607,23 @@ const Vehicle = ({
       <div className="flex">
         <ul className="flex-1">
           {filteredS1.map(
-            ({ value, actor, name, registration_number, province, receiveDate }, i) => (
+            (
+              {
+                value,
+                actor,
+                name,
+                vehicle_model,
+                registration_number,
+                province,
+                receiveDate,
+              },
+              i
+            ) => (
               <DetailsBlock key={i}>
                 <DetailsActor actor={actor} />
-                <span className="b5">{name}</span>
+                <span className="b5">
+                  {name} {vehicle_model}
+                </span>
                 <DetailsListContainer>
                   <DetailsListList value={registration_number} />
                   <DetailsListList value={province} />
@@ -625,10 +639,23 @@ const Vehicle = ({
         <div className="w-1 bg-gray-3" />
         <ul className="flex-1">
           {filteredS2.map(
-            ({ value, actor, name, registration_number, province, receiveDate }, i) => (
+            (
+              {
+                value,
+                actor,
+                name,
+                vehicle_model,
+                registration_number,
+                province,
+                receiveDate,
+              },
+              i
+            ) => (
               <DetailsBlock key={i}>
                 <DetailsActor actor={actor} />
-                <span className="b5">{name}</span>
+                <span className="b5">
+                  {name} {vehicle_model}
+                </span>
                 <DetailsListContainer>
                   <DetailsListList value={registration_number} />
                   <DetailsListList value={province} />

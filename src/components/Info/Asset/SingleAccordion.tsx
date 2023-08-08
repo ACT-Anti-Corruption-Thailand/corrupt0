@@ -357,6 +357,7 @@ export interface InfoAssetVehicleStatement extends InfoAssetStatement {
   registration_number?: string;
   province?: string;
   receiveDate?: string;
+  vehicle_model?: string;
 }
 
 export interface VehicleProps {
@@ -387,9 +388,24 @@ const Vehicle = ({ statements = [], showActor, showSpouse, showChild }: VehicleP
     >
       <ul>
         {filteredS.map(
-          ({ value, actor, name, registration_number, province, receiveDate }, i) => (
+          (
+            {
+              value,
+              actor,
+              name,
+              vehicle_model,
+              registration_number,
+              province,
+              receiveDate,
+            },
+            i
+          ) => (
             <DetailsBlock key={i}>
-              <DetailsFirstLine actor={actor} name={name} value={value} />
+              <DetailsFirstLine
+                actor={actor}
+                name={name + " " + (vehicle_model ?? "")}
+                value={value}
+              />
               <DetailsListContainer>
                 <DetailsListList value={registration_number} />
                 <DetailsListList value={province} />
