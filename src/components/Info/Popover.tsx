@@ -1,11 +1,10 @@
 "use client";
-
 import clsx from "clsx";
 import { useState } from "react";
+import { usePopper } from "react-popper";
 
 import { Popover } from "@headlessui/react";
 import Image from "next/image";
-import { usePopper } from "react-popper";
 
 import type { ReactNode } from "react";
 
@@ -32,7 +31,7 @@ export default function InfoPopover({
       {
         name: "offset",
         options: {
-          offset: [0, 12],
+          offset: [0, 5],
         },
       },
       {
@@ -45,7 +44,7 @@ export default function InfoPopover({
   });
 
   return (
-    <Popover className={clsx("flex items-center", className)}>
+    <Popover className={clsx("inline-flex items-center", className)}>
       <Popover.Button
         ref={setReferenceElement}
         as={triggerDiv ? "div" : "button"}
@@ -67,10 +66,6 @@ export default function InfoPopover({
         {...attributes.popper}
       >
         {children}
-        <div
-          data-popper-arrow
-          className="bg-white rotate-45 w-10 h-10 absolute top-0 group-data-[popper-placement=top]:top-full left-1/2 -translate-x-1/2 -translate-y-1/2"
-        />
       </Popover.Panel>
     </Popover>
   );
