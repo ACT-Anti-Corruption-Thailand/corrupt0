@@ -10,7 +10,7 @@
   }
 
   html {
-    @apply overflow-x-hidden scroll-smooth bg-black /* B5 */ text-20 md:text-24 font-body antialiased;
+    @apply overflow-x-hidden scroll-smooth bg-black /* B5 */ text-20 md:text-24 font-body antialiased tabular-nums;
     color-scheme: dark;
   }
 
