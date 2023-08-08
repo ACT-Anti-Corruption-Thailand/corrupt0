@@ -137,7 +137,7 @@ export default function InfoDonationChart<X extends string, Y extends readonly s
     );
 
   return (
-    <ResponsiveContainer height={150}>
+    <ResponsiveContainer height={200}>
       <LineChart
         width={500}
         height={300}
