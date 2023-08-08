@@ -39,16 +39,7 @@ export default function Footer({ className }: { className?: string }) {
           </ul>
           <div className="">
             <span className="block mb-5 font-bold">แหล่งข้อมูล</span>
-            <ul className="flex flex-col gap-5">
-              <li>
-                <a
-                  href="https://opendata.actai.co"
-                  target="_blank"
-                  rel="nofollow noopener noreferrer"
-                >
-                  Open Data ACT Ai
-                </a>
-              </li>
+            <ul className="md:columns-2 md:gap-5 [&>li]:mb-5">
               <li>
                 <a
                   href="https://asset.nacc.go.th/dcs-app/"
@@ -114,6 +105,15 @@ export default function Footer({ className }: { className?: string }) {
               </li>
               <li>
                 <a
+                  href="https://opendata.actai.co"
+                  target="_blank"
+                  rel="nofollow noopener noreferrer"
+                >
+                  ฐานข้อมูลเปิดเพื่อการต่อต้านคอร์รัปชัน
+                </a>
+              </li>
+              <li>
+                <a
                   href="https://theyworkforus.wevis.info"
                   target="_blank"
                   rel="nofollow noopener noreferrer"
@@ -127,7 +127,7 @@ export default function Footer({ className }: { className?: string }) {
                   target="_blank"
                   rel="nofollow noopener noreferrer"
                 >
-                  ข้อมูลนิติบุคคล
+                  บริการด้านข้อมูลนิติบุคคล
                 </a>
               </li>
             </ul>
