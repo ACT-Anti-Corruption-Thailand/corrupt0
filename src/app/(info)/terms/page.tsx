@@ -382,35 +382,6 @@ export default function Terms() {
                   </ol>
                 </li>
               </ol>
-              <ol className="list-disc list-outside ml-[3ch]">
-                <li>
-                  ข้อมูลนิติบุคคล การเป็นเจ้าของธุรกิจ
-                  <ol className="list-disc list-outside ml-[3ch]">
-                    <li>
-                      เข้าถึงจาก DBD DataWarehouse+{" "}
-                      <a
-                        className="underline"
-                        href="https://datawarehouse.dbd.go.th"
-                        target="_blank"
-                        rel="nofollow noopener noreferrer"
-                      >
-                        https://datawarehouse.dbd.go.th
-                      </a>
-                    </li>
-                    <li>
-                      เข้าถึงจาก Creden Data{" "}
-                      <a
-                        className="underline"
-                        href="https://creden.co/"
-                        target="_blank"
-                        rel="nofollow noopener noreferrer"
-                      >
-                        https://creden.co/
-                      </a>
-                    </li>
-                  </ol>
-                </li>
-              </ol>
             </li>
             <li className="mb-20">
               <strong>การนำเสนอข้อมูลเพื่อประโยชน์สาธารณะ</strong> &nbsp;
