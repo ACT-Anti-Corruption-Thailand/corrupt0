@@ -116,10 +116,7 @@ const getBusinessDonation = (donation_name) => {
   return DONATION_TABLE.params({ donation_name })
     .filter((d) => d.donor_fullname === donation_name)
     .select("year", "month", "party", "amount")
-    .rename({ amount: "_amount", year: "_year" })
-    .derive({
-      year: (d) => d._year + 543,
-    })
+    .rename({ amount: "_amount" })
     .groupby("year", "month", "party")
     .rollup({ amount: (d) => op.sum(d._amount) })
     .ungroup()

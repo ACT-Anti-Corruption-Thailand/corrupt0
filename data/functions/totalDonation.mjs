@@ -5,13 +5,13 @@ import { getDonationData } from "./donation.mjs";
 
 const getTotalDonation = async () => {
   const rawTable = await getDonationData();
-  
-  const table = rawTable
-    .derive({ party: (d) => op.replace( d.party,"พรรค", "") })
-    .derive({ year: (d) => op.parse_int(d.year + 543) })
-    .derive({
-      donor_fullname: (d) => op.equal(d.donor_prefix, "นิติบุคคล") ? d.donor_fullname : op.replace(d.donor_firstname + " " + d.donor_lastname, /\s+|\/|\\/g, " ")
-    })
+
+  const table = rawTable.derive({
+    donor_fullname: (d) =>
+      op.equal(d.donor_prefix, "นิติบุคคล")
+        ? d.donor_fullname
+        : op.replace(d.donor_firstname + " " + d.donor_lastname, /\s+|\/|\\/g, " "),
+  });
 
   const totalPerYearTable = table
     .select("year", "amount")
@@ -46,7 +46,7 @@ const getTotalDonation = async () => {
     .select("party", "year", "amount")
     .rename({ amount: "_amount" })
     .groupby("year", "party")
-    .rollup({ amount: (d) => op.sum(d._amount) })
+    .rollup({ amount: (d) => op.sum(d._amount) });
 
   const totalPerPartyTable = table
     .select("party", "amount")
@@ -72,29 +72,34 @@ const getTotalDonation = async () => {
       return acc;
     }, {});
 
-  const individualPerPartyTable = Object.values(table
-    .select("year", "donor_prefix","donor_fullname", "party", "amount")
-    .objects()
-    .reduce((acc, obj) => {
-      const { year, donor_prefix, donor_fullname, party, amount } = obj;
+  const individualPerPartyTable = Object.values(
+    table
+      .select("year", "donor_prefix", "donor_fullname", "party", "amount")
+      .objects()
+      .reduce((acc, obj) => {
+        const { year, donor_prefix, donor_fullname, party, amount } = obj;
 
-      if (donor_fullname in acc) {
-        acc[donor_fullname].donation.push({ year, party, amount, color: "#fff" });
-        acc[donor_fullname].total += amount
-      } else {
-        acc[donor_fullname] = {
-          name: donor_fullname,
-          title: donor_prefix,
-          donation: [{ year, party, amount, color: "#fff" }],
-        };
-        acc[donor_fullname].total = amount;
-      }
+        if (donor_fullname in acc) {
+          acc[donor_fullname].donation.push({ year, party, amount, color: "#fff" });
+          acc[donor_fullname].total += amount;
+        } else {
+          acc[donor_fullname] = {
+            name: donor_fullname,
+            title: donor_prefix,
+            donation: [{ year, party, amount, color: "#fff" }],
+          };
+          acc[donor_fullname].total = amount;
+        }
 
-      return acc;
-    }, {})
-  ).sort((a,b) => b.total - a.total)
+        return acc;
+      }, {})
+  ).sort((a, b) => b.total - a.total);
 
-  return { totalPerYearWithTotalTable, partyPerYearWithTotalTable, individualPerPartyTable };
+  return {
+    totalPerYearWithTotalTable,
+    partyPerYearWithTotalTable,
+    individualPerPartyTable,
+  };
 };
 
 export const generateTotalDonation = async () => {
@@ -113,7 +118,7 @@ export const generateTotalDonation = async () => {
   await fs.writeFile(
     "src/data/donation/donor.json",
     JSON.stringify(Donation.individualPerPartyTable)
-  )
+  );
 };
 
 console.info(`ℹ Generating Total Donation`);

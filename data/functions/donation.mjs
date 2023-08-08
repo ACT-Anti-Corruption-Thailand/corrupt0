@@ -16,7 +16,12 @@ export const getDonationData = async () => {
     tables.push(await aq.loadCSV(file));
   }
 
-  return tables.reduce((all, curr) => all.concat(curr));
+  return tables
+    .reduce((all, curr) => all.concat(curr))
+    .derive({
+      year: (d) => op.parse_int(d.year) + 543,
+      party: (d) => op.replace(d.party, "พรรค", ""),
+    });
 };
 
 export const getEctDonationData = async () => {

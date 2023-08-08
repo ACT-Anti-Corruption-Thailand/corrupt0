@@ -719,10 +719,7 @@ const getPersonDonation = async (name) => {
     DONATION_FULLNAME.params({ name })
       .filter((d) => d.full_name === name)
       .select("year", "month", "party", "amount")
-      .rename({ amount: "amount", year: "_year" })
-      .derive({
-        year: (d) => d._year + 543,
-      })
+      // .rename({ amount: "_amount" })
       .orderby("year", "month")
       // .groupby("year", "month", "party")
       // .rollup({ amount: (d) => op.sum(d._amount) })
