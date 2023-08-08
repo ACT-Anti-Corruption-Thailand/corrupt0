@@ -152,7 +152,7 @@ export default function Home() {
           style={{
             backgroundImage: "url('/images/asset_political_transparency_bg.png')",
           }}
-          className="flex flex-col justify-center items-center bg-cover bg-center bg-no-repeat mb-20 lg:mb-30 b5 lg:b3 px-10 lg:px-[30vw]"
+          className="flex flex-col justify-center items-center bg-cover bg-center bg-no-repeat mb-20 lg:mb-30 b5 lg:b3 px-10 lg:px-[12.5vw]"
         >
           <Image
             className="h-[208px] w-[208px] lg:h-[310px] lg:w-[310px] object-cover mb-20 mt-40 lg:mb-40 lg:mt-[200px]"
@@ -162,9 +162,9 @@ export default function Home() {
             alt="political-transparency"
           />
           <p className="mb-20 lg:mb-30">
-            ความโปร่งใสทางการเมือง (Political Transparency)
-            คือการเปิดโอกาสให้ประชาชนทุกคนเข้าถึงและตั้งคำถาม เกี่ยวกับที่มา อำนาจ
-            และการปฏิบัติหน้าที่ ของนักการเมืองและเจ้าหน้าที่รัฐได้
+            ความโปร่งใสทางการเมือง (Political Transparency) คือ
+            <span className="nobr">การเปิด</span>โอกาสให้ประชาชนทุกคนเข้าถึงและตั้งคำถาม
+            เกี่ยวกับที่มา อำนาจ และการปฏิบัติหน้าที่ ของนักการเมืองและเจ้าหน้าที่รัฐได้
           </p>
           <p className="mb-20 lg:mb-30">
             ACT Ai จึงถูกพัฒนาขึ้น เพื่อเป็นฐานข้อมูลความโปร่งใส
@@ -173,8 +173,8 @@ export default function Home() {
             และผลประโยชน์ของส่วนรวมร่วมกัน
           </p>
           <p>
-            นอกจากนี้ คุณยังสามารถช่วยสร้างฐานข้อมูลนี้ ด้วยการช่วยแปลงข้อมูลเป็นดิจิทัล
-            ข้อมูลในฐานข้อมูล ความโปร่งใสของ ACT Ai
+            นอกจากนี้ คุณยังสามารถช่วยสร้างฐานข้อมูลนี้ด้วยการช่วยแปลงข้อมูลเป็นดิจิทัล
+            ในฐานข้อมูลความโปร่งใสของ ACT Ai
           </p>
           <div
             style={{
