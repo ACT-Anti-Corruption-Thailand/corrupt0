@@ -10,7 +10,7 @@
   }
 
   html {
-    @apply overflow-x-hidden scroll-smooth bg-black /* B5 */ text-20 md:text-24 font-body;
+    @apply overflow-x-hidden scroll-smooth bg-black /* B5 */ text-20 md:text-24 font-body antialiased;
     color-scheme: dark;
   }
 
