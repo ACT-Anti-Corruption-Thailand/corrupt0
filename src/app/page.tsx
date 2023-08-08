@@ -176,13 +176,16 @@ export default function Home() {
             นอกจากนี้ คุณยังสามารถช่วยสร้างฐานข้อมูลนี้ด้วยการช่วยแปลงข้อมูลเป็นดิจิทัล
             ในฐานข้อมูลความโปร่งใสของ ACT Ai
           </p>
-          <div
+          <a
+            href="/"
+            className="flex items-center my-30 py-[25px] px-30 md:py-[65px] md:px-[150px] bg-cover bg-center text-white border border-gray-5 rounded-5"
             style={{
               backgroundImage: `url('/images/asset_digital_data.png')`,
             }}
-            className="my-30 py-[25px] px-30 rounded-5 bg-cover bg-center flex items-center text-white mx-20 border border-gray-5"
+            target="_blank"
+            rel="nofollow noopener noreferrer"
           >
-            <p className="b3 text-right">ร่วมแปลงข้อมูลเป็นดิจิทัล</p>
+            <span className="b3">ร่วมแปลงข้อมูลเป็นดิจิทัล</span>
             <Image
               src="/icons/external-w.svg"
               className="w-[25px] h-auto pl-10 md:w-30"
@@ -190,7 +193,7 @@ export default function Home() {
               height={22}
               alt=""
             />
-          </div>
+          </a>
         </section>
       </main>
 
