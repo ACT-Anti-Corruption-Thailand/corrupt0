@@ -90,15 +90,12 @@ const fmtThMoney = (value: number) => {
   return `${formatThousands(val)} ${unit}`;
 };
 
-interface TooltipProps {
+const StyledTooltip = ({
+  payload,
+}: {
   payload: Payload<string | number | (string | number)[], string | number>[];
-  label: string;
-  isMonth: boolean;
-}
-
-const StyledTooltip = ({ payload, label, isMonth }: TooltipProps) => (
+}) => (
   <div className="rounded-5 bg-black-50 text-white b6 p-5">
-    <p className="font-bold leading-1">{isMonth ? MONTHS[+label - 1] : label}</p>
     <ul>
       {[...payload]
         .sort((a, z) => {
@@ -107,8 +104,16 @@ const StyledTooltip = ({ payload, label, isMonth }: TooltipProps) => (
           return 0;
         })
         .map((e) => (
-          <li key={e.name} className="leading-1">
-            {e.name}: {fmtThMoney(+(e?.value ?? 0))}
+          <li key={e.name} className="leading-1 flex items-center gap-5">
+            <div
+              className="w-5 h-5 rounded-full"
+              style={{
+                background: e.color ?? "#fff",
+              }}
+            />
+            <span>
+              {e.name}: {fmtThMoney(+(e?.value ?? 0))}
+            </span>
           </li>
         ))}
     </ul>
@@ -169,10 +174,7 @@ export default function InfoDonationChart<X extends string, Y extends readonly s
         </YAxis>
         <Tooltip
           content={(e) =>
-            e.active &&
-            e.payload?.length && (
-              <StyledTooltip isMonth={isMonth} label={e.label} payload={e.payload} />
-            )
+            e.active && e.payload?.length && <StyledTooltip payload={e.payload} />
           }
         />
         {y.map((yKey, i) => (
