@@ -33,7 +33,7 @@ export default function Home() {
       <Navbar />
       <Spotlight />
       <main className="text-center pt-50">
-        <p className="text-white h3 mb-20 lg:h1">มีอะไรให้ดูใน ACT Ai?</p>
+        <p className="text-white h3 mb-20 lg:h1">มีอะไรให้ดูในเว็บไซต์นี้?</p>
         <section className="flex flex-wrap justify-center gap-10">
           <div className="py-20 px-10 bg-white rounded-10 mb-10 w-[100vw] lg:max-w-[47vw]">
             <ImgCard href="/info" imgPath="/images/asset_politician.png">
