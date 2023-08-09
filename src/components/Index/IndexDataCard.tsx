@@ -20,7 +20,10 @@ const IndexDataCard = (props: CardProps) => {
   const [val, unit] = thaiMoneyFormatter(props.amount);
 
   return (
-    <div className="rounded-10 min-w-[180px] md:min-w-[260px] bg-black flex flex-col text-white keen-slider__slide overflow-hidden">
+    <Link
+      href={"/info/" + (props.link ?? "")}
+      className="rounded-10 min-w-[180px] md:min-w-[260px] bg-black flex flex-col text-white keen-slider__slide overflow-hidden"
+    >
       <div
         className={clsx(
           "b5 min-h-[60px] flex items-center justify-center px-20 md:min-h-[80px] font-bold",
@@ -50,10 +53,7 @@ const IndexDataCard = (props: CardProps) => {
       <p className="b4 font-bold">
         {formatThousands(val)} {props.unit ?? unit}
       </p>
-      <Link
-        href={"/info/" + (props.link ?? "")}
-        className="my-10 bg-white rounded-10 text-black mx-auto px-8 py-2 flex items-center no-underline"
-      >
+      <span className="my-10 bg-white rounded-10 text-black mx-auto px-8 py-2 flex items-center no-underline">
         <span>ดูข้อมูล</span>
         <Image
           src="/icons/caret-k.svg"
@@ -62,8 +62,8 @@ const IndexDataCard = (props: CardProps) => {
           width={8}
           height={8}
         />
-      </Link>
-    </div>
+      </span>
+    </Link>
   );
 };
 
