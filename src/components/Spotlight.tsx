@@ -29,7 +29,7 @@ const Backgroud = () => {
   return (
     <Particles
       init={particlesInit}
-      className="static"
+      className="static h-0"
       options={{
         style: {
           position: "absolute",
@@ -38,54 +38,33 @@ const Backgroud = () => {
         },
         particles: {
           number: {
-            value: 100,
+            value: 10,
             density: {
-              enable: false,
-              value_area: 800,
+              enable: true,
+              value_area: 100,
             },
           },
           color: {
             value: "#ffffff",
           },
           shape: {
-            type: "circle",
-            stroke: {
-              width: 0,
-              color: "#000000",
-            },
-            polygon: {
-              nb_sides: 5,
-            },
+            type: "image",
             image: {
-              src: "img/github.svg",
-              width: 100,
-              height: 100,
+              src: "/images/node.png",
+              width: 22,
+              height: 22,
             },
           },
           opacity: {
             value: 1,
-            random: false,
-            anim: {
-              enable: false,
-              speed: 1,
-              opacity_min: 0.1,
-              sync: false,
-            },
           },
           size: {
-            value: 6,
-            random: false,
-            anim: {
-              enable: false,
-              speed: 40,
-              size_min: 0.1,
-              sync: false,
-            },
+            value: 11,
           },
           line_linked: {
             enable: true,
             distance: 200,
-            color: "#ffffff",
+            color: "#4A4A4A",
             opacity: 1,
             width: 1,
           },
@@ -101,45 +80,6 @@ const Backgroud = () => {
               enable: false,
               rotateX: 600,
               rotateY: 1200,
-            },
-          },
-        },
-        interactivity: {
-          detect_on: "canvas",
-          events: {
-            onhover: {
-              enable: false,
-              mode: "repulse",
-            },
-            onclick: {
-              enable: false,
-              mode: "push",
-            },
-            resize: true,
-          },
-          modes: {
-            grab: {
-              distance: 400,
-              line_linked: {
-                opacity: 1,
-              },
-            },
-            bubble: {
-              distance: 400,
-              size: 40,
-              duration: 2,
-              opacity: 8,
-              speed: 3,
-            },
-            repulse: {
-              distance: 200,
-              duration: 0.4,
-            },
-            push: {
-              particles_nb: 4,
-            },
-            remove: {
-              particles_nb: 2,
             },
           },
         },
@@ -184,7 +124,7 @@ const Spotlight = () => {
           width={240}
           height={240}
         />
-        <p className="text-black text-center b3 mt-20 select-none">
+        <p className="text-black text-center b3 select-none md:-mt-5 lg:-mt-10">
           ค้นหาและตรวจสอบข้อมูล
           <br />
           ความโปร่งใสของนักการเมือง
