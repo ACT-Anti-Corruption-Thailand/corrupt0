@@ -24,7 +24,11 @@ const getFileName = (formal_name: string) =>
 interface PartySectionProps {
   data: any;
   theme: string;
+  party: string;
 }
+
+const sortData = (data: any[], sortby: "asc" | "desc") =>
+  sortby === "asc" ? [...data].reverse() : data;
 
 export default function InfoPartyDonationSection(props: PartySectionProps) {
   const DONATION_TYPES = [
@@ -39,6 +43,7 @@ export default function InfoPartyDonationSection(props: PartySectionProps) {
   const [type, setType] = useState(DONATION_TYPES[0]);
 
   const [individualView, setIndividualView] = useState(10);
+  const [individualSort, setIndividualSort] = useState<"asc" | "desc">("desc");
 
   const totalDonation = props.data
     .filter((items: any) => (year === "ทุกปี" ? true : String(items.year) === year))
@@ -52,7 +57,7 @@ export default function InfoPartyDonationSection(props: PartySectionProps) {
     .reverse()
     .map((year: string) => ({
       x: year,
-      y1: props.data
+      [props.party]: props.data
         .filter((item: any) => String(item.year) === year)
         .reduce((acc: any, curr: any) => acc + +curr.amount, 0),
     }));
@@ -64,9 +69,9 @@ export default function InfoPartyDonationSection(props: PartySectionProps) {
         .reduce((acc: any, curr: any) => {
           const { amount, month } = curr;
           if (month in acc) {
-            acc[month].y1 += amount;
+            acc[month][props.party] += amount;
           } else {
-            acc[month] = { x: month, y1: amount };
+            acc[month] = { x: month, [props.party]: amount };
           }
           return acc;
         }, {})
@@ -75,7 +80,7 @@ export default function InfoPartyDonationSection(props: PartySectionProps) {
     DATA = Array.from({ length: 12 }, (_, index) => index + 1)
       .reduce((acc: any, x: any) => {
         if (!acc.some((obj: any) => obj.x === x)) {
-          acc.push({ x: x, y1: 0 });
+          acc.push({ x: x, [props.party]: 0 });
         }
         return acc;
       }, unfilledMonthData)
@@ -85,7 +90,7 @@ export default function InfoPartyDonationSection(props: PartySectionProps) {
       .reverse()
       .map((year: string) => ({
         x: year,
-        y1: props.data
+        [props.party]: props.data
           .filter((item: any) => String(item.year) === year)
           .reduce((acc: any, curr: any) => acc + +curr.amount, 0),
       }));
@@ -93,9 +98,10 @@ export default function InfoPartyDonationSection(props: PartySectionProps) {
 
   const displayData = Object.values(
     props.data
-      .filter((items: any) => (year === "ทุกปี" ? true : String(items.year) === year))
-      .filter((items: any) =>
-        type === "ทุกประเภทบุคคล" ? true : items.donor_prefix === type
+      .filter(
+        (items: any) =>
+          (year === "ทุกปี" || String(items.year) === year) &&
+          (type === "ทุกประเภทบุคคล" || items.donor_prefix === type)
       )
       .reduce(
         (acc: any, curr: any) => {
@@ -141,7 +147,7 @@ export default function InfoPartyDonationSection(props: PartySectionProps) {
         </p>
         <InfoDonationChart
           x="x"
-          y={["y1"]}
+          y={[props.party]}
           yColors={[props.theme]}
           data={DATA}
           isMonth={year === "ทุกปี" ? false : true}
@@ -150,7 +156,7 @@ export default function InfoPartyDonationSection(props: PartySectionProps) {
         <div className="flex flex-row items-center gap-10 my-10 lg:my-30">
           <p className="text-gray-4 b4 lg:b3">แสดง</p>
           <Dropdown data={DONATION_TYPES} value={type} setValue={setType} />
-          <ChartSort name="individual-donation-sort" />
+          <ChartSort sort={individualSort} setSort={setIndividualSort} />
         </div>
         <Search
           placeholder="ค้นหาด้วยชื่อ"
@@ -165,27 +171,29 @@ export default function InfoPartyDonationSection(props: PartySectionProps) {
         <p className="b3 text-center text-gray-4 lg:pt-30">
           ทั้งหมด {displayData.length.toLocaleString()} คน
         </p>
-        {displayData.slice(0, individualView).map((d) => (
-          <Link
-            key={d.donor_fullname}
-            href={
-              "/info/" +
-              (d.donor_prefix === "นิติบุคคล"
-                ? getFileName(getFormalName(d.donor_fullname))
-                : getFileName(d.donor_fullname))
-            }
-            className="block no-underline w-full"
-          >
-            <EntityBarCard
-              name={d.donor_fullname}
-              title={d.donor_prefix}
-              color={props.theme}
-              imgPath="/placeholders/person.png"
-              amount={d.amount}
-              maxAmount={displayData[0].amount}
-            />
-          </Link>
-        ))}
+        {sortData(displayData, individualSort)
+          .slice(0, individualView)
+          .map((d) => (
+            <Link
+              key={d.donor_fullname}
+              href={
+                "/info/" +
+                (d.donor_prefix === "นิติบุคคล"
+                  ? getFileName(getFormalName(d.donor_fullname))
+                  : getFileName(d.donor_fullname))
+              }
+              className="block no-underline w-full"
+            >
+              <EntityBarCard
+                name={d.donor_fullname}
+                title={d.donor_prefix}
+                color={props.theme}
+                imgPath="/placeholders/person.png"
+                amount={d.amount}
+                maxAmount={displayData[0].amount}
+              />
+            </Link>
+          ))}
         <button
           className="b4 text-gray-4 pb-20"
           onClick={() => {

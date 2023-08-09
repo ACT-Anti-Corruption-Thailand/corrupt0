@@ -68,7 +68,11 @@ export default function Party({ params }: { params: { name: string } }) {
           }
         >
           {/* ประวัติการบริจาคเงินให้พรรคการเมือง */}
-          <InfoPartyDonationSection data={partyData} theme={color} />
+          <InfoPartyDonationSection
+            data={partyData}
+            theme={color}
+            party={spacedName.replace("พรรค", "")}
+          />
         </InfoDesktopAligner>
       </main>
     </>

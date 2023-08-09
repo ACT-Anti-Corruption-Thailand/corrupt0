@@ -14,13 +14,11 @@ import Link from "next/link";
 //For Party Section
 import _PARTY_ASSETS from "@/data/color/partyAssets.json";
 import _DONOR_DATA from "@data/donation/donor.json";
-import _PARTY_DONATION_Test from "@data/donation/partyPerYearWithTotal.json";
-import _PARTY_TOTAL_DONATION from "@data/donation/totalPerYearWithTotal.json";
+import _PARTY_DONATION from "@data/donation/partyPerYearWithTotal.json";
 
 import type { CSSProperties } from "react";
 
-const PARTY_DONATION_Test = _PARTY_DONATION_Test as any;
-const PARTY_TOTAL_DONATION = _PARTY_TOTAL_DONATION as any;
+const PARTY_DONATION = _PARTY_DONATION as any;
 const DONOR_DATA = _DONOR_DATA as any;
 const PARTY_ASSETS = _PARTY_ASSETS as Record<
   string,
@@ -37,17 +35,20 @@ const getFormalName = (donation_full_name: string) =>
 const getFileName = (formal_name: string) =>
   formal_name.replace("ห้างหุ้นส่วนจำกัด", "หจก").replace(/\s+|\/|\\/g, "-");
 
-const YEARS = Object.keys(PARTY_DONATION_Test).reverse();
+const YEARS = Object.keys(PARTY_DONATION).reverse();
 const DONATION_TYPES = [
   "ทุกประเภทบุคคล",
   ...new Set(DONOR_DATA.map((item: any) => item.title)),
 ] as string[];
 
 // TODO: Manually Typing
-type PartySearchSchema = (typeof PARTY_DONATION_Test)[number];
+type PartySearchSchema = (typeof PARTY_DONATION)[number];
 type IndividualDonorSchema = (typeof DONOR_DATA)[number];
 
 const removeNull = (element: any): element is Exclude<typeof element, null> => !!element;
+
+const sortData = (data: any[], sortby: "asc" | "desc") =>
+  sortby === "asc" ? [...data].reverse() : data;
 
 export default function Donation() {
   const [partyView, setPartyView] = useState(5);
@@ -62,7 +63,7 @@ export default function Donation() {
   const [individualFilterYear, setIndividualFilterYear] = useState(YEARS[0]);
   const [individualFilterType, setIndividualFilterType] = useState(DONATION_TYPES[0]);
 
-  const selected_assets = PARTY_DONATION_Test[partyFilterYear]
+  const selected_assets = PARTY_DONATION[partyFilterYear]
     .map((d: any) =>
       PARTY_ASSETS[d.party]?.color && PARTY_ASSETS[d.party]?.color != "#CCD8DD"
         ? {
@@ -75,7 +76,9 @@ export default function Donation() {
     .filter(removeNull)
     .slice(0, 10);
 
-  //TODO: Ascending and Descending sort approach (consult with p'mumu)
+  const [partySort, setPartySort] = useState<"asc" | "desc">("desc");
+  const [individualSort, setIndividualSort] = useState<"asc" | "desc">("desc");
+
   return (
     <>
       <Navbar
@@ -117,12 +120,12 @@ export default function Donation() {
         <div className="flex flex-row items-center gap-10 my-10 lg:my-30">
           <p className="text-gray-4 b4 lg:b3">ในปี</p>
           <Dropdown data={YEARS} value={partyFilterYear} setValue={setPartySortYear} />
-          <ChartSort name="party-donation-sort" />
+          <ChartSort sort={partySort} setSort={setPartySort} />
         </div>
 
         <Search
           placeholder="ค้นหาด้วยชื่อพรรคการเมือง"
-          data={PARTY_DONATION_Test[partyFilterYear].map((party: any) => ({
+          data={PARTY_DONATION[partyFilterYear].map((party: any) => ({
             name: party.party,
             ...party,
           }))}
@@ -140,27 +143,31 @@ export default function Donation() {
                 title=""
                 color={PARTY_ASSETS[partySearch.name]?.color ?? "#fff"}
                 amount={partySearch.amount}
-                maxAmount={PARTY_DONATION_Test[partyFilterYear][0].amount}
+                maxAmount={PARTY_DONATION[partyFilterYear][0].amount}
                 imgPath={PARTY_ASSETS[partySearch.name]?.image ?? "/icons/person.svg"}
               />
             </Link>
           ) : (
-            PARTY_DONATION_Test[partyFilterYear].slice(0, partyView).map((party: any) => (
-              <Link
-                href={"/info/พรรค" + party.party}
-                key={party.party}
-                className="block no-underline w-full"
-              >
-                <EntityBarCard
-                  name={party.party}
-                  title=""
-                  color={PARTY_ASSETS[party.party]?.color ?? "#fff"}
-                  amount={party.amount}
-                  maxAmount={PARTY_DONATION_Test[partyFilterYear][0].amount}
-                  imgPath={PARTY_ASSETS[party.party]?.image ?? "/placeholders/party.png"}
-                />
-              </Link>
-            ))
+            sortData(PARTY_DONATION[partyFilterYear], partySort)
+              .slice(0, partyView)
+              .map((party: any) => (
+                <Link
+                  href={"/info/พรรค" + party.party}
+                  key={party.party}
+                  className="block no-underline w-full"
+                >
+                  <EntityBarCard
+                    name={party.party}
+                    title=""
+                    color={PARTY_ASSETS[party.party]?.color ?? "#fff"}
+                    amount={party.amount}
+                    maxAmount={PARTY_DONATION[partyFilterYear][0].amount}
+                    imgPath={
+                      PARTY_ASSETS[party.party]?.image ?? "/placeholders/party.png"
+                    }
+                  />
+                </Link>
+              ))
           )}
         </div>
         <button
@@ -199,7 +206,7 @@ export default function Donation() {
             value={individualFilterYear}
             setValue={setIndividualFilterYear}
           />
-          <ChartSort name="individual-donation-sort" />
+          <ChartSort sort={individualSort} setSort={setIndividualSort} />
         </div>
         <div className="flex flex-col px-10 py-10 my-10 lg:my-30 border-1 rounded-5 border-gray-6 items-start w-[85vw] max-w-[800px]">
           <p className="b4 text-gray-3">สี = พรรค</p>
@@ -258,13 +265,14 @@ export default function Donation() {
               />
             </Link>
           ) : (
-            DONOR_DATA.filter((items: any) =>
-              individualFilterType === "ทุกประเภทบุคคล"
-                ? true
-                : items.title === individualFilterType
-            )
+            sortData(DONOR_DATA, individualSort)
+              .filter((items: any) =>
+                individualFilterType === "ทุกประเภทบุคคล"
+                  ? true
+                  : items.title === individualFilterType
+              )
               .slice(0, individualView)
-              .map((individual: any, index: any) => (
+              .map((individual: any, index: any, arr: any[]) => (
                 <Link
                   href={
                     "/info/" +
@@ -279,7 +287,13 @@ export default function Donation() {
                     name={individual.name}
                     title={individual.title}
                     data={individual.donation}
-                    maxAmount={DONOR_DATA[0].total}
+                    maxAmount={
+                      DONOR_DATA.find((items: any) =>
+                        individualFilterType === "ทุกประเภทบุคคล"
+                          ? true
+                          : items.title === individualFilterType
+                      ).total
+                    }
                     imgPath="/icons/person.svg"
                     assets={selected_assets}
                   />

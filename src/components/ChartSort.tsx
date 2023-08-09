@@ -1,15 +1,21 @@
+import { RadioGroup } from "@headlessui/react";
 import Image from "next/image";
+import type { Dispatch, SetStateAction } from "react";
 
 interface ChartSortProps {
-  name: string;
+  sort: "asc" | "desc";
+  setSort: Dispatch<SetStateAction<"asc" | "desc">>;
 }
 
-export default function ChartSort(props: ChartSortProps) {
+export default function ChartSort({ sort, setSort }: ChartSortProps) {
   return (
-    <div className="flex">
-      <label>
-        <input name={props.name} className="peer hidden" type="radio" defaultChecked/>
-        <div className="border-1 lg:border-2 border-white border-opacity-50 peer-checked:border-opacity-100 peer-checked:opacity-100 opacity-50 w-[25px] h-[25px] lg:w-[40px] lg:h-[35px] rounded-l-5 flex justify-center items-center">
+    <RadioGroup value={sort} onChange={setSort}>
+      <RadioGroup.Label className="sr-only">เรียงจาก</RadioGroup.Label>
+      <div className="flex">
+        <RadioGroup.Option
+          value="desc"
+          className="cursor-pointer border lg:border-2 border-white opacity-50 ui-checked:opacity-100 w-[25px] h-[25px] lg:w-[40px] lg:h-[35px] rounded-l-5 flex justify-center items-center"
+        >
           <Image
             src="/icons/ascending.svg"
             width={20}
@@ -17,11 +23,12 @@ export default function ChartSort(props: ChartSortProps) {
             alt="ascending"
             className="w-12 h-[9px] lg:w-20 lg:h-15"
           />
-        </div>
-      </label>
-      <label>
-        <input name={props.name} className="peer hidden" type="radio" />
-        <div className="border-1 lg:border-2 border-white border-opacity-50 peer-checked:border-opacity-100 peer-checked:opacity-100 opacity-50 w-[25px] h-[25px] lg:w-[40px] lg:h-[35px] rounded-r-5 flex justify-center items-center">
+          <span className="sr-only">มากไปน้อย</span>
+        </RadioGroup.Option>
+        <RadioGroup.Option
+          value="asc"
+          className="cursor-pointer border lg:border-2 -ml-1 lg:-ml-2 border-white opacity-50 ui-checked:opacity-100 w-[25px] h-[25px] lg:w-[40px] lg:h-[35px] rounded-r-5 flex justify-center items-center"
+        >
           <Image
             src="/icons/descending.svg"
             width={20}
@@ -29,8 +36,9 @@ export default function ChartSort(props: ChartSortProps) {
             alt="descending"
             className="w-12 h-[9px] lg:w-20 lg:h-15"
           />
-        </div>
-      </label>
-    </div>
+          <span className="sr-only">น้อยไปมาก</span>
+        </RadioGroup.Option>
+      </div>
+    </RadioGroup>
   );
 }
