@@ -1,8 +1,11 @@
 "use client";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import Particles from "react-tsparticles";
+import { loadSlim } from "tsparticles-slim";
 
 import type { CSSProperties } from "react";
+import type { Engine } from "tsparticles-engine";
 
 const useMousePosition = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -18,6 +21,134 @@ const useMousePosition = () => {
   return mousePosition;
 };
 
+const Backgroud = () => {
+  const particlesInit = useCallback(async (engine: Engine) => {
+    await loadSlim(engine);
+  }, []);
+
+  return (
+    <Particles
+      init={particlesInit}
+      className="static"
+      options={{
+        style: {
+          position: "absolute",
+          width: "100%",
+          height: "100%",
+        },
+        particles: {
+          number: {
+            value: 100,
+            density: {
+              enable: false,
+              value_area: 800,
+            },
+          },
+          color: {
+            value: "#ffffff",
+          },
+          shape: {
+            type: "circle",
+            stroke: {
+              width: 0,
+              color: "#000000",
+            },
+            polygon: {
+              nb_sides: 5,
+            },
+            image: {
+              src: "img/github.svg",
+              width: 100,
+              height: 100,
+            },
+          },
+          opacity: {
+            value: 1,
+            random: false,
+            anim: {
+              enable: false,
+              speed: 1,
+              opacity_min: 0.1,
+              sync: false,
+            },
+          },
+          size: {
+            value: 6,
+            random: false,
+            anim: {
+              enable: false,
+              speed: 40,
+              size_min: 0.1,
+              sync: false,
+            },
+          },
+          line_linked: {
+            enable: true,
+            distance: 200,
+            color: "#ffffff",
+            opacity: 1,
+            width: 1,
+          },
+          move: {
+            enable: true,
+            speed: 2,
+            direction: "none",
+            random: false,
+            straight: false,
+            out_mode: "out",
+            bounce: false,
+            attract: {
+              enable: false,
+              rotateX: 600,
+              rotateY: 1200,
+            },
+          },
+        },
+        interactivity: {
+          detect_on: "canvas",
+          events: {
+            onhover: {
+              enable: false,
+              mode: "repulse",
+            },
+            onclick: {
+              enable: false,
+              mode: "push",
+            },
+            resize: true,
+          },
+          modes: {
+            grab: {
+              distance: 400,
+              line_linked: {
+                opacity: 1,
+              },
+            },
+            bubble: {
+              distance: 400,
+              size: 40,
+              duration: 2,
+              opacity: 8,
+              speed: 3,
+            },
+            repulse: {
+              distance: 200,
+              duration: 0.4,
+            },
+            push: {
+              particles_nb: 4,
+            },
+            remove: {
+              particles_nb: 2,
+            },
+          },
+        },
+        retina_detect: true,
+      }}
+    />
+  );
+};
+
 const Spotlight = () => {
   const mousePos = useMousePosition();
 
@@ -26,40 +157,34 @@ const Spotlight = () => {
       <div
         style={
           {
-            backgroundImage: 'url("/images/bg_desktop.png")',
-            backgroundRepeat: "no-repeat",
-            backgroundSize: "cover",
-            maskImage: "linear-gradient(rgba(0, 0, 0, 1) 80%, transparent)",
-            "--x": `clamp( -30px, calc((${
-              mousePos.x ? mousePos.x + "px" : "50vw"
-            } - 50vw)/10), 30px)`,
-            "--y": `clamp( -30px, calc((${
-              mousePos.y ? mousePos.y + "px" : "50vh"
-            } - 50vh)/10), 30px)`,
+            "--mouse-x": mousePos.x ? mousePos.x + "px" : "50vw",
+            "--mouse-y": mousePos.y ? mousePos.y + "px" : "50vh",
+            "--x": `clamp(-30px,calc((var(--mouse-x) - 50vw)/10),30px)`,
+            "--y": `clamp(-30px,calc((var(--mouse-y) - 50vh)/10),30px)`,
             "--rec-x": `calc(var(--x) + 50%)`,
           } as CSSProperties
         }
-        className="bg-black flex flex-col justify-center items-center h-[70vh] lg:h-[90vh] py-[10vh] relative overflow-hidden"
+        className="flex flex-col justify-center items-center min-h-[400px] h-[70vh] lg:min-h-[700px] lg:h-[90vh] relative overflow-hidden"
       >
-        <div className="bg-white opacity-50 w-[150vmax] h-[320px] lg:h-[600px] blur-sm -rotate-45 absolute origin-[0%_50%] translate-x-[--rec-x] translate-y-[--y]" />
-        <div className="bg-white w-[320px] h-[320px] lg:w-[600px] lg:h-[600px] rounded-full blur-sm absolute translate-x-[--x] translate-y-[--y]" />
+        <Backgroud />
+        <div className="absolute bottom-0 left-0 right-0 h-[30vh] bg-gradient-to-t from-black to-black/0" />
+        <div className="bg-white opacity-50 w-[150vmax] h-[320px] md:h-[450px] lg:h-[600px] blur-sm -rotate-45 absolute origin-[0%_50%] translate-x-[--rec-x] translate-y-[--y]" />
+        <div className="bg-white aspect-square w-auto h-[320px] md:h-[450px] lg:h-[600px] rounded-full blur-sm absolute translate-x-[--x] translate-y-[--y]" />
         <Image
-          className="w-[160px] lg:w-[400px] absolute -translate-x-[calc((var(--x)/4)+10px)] -translate-y-[calc((var(--y)/4)+45px)]"
+          className="h-auto w-[160px] md:w-[250px] lg:w-[350px] absolute -translate-x-[calc((var(--x)/4)+10px)] -translate-y-[calc((var(--y)/4)+45px)]"
           src="/logos/c0-shadow.svg"
           alt="logo"
           width={240}
           height={240}
         />
         <Image
-          className="w-[160px] lg:w-[400px]"
+          className="h-auto w-[160px] md:w-[250px] lg:w-[350px]"
           src="/logos/c0-k.svg"
           alt="logo"
           width={240}
           height={240}
         />
-
-        {/* <p className="text-white fixed bg-black">{JSON.stringify(mousePos)}</p> */}
-        <p className="text-black text-center b3 mt-20">
+        <p className="text-black text-center b3 mt-20 select-none">
           ค้นหาและตรวจสอบข้อมูล
           <br />
           ความโปร่งใสของนักการเมือง
