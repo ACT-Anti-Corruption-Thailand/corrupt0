@@ -39,7 +39,6 @@ export default function InfoFinancialDropdowns({
   setCompareYear,
   light = false,
 }: FinancialDropdownsProps) {
-  // TODO: Consult Designer when has 1 data
   const compareData = compare.filter((e) => e.data !== currentYear.data);
   return (
     <>
@@ -50,26 +49,32 @@ export default function InfoFinancialDropdowns({
         arrowSrc={light ? "/icons/caret-k.svg" : "/icons/caret-w.svg"}
         className={light ? CLASSNAMES_BLACK : CLASSNAMES_WHITE}
       />
-      <div className="flex-1 min-w-0 flex items-center gap-10">
-        <BareDropdown
-          data={compareData}
-          value={compareYear}
-          setValue={setCompareYear}
-          hideNull
-          arrowSrc={light ? "/icons/caret-k.svg" : "/icons/caret-w.svg"}
-          className={light ? CLASSNAMES_BLACK : CLASSNAMES_WHITE}
-        />
-        {compareYear.data && (
-          <button type="button" onClick={() => setCompareYear(compare[0])}>
-            <Image
-              src={light ? "/icons/circle-cross-k.svg" : "/icons/circle-cross.svg"}
-              width={20}
-              height={20}
-              alt="ล้าง"
-            />
-          </button>
-        )}
-      </div>
+      {compareData.length > 1 ? (
+        <div className="flex-1 min-w-0 flex items-center gap-10">
+          <BareDropdown
+            data={compareData}
+            value={compareYear}
+            setValue={setCompareYear}
+            hideNull
+            arrowSrc={light ? "/icons/caret-k.svg" : "/icons/caret-w.svg"}
+            className={light ? CLASSNAMES_BLACK : CLASSNAMES_WHITE}
+          />
+          {compareYear.data && (
+            <button type="button" onClick={() => setCompareYear(compare[0])}>
+              <Image
+                src={light ? "/icons/circle-cross-k.svg" : "/icons/circle-cross.svg"}
+                width={20}
+                height={20}
+                alt="ล้าง"
+              />
+            </button>
+          )}
+        </div>
+      ) : (
+        <div className="flex-1 min-w-0 flex items-center w-full rounded-5 h-50 px-10 bg-white-10 border border-gray-5 text-gray-5 b5 leading-1 select-none cursor-not-allowed">
+          - ไม่มีข้อมูล -
+        </div>
+      )}
     </>
   );
 }
