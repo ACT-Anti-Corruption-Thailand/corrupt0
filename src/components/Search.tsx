@@ -16,7 +16,7 @@ type SearchData = {
 
 const highlightChar = (name: string, char: string) =>
   name.replace(
-    new RegExp(char, "g"),
+    new RegExp(char + "[ัิ-ฺ็-๎]*", "g"),
     (match) => `<span class="font-bold">${match}</span>`
   );
 
