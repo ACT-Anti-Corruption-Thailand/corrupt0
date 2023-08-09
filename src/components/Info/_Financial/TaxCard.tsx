@@ -1,78 +1,9 @@
 "use client";
 import clsx from "clsx";
+import InfoPopover from "../Popover";
 import { InfoFinancialChart } from "./Chart";
-import type { TaxArray, InfoFinanceStatement } from "./Section";
 import { f$, fP, safePercent } from "./Section";
-
-interface CompareIncomeProps {
-  totalTax: number;
-  income: InfoFinanceStatement[];
-  taxActor: number;
-  taxSpouse: number;
-  showActor: boolean;
-  showSpouse: boolean;
-  spouseCount: number;
-}
-
-function CompareIncome({
-  totalTax,
-  income,
-  taxActor,
-  taxSpouse,
-  showActor,
-  showSpouse,
-  spouseCount,
-}: CompareIncomeProps) {
-  const [totalActorIncome, totalSpouseIncome] = income.reduce(
-    (a, c) => {
-      return [a[0] + c.value[0], a[1] + (c.value[1] ?? 0)];
-    },
-    [0, 0]
-  );
-
-  const actorCompare = safePercent(taxActor, totalActorIncome);
-  const spouseCompare = safePercent(taxSpouse, totalSpouseIncome);
-  const totalCompare = safePercent(totalTax, totalActorIncome + totalSpouseIncome);
-
-  const [actorWording, actorValue] =
-    actorCompare > 100
-      ? ["มากกว่า", actorCompare - 100]
-      : ["น้อยกว่า", 100 - actorCompare];
-  const [spouseWording, spouseValue] =
-    spouseCompare > 100
-      ? ["มากกว่า", spouseCompare - 100]
-      : ["น้อยกว่า", 100 - spouseCompare];
-  const [totalWording, totalValue] =
-    totalCompare > 100
-      ? ["มากกว่า", totalCompare - 100]
-      : ["น้อยกว่า", 100 - totalCompare];
-
-  return (
-    <div className="flex flex-col gap-5 py-5 border-y border-y-gray-4">
-      <span className="block b3 font-bold">เปรียบเทียบกับรายได้จริง</span>
-      <div className="flex">
-        {showActor && (
-          <div className="flex-1">
-            <span className="block b4">{actorWording}</span>
-            <span className="block b5">{fP(actorValue)}%</span>
-          </div>
-        )}
-        {showSpouse && spouseCount > 0 && (
-          <div className="opacity-80 flex-1 flex">
-            <div className={clsx(showActor && "mx-auto")}>
-              <span className="block b4">{spouseWording}</span>
-              <span className="block b5">{fP(spouseValue)}%</span>
-            </div>
-          </div>
-        )}
-        <div className="text-right flex-1">
-          <span className="block b4">{totalWording}</span>
-          <span className="block b5">{fP(totalValue)}%</span>
-        </div>
-      </div>
-    </div>
-  );
-}
+import type { InfoFinanceStatement, TaxArray } from "./Section";
 
 interface InfoFinancialSingleTaxCardProps {
   tax: TaxArray;
@@ -98,44 +29,92 @@ export const InfoFinancialSingleTaxCard = ({
 
   const totalTax = taxActor + taxSpouse;
 
+  const [totalActorIncome, totalSpouseIncome] = income?.reduce(
+    (a, c) => {
+      return [a[0] + c.value[0], a[1] + (c.value[1] ?? 0)];
+    },
+    [0, 0]
+  ) ?? [0, 0];
+
+  const actorCompare = safePercent(taxActor, totalActorIncome);
+  const spouseCompare = safePercent(taxSpouse, totalSpouseIncome);
+  const totalCompare = safePercent(totalTax, totalActorIncome + totalSpouseIncome);
+
   return (
     <div className="bg-gray-1 p-10">
       <div className="block b2 font-bold">การเสียภาษี</div>
       <section>
-        <span className="block b3 font-bold mb-2">เงินได้พึงประเมิน</span>
+        <div className="flex items-center gap-2">
+          <p className="block b3 font-bold mb-2">เงินได้พึงประเมิน</p>
+          <InfoPopover>
+            <p className="b4">
+              <span className="block font-bold mb-5">เงินได้พึงประเมิน</span>
+              คือ เงินได้ตามที่ระบุไว้ใน{" "}
+              <a
+                className="underline"
+                href="https://www.rd.go.th/5937.html#mata40"
+                target="_blank"
+                rel="nofollow noopener noreferrer"
+              >
+                บทบัญญัติแห่งประมวลรัษฎากร มาตรา 40 (1) ถึง (8)
+              </a>{" "}
+              ซึ่งโดยทั่วไป เงินที่เราได้รับจะถูกรวมเป็นเงินได้พึงประเมิน
+              เว้นแต่ระบุให้ยกเว้นตามบท
+              <a
+                className="underline"
+                href="https://www.rd.go.th/5937.html#mata42"
+                target="_blank"
+                rel="nofollow noopener noreferrer"
+              >
+                บัญญัติแห่งประมวลรัษฎากร มาตรา 42 (1) ถึง (29)
+              </a>
+            </p>
+          </InfoPopover>
+        </div>
         <InfoFinancialChart actor={taxActor} spouse={taxSpouse} child={0} max={max} />
-        <div className="flex pt-5 mb-10">
+        <div className="flex py-5">
           {showActor && (
             <div className="flex-1">
-              <span className="block b7 leading-1">ผู้ยื่น</span>
-              <span className="block b4">{f$(taxActor)}</span>
+              <span className="block b7">ผู้ยื่น</span>
+              <span className="block b4 leading-1">{f$(taxActor)}</span>
+              {actorCompare === 100 ? (
+                <span className="block b7">เท่ากับรายได้</span>
+              ) : (
+                <span className="block b7">{fP(actorCompare)}% ของรายได้</span>
+              )}
             </div>
           )}
           {showSpouse && spouseCount > 0 && (
             <div className="opacity-80 flex-1 flex">
               <div className={clsx(showActor && "mx-auto")}>
-                <span className="block b7 leading-1">คู่สมรส {spouseCount} คน</span>
-                <span className="block b4">{f$(taxSpouse)}</span>
+                <span className="block b7">คู่สมรส {spouseCount} คน</span>
+                <span className="block b4 leading-1">{f$(taxSpouse)}</span>
+                {spouseCompare === 100 ? (
+                  <span className="block b7">เท่ากับรายได้</span>
+                ) : (
+                  <span className="block b7">{fP(spouseCompare)}% ของรายได้</span>
+                )}
               </div>
             </div>
           )}
           <div className="text-right flex-1">
-            <span className="block b7 leading-1">
+            <span className="block b7">
               <span className="font-bold">รวม</span> (ล้านบาท)
             </span>
-            <span className="block b4 font-bold">{f$(totalTax)}</span>
+            <span className="block b4 font-bold leading-1">{f$(totalTax)}</span>
+            {totalCompare === 100 ? (
+              <span className="block b7 font-bold">เท่ากับรายได้</span>
+            ) : (
+              <span className="block b7 font-bold">{fP(totalCompare)}% ของรายได้</span>
+            )}
           </div>
         </div>
-        {income && (
-          <CompareIncome
-            income={income}
-            totalTax={totalTax}
-            taxActor={taxActor}
-            taxSpouse={taxSpouse}
-            showActor={showActor}
-            showSpouse={showSpouse}
-            spouseCount={spouseCount}
-          />
+        {((showActor && actorCompare !== 100) ||
+          (showSpouse && tax[1] && spouseCompare !== 100) ||
+          totalCompare !== 100) && (
+          <p className="b7 text-black-40">
+            *คำนวณ % จาก (เงินได้พึงประเมิน/รายได้) x 100
+          </p>
         )}
       </section>
     </div>
