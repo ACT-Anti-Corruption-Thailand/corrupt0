@@ -17,6 +17,7 @@ import _DONOR_DATA from "@data/donation/donor.json";
 import _PARTY_DONATION from "@data/donation/partyPerYearWithTotal.json";
 
 import type { CSSProperties } from "react";
+import { formatThousands, thaiMoneyFormatter } from "@/functions/moneyFormatter";
 
 const PARTY_DONATION = _PARTY_DONATION as any;
 const DONOR_DATA = _DONOR_DATA as any;
@@ -79,6 +80,13 @@ export default function Donation() {
   const [partySort, setPartySort] = useState<"asc" | "desc">("desc");
   const [individualSort, setIndividualSort] = useState<"asc" | "desc">("desc");
 
+  const [displayTotal, displayUnit] = thaiMoneyFormatter(
+    PARTY_DONATION[partyFilterYear].reduce(
+      (a: number, c: { amount: number }) => a + c.amount,
+      0
+    )
+  );
+
   return (
     <>
       <Navbar
@@ -117,13 +125,20 @@ export default function Donation() {
           />
           พรรคที่ได้รับเงินบริจาค
         </div>
-        <div className="flex flex-row items-center gap-10 my-10 lg:my-30">
+        <div className="flex flex-row items-center gap-10 my-10 lg:mb-20">
           <p className="text-gray-4 b4 lg:b3">ในปี</p>
           <Dropdown data={YEARS} value={partyFilterYear} setValue={setPartySortYear} />
           <ChartSort sort={partySort} setSort={setPartySort} />
         </div>
+        <p className="b2 my-20 text-center">
+          <strong className="b4 block">
+            ยอดบริจาคให้ {PARTY_DONATION[partyFilterYear].length} พรรคการเมือง รวม
+          </strong>
+          {formatThousands(displayTotal)} {displayUnit}
+        </p>
 
         <Search
+          className="lg:mb-20"
           placeholder="ค้นหาด้วยชื่อพรรคการเมือง"
           data={PARTY_DONATION[partyFilterYear].map((party: any) => ({
             name: party.party,

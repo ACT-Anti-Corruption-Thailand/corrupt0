@@ -35,15 +35,12 @@ const ComboboxOpt = ({ person, children }: ComboboxOptProps) => {
   );
 };
 
-const filterPeople = (people: SearchData[], query: string) => {
-  return people.filter((e) => e.name.includes(query));
-};
-
 interface SearchProps<T extends SearchData> {
   data: T[];
   placeholder: string;
   selected?: T;
   setSelected?: Dispatch<SetStateAction<T | null>>;
+  className?: string;
 }
 
 function Search<T extends SearchData>(props: SearchProps<T>) {
@@ -59,7 +56,7 @@ function Search<T extends SearchData>(props: SearchProps<T>) {
 
   return (
     <Combobox value={props.selected} onChange={props.setSelected}>
-      <div className="relative ">
+      <div className={clsx("relative", props.className)}>
         <div className="relative w-[80vw] lg:w-[40vw] my-10 cursor-default overflow-hidden rounded-lg text-left focus:outline-none">
           <Combobox.Input
             placeholder={props.placeholder}
