@@ -185,14 +185,16 @@ export default function Donation() {
               ))
           )}
         </div>
-        <button
-          className="b4 text-gray-4 pb-20"
-          onClick={() => {
-            setPartyView((e) => e + 10);
-          }}
-        >
-          + ดูเพิ่มอีก 10 พรรค
-        </button>
+        {partyView < PARTY_DONATION[partyFilterYear].length && (
+          <button
+            className="b4 text-gray-4 pb-20"
+            onClick={() => {
+              setPartyView((e) => e + 10);
+            }}
+          >
+            + แสดงพรรคเพิ่มเติม
+          </button>
+        )}
 
         <div
           id="individuals"
@@ -316,14 +318,16 @@ export default function Donation() {
               ))
           )}
         </div>
-        <button
-          className="b4 text-gray-4 pb-20"
-          onClick={() => {
-            setIndividualView((e) => e + 10);
-          }}
-        >
-          + ดูเพิ่มเติมอีก 10 คน
-        </button>
+        {individualView < DONOR_DATA.length && (
+          <button
+            className="b4 text-gray-4 pb-20"
+            onClick={() => {
+              setIndividualView((e) => e + 10);
+            }}
+          >
+            + แสดงผู้บริจาคเพิ่ม
+          </button>
+        )}
       </section>
     </>
   );
