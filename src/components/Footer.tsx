@@ -118,7 +118,7 @@ export default function Footer({ className }: { className?: string }) {
                   target="_blank"
                   rel="nofollow noopener noreferrer"
                 >
-                  They Work for Us
+                  ข้อมูลการทำงานของสมาชิกรัฐสภา
                 </a>
               </li>
               <li>
