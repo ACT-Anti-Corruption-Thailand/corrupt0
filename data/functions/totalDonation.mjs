@@ -8,9 +8,13 @@ const getTotalDonation = async () => {
 
   const table = rawTable.derive({
     donor_fullname: (d) =>
-      op.equal(d.donor_prefix, "นิติบุคคล")
-        ? d.donor_fullname
-        : op.replace(d.donor_firstname + " " + d.donor_lastname, /\s+|\/|\\/g, " "),
+      op.replace(
+        op.equal(d.donor_prefix, "นิติบุคคล")
+          ? d.donor_fullname
+          : op.replace(d.donor_firstname + " " + d.donor_lastname, /\s+|\/|\\/g, " "),
+        /ํา/g,
+        "ำ"
+      ),
   });
 
   const totalPerYearTable = table
