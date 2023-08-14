@@ -406,6 +406,7 @@ export default function Person({ params }: { params: { name: string } }) {
           {/* ประวัติการบริจาคเงินให้พรรคการเมือง */}
           {hasDonation && (
             <InfoDonationSection
+              name={spacedName}
               rawData={donation}
               allParties={donationAllParties}
               allYears={donationAllYears}

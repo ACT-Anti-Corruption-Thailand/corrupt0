@@ -233,6 +233,7 @@ export default function Business({ params }: { params: { name: string } }) {
               rawData={donation}
               allParties={donationAllParties}
               allYears={donationAllYears}
+              name={name}
             />
           )}
 

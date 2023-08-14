@@ -13,11 +13,14 @@ import { formatThousands, thaiMoneyFormatter } from "@/functions/moneyFormatter"
 
 const getFormalName = (donation_full_name: string) =>
   donation_full_name
+    .replace(/ํา/g, "ำ")
     .replace(/บริษัท จำกัด \(มหาชน\)(.+)/g, "บริษัท $1 จำกัด (มหาชน)")
     .replace(/บริษัท จำกัด(.+)/g, "บริษัท $1 จำกัด")
     .replace("(มหาชน) จำกัด", "จำกัด (มหาชน)")
     .replace("หจก.", "ห้างหุ้นส่วนจำกัด ")
-    .replace(/ห้างหุ้นส่วนจำกัด(.)/g, "ห้างหุ้นส่วนจำกัด $1");
+    .replace(/ห้างหุ้นส่วนจำกัด(.)/g, "ห้างหุ้นส่วนจำกัด $1")
+    .replace(/\s+/g, " ")
+    .trim();
 const getFileName = (formal_name: string) =>
   formal_name.replace("ห้างหุ้นส่วนจำกัด", "หจก").replace(/\s+|\/|\\/g, "-");
 

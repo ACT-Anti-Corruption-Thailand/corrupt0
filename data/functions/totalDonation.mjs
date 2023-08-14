@@ -76,6 +76,10 @@ const getTotalDonation = async () => {
       return acc;
     }, {});
 
+  // party: { name: amount } -> entry -> sort -> pick top 10
+  const normalDonateTracker = {};
+  const businessDonateTracker = {};
+
   const individualPerPartyTable = Object.values(
     table
       .select("year", "donor_prefix", "donor_fullname", "party", "amount")
@@ -85,19 +89,76 @@ const getTotalDonation = async () => {
 
         if (donor_fullname in acc) {
           acc[donor_fullname].donation.push({ year, party, amount, color: "#fff" });
+          acc[donor_fullname].totalDonationByParty[party] =
+            (acc[donor_fullname].totalDonationByParty[party] ?? 0) + amount;
           acc[donor_fullname].total += amount;
         } else {
           acc[donor_fullname] = {
             name: donor_fullname,
             title: donor_prefix,
             donation: [{ year, party, amount, color: "#fff" }],
+            totalDonationByParty: {
+              [party]: amount,
+            },
           };
           acc[donor_fullname].total = amount;
+        }
+
+        if (donor_prefix === "บุคคลธรรมดา") {
+          if (party in normalDonateTracker) {
+            normalDonateTracker[party][donor_fullname] =
+              (normalDonateTracker[party][donor_fullname] ?? 0) + amount;
+          } else {
+            normalDonateTracker[party] = {
+              [donor_fullname]: amount,
+            };
+          }
+        } else {
+          if (party in businessDonateTracker) {
+            businessDonateTracker[party][donor_fullname] =
+              (businessDonateTracker[party][donor_fullname] ?? 0) + amount;
+          } else {
+            businessDonateTracker[party] = {
+              [donor_fullname]: amount,
+            };
+          }
         }
 
         return acc;
       }, {})
   ).sort((a, b) => b.total - a.total);
+
+  for (const party in normalDonateTracker) {
+    Object.entries(normalDonateTracker[party])
+      .sort((a, z) => z[1] - a[1])
+      .slice(0, 10)
+      .forEach((e) => {
+        const index = individualPerPartyTable.findIndex((f) => f.name === e[0]);
+        individualPerPartyTable[index].top10 = [
+          ...(individualPerPartyTable[index]?.top10 ?? []),
+          party,
+        ];
+      });
+  }
+  for (const party in businessDonateTracker) {
+    Object.entries(businessDonateTracker[party])
+      .sort((a, z) => z[1] - a[1])
+      .slice(0, 10)
+      .forEach((e) => {
+        const index = individualPerPartyTable.findIndex((f) => f.name === e[0]);
+        individualPerPartyTable[index].top10 = [
+          ...(individualPerPartyTable[index]?.top10 ?? []),
+          party,
+        ];
+      });
+  }
+
+  // const top10 = individualPerPartyTable.map((e) => ({
+  //   ...e,
+  //   totalDonationByParty: e.donation.reduce((a,c) => {
+  //     a[c.party] = (a[c.party] ?? 0) + c.amount
+  //   }, {}),
+  // }));
 
   return {
     totalPerYearWithTotalTable,

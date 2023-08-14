@@ -7,9 +7,12 @@ import Dropdown from "../../Dropdown";
 import InfoDonationChart from "./Chart";
 import InfoDonationPartyCard from "./PartyCard";
 
-import { MONTHS } from "@/constants/abbr";
-
 import _PARTY_ASSETS from "@/data/color/partyAssets.json";
+import _DONOR from "@/data/donation/donor.json";
+const DONOR = _DONOR as {
+  name: string;
+  top10: string[];
+}[];
 const PARTY_ASSETS = _PARTY_ASSETS as Record<
   string,
   { color: string | null; image: string | null }
@@ -28,6 +31,7 @@ interface InfoDonationSection {
   rawData: any;
   allYears: number[];
   allParties: string[];
+  name: string;
 }
 
 type ChartData = {
@@ -111,6 +115,7 @@ export default function InfoDonationSection({
   rawData,
   allYears,
   allParties,
+  name,
 }: InfoDonationSection) {
   const typedData = rawData as DonationData[];
 
@@ -130,6 +135,8 @@ export default function InfoDonationSection({
   );
 
   const yParty = party === "ทุกพรรค" ? allParties : [party];
+
+  const DONOR_DATA = DONOR.find((e) => e.name === name);
 
   return (
     <section id="donation">
@@ -173,7 +180,7 @@ export default function InfoDonationSection({
             <InfoDonationPartyCard
               key={d.name}
               name={d.name}
-              isTop10={d.isTop10}
+              isTop10={DONOR_DATA?.top10?.includes(d.name)}
               statements={d.statements}
             />
           ))}
