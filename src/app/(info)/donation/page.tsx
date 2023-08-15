@@ -46,7 +46,6 @@ const DONATION_TYPES = [
   ...new Set(DONOR_DATA.map((item: any) => item.title)),
 ] as string[];
 
-// TODO: Manually Typing
 type PartySearchSchema = (typeof PARTY_DONATION)[number];
 type IndividualDonorSchema = (typeof DONOR_DATA)[number];
 

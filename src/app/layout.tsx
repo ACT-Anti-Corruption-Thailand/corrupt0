@@ -29,6 +29,8 @@ const expanded_font = localFont({
   variable: "--font-dbh-expanded",
 });
 
+// TODO: Recheck Favicon
+// TODO: Recheck OG
 export const metadata: Metadata = {
   title: "Corrupt0 — ACT Ai",
   description:

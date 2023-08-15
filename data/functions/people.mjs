@@ -136,6 +136,7 @@ export const generateNamesAndId = async () => {
  * @returns {[number, number | null]}
  */
 const getLatestNacc = (nacc) => {
+  // TODO: Recheck Algorithm
   return Object.entries(nacc).reduce(
     (a, c) => {
       const year = new Date(c[1].date).getFullYear();

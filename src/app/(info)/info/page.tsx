@@ -69,7 +69,6 @@ export default function Info() {
             <Tab.Panels className="w-full">
               <Tab.Panel>
                 {/* ทรัพย์สิน */}
-                {/* TODO: Recheck Mobile */}
                 <div className="flex items-center justify-center gap-5 my-10 lg:my-20 text-act no-balance">
                   <div className="w-20 border-1 border-dashed" />
                   <p className="leading-1">
