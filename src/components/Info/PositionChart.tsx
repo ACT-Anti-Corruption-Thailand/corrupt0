@@ -54,15 +54,19 @@ const DATA = [
   },
 ];
 
-export function PositionChart() {
+interface PositionChartProps {
+  refValue?: number;
+}
+
+export function PositionChart({ refValue }: PositionChartProps) {
   return (
     <ResponsiveContainer height={200}>
       <BarChart
         width={500}
         height={300}
         data={DATA}
-        barGap={0}
-        barCategoryGap={0}
+        barGap={1}
+        barCategoryGap={1}
         margin={{
           left: 10,
           right: 10,
@@ -70,12 +74,9 @@ export function PositionChart() {
         }}
       >
         <CartesianGrid fill="white" fillOpacity={0.1} />
-        <ReferenceLine
-          x={1801090.878}
-          stroke="#EC1C24"
-          isFront={true}
-          strokeDasharray="3 3"
-        />
+        {refValue && (
+          <ReferenceLine x={refValue} stroke="#EC1C24" isFront strokeDasharray="3 3" />
+        )}
         <XAxis dataKey="x0" xAxisId="data" hide />
         <XAxis
           type="number"

@@ -106,7 +106,7 @@ export default function Position({ params }: { params: { name: string } }) {
                   </InfoPopover>
                 </div>
                 <div className="-ml-10 -mr-10">
-                  <PositionChart />
+                  <PositionChart refValue={1801090.878} />
                 </div>
                 <p className="text-gray-5 b6">ปริมาณทรัพย์สิน (บาท)</p>
                 <div className="flex flex-row items-center justify-center gap-10 my-10 lg:mb-20">
@@ -166,7 +166,7 @@ export default function Position({ params }: { params: { name: string } }) {
                   </InfoPopover>
                 </div>
                 <div className="-ml-10 -mr-10">
-                  <PositionChart />
+                  <PositionChart refValue={205679} />
                 </div>
                 <p className="text-gray-5 b6">ปริมาณหนี้สิน (บาท)</p>
                 <div className="flex flex-row items-center justify-center gap-10 my-10 lg:mb-20">

@@ -43,7 +43,7 @@ const InfoHistChart = (props: GraphCardProps) => {
               <ReferenceLine
                 x={props.refValue}
                 stroke="#EC1C24"
-                isFront={true}
+                isFront
                 strokeDasharray="3 3"
               />
             )}
