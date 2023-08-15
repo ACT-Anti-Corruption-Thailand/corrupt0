@@ -126,7 +126,7 @@ export default function Position({ params }: { params: { name: string } }) {
                     color="white"
                     amount={1637239}
                     maxAmount={10000000}
-                    imgPath="/icons/person.svg"
+                    imgPath="/placeholders/person.png"
                   />
                   <EntityBarCard
                     name="สุชาติ ภิญโญ"
@@ -134,7 +134,7 @@ export default function Position({ params }: { params: { name: string } }) {
                     color="white"
                     amount={1637239}
                     maxAmount={10000000}
-                    imgPath="/icons/person.svg"
+                    imgPath="/placeholders/person.png"
                   />
                   <EntityBarCard
                     name="สุชาติ ภิญโญ"
@@ -142,7 +142,7 @@ export default function Position({ params }: { params: { name: string } }) {
                     color="white"
                     amount={1637239}
                     maxAmount={10000000}
-                    imgPath="/icons/person.svg"
+                    imgPath="/placeholders/person.png"
                   />
                 </div>
               </Tab.Panel>
@@ -186,7 +186,7 @@ export default function Position({ params }: { params: { name: string } }) {
                     color="white"
                     amount={1637239}
                     maxAmount={10000000}
-                    imgPath="/icons/person.svg"
+                    imgPath="/placeholders/person.png"
                   />
                   <EntityBarCard
                     name="สุชาติ ภิญโญ"
@@ -194,7 +194,7 @@ export default function Position({ params }: { params: { name: string } }) {
                     color="white"
                     amount={1637239}
                     maxAmount={10000000}
-                    imgPath="/icons/person.svg"
+                    imgPath="/placeholders/person.png"
                   />
                   <EntityBarCard
                     name="สุชาติ ภิญโญ"
@@ -202,7 +202,7 @@ export default function Position({ params }: { params: { name: string } }) {
                     color="white"
                     amount={1637239}
                     maxAmount={10000000}
-                    imgPath="/icons/person.svg"
+                    imgPath="/placeholders/person.png"
                   />
                 </div>
               </Tab.Panel>

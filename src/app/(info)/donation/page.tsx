@@ -163,7 +163,9 @@ export default function Donation() {
                 color={PARTY_ASSETS[partySearch.name]?.color ?? "#fff"}
                 amount={partySearch.amount}
                 maxAmount={PARTY_DONATION[partyFilterYear][0].amount}
-                imgPath={PARTY_ASSETS[partySearch.name]?.image ?? "/icons/person.svg"}
+                imgPath={
+                  PARTY_ASSETS[partySearch.name]?.image ?? "/placeholders/person.png"
+                }
               />
             </Link>
           ) : (
@@ -285,7 +287,7 @@ export default function Donation() {
                 title={individualSearch.title}
                 data={individualSearch.donation}
                 maxAmount={DONOR_DATA[0].total}
-                imgPath="/icons/person.svg"
+                imgPath="/placeholders/person.png"
                 assets={selected_assets}
               />
             </Link>
@@ -319,7 +321,7 @@ export default function Donation() {
                           : items.title === individualFilterType
                       ).total
                     }
-                    imgPath="/icons/person.svg"
+                    imgPath="/placeholders/person.png"
                     assets={selected_assets}
                   />
                 </Link>
