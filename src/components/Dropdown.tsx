@@ -12,6 +12,14 @@ const CLASSNAME = {
     "px-5 py-2 bg-white border-b border-b-gray-5 last:border-b-0 text-black b4 ui-selected:bg-gray-2 ui-active:bg-gray-2",
 };
 
+const MULTIPLE_CLASSNAME = {
+  button:
+    "w-[180px] md:w-[250px] rounded-5 px-5 py-2 bg-white-10 border border-gray-6 text-white b4",
+  listbox: "rounded-5 overflow-hidden translate-y-5",
+  option:
+    "px-5 py-2 bg-white border-b border-b-gray-5 last:border-b-0 text-black b4 ui-selected:bg-gray-2 ui-active:bg-gray-2",
+};
+
 type DropdownBaseProps<T extends DropdownData> = Omit<
   BareDropdownBaseProps<T>,
   "arrowSrc" | "className"
@@ -39,7 +47,7 @@ export default function Dropdown({
 }: DropdownSingleProps<string[]> | DropdownMultipleProps<string[]>) {
   return multiple ? (
     <BareDropdown
-      className={CLASSNAME}
+      className={MULTIPLE_CLASSNAME}
       data={data}
       value={value}
       setValue={setValue}

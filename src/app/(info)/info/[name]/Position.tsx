@@ -1,24 +1,19 @@
 "use client";
+import { useState } from "react";
+
+import Dropdown from "@/components/Dropdown";
 import EntityBarCard from "@/components/EntityBarCard";
 import ImgCard from "@/components/ImgCard";
 import InfoPopover from "@/components/Info/Popover";
+import { PositionChart } from "@/components/Info/PositionChart";
 import Navbar from "@/components/Navbar";
 import Search from "@/components/Search";
+import SortByBtn from "@/components/SortByBtn";
 import { Tab } from "@headlessui/react";
 import Image from "next/image";
 import Link from "next/link";
-import {
-  Bar,
-  BarChart,
-  CartesianGrid,
-  ReferenceLine,
-  ResponsiveContainer,
-  XAxis,
-} from "recharts";
 
 import DATA_PEOPLE from "@/data/people_search.json";
-
-import { moneyFormatter } from "@/functions/moneyFormatter";
 
 const PEOPLE = DATA_PEOPLE.filter((e) => e.at(-1) === "|").map((e) => {
   const [link, position] = e.split("|");
@@ -29,23 +24,13 @@ const PEOPLE = DATA_PEOPLE.filter((e) => e.at(-1) === "|").map((e) => {
   };
 });
 
-const DATA = [
-  {
-    name: 1000000,
-    amount: 2,
-  },
-  {
-    name: 4234567,
-    amount: 13,
-  },
-  {
-    name: 5000000,
-    amount: 8,
-  },
-];
+const SUB_POSITION = ["ทุกตำแหน่ง", "นายกรัฐมนตรี", "รัฐมนตรี"];
 
 export default function Position({ params }: { params: { name: string } }) {
   const position = params.name;
+
+  const [subPositionShown, setSubPositionShown] = useState([...SUB_POSITION]);
+  const [personSort, setPersonSort] = useState<"asc" | "desc">("desc");
 
   return (
     <>
@@ -87,9 +72,9 @@ export default function Position({ params }: { params: { name: string } }) {
           <span>สำรวจตามกลุ่มตำแหน่ง</span>
         </Link>
         <p className="h3 font-black text-white my-10 lg:my-20 lg:h2">{position}</p>
-        <div className="flex flex-col items-center text-center b6 lg:b5 pb-10 lg:pb-30 w-[90vw] min-w-[300px] max-w-[850px]">
+        <div className="text-center b6 lg:b5 pb-10 lg:pb-30 w-[90vw] lg:w-[70vw]">
           <Tab.Group>
-            <Tab.List className="flex flex-row items-center">
+            <Tab.List className="flex flex-row items-center justify-center">
               <p className="text-gray-4 mr-10 bg-black ">เเสดงข้อมูล</p>
               <div className="text-gray-4 bg-gray-6 rounded-5">
                 <Tab className="ui-selected:bg-white ui-selected:text-gray-6 rounded-5 py-5 px-20 outline-none">
@@ -103,7 +88,7 @@ export default function Position({ params }: { params: { name: string } }) {
             <Tab.Panels>
               <Tab.Panel>
                 {/* ทรัพย์สิน */}
-                <div className="flex items-center justify-center gap-5 my-10 lg:my-20 text-act">
+                <div className="flex items-center justify-center gap-5 my-10 lg:my-20 text-act no-balance -mx-5">
                   <div className="w-20 border-1 border-dashed" />
                   <p className="leading-1">
                     ทรัพย์สินเฉลี่ยต่อครัวเรือน ปี 2564 = <strong>1.8 ล้านบาท</strong>
@@ -112,29 +97,45 @@ export default function Position({ params }: { params: { name: string } }) {
                     <p className="b5 no-balance">ที่มา: สำนักงานสถิติแห่งชาติ</p>
                   </InfoPopover>
                 </div>
-                <div className="w-[90vw] lg:w-[70vw] h-[270px] grow-[2] mx-auto">
-                  <ResponsiveContainer>
-                    <BarChart data={DATA}>
-                      <CartesianGrid fill="white" fillOpacity={0.1} />
-                      <ReferenceLine
-                        x={1801090.878}
-                        stroke="#EC1C24"
-                        isFront={true}
-                        strokeDasharray="3 3"
-                      />
-                      <XAxis
-                        type="number"
-                        dataKey="name"
-                        fill="3F3F3F"
-                        domain={["auto", "auto"]}
-                        tickFormatter={moneyFormatter}
-                      />
-                      <Bar dataKey="amount" fill="#fff" minPointSize={1} />
-                    </BarChart>
-                  </ResponsiveContainer>
+                <div className="flex items-center gap-5 mb-5 text-center md:text-left">
+                  <p>การกระจายตัวของคนในแต่ละช่วงทรัพย์สิน (%)</p>
+                  <InfoPopover>
+                    <p className="b5 no-balance">
+                      บ่งบอกว่าคนในกลุ่มมีปริมาณทรัพย์สินอยู่ในช่วงไหนบ้าง
+                    </p>
+                  </InfoPopover>
+                </div>
+                <div className="-ml-10 -mr-10">
+                  <PositionChart />
                 </div>
                 <p className="text-gray-5 b6">ปริมาณทรัพย์สิน (บาท)</p>
-                <div className="mb-20 lg:mb-30 w-[90vw] lg:w-[70vw]">
+                <div className="flex flex-row items-center justify-center gap-10 my-10 lg:mb-20">
+                  <p className="text-gray-4 b4 lg:b3">ดู</p>
+                  <Dropdown
+                    data={SUB_POSITION}
+                    value={subPositionShown}
+                    setValue={setSubPositionShown}
+                    multiple
+                  />
+                  <SortByBtn sort={personSort} setSort={setPersonSort} />
+                </div>
+                <div className="mb-20 lg:mb-30">
+                  <EntityBarCard
+                    name="สุชาติ ภิญโญ"
+                    title="สมาชิกวุฒิสภา"
+                    color="white"
+                    amount={1637239}
+                    maxAmount={10000000}
+                    imgPath="/icons/person.svg"
+                  />
+                  <EntityBarCard
+                    name="สุชาติ ภิญโญ"
+                    title="สมาชิกวุฒิสภา"
+                    color="white"
+                    amount={1637239}
+                    maxAmount={10000000}
+                    imgPath="/icons/person.svg"
+                  />
                   <EntityBarCard
                     name="สุชาติ ภิญโญ"
                     title="สมาชิกวุฒิสภา"
@@ -147,38 +148,46 @@ export default function Position({ params }: { params: { name: string } }) {
               </Tab.Panel>
               <Tab.Panel>
                 {/* หนี้สิน */}
-                <div className="flex items-center justify-center gap-5 my-10 lg:my-20 text-act">
+                <div className="flex items-center justify-center gap-5 my-10 lg:my-20 text-act no-balance -mx-5">
                   <div className="w-20 border-1 border-dashed" />
                   <p className="leading-1">
-                    หนี้สินเฉลี่ยต่อครัวเรือน ปี 2564 = <strong>205,679 บาท</strong>
+                    หนี้สินเฉลี่ยต่อครัวเรือน ปี 2564 = <strong>0.2 ล้านบาท</strong>
                   </p>
                   <InfoPopover buttonImg="/icons/info.svg">
                     <p className="b5 no-balance">ที่มา: สำนักงานสถิติแห่งชาติ</p>
                   </InfoPopover>
                 </div>
-                <div className="w-[90vw] lg:w-[70vw] h-[270px] grow-[2] mx-auto">
-                  <ResponsiveContainer>
-                    <BarChart data={DATA}>
-                      <CartesianGrid fill="white" fillOpacity={0.1} />
-                      <ReferenceLine
-                        x={205679}
-                        stroke="#EC1C24"
-                        isFront={true}
-                        strokeDasharray="3 3"
-                      />
-                      <XAxis
-                        type="number"
-                        dataKey="name"
-                        fill="3F3F3F"
-                        domain={["auto", "auto"]}
-                        tickFormatter={moneyFormatter}
-                      />
-                      <Bar dataKey="amount" fill="#fff" minPointSize={1} />
-                    </BarChart>
-                  </ResponsiveContainer>
+                <div className="flex items-center gap-5 mb-5 text-center md:text-left">
+                  <p>การกระจายตัวของคนในแต่ละช่วงหนี้สิน (%)</p>
+                  <InfoPopover>
+                    <p className="b5 no-balance">
+                      บ่งบอกว่าคนในกลุ่มมีปริมาณหนี้สินอยู่ในช่วงไหนบ้าง
+                    </p>
+                  </InfoPopover>
+                </div>
+                <div className="-ml-10 -mr-10">
+                  <PositionChart />
                 </div>
                 <p className="text-gray-5 b6">ปริมาณหนี้สิน (บาท)</p>
+                <div className="flex flex-row items-center justify-center gap-10 my-10 lg:mb-20">
+                  <p className="text-gray-4 b4 lg:b3">ในปี</p>
+                  <Dropdown
+                    data={SUB_POSITION}
+                    value={subPositionShown}
+                    setValue={setSubPositionShown}
+                    multiple
+                  />
+                  <SortByBtn sort={personSort} setSort={setPersonSort} />
+                </div>
                 <div className="mb-20 lg:mb-30 w-[90vw] lg:w-[70vw]">
+                  <EntityBarCard
+                    name="สุชาติ ภิญโญ"
+                    title="สมาชิกวุฒิสภา"
+                    color="white"
+                    amount={1637239}
+                    maxAmount={10000000}
+                    imgPath="/icons/person.svg"
+                  />
                   <EntityBarCard
                     name="สุชาติ ภิญโญ"
                     title="สมาชิกวุฒิสภา"

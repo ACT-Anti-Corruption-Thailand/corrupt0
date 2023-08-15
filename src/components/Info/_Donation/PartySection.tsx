@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 
-import ChartSort from "@/components/ChartSort";
+import SortByBtn from "@/components/SortByBtn";
 import EntityBarCard from "@/components/EntityBarCard";
 import Search from "@/components/Search";
 import Image from "next/image";
@@ -159,7 +159,7 @@ export default function InfoPartyDonationSection(props: PartySectionProps) {
         <div className="flex flex-row items-center gap-10 my-10 lg:my-30">
           <p className="text-gray-4 b4 lg:b3">แสดง</p>
           <Dropdown data={DONATION_TYPES} value={type} setValue={setType} />
-          <ChartSort sort={individualSort} setSort={setIndividualSort} />
+          <SortByBtn sort={individualSort} setSort={setIndividualSort} />
         </div>
         <Search
           placeholder="ค้นหาด้วยชื่อ"

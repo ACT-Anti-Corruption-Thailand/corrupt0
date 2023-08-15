@@ -174,7 +174,7 @@ export default function Info() {
                     การกระจายตัว{" "}
                     <InfoPopover>
                       <p className="b5 no-balance">
-                        บ่งบอกว่าคนในกลุ่มมีปริมาณทรัพย์สินอยู่ในช่วงไหนบ้าง
+                        บ่งบอกว่าคนในกลุ่มมีปริมาณหนี้สินอยู่ในช่วงไหนบ้าง
                       </p>
                     </InfoPopover>
                   </div>

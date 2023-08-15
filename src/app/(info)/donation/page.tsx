@@ -1,13 +1,13 @@
 "use client";
 import { useState } from "react";
 
-import ChartSort from "@/components/ChartSort";
 import Dropdown from "@/components/Dropdown";
 import EntityBarCard from "@/components/EntityBarCard";
 import EntityStackedBarCard from "@/components/EntityStackedBarCard";
 import ImgCard from "@/components/ImgCard";
 import Navbar from "@/components/Navbar";
 import Search from "@/components/Search";
+import SortByBtn from "@/components/SortByBtn";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -16,8 +16,9 @@ import _PARTY_ASSETS from "@/data/color/partyAssets.json";
 import _DONOR_DATA from "@data/donation/donor.json";
 import _PARTY_DONATION from "@data/donation/partyPerYearWithTotal.json";
 
-import type { CSSProperties } from "react";
 import { formatThousands, thaiMoneyFormatter } from "@/functions/moneyFormatter";
+
+import type { CSSProperties } from "react";
 
 const PARTY_DONATION = _PARTY_DONATION as any;
 const DONOR_DATA = _DONOR_DATA as any;
@@ -131,7 +132,7 @@ export default function Donation() {
         <div className="flex flex-row items-center gap-10 my-10 lg:mb-20">
           <p className="text-gray-4 b4 lg:b3">ในปี</p>
           <Dropdown data={YEARS} value={partyFilterYear} setValue={setPartySortYear} />
-          <ChartSort sort={partySort} setSort={setPartySort} />
+          <SortByBtn sort={partySort} setSort={setPartySort} />
         </div>
         <p className="b2 my-20 text-center">
           <strong className="b4 block">
@@ -213,24 +214,28 @@ export default function Donation() {
           ผู้บริจาคเงิน
         </div>
         <p className="b6 text-gray-4">หมายเหตุ: แสดงเฉพาะยอดบริจากที่เกิน 5,000 บาท</p>
-        <div className="flex flex-row items-center gap-10 my-10 lg:my-30">
-          <p className="text-gray-4 b4 lg:b3">แสดง</p>
-          <Dropdown
-            data={DONATION_TYPES}
-            value={individualFilterType}
-            setValue={setIndividualFilterType}
-          />
-          <p className="text-gray-4 b4 lg:b3">ในปี</p>
-          <Dropdown
-            data={YEARS}
-            value={individualFilterYear}
-            setValue={setIndividualFilterYear}
-          />
-          <ChartSort sort={individualSort} setSort={setIndividualSort} />
+        <div className="flex flex-wrap items-center justify-center gap-10 my-10 lg:my-30 px-20">
+          <div className="flex items-center gap-10">
+            <p className="text-gray-4 b4 lg:b3">แสดง</p>
+            <Dropdown
+              data={DONATION_TYPES}
+              value={individualFilterType}
+              setValue={setIndividualFilterType}
+            />
+          </div>
+          <div className="flex items-center gap-10">
+            <p className="text-gray-4 b4 lg:b3">ในปี</p>
+            <Dropdown
+              data={YEARS}
+              value={individualFilterYear}
+              setValue={setIndividualFilterYear}
+            />
+          </div>
+          <SortByBtn sort={individualSort} setSort={setIndividualSort} />
         </div>
         <div className="flex flex-col px-10 py-10 my-10 lg:my-30 border-1 rounded-5 border-gray-6 items-start w-[85vw] max-w-[800px]">
           <p className="b4 text-gray-3">สี = พรรค</p>
-          <div className="flex gap-10 flex-wrap">
+          <div className="flex gap-x-10 flex-wrap">
             {selected_assets.map((obj: any, index: number) => (
               <div key={index} className="flex justify-center items-center gap-5">
                 <div

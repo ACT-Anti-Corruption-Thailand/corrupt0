@@ -2,12 +2,12 @@ import { RadioGroup } from "@headlessui/react";
 import Image from "next/image";
 import type { Dispatch, SetStateAction } from "react";
 
-interface ChartSortProps {
+interface SortByBtnProps {
   sort: "asc" | "desc";
   setSort: Dispatch<SetStateAction<"asc" | "desc">>;
 }
 
-export default function ChartSort({ sort, setSort }: ChartSortProps) {
+export default function SortByBtn({ sort, setSort }: SortByBtnProps) {
   return (
     <RadioGroup value={sort} onChange={setSort}>
       <RadioGroup.Label className="sr-only">เรียงจาก</RadioGroup.Label>
