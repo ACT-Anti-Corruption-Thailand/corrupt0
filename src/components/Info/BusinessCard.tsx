@@ -1,13 +1,19 @@
 import path from "path";
 import fs from "fs";
 import { notFound } from "next/navigation";
+import clsx from "clsx";
 
 import Image from "next/image";
 import Link from "next/link";
 
+import _DONOR from "@/data/donation/donor.json";
+const DONOR = _DONOR as {
+  name: string;
+  top10: string[];
+}[];
+
 import { thaiMoneyFormatter } from "@/functions/moneyFormatter";
 import { hasCorrupt0Page } from "@/functions/navigation";
-import clsx from "clsx";
 
 // from /data/functions/business.mjs
 const getFileName = (formal_name: string) =>
@@ -26,9 +32,6 @@ export default function InfoBusinessCard({
 }: InfoBusinessCardProps) {
   const fileName = getFileName(name);
   const hasPage = hasCorrupt0Page(fileName);
-
-  // TODO
-  const isTop10 = false;
 
   let pageData: Record<any, any> = {};
   if (hasPage) {
@@ -62,6 +65,8 @@ export default function InfoBusinessCard({
     ? donation.reduce((a: number, c: { amount: number }) => a + c.amount, 0)
     : 0;
   const [donationAmount, donationUnit] = thaiMoneyFormatter(totalDonation);
+
+  const isTop10 = DONOR.find((e) => e.name === name)?.top10?.includes(mostDonatedParty);
 
   return (
     <article className="rounded-5 bg-white-10 p-10 flex flex-col gap-5">
