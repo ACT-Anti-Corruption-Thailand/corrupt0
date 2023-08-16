@@ -19,10 +19,15 @@ import {
 
 import NACC_DEBTASSET from "@/data/nacc_debtasset.json";
 
-import { moneyFormatter } from "@/functions/moneyFormatter";
+import {
+  formatThousands,
+  moneyFormatter,
+  thaiMoneyFormatter,
+} from "@/functions/moneyFormatter";
 import { highlightChar } from "@/functions/searchHighlighter";
 
 import type { Dispatch, SetStateAction } from "react";
+import type { Payload } from "recharts/types/component/DefaultTooltipContent";
 
 type PeopleType =
   | "สส"
@@ -92,10 +97,57 @@ function FilterCheckbox({
   );
 }
 
-const data = NACC_DEBTASSET.map((e) => ({
-  ...e,
-  color: "#5849FF",
-}));
+// Tooltip
+const StyledTooltip = ({ payload }: { payload: Record<any, any> }) => {
+  if (!payload.active) return;
+
+  const [assetVal, assetUnit] = thaiMoneyFormatter(payload.asset);
+  const [debtVal, debtUnit] = thaiMoneyFormatter(payload.debt);
+
+  return (
+    <div className="rounded-5 bg-white text-left text-black b6 p-10">
+      <h3 className="b3 font-bold">{payload.name.replace(/-/g, " ")}</h3>
+      <p className="text-gray-5">[ตำแหน่ง]</p>
+      <hr className="py-5 border-t border-t-gray-2" />
+      <p>
+        ทรัพย์สิน
+        <br />
+        <span className="b4">
+          <span className="font-bold">{formatThousands(assetVal)}</span> {assetUnit}
+        </span>
+      </p>
+      <hr className="py-5 border-t border-t-gray-2" />
+      <p>
+        หนี้สิน
+        <br />
+        <span className="b4">
+          <span className="font-bold">{formatThousands(debtVal)}</span> {debtUnit}
+        </span>
+      </p>
+    </div>
+  );
+};
+
+const CHARTDATA: {
+  name: string;
+  asset: number;
+  debt: number;
+  color: string;
+  active: boolean;
+}[] = [
+  ...NACC_DEBTASSET.map((e) => ({
+    ...e,
+    color: "#5849FF",
+    active: true,
+  })),
+  {
+    name: "Test",
+    asset: 5e6,
+    debt: 5e7,
+    color: "#5849FF",
+    active: false,
+  },
+];
 
 const PEOPLE = NACC_DEBTASSET.map((e) => e.name.replace(/-/g, " "));
 
@@ -195,14 +247,18 @@ export default function AssetDebtChart() {
                   className="b6"
                 />
               </YAxis>
-              <Tooltip cursor={false} />
-              <Scatter name="A school" data={data} fill="#8884d8">
-                {data.map((entry, index) => (
+              <Tooltip
+                cursor={false}
+                content={(e) =>
+                  e.active &&
+                  e.payload?.length && <StyledTooltip payload={e.payload[0].payload} />
+                }
+              />
+              <Scatter data={CHARTDATA} fill="transparent" strokeWidth={1}>
+                {CHARTDATA.map((entry, index) => (
                   <Cell
                     key={`cell-${index}`}
-                    fill="transparent"
-                    stroke={entry.color}
-                    strokeWidth={1}
+                    stroke={entry.active ? entry.color : "#3F3F3F"}
                   />
                 ))}
               </Scatter>
