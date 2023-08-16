@@ -811,6 +811,7 @@ export const generatePeople = async () => {
   const businessCount = [];
   const assetsValueList = [];
   const incomeValueList = [];
+  const debtAssetList = [];
 
   // let idx = 1;
   // const ppllen = namesAndId.length;
@@ -909,6 +910,19 @@ export const generatePeople = async () => {
             .reduce((a, c) => a + c),
         });
       }
+
+      if (latestStatement?.ทรัพย์สิน && latestStatement?.หนี้สิน)
+        debtAssetList.push({
+          name: dashed_full_name,
+          asset: latestStatement?.ทรัพย์สิน
+            ?.map((e) => e.value)
+            ?.flat()
+            ?.reduce((a, c) => a + c),
+          debt: latestStatement?.หนี้สิน
+            ?.map((e) => e.value)
+            ?.flat()
+            ?.reduce((a, c) => a + c),
+        });
     }
 
     const data = {
@@ -943,6 +957,11 @@ export const generatePeople = async () => {
   await fs.writeFile(
     `src/data/people_search.json`,
     JSON.stringify(searchIndexer.sort((a, z) => a.localeCompare(z)))
+  );
+
+  await fs.writeFile(
+    `src/data/nacc_debtasset.json`,
+    JSON.stringify(debtAssetList.sort((a, z) => a.name.localeCompare(z.name)))
   );
 };
 
