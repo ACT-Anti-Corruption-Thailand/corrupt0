@@ -43,7 +43,7 @@ const Trigger = ({
       {icon && <Image src={icon} width={20} height={20} alt="" />}
       <div className="b4 font-bold">{name}</div>
       {nameExtension}
-      <span className="b7 text-black-50 nobr">{length} รายการ</span>
+      <span className="b7 text-black/50 nobr">{length} รายการ</span>
       {notUndefinedOrNull(value) && (
         <div className="ml-auto b4 font-bold">{value.toLocaleString("th-TH")}</div>
       )}
@@ -73,8 +73,8 @@ const DetailsFirstLine = ({ actor, name, value }: DetailsFirstLineProps) => {
         className={clsx(
           "inline-block rounded-5 b7 px-5 whitespace-nowrap",
           actor === "ผู้ยื่น" && "bg-black text-white",
-          actor === "คู่สมรส" && "bg-black-40",
-          actor === "บุตร" && "bg-black-20"
+          actor === "คู่สมรส" && "bg-black/40",
+          actor === "บุตร" && "bg-black/20"
         )}
       >
         {actor}

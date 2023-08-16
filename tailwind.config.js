@@ -36,18 +36,8 @@ module.exports = {
     },
     colors: {
       transparent: "transparent",
-      black: {
-        DEFAULT: "#000",
-        50: "rgba(0,0,0,0.5)",
-        40: "rgba(0,0,0,0.4)",
-        20: "rgba(0,0,0,0.2)",
-      },
-      white: {
-        DEFAULT: "#fff",
-        30: "rgba(255,255,255,0.3)",
-        20: "rgba(255,255,255,0.2)",
-        10: "rgba(255,255,255,0.1)",
-      },
+      black: "#000",
+      white: "#fff",
       gray: {
         1: "#F7F7F7",
         2: "#E6E6E6",
@@ -59,10 +49,7 @@ module.exports = {
       act: "#EC1C24",
       red: "#f00",
       purple: "#9B8CCD",
-      yellow: {
-        DEFAULT: "#EAEF00",
-        10: "rgba(234,239,0,0.1)",
-      },
+      yellow: "#EAEF00",
       value: {
         "positive-text": "#00C8C8",
         "negative-text": "#FF543D",

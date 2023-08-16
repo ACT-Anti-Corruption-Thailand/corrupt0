@@ -40,9 +40,9 @@ const InfoLawsuitCardBase = ({
   return (
     <Accordion
       trigger={
-        <div className="p-10 bg-white-20 rounded-5 text-left ui-open:rounded-b-0">
+        <div className="p-10 bg-white/20 rounded-5 text-left ui-open:rounded-b-0">
           <div className="b6 flex items-center leading-1">
-            <span className="bg-white-10 border border-gray-5 rounded-5 py-2 px-8">
+            <span className="bg-white/10 border border-gray-5 rounded-5 py-2 px-8">
               {CARDTYPE_TEXT[type].bureau}
             </span>
             {updateDate && (
@@ -67,7 +67,7 @@ const InfoLawsuitCardBase = ({
         </div>
       }
     >
-      <div className="bg-white-10 p-10 rounded-b-5 b6 text-gray-4">{children}</div>
+      <div className="bg-white/10 p-10 rounded-b-5 b6 text-gray-4">{children}</div>
     </Accordion>
   );
 };

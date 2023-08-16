@@ -95,7 +95,7 @@ const StyledTooltip = ({
 }: {
   payload: Payload<string | number | (string | number)[], string | number>[];
 }) => (
-  <div className="rounded-5 bg-black-50 text-white b6 p-5">
+  <div className="rounded-5 bg-black/50 text-white b6 p-5">
     <ul>
       {[...payload]
         .sort((a, z) => {

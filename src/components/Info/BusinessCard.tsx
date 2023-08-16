@@ -69,7 +69,7 @@ export default function InfoBusinessCard({
   const isTop10 = DONOR.find((e) => e.name === name)?.top10?.includes(mostDonatedParty);
 
   return (
-    <article className="rounded-5 bg-white-10 p-10 flex flex-col gap-5">
+    <article className="rounded-5 bg-white/10 p-10 flex flex-col gap-5">
       <div className="flex justify-between">
         <span className="b3 font-bold">{name}</span>
         {hasPage && (
@@ -95,7 +95,7 @@ export default function InfoBusinessCard({
         </li>
       </ul>
       {isTop10 && (
-        <div className="rounded-full b7 text-yellow bg-yellow-10 py-1 px-5 mr-auto leading-1">
+        <div className="rounded-full b7 text-yellow bg-yellow/10 py-1 px-5 mr-auto leading-1">
           1 ใน 10 อันดับ นิติบุคคลที่บริจาคเงินให้พรรคการเมืองมากที่สุด
         </div>
       )}

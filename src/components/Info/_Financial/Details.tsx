@@ -25,7 +25,7 @@ export const InfoFinancialSingleDetails = ({
           <div className="text-right text-gray-5 b6 underline ui-open:hidden">
             รายละเอียด
           </div>
-          <div className="text-right text-gray-5 b6 underline -mt-2 pt-2 border-t border-t-black-40 ui-not-open:hidden">
+          <div className="text-right text-gray-5 b6 underline -mt-2 pt-2 border-t border-t-black/40 ui-not-open:hidden">
             ปิด
           </div>
         </>
@@ -34,7 +34,7 @@ export const InfoFinancialSingleDetails = ({
       {data.map(({ type, value }) => (
         <Fragment key={type}>
           <div className="b4 font-bold">{type}</div>
-          <div className="flex b4 mb-10 last:pb-2 last:mb-2 last:border-b last:border-b-black-40">
+          <div className="flex b4 mb-10 last:pb-2 last:mb-2 last:border-b last:border-b-black/40">
             {showActor && <div className="flex-1">{f$(value[0])}</div>}
             {showSpouse && (
               <div className={clsx("flex-1 opacity-80", showActor && "text-center")}>
@@ -130,7 +130,7 @@ const InfoFinanceCompareEntry = ({
         )}
         <div className="flex-1 text-right font-bold">{f$(data1Total)}</div>
       </div>
-      <div className="flex b4 mb-10 last:pb-2 last:mb-2 last:border-b last:border-b-black-40">
+      <div className="flex b4 mb-10 last:pb-2 last:mb-2 last:border-b last:border-b-black/40">
         {showActor && <div className="flex-1">{f$(data2Value[0])}</div>}
         {showSpouse && (
           <div className={clsx("flex-1 opacity-80", showActor && "text-center")}>
@@ -184,7 +184,7 @@ export const InfoFinancialCompareDetails = ({
           <div className="text-right text-gray-5 b6 underline ui-open:hidden">
             รายละเอียด
           </div>
-          <div className="text-right text-gray-5 b6 underline -mt-2 pt-2 border-t border-t-black-40 ui-not-open:hidden">
+          <div className="text-right text-gray-5 b6 underline -mt-2 pt-2 border-t border-t-black/40 ui-not-open:hidden">
             ปิด
           </div>
         </>

@@ -112,7 +112,7 @@ export const InfoFinancialSingleTaxCard = ({
         {((showActor && actorCompare !== 100) ||
           (showSpouse && tax[1] && spouseCompare !== 100) ||
           totalCompare !== 100) && (
-          <p className="b7 text-black-40">
+          <p className="b7 text-black/40">
             *คำนวณ % จาก (เงินได้พึงประเมิน/รายได้) x 100
           </p>
         )}

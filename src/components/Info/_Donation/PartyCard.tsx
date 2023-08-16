@@ -40,7 +40,7 @@ export default function InfoDonationPartyCard({
 
   return (
     <Accordion
-      className="bg-white-10 py-5 px-10 rounded-5"
+      className="bg-white/10 py-5 px-10 rounded-5"
       trigger={
         <div className="text-left flex flex-col gap-5">
           <div className="flex gap-5 items-center">
@@ -75,7 +75,7 @@ export default function InfoDonationPartyCard({
             style={{ "--color": color } as CSSProperties}
           />
           {isTop10 && (
-            <div className="rounded-full b7 text-yellow bg-yellow-10 py-1 px-5 mr-auto leading-1">
+            <div className="rounded-full b7 text-yellow bg-yellow/10 py-1 px-5 mr-auto leading-1">
               1 ใน 10 อันดับ นิติบุคคลที่บริจาคเงินให้พรรคการเมืองมากที่สุด
             </div>
           )}

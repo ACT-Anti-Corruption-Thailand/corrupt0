@@ -95,8 +95,8 @@ const DetailsActor = ({ actor }: Omit<InfoAssetStatement, "value">) => {
       className={clsx(
         "block rounded-5 b7 px-5 mr-auto mb-5 whitespace-nowrap",
         actor === "ผู้ยื่น" && "bg-black text-white",
-        actor === "คู่สมรส" && "bg-black-40",
-        actor === "บุตร" && "bg-black-20"
+        actor === "คู่สมรส" && "bg-black/40",
+        actor === "บุตร" && "bg-black/20"
       )}
     >
       {actor}
@@ -111,8 +111,8 @@ const DetailsFirstLine = ({ actor, name, value }: DetailsFirstLineProps) => {
         className={clsx(
           "inline-block rounded-5 b7 px-5 whitespace-nowrap",
           actor === "ผู้ยื่น" && "bg-black text-white",
-          actor === "คู่สมรส" && "bg-black-40",
-          actor === "บุตร" && "bg-black-20"
+          actor === "คู่สมรส" && "bg-black/40",
+          actor === "บุตร" && "bg-black/20"
         )}
       >
         {actor}

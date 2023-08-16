@@ -37,7 +37,7 @@ export default function InfoFinancialCheckboxes({
         checked={showSpouse}
         setChecked={setShowSpouse}
         className={{
-          checkbox: "ui-checked:bg-black-40",
+          checkbox: "ui-checked:bg-black/40",
         }}
       >
         <span>คู่สมรส</span>
@@ -46,7 +46,7 @@ export default function InfoFinancialCheckboxes({
         checked={showChild}
         setChecked={setShowChild}
         className={{
-          checkbox: "ui-checked:bg-black-20",
+          checkbox: "ui-checked:bg-black/20",
         }}
       >
         <span>บุตรที่ยังไม่บรรลุนิติภาวะ</span>

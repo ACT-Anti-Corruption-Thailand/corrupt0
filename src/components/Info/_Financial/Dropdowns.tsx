@@ -15,7 +15,7 @@ const CLASSNAMES_BLACK = {
 
 const CLASSNAMES_WHITE = {
   root: "flex-1 min-w-0",
-  button: "w-full rounded-5 h-50 p-10 bg-white-10 border border-white text-white b7",
+  button: "w-full rounded-5 h-50 p-10 bg-white/10 border border-white text-white b7",
   listbox: "rounded-5 overflow-hidden translate-y-5 shadow-dropdown",
   option: "px-10 py-5 bg-white text-black b7 ui-selected:bg-gray-2 ui-active:bg-gray-2",
 };
@@ -71,7 +71,7 @@ export default function InfoFinancialDropdowns({
           )}
         </div>
       ) : (
-        <div className="flex-1 min-w-0 flex items-center w-full rounded-5 h-50 px-10 bg-white-10 border border-gray-5 text-gray-5 b5 leading-1 select-none cursor-not-allowed">
+        <div className="flex-1 min-w-0 flex items-center w-full rounded-5 h-50 px-10 bg-white/10 border border-gray-5 text-gray-5 b5 leading-1 select-none cursor-not-allowed">
           - ไม่มีข้อมูล -
         </div>
       )}
