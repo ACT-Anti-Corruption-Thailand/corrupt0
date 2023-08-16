@@ -176,6 +176,7 @@ export default function Home() {
             นอกจากนี้ คุณยังสามารถช่วยสร้างฐานข้อมูลนี้ด้วยการช่วยแปลงข้อมูลเป็นดิจิทัล
             ในฐานข้อมูลความโปร่งใสของ ACT Ai
           </p>
+          {/* TODO: ใส่ลิงก์เว็บแปลงข้อมูล */}
           <a
             href="/"
             className="flex items-center my-30 py-[25px] px-30 md:py-[65px] md:px-[150px] bg-cover bg-center text-white border border-gray-5 rounded-5"

@@ -22,7 +22,7 @@ const IndexDataCard = (props: CardProps) => {
   return (
     <Link
       href={"/info/" + (props.link ?? "")}
-      className="rounded-10 min-w-[180px] md:min-w-[260px] bg-black flex flex-col text-white keen-slider__slide overflow-hidden"
+      className="rounded-10 w-[180px] md:w-[260px] bg-black flex flex-col text-white overflow-hidden"
     >
       <div
         className={clsx(

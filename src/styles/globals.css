@@ -76,6 +76,25 @@
   .person-scrollbar::-webkit-scrollbar-thumb {
     @apply rounded-[4px] bg-gray-5;
   }
+
+  .carousel-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: #aaa #dbdbdb;
+  }
+
+  .carousel-scrollbar::-webkit-scrollbar {
+    height: 10px;
+  }
+
+  .carousel-scrollbar::-webkit-scrollbar-track {
+    background: #dbdbdb;
+    border-radius: 4px;
+  }
+
+  .carousel-scrollbar::-webkit-scrollbar-thumb {
+    background: #aaa;
+    border-radius: 4px;
+  }
 }
 
 /* Recharts */
