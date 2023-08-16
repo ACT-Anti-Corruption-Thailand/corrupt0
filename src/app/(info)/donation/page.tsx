@@ -13,19 +13,13 @@ import Link from "next/link";
 
 //For Party Section
 import _PARTY_ASSETS from "@/data/color/partyAssets.json";
+import NACC_PPL from "@/data/people_nacc.json";
 import _DONOR_DATA from "@data/donation/donor.json";
 import _PARTY_DONATION from "@data/donation/partyPerYearWithTotal.json";
 
 import { formatThousands, thaiMoneyFormatter } from "@/functions/moneyFormatter";
 
 import type { CSSProperties } from "react";
-
-const PARTY_DONATION = _PARTY_DONATION as any;
-const DONOR_DATA = _DONOR_DATA as any;
-const PARTY_ASSETS = _PARTY_ASSETS as Record<
-  string,
-  { color: string | null; image: string | null }
->;
 
 const getFormalName = (donation_full_name: string) =>
   donation_full_name
@@ -37,14 +31,30 @@ const getFormalName = (donation_full_name: string) =>
     .replace(/ห้างหุ้นส่วนจำกัด(.)/g, "ห้างหุ้นส่วนจำกัด $1")
     .replace(/\s+/g, " ")
     .trim();
+
 const getFileName = (formal_name: string) =>
   formal_name.replace("ห้างหุ้นส่วนจำกัด", "หจก").replace(/\s+|\/|\\/g, "-");
+
+const PARTY_DONATION = _PARTY_DONATION as any;
+const DONOR_DATA = (_DONOR_DATA as any).map((d: any) => {
+  return d.title === "บุคคล"
+    ? NACC_PPL.includes(d.name.replace(/\s+/g, "-"))
+      ? { ...d, title: "ผู้ดำรงตำแหน่งทางการเมือง" }
+      : { ...d, title: "บุคคล" }
+    : d;
+});
+const PARTY_ASSETS = _PARTY_ASSETS as Record<
+  string,
+  { color: string | null; image: string | null }
+>;
 
 const YEARS = Object.keys(PARTY_DONATION).reverse();
 const DONATION_TYPES = [
   "ทุกประเภทบุคคล",
-  ...new Set(DONOR_DATA.map((item: any) => item.title)),
-] as string[];
+  "บุคคล",
+  "นิติบุคคล",
+  "ผู้ดำรงตำแหน่งทางการเมือง",
+];
 
 type PartySearchSchema = (typeof PARTY_DONATION)[number];
 type IndividualDonorSchema = (typeof DONOR_DATA)[number];
@@ -90,6 +100,12 @@ export default function Donation() {
     )
   );
 
+  const donorResult = sortData(DONOR_DATA, individualSort).filter((items: any) =>
+    individualFilterType === "ทุกประเภทบุคคล"
+      ? true
+      : items.title === individualFilterType
+  );
+
   return (
     <>
       <Navbar
@@ -130,7 +146,14 @@ export default function Donation() {
         </div>
         <div className="flex flex-row items-center gap-10 my-10 lg:mb-20">
           <p className="text-gray-4 b4 lg:b3">ในปี</p>
-          <Dropdown data={YEARS} value={partyFilterYear} setValue={setPartySortYear} />
+          <Dropdown
+            data={YEARS}
+            value={partyFilterYear}
+            setValue={(year) => {
+              setPartySortYear(year);
+              setPartyView(5);
+            }}
+          />
           <SortByBtn sort={partySort} setSort={setPartySort} />
         </div>
         <p className="b2 my-20 text-center">
@@ -221,7 +244,10 @@ export default function Donation() {
             <Dropdown
               data={DONATION_TYPES}
               value={individualFilterType}
-              setValue={setIndividualFilterType}
+              setValue={(type) => {
+                setIndividualFilterType(type);
+                setIndividualView(10);
+              }}
             />
           </div>
           <div className="flex items-center gap-10">
@@ -229,7 +255,10 @@ export default function Donation() {
             <Dropdown
               data={YEARS}
               value={individualFilterYear}
-              setValue={setIndividualFilterYear}
+              setValue={(year) => {
+                setIndividualFilterYear(year);
+                setIndividualView(10);
+              }}
             />
           </div>
           <SortByBtn sort={individualSort} setSort={setIndividualSort} />
@@ -291,12 +320,7 @@ export default function Donation() {
               />
             </Link>
           ) : (
-            sortData(DONOR_DATA, individualSort)
-              .filter((items: any) =>
-                individualFilterType === "ทุกประเภทบุคคล"
-                  ? true
-                  : items.title === individualFilterType
-              )
+            donorResult
               .slice(0, individualView)
               .map((individual: any, index: any, arr: any[]) => (
                 <Link
@@ -313,13 +337,7 @@ export default function Donation() {
                     name={individual.name}
                     title={individual.title}
                     data={individual.donation}
-                    maxAmount={
-                      DONOR_DATA.find((items: any) =>
-                        individualFilterType === "ทุกประเภทบุคคล"
-                          ? true
-                          : items.title === individualFilterType
-                      ).total
-                    }
+                    maxAmount={donorResult[0].total}
                     imgPath="/placeholders/person.png"
                     assets={selected_assets}
                   />
@@ -327,7 +345,7 @@ export default function Donation() {
               ))
           )}
         </div>
-        {individualView < DONOR_DATA.length && (
+        {individualView < donorResult.length && (
           <button
             className="b4 text-gray-4 pb-20"
             onClick={() => {
