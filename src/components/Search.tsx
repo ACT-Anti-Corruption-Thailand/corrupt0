@@ -1,11 +1,13 @@
 "use client";
+import clsx from "clsx";
 import { useMemo, useState } from "react";
 
 import { Combobox } from "@headlessui/react";
 import Image from "next/image";
 import Link from "next/link";
 
-import clsx from "clsx";
+import { highlightChar } from "@/functions/searchHighlighter";
+
 import type { Dispatch, ReactNode, SetStateAction } from "react";
 
 type SearchData = {
@@ -13,12 +15,6 @@ type SearchData = {
   title?: string;
   link?: string;
 };
-
-const highlightChar = (name: string, char: string) =>
-  name.replace(
-    new RegExp(char + "[ัิ-ฺ็-๎]*", "g"),
-    (match) => `<span class="font-bold">${match}</span>`
-  );
 
 interface ComboboxOptProps {
   person: SearchData;

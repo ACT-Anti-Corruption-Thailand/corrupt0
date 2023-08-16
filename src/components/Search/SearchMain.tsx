@@ -1,23 +1,24 @@
 "use client";
-import { useMemo, useState } from "react";
 import clsx from "clsx";
+import { useMemo, useState } from "react";
 
-import Image from "next/image";
 import { RadioGroup } from "@headlessui/react";
+import Image from "next/image";
+import Link from "next/link";
 
-import DATA_PEOPLE from "@/data/people_search.json";
-import DATA_PARTY from "@/data/parties.json";
 import DATA_BUSINESS from "@/data/businesses.json";
-import POLITICIAN_IMAGES from "@/data/politicianImages.json";
 import PARTY_ASSETS from "@/data/color/partyAssets.json";
-import PARTY_DONATION from "@/data/donation/partyPerYearWithTotal.json";
 import BUSINESS_DONATION from "@/data/donation/donor.json";
+import PARTY_DONATION from "@/data/donation/partyPerYearWithTotal.json";
+import DATA_PARTY from "@/data/parties.json";
+import DATA_PEOPLE from "@/data/people_search.json";
+import POLITICIAN_IMAGES from "@/data/politicianImages.json";
 import TOP_INCOME_ASSETS from "@/data/top_income_assets.json";
 
 import { formatThousands, thaiMoneyFormatter } from "@/functions/moneyFormatter";
+import { highlightChar } from "@/functions/searchHighlighter";
 
 import type { Dispatch, SetStateAction } from "react";
-import Link from "next/link";
 
 const PEOPLE = DATA_PEOPLE.map((e) => {
   const [link, position] = e.split("|");
@@ -155,12 +156,6 @@ function Top3Thing({ name, placeholderImage, data, hidden }: Top3ThingProps) {
     </section>
   );
 }
-
-const highlightChar = (name: string, char: string) =>
-  name.replace(
-    new RegExp(char + "[ัิ-ฺ็-๎]*", "g"),
-    (match) => `<span class="font-bold">${match}</span>`
-  );
 
 interface SearchResultProps {
   type: (typeof SEARCH_GROUP)[number];
