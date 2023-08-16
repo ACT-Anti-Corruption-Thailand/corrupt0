@@ -55,7 +55,7 @@ const EntityStackedBarCard = (props: PersonCardProps) => {
           width={40}
           height={40}
           alt=""
-          className="aspect-square w-auto h-[25px] lg:h-40"
+          className="aspect-square w-auto h-[25px] lg:h-40 rounded-full"
         />
         <div className="flex flex-col w-full">
           <div className="flex justify-between text-gray-2">
