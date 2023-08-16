@@ -29,10 +29,10 @@ const getFileName = (formal_name: string) =>
     .replace(/\s+|\/|\\/g, "-");
 
 const TOP_POLITICIAN = PERSON_DONATION.find(
-  (e) => e.title === "บุคคลธรรมดา" && NACC_PPL.includes(e.name.replace(/\s+/g, "-"))
+  (e) => e.title === "บุคคล" && NACC_PPL.includes(e.name.replace(/\s+/g, "-"))
 );
 const TOP_PERSON = PERSON_DONATION.find(
-  (e) => e.title === "บุคคลธรรมดา" && !NACC_PPL.includes(e.name.replace(/\s+/g, "-"))
+  (e) => e.title === "บุคคล" && !NACC_PPL.includes(e.name.replace(/\s+/g, "-"))
 );
 const TOP_BUSINESS = PERSON_DONATION.find((e) => e.title === "นิติบุคคล");
 const TOP_PARTY = PARTY_DONATION.ทุกปี[0];

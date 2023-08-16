@@ -78,7 +78,7 @@ export const generateNamesAndId = async () => {
 
   // DONATION
   const donation_names = DONATION_FULLNAME.filter((d) =>
-    op.equal(d.donor_prefix, "บุคคลธรรมดา")
+    op.equal(d.donor_prefix, "บุคคล")
   )
     .select("full_name")
     .dedupe();

@@ -21,6 +21,7 @@ export const getDonationData = async () => {
     .derive({
       year: (d) => op.parse_int(d.year) + 543,
       party: (d) => op.replace(d.party, "พรรค", ""),
+      donor_prefix: (d) => op.replace(d.donor_prefix, "ธรรมดา", ""),
     });
 };
 
@@ -38,7 +39,7 @@ export const getEctDonationData = async () => {
     })
     .derive({
       amount: (d) => op.parse_float(op.replace(d.valuation, /฿|,/g, "")),
-      donor_prefix: (d) => (d.is_individual === "TRUE" ? "บุคคลธรรมดา" : "นิติบุคคล"),
+      donor_prefix: (d) => (d.is_individual === "TRUE" ? "บุคคล" : "นิติบุคคล"),
       donor_fullname: (d) =>
         d.is_individual === "TRUE"
           ? `${d.donor_title}${d.donor_firstname} ${d.donor_lastname}`

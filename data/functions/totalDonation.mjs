@@ -114,7 +114,7 @@ const getTotalDonation = async () => {
           acc[donor_fullname].total = amount;
         }
 
-        if (donor_prefix === "บุคคลธรรมดา") {
+        if (donor_prefix === "บุคคล") {
           if (party in normalDonateTracker) {
             normalDonateTracker[party][donor_fullname] =
               (normalDonateTracker[party][donor_fullname] ?? 0) + amount;
