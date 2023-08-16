@@ -10,6 +10,7 @@ import Image from "next/image";
 import DATA_PEOPLE from "@/data/people_search.json";
 
 import { thaiMoneyFormatter } from "@/functions/moneyFormatter";
+import AssetDebtChart from "@/components/Info/AssetDebtChart";
 
 const PEOPLE = DATA_PEOPLE.filter((e) => e.at(-1) === "|").map((e) => {
   const [link, position] = e.split("|");
@@ -279,14 +280,7 @@ export default function Info() {
                     </InfoPopover>
                   </div>
                 </div>
-                <div className="flex flex-col gap-10 lg:gap-30 lg:flex-row">
-                  <div className="flex-1 py-50 border border-white border-dashed">
-                    Chart
-                  </div>
-                  <div className="py-50 px-20 border border-white border-dashed">
-                    ตัวกรอง
-                  </div>
-                </div>
+                <AssetDebtChart />
               </Tab.Panel>
             </Tab.Panels>
           </Tab.Group>
