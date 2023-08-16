@@ -3,18 +3,28 @@ import * as aq from "arquero";
 import { op } from "arquero";
 import { getDonationData } from "./donation.mjs";
 
+const getFormalBusinessName = (donation_full_name) =>
+  donation_full_name
+    .replace(/ํา/g, "ำ")
+    .replace(/บริษัท จำกัด \(มหาชน\)(.+)/g, "บริษัท $1 จำกัด (มหาชน)")
+    .replace(/บริษัท จำกัด(.+)/g, "บริษัท $1 จำกัด")
+    .replace("(มหาชน) จำกัด", "จำกัด (มหาชน)")
+    .replace("หจก.", "ห้างหุ้นส่วนจำกัด ")
+    .replace(/ห้างหุ้นส่วนจำกัด(.)/g, "ห้างหุ้นส่วนจำกัด $1")
+    .replace(/\s+/g, " ")
+    .trim();
+
 const getTotalDonation = async () => {
   const rawTable = await getDonationData();
 
   const table = rawTable.derive({
-    donor_fullname: (d) =>
-      op.replace(
-        op.equal(d.donor_prefix, "นิติบุคคล")
-          ? d.donor_fullname
-          : op.replace(d.donor_firstname + " " + d.donor_lastname, /\s+|\/|\\/g, " "),
-        /ํา/g,
-        "ำ"
-      ),
+    donor_fullname: aq.escape((d) =>
+      d.donor_prefix === "นิติบุคคล"
+        ? getFormalBusinessName(d.donor_fullname)
+        : (d.donor_firstname + " " + d.donor_lastname)
+            .replace(/\s+|\/|\\/g, " ")
+            .replace(/ํา/g, "ำ")
+    ),
   });
 
   const totalPerYearTable = table
@@ -152,13 +162,6 @@ const getTotalDonation = async () => {
         ];
       });
   }
-
-  // const top10 = individualPerPartyTable.map((e) => ({
-  //   ...e,
-  //   totalDonationByParty: e.donation.reduce((a,c) => {
-  //     a[c.party] = (a[c.party] ?? 0) + c.amount
-  //   }, {}),
-  // }));
 
   return {
     totalPerYearWithTotalTable,

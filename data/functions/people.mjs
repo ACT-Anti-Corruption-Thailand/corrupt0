@@ -812,6 +812,7 @@ export const generatePeople = async () => {
   const assetsValueList = [];
   const incomeValueList = [];
   const debtAssetList = [];
+  const lawsuitCountList = [];
 
   // let idx = 1;
   // const ppllen = namesAndId.length;
@@ -848,6 +849,15 @@ export const generatePeople = async () => {
     if (business.length > 1 && nacc_id) {
       businessCount.push({
         count: business.length,
+        name: dashed_full_name,
+      });
+    }
+
+    const lawsuitCount =
+      lawsuit.judgement.length + lawsuit.nacc.length + lawsuit.sec.length;
+    if (lawsuitCount) {
+      lawsuitCountList.push({
+        count: lawsuitCount,
         name: dashed_full_name,
       });
     }
@@ -944,6 +954,11 @@ export const generatePeople = async () => {
   await fs.writeFile(
     `src/data/business_count.json`,
     JSON.stringify(businessCount.sort((a, z) => z.count - a.count))
+  );
+
+  await fs.writeFile(
+    `src/data/lawsuit_count.json`,
+    JSON.stringify(lawsuitCountList.sort((a, z) => z.count - a.count))
   );
 
   await fs.writeFile(

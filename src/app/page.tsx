@@ -7,24 +7,34 @@ import Slider from "@/components/Slider";
 import Spotlight from "@/components/Spotlight";
 import Image from "next/image";
 
+import PERSON_BUSINESS_COUNT from "@/data/business_count.json";
+import PERSON_LAWSUIT_COUNT from "@/data/lawsuit_count.json";
 import PARTY_ASSETS from "@/data/color/partyAssets.json";
 import PERSON_DONATION from "@/data/donation/donor.json";
 import PARTY_DONATION from "@/data/donation/partyPerYearWithTotal.json";
-import PERSON_BUSINESS_COUNT from "@/data/business_count.json";
 import TOP_INCOME_ASSETS from "@/data/top_income_assets.json";
+import NACC_PPL from "@/data/people_nacc.json";
 
 import DATA_PEOPLE from "@/data/people_search.json";
 const PEOPLE_POSITION = Object.fromEntries(
   DATA_PEOPLE.map((e) => e.split("|")).filter((e) => e[1])
 );
 
-const normalizeName = (name: string) =>
-  name.trim().replace(/\s+/g, " ").replace(/ํา/g, "ำ");
 const getFileName = (formal_name: string) =>
-  formal_name.replace("ห้างหุ้นส่วนจำกัด", "หจก").replace(/\s+|\/|\\/g, "-");
+  formal_name
+    .trim()
+    .replace(/\s+/g, " ")
+    .replace(/ํา/g, "ำ")
+    .replace("ห้างหุ้นส่วนจำกัด", "หจก")
+    .replace(/\s+|\/|\\/g, "-");
 
-const TOP_PERSON = PERSON_DONATION.filter((e) => e.title === "บุคคลธรรมดา")[0];
-const TOP_BUSINESS = PERSON_DONATION.filter((e) => e.title === "นิติบุคคล")[0];
+const TOP_POLITICIAN = PERSON_DONATION.find(
+  (e) => e.title === "บุคคลธรรมดา" && NACC_PPL.includes(e.name.replace(/\s+/g, "-"))
+);
+const TOP_PERSON = PERSON_DONATION.find(
+  (e) => e.title === "บุคคลธรรมดา" && !NACC_PPL.includes(e.name.replace(/\s+/g, "-"))
+);
+const TOP_BUSINESS = PERSON_DONATION.find((e) => e.title === "นิติบุคคล");
 const TOP_PARTY = PARTY_DONATION.ทุกปี[0];
 
 export default function Home() {
@@ -34,8 +44,8 @@ export default function Home() {
       <Spotlight />
       <main className="text-center pt-50">
         <p className="text-white h3 mb-20 lg:h1">มีอะไรให้ดูในเว็บไซต์นี้?</p>
-        <section className="flex flex-wrap justify-center gap-10">
-          <div className="py-20 px-10 bg-white rounded-10 mb-10 w-[100vw] lg:max-w-[47vw]">
+        <section className="flex flex-col lg:flex-row justify-center gap-10 px-10 md:px-20">
+          <div className="flex-1 min-w-0 p-10 bg-white rounded-10 mb-10 flex flex-col">
             <ImgCard href="/info" imgPath="/images/asset_politician.png">
               <div className="flex justify-between">
                 <p className="h3">
@@ -64,7 +74,7 @@ export default function Home() {
                 title="มีทรัพย์สินมากที่สุด"
                 color="red"
                 name={TOP_INCOME_ASSETS.assets[0].name.replace(/-/g, " ")}
-                type={PEOPLE_POSITION[TOP_INCOME_ASSETS.assets[0].name]}
+                type={PEOPLE_POSITION[TOP_INCOME_ASSETS.assets[0].name] ?? "ไม่พบตำแหน่ง"}
                 amount={TOP_INCOME_ASSETS.assets[0].value}
                 icon="/placeholders/person.png"
                 link={TOP_INCOME_ASSETS.assets[0].name}
@@ -73,7 +83,7 @@ export default function Home() {
                 title="มีรายได้มากที่สุด"
                 color="red"
                 name={TOP_INCOME_ASSETS.income[0].name.replace(/-/g, " ")}
-                type={PEOPLE_POSITION[TOP_INCOME_ASSETS.income[0].name]}
+                type={PEOPLE_POSITION[TOP_INCOME_ASSETS.income[0].name] ?? "ไม่พบตำแหน่ง"}
                 amount={TOP_INCOME_ASSETS.income[0].value}
                 icon="/placeholders/person.png"
                 link={TOP_INCOME_ASSETS.income[0].name}
@@ -82,15 +92,25 @@ export default function Home() {
                 title="มีความเกี่ยวข้องกับธุรกิจมากที่สุด"
                 color="red"
                 name={PERSON_BUSINESS_COUNT[0].name.replace(/-/g, " ")}
-                type={PEOPLE_POSITION[PERSON_BUSINESS_COUNT[0].name]}
+                type={PEOPLE_POSITION[PERSON_BUSINESS_COUNT[0].name] ?? "ไม่พบตำแหน่ง"}
                 amount={PERSON_BUSINESS_COUNT[0].count}
                 unit="ธุรกิจ"
                 icon="/placeholders/person.png"
                 link={PERSON_BUSINESS_COUNT[0].name}
               />
+              <IndexDataCard
+                title="มีคดีความมากที่สุด"
+                color="red"
+                name={PERSON_LAWSUIT_COUNT[0].name.replace(/-/g, " ")}
+                type={PEOPLE_POSITION[PERSON_LAWSUIT_COUNT[0].name] ?? "ไม่พบตำแหน่ง"}
+                amount={PERSON_LAWSUIT_COUNT[0].count}
+                unit="คดีความ"
+                icon="/placeholders/person.png"
+                link={PERSON_LAWSUIT_COUNT[0].name}
+              />
             </Slider>
           </div>
-          <div className="py-20 px-10 bg-white rounded-10 mb-10 w-[100vw] lg:max-w-[47vw]">
+          <div className="flex-1 min-w-0 p-10 bg-white rounded-10 mb-10 flex flex-col">
             <ImgCard href="/donation" imgPath="/images/asset_donation.png">
               <div className="flex justify-between">
                 <p className="h3">
@@ -133,13 +153,22 @@ export default function Home() {
                 name={TOP_BUSINESS.name}
                 amount={TOP_BUSINESS.total}
                 icon="/placeholders/business.png"
-                link={getFileName(normalizeName(TOP_BUSINESS.name))}
+                link={getFileName(TOP_BUSINESS.name)}
+              />
+              <IndexDataCard
+                title="ผู้มีตำแหน่งทางการเมืองที่บริจาคเงินเยอะที่สุด"
+                color="purple"
+                name={TOP_POLITICIAN.name}
+                type={PEOPLE_POSITION[TOP_POLITICIAN.name] ?? "ไม่พบตำแหน่ง"}
+                amount={TOP_POLITICIAN.total}
+                icon="/placeholders/person.png"
+                link={TOP_POLITICIAN.name.replace(/\s/g, "-")}
               />
               <IndexDataCard
                 title="บุคคลที่บริจาคให้พรรคการเมืองมากที่สุด"
                 color="purple"
                 name={TOP_PERSON.name}
-                type={PEOPLE_POSITION[TOP_PERSON.name]}
+                type="บุคคล"
                 amount={TOP_PERSON.total}
                 icon="/placeholders/person.png"
                 link={TOP_PERSON.name.replace(/\s/g, "-")}
