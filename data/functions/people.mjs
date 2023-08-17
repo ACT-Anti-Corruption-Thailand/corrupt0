@@ -19,6 +19,7 @@ const DATA_NACC = await aq.loadCSV("data/raw/nacc_detail.csv");
 const DATA_HIGH_RANK = await aq.loadCSV(
   "data/raw/public_sector_high_ranking_officer.csv"
 );
+const DATA_OLD_NAME = await aq.loadCSV("data/raw/submitter_old_name.csv");
 const DONATION_TABLE = await getDonationData();
 const DONATION_FULLNAME = DONATION_TABLE.derive({
   full_name: (d) =>
@@ -26,7 +27,7 @@ const DONATION_FULLNAME = DONATION_TABLE.derive({
 });
 
 /**
- * @returns {Promise<[{full_name: string, nacc_id: number}[],{full_name: string, nacc_id: undefined}[]]>}
+ * @returns {Promise<[{full_name: string, nacc_info: {nacc_id:number,full_name:string,Position:string,submitted_case:string,Submitted_Date:string,pdf_disclosure_start_date:string}[]}[],{full_name: string, nacc_info: undefined}[]]>}
  */
 export const generateNamesAndId = async () => {
   // NACC
@@ -45,7 +46,7 @@ export const generateNamesAndId = async () => {
   );
 
   const nacc_names = nacc.select("full_name").dedupe();
-  const nacc_ids_by_names = nacc
+  const nacc_data_table = nacc
     .join_left(
       nacc_pdf,
       (a, b) =>
@@ -64,9 +65,15 @@ export const generateNamesAndId = async () => {
       "submitted_case",
       "Submitted_Date",
       "pdf_disclosure_start_date"
-    )
+    );
+  const nacc_info_by_names = nacc_data_table
     .groupby("full_name")
     .objects({ grouped: "object" });
+  const available_nacc_ids = nacc_data_table
+    .select("nacc_id")
+    .dedupe()
+    .objects()
+    .map((e) => e.nacc_id);
 
   // HIGH RANK
   const high_rank_names = DATA_HIGH_RANK.rename({ full_name: "_full_name" })
@@ -99,22 +106,88 @@ export const generateNamesAndId = async () => {
     })
     .select("full_name");
 
-  // MAP NACC
-  const [has_nacc, non_nacc] = names.objects().reduce(
-    (all, { full_name }) => {
-      const nacc_id = nacc_ids_by_names[full_name];
+  const nacc_original_names = Object.fromEntries(
+    DATA_NACC.derive({
+      first_name: (d) => op.replace(d.first_name, /\s+/g, "-"),
+      last_name: (d) => op.replace(d.last_name, /\s+/g, "-"),
+    })
+      .select("nacc_id", "first_name", "last_name")
+      .dedupe("nacc_id")
+      .objects()
+      .map((e) => [
+        e.nacc_id,
+        {
+          first_name: e.first_name,
+          last_name: e.last_name,
+        },
+      ])
+  );
+  const alternative_names = Object.fromEntries(
+    Object.entries(
+      DATA_OLD_NAME.select("nacc_id", "first_name", "last_name")
+        .groupby("nacc_id")
+        .objects({ grouped: "object" })
+    )
+      .filter((e) => available_nacc_ids.includes(+e[0]))
+      .map((e) => {
+        const original_names = nacc_original_names[e[0]];
+        const original_first_name = original_names.first_name;
+        const original_last_name = original_names.last_name;
 
-      if (nacc_id)
+        return [
+          e[0],
+          e[1].map((f) => {
+            // Either of these are gonna have value
+            const { first_name, last_name } = f;
+            if (first_name && last_name)
+              return `${first_name} ${last_name}`.replace(/\s+/g, "-");
+
+            // Have first name. Don't have last name
+            if (first_name) {
+              return `${first_name} ${original_last_name}`.replace(/\s+/g, "-");
+            }
+
+            // Have last name. Don't have first name
+            return `${original_first_name} ${last_name}`.replace(/\s+/g, "-");
+          }),
+        ];
+      })
+  );
+  const alt_names_list = Object.values(alternative_names).flat();
+
+  // MAP NACC
+  const names_arr = names
+    .objects()
+    .filter(({ full_name }) => !alt_names_list.includes(full_name));
+  const [has_nacc, non_nacc] = names_arr.reduce(
+    (all, { full_name }) => {
+      const nacc_info = nacc_info_by_names[full_name];
+
+      if (nacc_info) {
+        const alt_names = [
+          ...new Set(
+            nacc_info
+              .map((e) => alternative_names[e.nacc_id])
+              .filter((e) => e)
+              .flat()
+          ),
+        ];
+        const alternative_info = alt_names
+          .map((e) => nacc_info_by_names[e])
+          .filter((e) => e)
+          .flat();
+
         return [
           [
             ...all[0],
             {
               full_name,
-              nacc_id,
+              nacc_info: [...nacc_info, ...alternative_info],
             },
           ],
           all[1],
         ];
+      }
       return [
         all[0],
         [
@@ -578,7 +651,7 @@ const getTopAsset = (assetData) => {
       baseCatg: "สิทธิและสัมปทาน",
     })) ?? [];
   const ทรัพย์สินอื่น =
-    Object.values(assetData["ทรัพย์สินอื่น"])?.map((e) => ({
+    Object.values(assetData["ทรัพย์สินอื่น"] ?? {})?.map((e) => ({
       ...e,
       baseCatg: "ทรัพย์สินอื่น",
     })) ?? [];
@@ -817,13 +890,15 @@ export const generatePeople = async () => {
   // let idx = 1;
   // const ppllen = namesAndId.length;
   // console.info(`ℹ Found ${ppllen} people.`);
-  for (const { full_name: dashed_full_name, nacc_id } of namesAndId) {
+  for (const { full_name: dashed_full_name, nacc_info } of namesAndId) {
     // console.info(`ℹ Processing ${idx++}/${ppllen}...`);
-    const formattedNacc = nacc_id
+    // TODO: Sort by latest nacc
+    const formattedNacc = nacc_info
       ? Object.fromEntries(
-          nacc_id.map((e) => [
+          nacc_info.map((e) => [
             e.nacc_id,
             {
+              full_name: e.full_name,
               position: e.Position,
               case: e.submitted_case,
               date: e.Submitted_Date,
@@ -832,21 +907,44 @@ export const generatePeople = async () => {
           ])
         )
       : undefined;
-    const nacc_ids = nacc_id ? Object.keys(formattedNacc) : [];
+    const nacc_ids = nacc_info ? Object.keys(formattedNacc) : [];
+    const nameFind = formattedNacc
+      ? Object.values(formattedNacc).map((e) => e.full_name)
+      : [dashed_full_name];
 
-    const person_data_json = await getPersonalData(dashed_full_name);
+    let person_data_json = {};
+    for (let dfname of nameFind) {
+      const pd = await getPersonalData(dfname);
+      person_data_json = { ...person_data_json, ...pd };
+    }
 
     if (person_data_json.position)
       searchIndexer.push(
-        dashed_full_name + "|" + person_data_json.position + (nacc_id ? "|" : "")
+        dashed_full_name + "|" + person_data_json.position + (nacc_info ? "|" : "")
       );
     else searchIndexer.push(dashed_full_name);
 
-    const lawsuit = await getLawsuit(dashed_full_name);
-    const donation = await getPersonDonation(dashed_full_name);
-    const business = await getPersonBusiness(dashed_full_name);
+    let lawsuit = {
+      sec: [],
+      judgement: [],
+      nacc: [],
+    };
+    let donation = [];
+    let business = [];
+    for (let dfname of nameFind) {
+      const { sec, judgement, nacc } = await getLawsuit(dfname);
+      lawsuit = {
+        sec: [...lawsuit.sec, ...sec],
+        judgement: [...lawsuit.judgement, ...judgement],
+        nacc: [...lawsuit.nacc, ...nacc],
+      };
+      donation.push(await getPersonDonation(dfname));
+      business.push(await getPersonBusiness(dfname));
+    }
+    donation = donation.flat();
+    business = business.flat();
 
-    if (business.length > 1 && nacc_id) {
+    if (business.length > 1 && nacc_info) {
       businessCount.push({
         count: business.length,
         name: dashed_full_name,
