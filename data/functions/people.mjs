@@ -33,7 +33,14 @@ export const generateNamesAndId = async () => {
   // NACC
   const nacc = DATA_NACC.derive({
     full_name: (d) => op.replace(d.first_name + " " + d.last_name, /\s+/g, "-"),
-  }).select("nacc_id", "full_name", "Position", "submitted_case", "Submitted_Date");
+  }).select(
+    "nacc_id",
+    "full_name",
+    "Position",
+    "submitted_case",
+    "Submitted_Date",
+    "start_date"
+  );
 
   const nacc_pdf = DATA_NACC_PDF.derive({
     full_name: (d) => op.replace(d.first_name + " " + d.last_name, /\s+/g, "-"),
@@ -64,6 +71,7 @@ export const generateNamesAndId = async () => {
       "Position",
       "submitted_case",
       "Submitted_Date",
+      "start_date",
       "pdf_disclosure_start_date"
     );
   const nacc_info_by_names = nacc_data_table
@@ -202,22 +210,6 @@ export const generateNamesAndId = async () => {
   );
 
   return [has_nacc, non_nacc];
-};
-
-/**
- * @param {Object.<number,{date:number}>} nacc
- * @returns {[number, number | null]}
- */
-const getLatestNacc = (nacc) => {
-  // TODO: Recheck Algorithm
-  return Object.entries(nacc).reduce(
-    (a, c) => {
-      const year = new Date(c[1].date).getFullYear();
-      if (year > a[0]) return [year, c[0]];
-      return a;
-    },
-    [-Infinity, null]
-  );
 };
 
 // ██████╗ ███████╗██████╗ ███████╗ ██████╗ ███╗   ██╗ █████╗ ██╗         ██╗███╗   ██╗███████╗ ██████╗
@@ -892,19 +884,35 @@ export const generatePeople = async () => {
   // console.info(`ℹ Found ${ppllen} people.`);
   for (const { full_name: dashed_full_name, nacc_info } of namesAndId) {
     // console.info(`ℹ Processing ${idx++}/${ppllen}...`);
-    // TODO: Sort by latest nacc
     const formattedNacc = nacc_info
       ? Object.fromEntries(
-          nacc_info.map((e) => [
-            e.nacc_id,
-            {
-              full_name: e.full_name,
-              position: e.Position,
-              case: e.submitted_case,
-              date: e.Submitted_Date,
-              pdf: e.pdf_disclosure_start_date,
-            },
-          ])
+          nacc_info
+            .map((e) => [
+              e.nacc_id,
+              {
+                full_name: e.full_name,
+                position: e.Position,
+                case: e.submitted_case,
+                submitted_date: e.Submitted_Date,
+                start_date: e.start_date,
+                pdf: e.pdf_disclosure_start_date,
+              },
+            ])
+            .sort((a, z) => {
+              const aSBDate = new Date(a[1].submitted_date);
+              const zSBDate = new Date(z[1].submitted_date);
+              if (aSBDate !== zSBDate) return zSBDate - aSBDate;
+
+              const aSTDate = new Date(a[1].start_date);
+              const zSTDate = new Date(z[1].start_date);
+              if (aSTDate !== zSTDate) return zSTDate - aSTDate;
+
+              if (a[1].case !== z[1].case) {
+                if (a[1].case === "กรณีพ้นจากตำแหน่ง") return -1;
+                if (z[1].case === "กรณีพ้นจากตำแหน่ง") return 1;
+              }
+              return 0;
+            })
         )
       : undefined;
     const nacc_ids = nacc_info ? Object.keys(formattedNacc) : [];
@@ -990,7 +998,8 @@ export const generatePeople = async () => {
     let latestStatementSummary = undefined;
 
     if (formattedNacc) {
-      const [latestNaccYear, latestNaccId] = getLatestNacc(formattedNacc);
+      const [latestNaccId, latestNaccData] = Object.entries(formattedNacc)[0];
+      const latestNaccYear = new Date(latestNaccData.submitted_date).getFullYear(); // NOTE - Assume ว่ามี submitted_date เสมอ
 
       latestStatementSummary = getLatestStatementSummary(
         latestNaccYear,
@@ -1036,6 +1045,7 @@ export const generatePeople = async () => {
     const data = {
       nacc: formattedNacc,
       ...person_data_json,
+      names: nameFind,
       lawsuit,
       relationship,
       assets,
