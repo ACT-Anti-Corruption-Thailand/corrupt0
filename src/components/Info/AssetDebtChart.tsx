@@ -278,9 +278,7 @@ export default function AssetDebtChart() {
               <Combobox.Input
                 className="flex-1 min-w-0 b4 rounded-full placeholder:text-gray-5 placeholder:opacity-100 px-10 py-2 bg-white text-black placeholder-shown:bg-gray-4 outline-none truncate"
                 onChange={(event) => setQuery(event.target.value)}
-                displayValue={(people: any[]) =>
-                  people.map((person) => person.name).join(", ")
-                }
+                displayValue={(people: string[]) => people.join(", ")}
                 placeholder="พิมพ์ชื่อ-นามสกุล"
               />
               {selectedPeople.length > 0 && (
