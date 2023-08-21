@@ -29,9 +29,31 @@ const expanded_font = localFont({
   variable: "--font-dbh-expanded",
 });
 
-// TODO: Recheck Favicon
-// TODO: Recheck OG
+export const commonOpenGraph: Metadata["openGraph"] = {
+  title: "Corrupt0 — ACT Ai",
+  description:
+    "ร่วมเป็นส่วนหนึ่งในการค้นหาและตรวจสอบเพื่อสร้างความโปร่งใสทางการเมือง (Political Transparency) ไปกับ ACT Ai",
+  images: {
+    url: "https://corrupt0.actai.co/og.png",
+    type: "image/png",
+    width: 1201,
+    height: 630,
+  },
+};
+
+export const openGraph: Metadata["openGraph"] = {
+  url: "https://corrupt0.actai.co/",
+  type: "website",
+  ...commonOpenGraph,
+};
+
+export const twitter: Metadata["twitter"] = {
+  card: "summary_large_image",
+  ...commonOpenGraph,
+};
+
 export const metadata: Metadata = {
+  metadataBase: new URL("https://corrupt0.actai.co/"),
   title: "Corrupt0 — ACT Ai",
   description:
     "ร่วมเป็นส่วนหนึ่งในการค้นหาและตรวจสอบเพื่อสร้างความโปร่งใสทางการเมือง (Political Transparency) ไปกับ ACT Ai",
@@ -41,6 +63,8 @@ export const metadata: Metadata = {
   other: {
     "msapplication-TileColor": "#ffffff",
   },
+  openGraph,
+  twitter,
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

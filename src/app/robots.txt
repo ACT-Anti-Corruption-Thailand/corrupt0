@@ -1,0 +1,3 @@
+User-agent: *
+Disallow:
+Sitemap: https://corrupt0.actai.co/sitemap.xml

@@ -1,6 +1,9 @@
 import Accordion from "@/components/Accordion";
 import Navbar from "@/components/Navbar";
 import Image from "next/image";
+
+import { openGraph, twitter } from "@/app/layout";
+import type { Metadata } from "next";
 import type { ReactNode } from "react";
 
 interface TermsAccordionProps {
@@ -28,6 +31,18 @@ const TermsAccordion = ({ name, children }: TermsAccordionProps) => {
       <div className="b7 text-left no-balance p-10 md:px-20 bg-[#1f1f1f]">{children}</div>
     </Accordion>
   );
+};
+
+export const metadata: Metadata = {
+  title: "Term & Conditions | Corrupt0 — ACT Ai",
+  openGraph: {
+    ...openGraph,
+    title: "Term & Conditions | Corrupt0 — ACT Ai",
+  },
+  twitter: {
+    ...twitter,
+    title: "Term & Conditions | Corrupt0 — ACT Ai",
+  },
 };
 
 export default function Terms() {

@@ -8,6 +8,7 @@ import DownloadMenu from "@/components/Info/DownloadMenu";
 import Navbar from "@/components/Navbar";
 import Link from "next/link";
 
+import { openGraph, twitter } from "@/app/layout";
 import PEOPLE_NACC from "@/data/people_nacc.json";
 
 import type { DropdownDetailedData } from "@/components/BareDropdown";
@@ -25,6 +26,14 @@ export async function generateMetadata({ params }: AssetPageProps): Promise<Meta
 
   return {
     title: `เจาะลึกทรัพย์สิน ${formalName} | Corrupt0 — ACT Ai`,
+    openGraph: {
+      ...openGraph,
+      title: `เจาะลึกทรัพย์สิน ${formalName} | Corrupt0 — ACT Ai`,
+    },
+    twitter: {
+      ...twitter,
+      title: `เจาะลึกทรัพย์สิน ${formalName} | Corrupt0 — ACT Ai`,
+    },
   };
 }
 

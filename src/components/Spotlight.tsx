@@ -89,7 +89,7 @@ const Backgroud = () => {
   );
 };
 
-const Spotlight = () => {
+const Spotlight = ({ update }: { update: string }) => {
   const mousePos = useMousePosition();
 
   return (
@@ -157,9 +157,7 @@ const Spotlight = () => {
             alt="punch up"
           />
         </div>
-        <p className="opacity-50 b5">
-          อัปเดตล่าสุด: {new Date().toLocaleDateString("th")}
-        </p>
+        <p className="opacity-50 b5">อัปเดตล่าสุด: {update}</p>
       </div>
     </>
   );

@@ -41,7 +41,7 @@ export default function Home() {
   return (
     <>
       <Navbar />
-      <Spotlight />
+      <Spotlight update={new Date().toLocaleDateString("th")} />
       <main className="text-center pt-50">
         <p className="text-white h3 mb-20 lg:h1">มีอะไรให้ดูในเว็บไซต์นี้?</p>
         <section className="flex flex-col lg:flex-row justify-center gap-10 px-10 md:px-20">

@@ -5,6 +5,7 @@ import Party from "./Party";
 import Person from "./Person";
 import Position from "./Position";
 
+import { openGraph, twitter } from "@/app/layout";
 import BUSINESSES from "@/data/businesses.json";
 import PARTIES from "@/data/parties.json";
 import PEOPLE_GEN from "@/data/people_gen.json";
@@ -14,7 +15,7 @@ import type { Metadata } from "next";
 
 const PEOPLE = [...PEOPLE_NACC, ...PEOPLE_GEN];
 
-const POSITION_GROUP = [
+export const POSITION_GROUP = [
   "นายกรัฐมนตรีและรัฐมนตรี",
   "สมาชิกสภาผู้แทนราษฎร",
   "สมาชิกวุฒิสภา",
@@ -36,8 +37,44 @@ export async function generateMetadata({ params }: InfoPageProps): Promise<Metad
   const name = decodeURI(params.name);
   const spacedName = name.replace(/-/g, " ");
 
+  let ogImageUrl;
+  switch (true) {
+    case PEOPLE_NACC.includes(name):
+      ogImageUrl = "https://corrupt0.actai.co/og_politician.png";
+      break;
+    case PEOPLE_GEN.includes(name):
+      ogImageUrl = "https://corrupt0.actai.co/og_person.png";
+      break;
+    case BUSINESSES.includes(name):
+      ogImageUrl = "https://corrupt0.actai.co/og_business.png";
+      break;
+    case PARTIES.includes(name):
+      ogImageUrl = "https://corrupt0.actai.co/og_party.png";
+      break;
+  }
+  const ogEntry = ogImageUrl
+    ? {
+        images: {
+          url: ogImageUrl,
+          type: "image/png",
+          width: 1201,
+          height: 630,
+        },
+      }
+    : {};
+
   return {
     title: `${spacedName} | Corrupt0 — ACT Ai`,
+    openGraph: {
+      ...openGraph,
+      title: `${spacedName} | Corrupt0 — ACT Ai`,
+      ...ogEntry,
+    },
+    twitter: {
+      ...twitter,
+      title: `${spacedName} | Corrupt0 — ACT Ai`,
+      ...ogEntry,
+    },
   };
 }
 
