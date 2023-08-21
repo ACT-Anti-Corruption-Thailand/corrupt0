@@ -269,7 +269,11 @@ export default function AssetDebtChart() {
       <div className="flex flex-col gap-5 text-left">
         <div className="text-white b3 font-bold">ดูเฉพาะ</div>
         <div>
-          <Combobox value={selectedPeople} onChange={setSelectedPeople} multiple>
+          <Combobox
+            value={selectedPeople}
+            onChange={(v) => setSelectedPeople(v)}
+            multiple
+          >
             <div className="flex items-center gap-5 min-w-0 md:min-w-[310px] my-5">
               <Combobox.Input
                 className="flex-1 min-w-0 b4 rounded-full placeholder:text-gray-5 placeholder:opacity-100 px-10 py-2 bg-white text-black placeholder-shown:bg-gray-4 outline-none truncate"
