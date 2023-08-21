@@ -379,7 +379,7 @@ export default function Person({ params }: { params: { name: string } }) {
                   <InfoBusinessCard
                     key={e.business_name}
                     name={e.business_name}
-                    type={e.businessdomain}
+                    type={e.type}
                     relation={e.position}
                   />
                 ))}
