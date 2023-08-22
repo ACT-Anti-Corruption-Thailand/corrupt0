@@ -10,10 +10,15 @@ import Link from "next/link";
 
 import _PARTY_ASSETS from "@/data/color/partyAssets.json";
 import NACC_PPL from "@/data/people_nacc.json";
+import DATA_PEOPLE from "@/data/people_search.json";
 import _DONOR_DATA from "@data/donation/donor.json";
 import _PARTY_DONATION from "@data/donation/partyPerYearWithTotal.json";
 
 import type { CSSProperties } from "react";
+
+const PEOPLE_POSITION = Object.fromEntries(
+  DATA_PEOPLE.map((e) => e.split("|")).filter((e) => e[1])
+);
 
 const getFormalName = (donation_full_name: string) =>
   donation_full_name
@@ -185,29 +190,29 @@ export function IndividualSection() {
             />
           </Link>
         ) : (
-          donorResult
-            .slice(0, individualView)
-            .map((individual: any, index: any, arr: any[]) => (
-              <Link
-                href={
-                  "/info/" +
-                  (individual.title === "นิติบุคคล"
-                    ? getFileName(getFormalName(individual.name))
-                    : getFileName(individual.name))
+          donorResult.slice(0, individualView).map((individual: any) => (
+            <Link
+              href={
+                "/info/" +
+                (individual.title === "นิติบุคคล"
+                  ? getFileName(getFormalName(individual.name))
+                  : getFileName(individual.name))
+              }
+              className="block no-underline w-full"
+              key={individual.name}
+            >
+              <EntityStackedBarCard
+                name={individual.name}
+                title={
+                  PEOPLE_POSITION[individual.name.replace(/\s/g, "-")] ?? individual.title
                 }
-                className="block no-underline w-full"
-                key={index}
-              >
-                <EntityStackedBarCard
-                  name={individual.name}
-                  title={individual.title}
-                  data={individual.donation}
-                  maxAmount={donorResult[0].total}
-                  imgPath="/placeholders/person.png"
-                  assets={selected_assets}
-                />
-              </Link>
-            ))
+                data={individual.donation}
+                maxAmount={donorResult[0].total}
+                imgPath="/placeholders/person.png"
+                assets={selected_assets}
+              />
+            </Link>
+          ))
         )}
       </div>
       {individualView < donorResult.length && (
