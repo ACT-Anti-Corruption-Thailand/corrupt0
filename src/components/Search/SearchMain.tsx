@@ -13,7 +13,12 @@ import PARTY_DONATION from "@/data/donation/partyPerYearWithTotal.json";
 import DATA_PARTY from "@/data/parties.json";
 import DATA_PEOPLE from "@/data/people_search.json";
 import POLITICIAN_IMAGES from "@/data/politicianImages.json";
-import TOP_INCOME_ASSETS from "@/data/top_income_assets.json";
+import _TOP_INCOME_ASSETS from "@/data/top_income_assets.json";
+
+const TOP_INCOME_ASSETS = _TOP_INCOME_ASSETS as {
+  assets: { name: string; value: number }[];
+  income: { name: string; value: number }[];
+};
 
 import { formatThousands, thaiMoneyFormatter } from "@/functions/moneyFormatter";
 import { highlightChar } from "@/functions/searchHighlighter";
@@ -78,7 +83,7 @@ interface Top3Entry extends DataEntry {
   value: number;
 }
 
-const TOP3PERSON: Top3Entry[] = TOP_INCOME_ASSETS.assets.map((e) => {
+const TOP3PERSON: Top3Entry[] = TOP_INCOME_ASSETS.assets.slice(0, 3).map((e) => {
   const data = PEOPLE.find((e) => e.link === e.name);
 
   return {
@@ -123,35 +128,39 @@ function Top3Thing({ name, placeholderImage, data, hidden }: Top3ThingProps) {
   return (
     <section className={clsx("shadow-search", hidden && "hidden")}>
       <h2 className="py-5 px-10 bg-gray-3 border-b border-b-gray-4 b5 text-gray-6">
-        3 อันดับ {name}
+        {data.length || 3} อันดับ {name}
       </h2>
       <ul className="px-10 pt-5 bg-gray-1">
-        {data.map((e, i) => {
-          const [value, unit] = thaiMoneyFormatter(e.value);
-          return (
-            <li key={i} className="border-b border-b-gray-2 last:border-b-0">
-              <Link href={"/info/" + e.link} className="flex gap-5 py-5">
-                <Image
-                  className="w-auto h-20 border rounded-full border-black mt-4"
-                  src={e.image ?? placeholderImage}
-                  width={20}
-                  height={20}
-                  alt=""
-                />
-                <div className="flex-1">
-                  <span className="b3 leading-1 block">{e.name}</span>
-                  {e.position && (
-                    <span className="b5 leading-1 text-gray-6 block">{e.position}</span>
-                  )}
-                </div>
-                <div className="text-right">
-                  <span className="b3 leading-1 block">{formatThousands(value)}</span>
-                  <span className="b5 leading-1 block">{unit}</span>
-                </div>
-              </Link>
-            </li>
-          );
-        })}
+        {data.length > 0 ? (
+          data.map((e, i) => {
+            const [value, unit] = thaiMoneyFormatter(e.value);
+            return (
+              <li key={i} className="border-b border-b-gray-2 last:border-b-0">
+                <Link href={"/info/" + e.link} className="flex gap-5 py-5">
+                  <Image
+                    className="w-auto h-20 border rounded-full border-black mt-4"
+                    src={e.image ?? placeholderImage}
+                    width={20}
+                    height={20}
+                    alt=""
+                  />
+                  <div className="flex-1">
+                    <span className="b3 leading-1 block">{e.name}</span>
+                    {e.position && (
+                      <span className="b5 leading-1 text-gray-6 block">{e.position}</span>
+                    )}
+                  </div>
+                  <div className="text-right">
+                    <span className="b3 leading-1 block">{formatThousands(value)}</span>
+                    <span className="b5 leading-1 block">{unit}</span>
+                  </div>
+                </Link>
+              </li>
+            );
+          })
+        ) : (
+          <li>ไม่มีข้อมูล</li>
+        )}
       </ul>
     </section>
   );

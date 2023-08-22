@@ -17,7 +17,13 @@ import {
   YAxis,
 } from "recharts";
 
-import NACC_DEBTASSET from "@/data/nacc_debtasset.json";
+import _NACC_DEBTASSET from "@/data/nacc_debtasset.json";
+
+const NACC_DEBTASSET = _NACC_DEBTASSET as {
+  name: string;
+  asset: number;
+  debt: number;
+}[];
 
 import {
   formatThousands,

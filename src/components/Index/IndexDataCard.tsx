@@ -11,13 +11,13 @@ interface CardProps {
   name: string;
   type?: string;
   icon: string;
-  amount: number;
+  amount?: number;
   link?: string;
   unit?: string;
 }
 
 const IndexDataCard = (props: CardProps) => {
-  const [val, unit] = thaiMoneyFormatter(props.amount);
+  const [val, unit] = thaiMoneyFormatter(props.amount ?? 0);
 
   return (
     <Link
@@ -49,20 +49,26 @@ const IndexDataCard = (props: CardProps) => {
           <p className="b5 font-bold">{props.name}</p>
         </div>
       </div>
-      <div className="flex-1 w-[120px] border-b border-b-gray-5 mt-20 mb-5 mx-auto" />
-      <p className="b4 font-bold">
-        {formatThousands(val)} {props.unit ?? unit}
-      </p>
-      <span className="my-10 bg-white rounded-10 text-black mx-auto px-8 py-2 flex items-center no-underline">
-        <span>ดูข้อมูล</span>
-        <Image
-          src="/icons/caret-k.svg"
-          alt=""
-          className="ml-5 -rotate-90 w-8 h-8"
-          width={8}
-          height={8}
-        />
-      </span>
+      {(props.amount || props.link) && (
+        <div className="flex-1 w-[120px] border-b border-b-gray-5 mt-20 mb-5 mx-auto" />
+      )}
+      {props.amount && (
+        <p className="b4 font-bold">
+          {formatThousands(val)} {props.unit ?? unit}
+        </p>
+      )}
+      {props.link && (
+        <span className="my-10 bg-white rounded-10 text-black mx-auto px-8 py-2 flex items-center no-underline">
+          <span>ดูข้อมูล</span>
+          <Image
+            src="/icons/caret-k.svg"
+            alt=""
+            className="ml-5 -rotate-90 w-8 h-8"
+            width={8}
+            height={8}
+          />
+        </span>
+      )}
     </Link>
   );
 };

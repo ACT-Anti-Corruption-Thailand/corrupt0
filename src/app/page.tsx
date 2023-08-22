@@ -12,10 +12,15 @@ import PERSON_LAWSUIT_COUNT from "@/data/lawsuit_count.json";
 import PARTY_ASSETS from "@/data/color/partyAssets.json";
 import PERSON_DONATION from "@/data/donation/donor.json";
 import PARTY_DONATION from "@/data/donation/partyPerYearWithTotal.json";
-import TOP_INCOME_ASSETS from "@/data/top_income_assets.json";
+import _TOP_INCOME_ASSETS from "@/data/top_income_assets.json";
 import NACC_PPL from "@/data/people_nacc.json";
-
 import DATA_PEOPLE from "@/data/people_search.json";
+
+const TOP_INCOME_ASSETS = _TOP_INCOME_ASSETS as {
+  assets: { name: string; value: number }[];
+  income: { name: string; value: number }[];
+};
+
 const PEOPLE_POSITION = Object.fromEntries(
   DATA_PEOPLE.map((e) => e.split("|")).filter((e) => e[1])
 );
@@ -70,24 +75,46 @@ export default function Home() {
             </ImgCard>
             <p className="text-black b3 font-bold my-10">ข้อมูลที่น่าสนใจ</p>
             <Slider>
-              <IndexDataCard
-                title="มีทรัพย์สินมากที่สุด"
-                color="red"
-                name={TOP_INCOME_ASSETS.assets[0].name.replace(/-/g, " ")}
-                type={PEOPLE_POSITION[TOP_INCOME_ASSETS.assets[0].name] ?? "ไม่พบตำแหน่ง"}
-                amount={TOP_INCOME_ASSETS.assets[0].value}
-                icon="/placeholders/person.png"
-                link={TOP_INCOME_ASSETS.assets[0].name}
-              />
-              <IndexDataCard
-                title="มีรายได้มากที่สุด"
-                color="red"
-                name={TOP_INCOME_ASSETS.income[0].name.replace(/-/g, " ")}
-                type={PEOPLE_POSITION[TOP_INCOME_ASSETS.income[0].name] ?? "ไม่พบตำแหน่ง"}
-                amount={TOP_INCOME_ASSETS.income[0].value}
-                icon="/placeholders/person.png"
-                link={TOP_INCOME_ASSETS.income[0].name}
-              />
+              {TOP_INCOME_ASSETS.assets.length > 0 ? (
+                <IndexDataCard
+                  title="มีทรัพย์สินมากที่สุด"
+                  color="red"
+                  name={TOP_INCOME_ASSETS.assets[0].name.replace(/-/g, " ")}
+                  type={
+                    PEOPLE_POSITION[TOP_INCOME_ASSETS.assets[0].name] ?? "ไม่พบตำแหน่ง"
+                  }
+                  amount={TOP_INCOME_ASSETS.assets[0].value}
+                  icon="/placeholders/person.png"
+                  link={TOP_INCOME_ASSETS.assets[0].name}
+                />
+              ) : (
+                <IndexDataCard
+                  title="มีทรัพย์สินมากที่สุด"
+                  color="red"
+                  name="ไม่มีข้อมูล"
+                  icon="/placeholders/person.png"
+                />
+              )}
+              {TOP_INCOME_ASSETS.income.length > 0 ? (
+                <IndexDataCard
+                  title="มีรายได้มากที่สุด"
+                  color="red"
+                  name={TOP_INCOME_ASSETS.income[0].name.replace(/-/g, " ")}
+                  type={
+                    PEOPLE_POSITION[TOP_INCOME_ASSETS.income[0].name] ?? "ไม่พบตำแหน่ง"
+                  }
+                  amount={TOP_INCOME_ASSETS.income[0].value}
+                  icon="/placeholders/person.png"
+                  link={TOP_INCOME_ASSETS.income[0].name}
+                />
+              ) : (
+                <IndexDataCard
+                  title="มีรายได้มากที่สุด"
+                  color="red"
+                  name="ไม่มีข้อมูล"
+                  icon="/placeholders/person.png"
+                />
+              )}
               <IndexDataCard
                 title="มีความเกี่ยวข้องกับธุรกิจมากที่สุด"
                 color="red"
