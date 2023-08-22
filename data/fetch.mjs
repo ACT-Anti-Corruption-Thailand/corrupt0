@@ -17,6 +17,7 @@ const FILES = [
   "https://storage.googleapis.com/act_datacatalog/corrupt0/co_004/001/ect/co004_opendata_path.json",
   "https://storage.googleapis.com/act_opendata/opendata/master_data/ds_002/001/ds002_opendata_path.json",
   "https://storage.googleapis.com/act_datacatalog/master_data/ds_009/001/ds009_opendata_path.json",
+  "https://storage.googleapis.com/act_datacatalog/master_data/ds_009/001/co004_opendata_path.json",
 ];
 
 export const removeExistedData = async () => {
