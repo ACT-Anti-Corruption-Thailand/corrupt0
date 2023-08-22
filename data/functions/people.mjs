@@ -816,8 +816,48 @@ export const createShareholderTable = async () => {
   return tables.reduce((all, curr) => all.concat(curr));
 };
 
+const CONST_DIR = "data/constants";
+
+const createCredenTable = async () => {
+  const co005Files = await fs.readdir(CONST_DIR);
+  const co005DirectorPath = path.join(
+    CONST_DIR,
+    co005Files.find((f) => f.toLowerCase().includes("corrupt0_co_005_director"))
+  );
+  const co005ShareholderPath = path.join(
+    CONST_DIR,
+    co005Files.find((f) => f.toLowerCase().includes("corrupt0_co_005_shareholder"))
+  );
+
+  const c5DirectorOgTable = await aq.loadCSV(co005DirectorPath);
+  const c5ShareholderOgTable = await aq.loadCSV(co005ShareholderPath);
+
+  const c5DirectorTable = c5DirectorOgTable
+    .filter((d) => d.is_have_data === "True")
+    .derive({
+      position: (_) => "คณะกรรมการบริษัท",
+      full_name: (d) => op.replace(d.query_name, /\s+/g, "-"),
+      business_name: (d) => d.company_name_th,
+      type: (d) => d.submit_obj_big_type + " " + d.obj_tname,
+    })
+    .select("position", "full_name", "business_name", "type");
+
+  const c5ShareholderTable = c5ShareholderOgTable
+    .filter((d) => d.is_have_data === "True")
+    .derive({
+      position: (_) => "ผู้ถือหุ้น",
+      full_name: (d) => op.replace(d.query_name, /\s+/g, "-"),
+      business_name: (d) => d.company_name_th,
+      type: (d) => d.submit_obj_big_type + " " + d.obj_tname,
+    })
+    .select("position", "full_name", "business_name", "type");
+
+  return c5DirectorTable.concat(c5ShareholderTable);
+};
+
 const BUSINESS_INFO_TABLE = await createBusinessInfoTable();
 const SHAREHOLDER_TABLE = await createShareholderTable();
+const CREDEN_TABLE = await createCredenTable();
 
 const REDUCED_BUSINESS_INFO_TABLE = BUSINESS_INFO_TABLE.select(
   "company_id",
@@ -839,7 +879,9 @@ const REDUCED_SHAREHOLDER_TABLE = SHAREHOLDER_TABLE.rename({
 const SHAREHOLDER_BUSINESS_TABLE = REDUCED_SHAREHOLDER_TABLE.join(
   REDUCED_BUSINESS_INFO_TABLE,
   "company_id"
-).select("position", "full_name", "business_name", "type");
+)
+  .select("position", "full_name", "business_name", "type")
+  .concat(CREDEN_TABLE);
 
 /**
  * @param {string} name kebab-case full name
@@ -893,14 +935,14 @@ export const generatePeople = async () => {
                 full_name: e.full_name,
                 position: e.Position,
                 case: e.submitted_case,
-                submitted_date: e.Submitted_Date,
+                date: e.Submitted_Date, // NOTE - Backward Compatability
                 start_date: e.start_date,
                 pdf: e.pdf_disclosure_start_date,
               },
             ])
             .sort((a, z) => {
-              const aSBDate = new Date(a[1].submitted_date);
-              const zSBDate = new Date(z[1].submitted_date);
+              const aSBDate = new Date(a[1].date);
+              const zSBDate = new Date(z[1].date);
               if (aSBDate !== zSBDate) return zSBDate - aSBDate;
 
               const aSTDate = new Date(a[1].start_date);
@@ -999,7 +1041,7 @@ export const generatePeople = async () => {
 
     if (formattedNacc) {
       const [latestNaccId, latestNaccData] = Object.entries(formattedNacc)[0];
-      const latestNaccYear = new Date(latestNaccData.submitted_date).getFullYear(); // NOTE - Assume ว่ามี submitted_date เสมอ
+      const latestNaccYear = new Date(latestNaccData.date).getFullYear(); // NOTE - Assume ว่ามี submitted_date เสมอ
 
       latestStatementSummary = getLatestStatementSummary(
         latestNaccYear,

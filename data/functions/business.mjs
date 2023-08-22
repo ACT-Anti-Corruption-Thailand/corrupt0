@@ -4,6 +4,7 @@ import fs from "fs/promises";
 import path from "path";
 import { getDonationData } from "./donation.mjs";
 
+const CONST_DIR = "data/constants";
 const RAW_DIR = "data/raw";
 const DONATION_TABLE = await getDonationData();
 
@@ -64,12 +65,42 @@ export const createBusinessInfoTable = async () => {
     .filter((file) => file.toLowerCase().includes("act_company_split_"))
     .map((file) => path.join(RAW_DIR, file));
 
+  const co005Files = await fs.readdir(CONST_DIR);
+  const co005DirectorPath = path.join(
+    CONST_DIR,
+    co005Files.find((f) => f.toLowerCase().includes("corrupt0_co_005_director"))
+  );
+  const co005ShareholderPath = path.join(
+    CONST_DIR,
+    co005Files.find((f) => f.toLowerCase().includes("corrupt0_co_005_shareholder"))
+  );
+
+  const c5DirectorOgTable = await aq.loadCSV(co005DirectorPath);
+  const c5ShareholderOgTable = await aq.loadCSV(co005ShareholderPath);
+
+  const c5DirectorTable = c5DirectorOgTable
+    .filter((d) => d.is_have_data === "True")
+    .derive({
+      name: (d) => d.company_name_th,
+      businessdomain: (d) => d.submit_obj_big_type + " " + d.obj_tname,
+    })
+    .select("name", "businessdomain");
+  const c5ShareholderTable = c5ShareholderOgTable
+    .filter((d) => d.is_have_data === "True")
+    .derive({
+      name: (d) => d.company_name_th,
+      businessdomain: (d) => d.submit_obj_big_type + " " + d.obj_tname,
+    })
+    .select("name", "businessdomain");
+
+  const c5Table = c5DirectorTable.concat(c5ShareholderTable).dedupe();
+
   let tables = [];
   for (let file of filePaths) {
     tables.push(await aq.loadCSV(file));
   }
 
-  return tables.reduce((all, curr) => all.concat(curr));
+  return tables.reduce((all, curr) => all.concat(curr)).concat(c5Table);
 };
 
 const BUSINESS_INFO_TABLE = await createBusinessInfoTable();
