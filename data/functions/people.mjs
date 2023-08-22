@@ -246,7 +246,7 @@ const DATA_SUBMITTER_POSITION_GROUP_TRANSFORMED = DATA_SUBMITTER_POSITION_GROUP.
 
 /**
  * @param {string} name kebab-case full name
- * @returns {Promise<{position?:string, age?: number, previous_jobs?: Object.<string,any>[]}>}
+ * @returns {Promise<{position?:string, age?: number, previous_jobs?: Object.<string,any>[], group?: string, subgroup?: string}>}
  */
 const getPersonalData = async (name) => {
   let person_data_json = {};
@@ -1036,18 +1036,25 @@ export const generatePeople = async () => {
       : undefined;
     const nacc_ids = nacc_info ? Object.keys(formattedNacc) : [];
     const nameFind = formattedNacc
-      ? Object.values(formattedNacc).map((e) => e.full_name)
+      ? Object.values(formattedNacc)
+          .map((e) => e.full_name)
+          .reverse()
       : [dashed_full_name];
 
     let person_data_json = {};
-    for (let dfname of nameFind) {
+    for (let dfname of [
+      ...nameFind,
+    ].reverse() /* เอาเก่าสุดขึ้นก่อน ข้อมูลใหม่สุดจะได้เขียนทับ */) {
       const pd = await getPersonalData(dfname);
       person_data_json = { ...person_data_json, ...pd };
     }
 
-    if (person_data_json.position)
+    if (person_data_json.group || person_data_json.position)
       searchIndexer.push(
-        dashed_full_name + "|" + person_data_json.position + (nacc_info ? "|" : "")
+        dashed_full_name +
+          "|" +
+          (person_data_json.group || person_data_json.position) +
+          (nacc_info ? "|" : "")
       );
     else searchIndexer.push(dashed_full_name);
 

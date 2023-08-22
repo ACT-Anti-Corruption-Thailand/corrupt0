@@ -8,13 +8,13 @@ import Spotlight from "@/components/Spotlight";
 import Image from "next/image";
 
 import PERSON_BUSINESS_COUNT from "@/data/business_count.json";
-import PERSON_LAWSUIT_COUNT from "@/data/lawsuit_count.json";
 import PARTY_ASSETS from "@/data/color/partyAssets.json";
 import PERSON_DONATION from "@/data/donation/donor.json";
 import PARTY_DONATION from "@/data/donation/partyPerYearWithTotal.json";
-import _TOP_INCOME_ASSETS from "@/data/top_income_assets.json";
+import PERSON_LAWSUIT_COUNT from "@/data/lawsuit_count.json";
 import NACC_PPL from "@/data/people_nacc.json";
 import DATA_PEOPLE from "@/data/people_search.json";
+import _TOP_INCOME_ASSETS from "@/data/top_income_assets.json";
 
 const TOP_INCOME_ASSETS = _TOP_INCOME_ASSETS as {
   assets: { name: string; value: number }[];
@@ -186,7 +186,10 @@ export default function Home() {
                 title="ผู้มีตำแหน่งทางการเมืองที่บริจาคเงินเยอะที่สุด"
                 color="purple"
                 name={TOP_POLITICIAN.name}
-                type={PEOPLE_POSITION[TOP_POLITICIAN.name] ?? "ไม่พบตำแหน่ง"}
+                type={
+                  PEOPLE_POSITION[TOP_POLITICIAN.name.replace(/\s/g, "-")] ??
+                  "ไม่พบตำแหน่ง"
+                }
                 amount={TOP_POLITICIAN.total}
                 icon="/placeholders/person.png"
                 link={TOP_POLITICIAN.name.replace(/\s/g, "-")}
