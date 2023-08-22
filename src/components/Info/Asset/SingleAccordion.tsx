@@ -433,6 +433,7 @@ const VALUABLE_GROUPS = [
 export interface InfoAssetValuableGroupStatement extends InfoAssetStatement {
   name: string;
   count?: number | string;
+  unit?: string;
   receiveDate?: string;
 }
 
@@ -454,11 +455,11 @@ const ValuableGroup = ({ name, statements }: ValuableGroupProps) => {
       }
     >
       <ul>
-        {statements.map(({ value, actor, name, count, receiveDate }, i) => (
+        {statements.map(({ value, actor, name, count, receiveDate, unit }, i) => (
           <DetailsBlock key={i}>
             <DetailsFirstLine actor={actor} name={name} value={value} />
             <DetailsListContainer>
-              <DetailsListList value={count} extension="หน่วย" />
+              <DetailsListList value={count} extension={unit ?? "หน่วย"} />
               <DetailsListList label="วันที่ได้มา" value={receiveDate} />
             </DetailsListContainer>
           </DetailsBlock>

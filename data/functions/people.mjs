@@ -525,7 +525,7 @@ export const getAsset = async (nacc_id) => {
               op.equal(d.asset_type_main_type_name, cat) &&
               op.equal(d.asset_type_sub_type_name, sub_cat)
           )
-          .select("actor", "value", "name", "count", "receiveDate")
+          .select("actor", "value", "name", "count", "receiveDate", "unit")
           .objects()
           .sort((a, z) => z.value - a.value)
           .sort((a, z) => getAssetActorRank(a.actor) - getAssetActorRank(z.actor));

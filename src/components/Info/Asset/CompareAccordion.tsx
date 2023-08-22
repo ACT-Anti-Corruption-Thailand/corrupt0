@@ -687,6 +687,7 @@ const VALUABLE_GROUPS = [
 export interface InfoAssetValuableGroupStatement extends InfoAssetStatement {
   name: string;
   count?: number | string;
+  unit?: string;
   receiveDate?: string;
 }
 
@@ -714,12 +715,12 @@ const ValuableGroup = ({ name, statements1, statements2 }: ValuableGroupProps) =
     >
       <div className="flex">
         <ul className="flex-1">
-          {statements1.map(({ value, actor, name, count, receiveDate }, i) => (
+          {statements1.map(({ value, actor, name, count, receiveDate, unit }, i) => (
             <DetailsBlock key={i}>
               <DetailsActor actor={actor} />
               <span className="b5">{name}</span>
               <DetailsListContainer>
-                <DetailsListList value={count} extension="หน่วย" />
+                <DetailsListList value={count} extension={unit ?? "หน่วย"} />
                 <DetailsListList label="วันที่ได้มา" value={receiveDate} />
               </DetailsListContainer>
               {notUndefinedOrNull(value) && (
@@ -730,12 +731,12 @@ const ValuableGroup = ({ name, statements1, statements2 }: ValuableGroupProps) =
         </ul>
         <div className="w-1 bg-gray-3" />
         <ul className="flex-1">
-          {statements2.map(({ value, actor, name, count, receiveDate }, i) => (
+          {statements2.map(({ value, actor, name, count, receiveDate, unit }, i) => (
             <DetailsBlock key={i}>
               <DetailsActor actor={actor} />
               <span className="b5">{name}</span>
               <DetailsListContainer>
-                <DetailsListList value={count} extension="หน่วย" />
+                <DetailsListList value={count} extension={unit ?? "หน่วย"} />
                 <DetailsListList label="วันที่ได้มา" value={receiveDate} />
               </DetailsListContainer>
               {notUndefinedOrNull(value) && (
