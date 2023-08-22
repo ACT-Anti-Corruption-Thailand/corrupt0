@@ -15,6 +15,9 @@ import PERSON_LAWSUIT_COUNT from "@/data/lawsuit_count.json";
 import NACC_PPL from "@/data/people_nacc.json";
 import DATA_PEOPLE from "@/data/people_search.json";
 import _TOP_INCOME_ASSETS from "@/data/top_income_assets.json";
+import _POLITICIAN_IMAGES from "@/data/politicianImages.json";
+
+const POLITICIAN_IMAGES = _POLITICIAN_IMAGES as Record<string, string | null>;
 
 const TOP_INCOME_ASSETS = _TOP_INCOME_ASSETS as {
   assets: { name: string; value: number }[];
@@ -84,7 +87,10 @@ export default function Home() {
                     PEOPLE_POSITION[TOP_INCOME_ASSETS.assets[0].name] ?? "ไม่พบตำแหน่ง"
                   }
                   amount={TOP_INCOME_ASSETS.assets[0].value}
-                  icon="/placeholders/person.png"
+                  icon={
+                    POLITICIAN_IMAGES[TOP_INCOME_ASSETS.assets[0].name] ||
+                    "/placeholders/person.png"
+                  }
                   link={TOP_INCOME_ASSETS.assets[0].name}
                 />
               ) : (
@@ -104,7 +110,10 @@ export default function Home() {
                     PEOPLE_POSITION[TOP_INCOME_ASSETS.income[0].name] ?? "ไม่พบตำแหน่ง"
                   }
                   amount={TOP_INCOME_ASSETS.income[0].value}
-                  icon="/placeholders/person.png"
+                  icon={
+                    POLITICIAN_IMAGES[TOP_INCOME_ASSETS.income[0].name] ||
+                    "/placeholders/person.png"
+                  }
                   link={TOP_INCOME_ASSETS.income[0].name}
                 />
               ) : (
@@ -122,7 +131,10 @@ export default function Home() {
                 type={PEOPLE_POSITION[PERSON_BUSINESS_COUNT[0].name] ?? "ไม่พบตำแหน่ง"}
                 amount={PERSON_BUSINESS_COUNT[0].count}
                 unit="ธุรกิจ"
-                icon="/placeholders/person.png"
+                icon={
+                  POLITICIAN_IMAGES[PERSON_BUSINESS_COUNT[0].name] ||
+                  "/placeholders/person.png"
+                }
                 link={PERSON_BUSINESS_COUNT[0].name}
               />
               <IndexDataCard
@@ -132,7 +144,10 @@ export default function Home() {
                 type={PEOPLE_POSITION[PERSON_LAWSUIT_COUNT[0].name] ?? "ไม่พบตำแหน่ง"}
                 amount={PERSON_LAWSUIT_COUNT[0].count}
                 unit="คดีความ"
-                icon="/placeholders/person.png"
+                icon={
+                  POLITICIAN_IMAGES[PERSON_LAWSUIT_COUNT[0].name] ||
+                  "/placeholders/person.png"
+                }
                 link={PERSON_LAWSUIT_COUNT[0].name}
               />
             </Slider>
@@ -191,7 +206,10 @@ export default function Home() {
                   "ไม่พบตำแหน่ง"
                 }
                 amount={TOP_POLITICIAN.total}
-                icon="/placeholders/person.png"
+                icon={
+                  POLITICIAN_IMAGES[TOP_POLITICIAN.name.replace(/\s/g, "-")] ||
+                  "/placeholders/person.png"
+                }
                 link={TOP_POLITICIAN.name.replace(/\s/g, "-")}
               />
               <IndexDataCard
