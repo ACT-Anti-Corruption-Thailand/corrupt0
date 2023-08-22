@@ -9,6 +9,10 @@ import Link from "next/link";
 import Dropdown from "../../Dropdown";
 import InfoDonationChart from "./Chart";
 
+import _POLITICIAN_IMAGES from "@/data/politicianImages.json";
+
+const POLITICIAN_IMAGES = _POLITICIAN_IMAGES as Record<string, string | null>;
+
 import { formatThousands, thaiMoneyFormatter } from "@/functions/moneyFormatter";
 
 const getFormalName = (donation_full_name: string) =>
@@ -191,7 +195,12 @@ export default function InfoPartyDonationSection(props: PartySectionProps) {
                 name={d.donor_fullname}
                 title={d.donor_prefix}
                 color={props.theme}
-                imgPath="/placeholders/person.png"
+                imgPath={
+                  POLITICIAN_IMAGES[d.donor_fullname.replace(/\s/g, "-")] ||
+                  (d.donor_prefix === "นิติบุคคล"
+                    ? "/placeholders/business.png"
+                    : "/placeholders/person.png")
+                }
                 amount={d.amount}
                 maxAmount={displayData[0].amount}
               />

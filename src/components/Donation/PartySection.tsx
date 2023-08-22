@@ -94,9 +94,7 @@ export function PartySection() {
               color={PARTY_ASSETS[partySearch.name]?.color ?? "#fff"}
               amount={partySearch.amount}
               maxAmount={PARTY_DONATION[partyFilterYear][0].amount}
-              imgPath={
-                PARTY_ASSETS[partySearch.name]?.image ?? "/placeholders/person.png"
-              }
+              imgPath={PARTY_ASSETS[partySearch.name]?.image ?? "/placeholders/party.png"}
             />
           </Link>
         ) : (

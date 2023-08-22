@@ -11,8 +11,11 @@ import Link from "next/link";
 import _PARTY_ASSETS from "@/data/color/partyAssets.json";
 import NACC_PPL from "@/data/people_nacc.json";
 import DATA_PEOPLE from "@/data/people_search.json";
+import _POLITICIAN_IMAGES from "@/data/politicianImages.json";
 import _DONOR_DATA from "@data/donation/donor.json";
 import _PARTY_DONATION from "@data/donation/partyPerYearWithTotal.json";
+
+const POLITICIAN_IMAGES = _POLITICIAN_IMAGES as Record<string, string | null>;
 
 import type { CSSProperties } from "react";
 
@@ -182,10 +185,18 @@ export function IndividualSection() {
           >
             <EntityStackedBarCard
               name={individualSearch.name}
-              title={individualSearch.title}
+              title={
+                PEOPLE_POSITION[individualSearch.name.replace(/\s/g, "-")] ??
+                individualSearch.title
+              }
               data={individualSearch.donation}
               maxAmount={DONOR_DATA[0].total}
-              imgPath="/placeholders/person.png"
+              imgPath={
+                POLITICIAN_IMAGES[individualSearch.name.replace(/\s/g, "-")] ||
+                (individualSearch.title === "นิติบุคคล"
+                  ? "/placeholders/business.png"
+                  : "/placeholders/person.png")
+              }
               assets={selected_assets}
             />
           </Link>
@@ -208,7 +219,12 @@ export function IndividualSection() {
                 }
                 data={individual.donation}
                 maxAmount={donorResult[0].total}
-                imgPath="/placeholders/person.png"
+                imgPath={
+                  POLITICIAN_IMAGES[individual.name.replace(/\s/g, "-")] ||
+                  (individual.title === "นิติบุคคล"
+                    ? "/placeholders/business.png"
+                    : "/placeholders/person.png")
+                }
                 assets={selected_assets}
               />
             </Link>
