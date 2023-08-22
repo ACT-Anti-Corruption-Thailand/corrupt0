@@ -1,7 +1,7 @@
-import * as aq from "arquero";
 import { op } from "arquero";
 import fs from "fs/promises";
 import path from "path";
+import { safeLoadCSV } from "../utils/csv.mjs";
 import { getDonationData } from "./donation.mjs";
 
 const CONST_DIR = "data/constants";
@@ -75,8 +75,8 @@ export const createBusinessInfoTable = async () => {
     co005Files.find((f) => f.toLowerCase().includes("corrupt0_co_005_shareholder"))
   );
 
-  const c5DirectorOgTable = await aq.loadCSV(co005DirectorPath);
-  const c5ShareholderOgTable = await aq.loadCSV(co005ShareholderPath);
+  const c5DirectorOgTable = await safeLoadCSV(co005DirectorPath);
+  const c5ShareholderOgTable = await safeLoadCSV(co005ShareholderPath);
 
   const c5DirectorTable = c5DirectorOgTable
     .filter((d) => d.is_have_data === "True")
@@ -97,7 +97,7 @@ export const createBusinessInfoTable = async () => {
 
   let tables = [];
   for (let file of filePaths) {
-    tables.push(await aq.loadCSV(file));
+    tables.push(await safeLoadCSV(file));
   }
 
   return tables.reduce((all, curr) => all.concat(curr)).concat(c5Table);
@@ -156,9 +156,9 @@ const getBusinessDonation = (donation_name) => {
     .objects();
 };
 
-const DATA_LAW_SEC = await aq.loadCSV("data/raw/sec.csv");
-const DATA_LAW_JUDGEMENT = await aq.loadCSV("data/raw/judgement.csv");
-const DATA_LAW_NACC = await aq.loadCSV("data/raw/nacc_culpability.csv", {
+const DATA_LAW_SEC = await safeLoadCSV("data/raw/sec.csv");
+const DATA_LAW_JUDGEMENT = await safeLoadCSV("data/raw/judgement.csv");
+const DATA_LAW_NACC = await safeLoadCSV("data/raw/nacc_culpability.csv", {
   parse: { note: String },
 });
 

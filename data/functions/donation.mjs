@@ -1,7 +1,7 @@
-import * as aq from "arquero";
 import { op } from "arquero";
 import fs from "fs/promises";
 import path from "path";
+import { safeLoadCSV } from "../utils/csv.mjs";
 
 const RAW_DIR = "data/raw";
 
@@ -13,7 +13,7 @@ export const getDonationData = async () => {
 
   let tables = [];
   for (let file of filePaths) {
-    tables.push(await aq.loadCSV(file));
+    tables.push(await safeLoadCSV(file));
   }
 
   return tables
@@ -26,8 +26,8 @@ export const getDonationData = async () => {
 };
 
 export const getEctDonationData = async () => {
-  const DATA_DONATION = await aq.loadCSV("data/raw/donation.csv");
-  const DATA_DONOR = await aq.loadCSV("data/raw/donor.csv");
+  const DATA_DONATION = await safeLoadCSV("data/raw/donation.csv");
+  const DATA_DONOR = await safeLoadCSV("data/raw/donor.csv");
 
   const merged = DATA_DONATION.join_left(DATA_DONOR, ["donor_id 🗝", "donor_id "])
     .rename({
