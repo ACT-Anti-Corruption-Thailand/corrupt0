@@ -62,6 +62,8 @@ export default function Person({ params }: { params: { name: string } }) {
     nacc,
     topAssets,
     latestStatement,
+    names,
+    group,
   } = politicianData;
 
   const { sec, judgement, nacc: nacc_lawsuit } = politicianData.lawsuit;
@@ -141,8 +143,8 @@ export default function Person({ params }: { params: { name: string } }) {
     <>
       <Navbar
         back={{
-          href: `/info`,
-          text: "[ชื่อกลุ่มตำแหน่ง]",
+          href: group ? "/info/" + group : "/donation",
+          text: group || "ข้อมูลเงินบริจาค",
         }}
       />
       <main>
@@ -221,6 +223,32 @@ export default function Person({ params }: { params: { name: string } }) {
                                       </li>
                                     )
                                 )}
+                            </ul>
+                          </div>
+                        </Accordion>
+                      )}
+                      {names.length > 1 && (
+                        <Accordion
+                          trigger={
+                            <div className="flex b6 text-gray-5 items-center">
+                              <span>ดูชื่ออื่นๆ</span>
+                              <Image
+                                className="ui-open:rotate-180 ml-2"
+                                src="/icons/caret-g.svg"
+                                width={10}
+                                height={10}
+                                alt=""
+                              />
+                            </div>
+                          }
+                        >
+                          <div className="rounded-5 bg-gray-2 b7 text-gray-5 p-5">
+                            <ul className="flex flex-col gap-5 fake-bullet">
+                              {names
+                                .filter((n: string) => n !== name)
+                                .map((n: string) => (
+                                  <li key={n}>{n.replace(/-/g, " ")}</li>
+                                ))}
                             </ul>
                           </div>
                         </Accordion>

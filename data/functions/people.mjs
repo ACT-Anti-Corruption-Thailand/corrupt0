@@ -227,6 +227,23 @@ const DATA_PERSONAL_INFO_TRANSFORMED = DATA_PERSONAL_INFO.derive({
   full_name: (d) => op.replace(d.first_name_th + " " + d.last_name_th, /\s+/g, "-"),
 }).select("position", "full_name", "age", "previous_jobs");
 
+const DATA_PERSONAL_SUBMITTER = await safeLoadCSV("data/raw/submitter_info.csv");
+const DATA_PERSONAL_SUBMITTER_TRANSFORMED = DATA_PERSONAL_SUBMITTER.derive({
+  full_name: (d) => op.replace(d.first_name + " " + d.last_name, /\s+/g, "-"),
+}).select("submitter_id", "full_name", "age");
+
+const DATA_PERSONAL_SUBMITTER_POSITION = await safeLoadCSV(
+  "data/raw/submitter_position.csv"
+);
+const DATA_SUBMITTER_POSITION_GROUP = await safeLoadCSV(
+  "data/raw/position_category_type.csv"
+);
+const DATA_SUBMITTER_POSITION_GROUP_TRANSFORMED = DATA_SUBMITTER_POSITION_GROUP.select(
+  "position_category_id",
+  "corrupt0_category",
+  "nacc_sub_category"
+).objects();
+
 /**
  * @param {string} name kebab-case full name
  * @returns {Promise<{position?:string, age?: number, previous_jobs?: Object.<string,any>[]}>}
@@ -235,6 +252,65 @@ const getPersonalData = async (name) => {
   let person_data_json = {};
   let found_row = null;
 
+  DATA_PERSONAL_SUBMITTER_TRANSFORMED.scan((row, data, stop) => {
+    if (data.full_name.data[row] === name) {
+      found_row = row;
+      stop();
+    }
+  });
+
+  if (found_row !== null) {
+    const submitter_id = DATA_PERSONAL_SUBMITTER_TRANSFORMED.get(
+      "submitter_id",
+      found_row
+    );
+
+    const all_positions = DATA_PERSONAL_SUBMITTER_POSITION.params({ submitter_id })
+      .filter((d) => op.equal(d.submitter_id, submitter_id))
+      .select(
+        "position_period_type_id",
+        "position",
+        "position_category_type_id",
+        "workplace",
+        "date_acquiring_type_id",
+        "start_year",
+        "date_ending_type_id",
+        "end_year"
+      )
+      .objects();
+
+    const current_position = all_positions.find((d) => d.position_period_type_id === 1);
+    const current_group = DATA_SUBMITTER_POSITION_GROUP_TRANSFORMED.find(
+      (d) => d.position_category_id === current_position.position_category_type_id
+    );
+
+    const previous_jobs = all_positions
+      .filter((d) => d.position_period_type_id !== 1)
+      .map((d) => ({
+        position_title: d.position + " " + d.workplace,
+        start_year: d.start_year
+          ? d.start_year + 543
+          : d.date_acquiring_type_id === 3
+          ? new Date().getFullYear() + 543
+          : undefined,
+        end_year: d.end_year
+          ? d.end_year + 543
+          : d.date_ending_type_id === 2 || d.date_ending_type_id === 3
+          ? new Date().getFullYear() + 543
+          : undefined,
+      }));
+
+    person_data_json = {
+      age: DATA_PERSONAL_SUBMITTER_TRANSFORMED.get("age", found_row),
+      position: current_position.position + " " + current_position.workplace,
+      group: current_group?.corrupt0_category,
+      subgroup: current_group?.nacc_sub_category,
+      previous_jobs,
+    };
+
+    return person_data_json;
+  }
+
   DATA_PERSONAL_INFO_TRANSFORMED.scan((row, data, stop) => {
     if (data.full_name.data[row] === name) {
       found_row = row;
@@ -242,7 +318,7 @@ const getPersonalData = async (name) => {
     }
   });
 
-  if (found_row) {
+  if (found_row !== null) {
     person_data_json = {
       position: DATA_PERSONAL_INFO_TRANSFORMED.get("position", found_row),
       age: DATA_PERSONAL_INFO_TRANSFORMED.get("age", found_row),
