@@ -12,12 +12,12 @@
     "lint": "next lint",
     "fetch": "node data/fetch.mjs",
     "process:clear": "node data/clearProcess.mjs",
-    "process:party": "node data/functions/parties.mjs",
     "process:business-people": "node data/functions/people.mjs",
+    "process:party": "node data/functions/parties.mjs",
     "process:total-donation": "node data/functions/totalDonation.mjs",
     "process:party-assets": "node data/functions/partyAssets.mjs",
     "process:politician-images": "node data/functions/politicianImages.mjs",
-    "process": "pnpm run process:clear && pnpm run /^process:[^c]/ && cp -r ./src/data/info/ ./public/data"
+    "process": "pnpm run process:clear && pnpm run process:business-people && pnpm run /^process:[pt]/ && cp -r ./src/data/info/. ./public/data/"
   },
   "dependencies": {
     "@headlessui/react": "^1.7.17",

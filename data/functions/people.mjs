@@ -454,7 +454,7 @@ let DATA = {
           : "ไม่ระบุ";
       },
       name: (d) => d.asset_name,
-      value: (d) => op.parse_float(op.replace(d.valuation, /,/g, "")),
+      value: (d) => d.valuation ?? 0,
       acquiring_year: (d) => {
         let year = op.parse_int(d.acquiring_year);
         return year < 2200 ? year + 543 : year;
@@ -508,9 +508,9 @@ let DATA = {
       },
       total: (d) => {
         return (
-          op.parse_float(op.replace(d.valuation_submitter, /,/g, "")) +
-          op.parse_float(op.replace(d.valuation_spouse, /,/g, "")) +
-          op.parse_float(op.replace(d.valuation_child, /,/g, ""))
+          (d.valuation_submitter ?? 0) +
+          (d.valuation_spouse ?? 0) +
+          (d.valuation_child ?? 0)
         );
       },
     })
@@ -523,11 +523,7 @@ let DATA = {
         return year < 2200 ? year + 543 : year;
       },
       total: (d) => {
-        return (
-          op.parse_float(op.replace(d.valuation_submitter, /,/g, "")) +
-          op.parse_float(op.replace(d.valuation_spouse, /,/g, "")) +
-          op.parse_float(op.replace(d.valuation_child, /,/g, ""))
-        );
+        return d.valuation_submitter + d.valuation_spouse + d.valuation_child;
       },
     })
   ),
@@ -640,20 +636,6 @@ export const getAsset = async (nacc_id) => {
     assetData[type] = statement_detail
       .params({ type })
       .filter((d) => op.equal(d.statement_detail_sub_type_name, type))
-      .derive({
-        valuation_submitter: (d) =>
-          d.valuation_submitter
-            ? op.parse_float(op.replace(d.valuation_submitter, /,/g, ""))
-            : null,
-        valuation_spouse: (d) =>
-          d.valuation_spouse
-            ? op.parse_float(op.replace(d.valuation_spouse, /,/g, ""))
-            : null,
-        valuation_child: (d) =>
-          d.valuation_child
-            ? op.parse_float(op.replace(d.valuation_child, /,/g, ""))
-            : null,
-      })
       .select(
         "detail",
         "valuation_submitter",
@@ -773,14 +755,9 @@ export const getStatement = async (nacc_id) => {
       "statement_detail_sub_type_name"
     )
     .derive({
-      valuation_submitter: (d) =>
-        d.valuation_submitter
-          ? op.parse_float(op.replace(d.valuation_submitter, /,/g, ""))
-          : 0,
-      valuation_spouse: (d) =>
-        d.valuation_spouse ? op.parse_float(op.replace(d.valuation_spouse, /,/g, "")) : 0,
-      valuation_child: (d) =>
-        d.valuation_child ? op.parse_float(op.replace(d.valuation_child, /,/g, "")) : 0,
+      valuation_submitter: (d) => d.valuation_submitter ?? 0,
+      valuation_spouse: (d) => d.valuation_spouse ?? 0,
+      valuation_child: (d) => d.valuation_child ?? 0,
     })
     .groupby("statement_type_id", "statement_detail_sub_type_name")
     .rollup({
@@ -805,10 +782,7 @@ export const getStatement = async (nacc_id) => {
     .select("valuation_submitter", "valuation_spouse")
     .objects()[0];
 
-  statementData["ภาษี"] = [
-    tax?.valuation_submitter ?? "",
-    tax?.valuation_spouse ?? "",
-  ].map((e) => +e.replace(/,/g, ""));
+  statementData["ภาษี"] = [tax?.valuation_submitter ?? 0, tax?.valuation_spouse ?? 0];
 
   if (statementData["ภาษี"].reduce((a, c) => a + c) === 0) delete statementData["ภาษี"];
 

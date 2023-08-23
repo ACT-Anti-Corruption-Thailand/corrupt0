@@ -84,6 +84,7 @@ export const fetchSubData = async () => {
           break;
         case "ds002_opendata_path.json":
         case "ds009_opendata_path.json":
+        case "co004_opendata_path0.json":
         default:
           subFetchList[i] = Object.values(parsedContent);
       }

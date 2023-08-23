@@ -2,6 +2,7 @@ import fs from "fs/promises";
 import { getDonationData } from "./donation.mjs";
 import { op } from "arquero";
 import * as aq from "arquero";
+import { NEW_PARTY_LOOKUP } from "../utils/partyNames.mjs";
 
 const RAW_DONATION_TABLE = await getDonationData();
 const DONATION_TABLE = RAW_DONATION_TABLE.derive({
@@ -24,7 +25,10 @@ export const getPartiesFileNameFromDonation = async () => {
       DONATION_TABLE.select("party")
         .dedupe()
         .objects()
-        .map((e) => "พรรค" + e.party.replace(/\s+|\/|\\/g, "-"))
+        .map(
+          (e) =>
+            "พรรค" + (NEW_PARTY_LOOKUP[e.party] ?? e.party).replace(/\s+|\/|\\/g, "-")
+        )
     ),
   ];
 };
@@ -32,7 +36,7 @@ export const getPartiesFileNameFromDonation = async () => {
 export const getPartyDonor = async (party) => {
   return DONATION_TABLE.params({ party })
     .select("party", "month", "year", "donor_prefix", "donor_fullname", "amount")
-    .filter(aq.escape((d) => d.party === party))
+    .filter(aq.escape((d) => (NEW_PARTY_LOOKUP[d.party] ?? d.party) === party))
     .objects()
     .map((obj) => {
       const { party, ...rest } = obj;

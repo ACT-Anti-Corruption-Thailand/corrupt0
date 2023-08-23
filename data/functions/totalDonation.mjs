@@ -2,6 +2,7 @@ import fs from "fs/promises";
 import * as aq from "arquero";
 import { op } from "arquero";
 import { getDonationData } from "./donation.mjs";
+import { NEW_PARTY_LOOKUP } from "../utils/partyNames.mjs";
 
 const getFormalBusinessName = (donation_full_name) =>
   donation_full_name
@@ -25,6 +26,7 @@ const getTotalDonation = async () => {
             .replace(/\s+|\/|\\/g, " ")
             .replace(/ํา/g, "ำ")
     ),
+    party: aq.escape((d) => NEW_PARTY_LOOKUP[d.party] ?? d.party),
   });
 
   const totalPerYearTable = table
