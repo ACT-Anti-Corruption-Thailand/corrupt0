@@ -80,45 +80,50 @@ export default function PositionTab({ position }: PositionTabProps) {
             <PositionChart
               refValue={1801090.878}
               data={PEOPLE_GROUP_METADATA[position].asset.chartData}
+              hasData={PEOPLE_GROUP_METADATA[position].count > 0}
             />
           </div>
-          <p className="text-gray-5 b6">ปริมาณทรัพย์สิน (บาท)</p>
-          <div className="flex flex-row items-center justify-center gap-10 my-10 lg:mb-20">
-            <p className="text-gray-4 b4 lg:b3">ดู</p>
-            <Dropdown
-              data={PEOPLE_GROUP_METADATA[position].subgroup}
-              value={subPositionShown}
-              setValue={setSubPositionShown}
-              multiple
-            />
-            <SortByBtn sort={personSort} setSort={setPersonSort} />
-          </div>
-          <div className="mb-20 lg:mb-30">
-            <EntityBarCard
-              name="สุชาติ ภิญโญ"
-              title="สมาชิกวุฒิสภา"
-              color="white"
-              amount={1637239}
-              maxAmount={10000000}
-              imgPath="/placeholders/person.png"
-            />
-            <EntityBarCard
-              name="สุชาติ ภิญโญ"
-              title="สมาชิกวุฒิสภา"
-              color="white"
-              amount={1637239}
-              maxAmount={10000000}
-              imgPath="/placeholders/person.png"
-            />
-            <EntityBarCard
-              name="สุชาติ ภิญโญ"
-              title="สมาชิกวุฒิสภา"
-              color="white"
-              amount={1637239}
-              maxAmount={10000000}
-              imgPath="/placeholders/person.png"
-            />
-          </div>
+          <p className="text-gray-5 b6 mt-5">ปริมาณทรัพย์สิน (บาท)</p>
+          {PEOPLE_GROUP_METADATA[position].count > 0 && (
+            <>
+              <div className="flex flex-row items-center justify-center gap-10 my-10 lg:mb-20">
+                <p className="text-gray-4 b4 lg:b3">ดู</p>
+                <Dropdown
+                  data={PEOPLE_GROUP_METADATA[position].subgroup}
+                  value={subPositionShown}
+                  setValue={setSubPositionShown}
+                  multiple
+                />
+                <SortByBtn sort={personSort} setSort={setPersonSort} />
+              </div>
+              <div className="mb-20 lg:mb-30">
+                <EntityBarCard
+                  name="สุชาติ ภิญโญ"
+                  title="สมาชิกวุฒิสภา"
+                  color="white"
+                  amount={1637239}
+                  maxAmount={10000000}
+                  imgPath="/placeholders/person.png"
+                />
+                <EntityBarCard
+                  name="สุชาติ ภิญโญ"
+                  title="สมาชิกวุฒิสภา"
+                  color="white"
+                  amount={1637239}
+                  maxAmount={10000000}
+                  imgPath="/placeholders/person.png"
+                />
+                <EntityBarCard
+                  name="สุชาติ ภิญโญ"
+                  title="สมาชิกวุฒิสภา"
+                  color="white"
+                  amount={1637239}
+                  maxAmount={10000000}
+                  imgPath="/placeholders/person.png"
+                />
+              </div>
+            </>
+          )}
         </Tab.Panel>
         <Tab.Panel>
           {/* หนี้สิน */}
@@ -143,45 +148,50 @@ export default function PositionTab({ position }: PositionTabProps) {
             <PositionChart
               refValue={205679}
               data={PEOPLE_GROUP_METADATA[position].debt.chartData}
+              hasData={PEOPLE_GROUP_METADATA[position].count > 0}
             />
           </div>
-          <p className="text-gray-5 b6">ปริมาณหนี้สิน (บาท)</p>
-          <div className="flex flex-row items-center justify-center gap-10 my-10 lg:mb-20">
-            <p className="text-gray-4 b4 lg:b3">ดู</p>
-            <Dropdown
-              data={PEOPLE_GROUP_METADATA[position].subgroup}
-              value={subPositionShown}
-              setValue={setSubPositionShown}
-              multiple
-            />
-            <SortByBtn sort={personSort} setSort={setPersonSort} />
-          </div>
-          <div className="mb-20 lg:mb-30 w-[90vw] lg:w-[70vw]">
-            <EntityBarCard
-              name="สุชาติ ภิญโญ"
-              title="สมาชิกวุฒิสภา"
-              color="white"
-              amount={1637239}
-              maxAmount={10000000}
-              imgPath="/placeholders/person.png"
-            />
-            <EntityBarCard
-              name="สุชาติ ภิญโญ"
-              title="สมาชิกวุฒิสภา"
-              color="white"
-              amount={1637239}
-              maxAmount={10000000}
-              imgPath="/placeholders/person.png"
-            />
-            <EntityBarCard
-              name="สุชาติ ภิญโญ"
-              title="สมาชิกวุฒิสภา"
-              color="white"
-              amount={1637239}
-              maxAmount={10000000}
-              imgPath="/placeholders/person.png"
-            />
-          </div>
+          <p className="text-gray-5 b6 mt-5">ปริมาณหนี้สิน (บาท)</p>
+          {PEOPLE_GROUP_METADATA[position].count > 0 && (
+            <>
+              <div className="flex flex-row items-center justify-center gap-10 my-10 lg:mb-20">
+                <p className="text-gray-4 b4 lg:b3">ดู</p>
+                <Dropdown
+                  data={PEOPLE_GROUP_METADATA[position].subgroup}
+                  value={subPositionShown}
+                  setValue={setSubPositionShown}
+                  multiple
+                />
+                <SortByBtn sort={personSort} setSort={setPersonSort} />
+              </div>
+              <div className="mb-20 lg:mb-30 w-[90vw] lg:w-[70vw]">
+                <EntityBarCard
+                  name="สุชาติ ภิญโญ"
+                  title="สมาชิกวุฒิสภา"
+                  color="white"
+                  amount={1637239}
+                  maxAmount={10000000}
+                  imgPath="/placeholders/person.png"
+                />
+                <EntityBarCard
+                  name="สุชาติ ภิญโญ"
+                  title="สมาชิกวุฒิสภา"
+                  color="white"
+                  amount={1637239}
+                  maxAmount={10000000}
+                  imgPath="/placeholders/person.png"
+                />
+                <EntityBarCard
+                  name="สุชาติ ภิญโญ"
+                  title="สมาชิกวุฒิสภา"
+                  color="white"
+                  amount={1637239}
+                  maxAmount={10000000}
+                  imgPath="/placeholders/person.png"
+                />
+              </div>
+            </>
+          )}
         </Tab.Panel>
       </Tab.Panels>
     </Tab.Group>

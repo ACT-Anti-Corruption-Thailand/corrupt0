@@ -2,9 +2,7 @@
 import {
   Bar,
   BarChart,
-  CartesianGrid,
   LabelList,
-  Rectangle,
   ReferenceLine,
   ResponsiveContainer,
   XAxis,
@@ -54,8 +52,8 @@ export function MiniPositionChart({ refValue, data, hasData }: MiniPositionChart
           width={200}
           height={150}
           data={data}
-          barGap={1}
-          barCategoryGap={1}
+          barGap={0}
+          barCategoryGap={0}
           margin={{
             left: 10,
             right: 10,
@@ -81,10 +79,9 @@ export function MiniPositionChart({ refValue, data, hasData }: MiniPositionChart
             className="b8"
             axisLine={{ style: { stroke: "#666", strokeWidth: 1 } }}
           />
-          <Bar dataKey="y" fill="#fff" minPointSize={0} xAxisId="data">
+          <Bar dataKey="y" fill="#fff" xAxisId="data">
             <LabelList
               dataKey="y"
-              position="top"
               content={(props) => <ChartLabelList props={props} maxY={maxY} />}
             />
           </Bar>
@@ -99,8 +96,8 @@ export function MiniPositionChart({ refValue, data, hasData }: MiniPositionChart
           width={200}
           height={150}
           data={data}
-          barGap={1}
-          barCategoryGap={1}
+          barGap={0}
+          barCategoryGap={0}
           margin={{
             left: 10,
             right: 10,
@@ -128,7 +125,7 @@ export function MiniPositionChart({ refValue, data, hasData }: MiniPositionChart
           />
         </BarChart>
       </ResponsiveContainer>
-      <div className="absolute inset-0 flex items-center justify-center bg-white/10 text-white">
+      <div className="absolute inset-0 flex items-center justify-center bg-white/10 text-white b7 md:b6">
         <span className="mb-20">ไม่มีข้อมูล</span>
       </div>
     </>
