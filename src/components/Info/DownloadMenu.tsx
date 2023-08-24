@@ -15,6 +15,7 @@ interface DownloadMenuProps {
 }
 
 export default function DownloadMenu({ data }: DownloadMenuProps) {
+  const dataEntries = Object.entries(data).filter((e) => e[1].pdf);
   return (
     <Menu>
       <div className="flex-1">
@@ -36,22 +37,25 @@ export default function DownloadMenu({ data }: DownloadMenuProps) {
           <span>ดูเอกสารจริง</span>
         </Menu.Button>
         <Menu.Items className="absolute z-10 min-w-full w-max select-none rounded-5 overflow-hidden translate-y-5 shadow-dropdown">
-          {Object.entries(data).map(
-            ([nacc_id, data]) =>
-              data.pdf && (
-                <Menu.Item key={nacc_id}>
-                  <a
-                    className="block px-10 py-5 bg-white text-black b7 ui-selected:bg-gray-2 ui-active:bg-gray-2"
-                    href={data.pdf}
-                    download
-                  >
-                    <span className="b5 font-bold">
-                      {new Date(data.date).getFullYear() + 543}
-                    </span>{" "}
-                    ({data.case.replace("กรณี", "") + data.position})
-                  </a>
-                </Menu.Item>
-              )
+          {dataEntries.length > 0 ? (
+            dataEntries.map(([nacc_id, data]) => (
+              <Menu.Item key={nacc_id}>
+                <a
+                  className="block px-10 py-5 bg-white text-black b7 ui-selected:bg-gray-2 ui-active:bg-gray-2"
+                  href={data.pdf}
+                  download
+                >
+                  <span className="b5 font-bold">
+                    {new Date(data.date).getFullYear() + 543}
+                  </span>{" "}
+                  ({data.case.replace("กรณี", "") + data.position})
+                </a>
+              </Menu.Item>
+            ))
+          ) : (
+            <Menu.Item>
+              <div className="block px-10 py-5 bg-white text-black b5">ไม่มีเอกสาร</div>
+            </Menu.Item>
           )}
         </Menu.Items>
       </div>

@@ -309,7 +309,7 @@ export default function InfoFinancialSection({
       {/* ปุ่มเอกสาร */}
       <div className="flex gap-5 px-10 mb-10">
         <DownloadMenu data={nacc} />
-        <Link
+        <a
           href={`/data/${name}.json`}
           className="b4 flex-1 flex gap-5 p-5 items-center border border-gray-6 justify-center rounded-5 no-underline text-white hover:bg-white hover:text-black"
           download
@@ -329,7 +329,7 @@ export default function InfoFinancialSection({
             />
           </svg>
           <span>ดาวน์โหลดข้อมูล</span>
-        </Link>
+        </a>
       </div>
     </>
   );
