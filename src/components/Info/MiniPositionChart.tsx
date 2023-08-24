@@ -11,10 +11,10 @@ import {
 
 import { moneyFormatter } from "@/functions/moneyFormatter";
 
-const ChartLabelList = ({ props, maxY }: { props: any; maxY: number }) => {
-  const { x, y, width, height, value } = props;
+const ChartLabelList = ({ props, maxYIndex }: { props: any; maxYIndex: number }) => {
+  const { x, y, width, height, value, index } = props;
 
-  if (value && maxY === value)
+  if (maxYIndex === index)
     return (
       <text
         x={x + width / 2}
@@ -46,6 +46,7 @@ interface MiniPositionChartProps {
 export function MiniPositionChart({ refValue, data, hasData }: MiniPositionChartProps) {
   if (hasData) {
     const maxY = Math.max(...data.map((e) => e.y ?? 0));
+    const maxYIdx = data.findIndex((e) => e.y === maxY);
     return (
       <ResponsiveContainer height={110}>
         <BarChart
@@ -82,7 +83,7 @@ export function MiniPositionChart({ refValue, data, hasData }: MiniPositionChart
           <Bar dataKey="y" fill="#fff" xAxisId="data">
             <LabelList
               dataKey="y"
-              content={(props) => <ChartLabelList props={props} maxY={maxY} />}
+              content={(props) => <ChartLabelList props={props} maxYIndex={maxYIdx} />}
             />
           </Bar>
         </BarChart>
