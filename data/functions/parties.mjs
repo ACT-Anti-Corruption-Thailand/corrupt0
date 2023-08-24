@@ -6,10 +6,7 @@ import { NEW_PARTY_LOOKUP } from "../utils/partyNames.mjs";
 
 const RAW_DONATION_TABLE = await getDonationData();
 const DONATION_TABLE = RAW_DONATION_TABLE.derive({
-  donor_fullname: (d) =>
-    op.equal(d.donor_prefix, "นิติบุคคล")
-      ? d.donor_fullname
-      : op.replace(d.donor_firstname + " " + d.donor_lastname, /\s+|\/|\\/g, " "),
+  donor_fullname: (d) => d.formatted_name,
 });
 
 // ██████╗  █████╗ ██████╗ ████████╗██╗███████╗███████╗

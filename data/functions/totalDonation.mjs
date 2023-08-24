@@ -4,28 +4,11 @@ import { op } from "arquero";
 import { getDonationData } from "./donation.mjs";
 import { NEW_PARTY_LOOKUP } from "../utils/partyNames.mjs";
 
-const getFormalBusinessName = (donation_full_name) =>
-  donation_full_name
-    .replace(/ํา/g, "ำ")
-    .replace(/บริษัท จำกัด \(มหาชน\)(.+)/g, "บริษัท $1 จำกัด (มหาชน)")
-    .replace(/บริษัท จำกัด(.+)/g, "บริษัท $1 จำกัด")
-    .replace("(มหาชน) จำกัด", "จำกัด (มหาชน)")
-    .replace("หจก.", "ห้างหุ้นส่วนจำกัด ")
-    .replace(/ห้างหุ้นส่วนจำกัด(.)/g, "ห้างหุ้นส่วนจำกัด $1")
-    .replace(/\s+/g, " ")
-    .trim();
-
 const getTotalDonation = async () => {
   const rawTable = await getDonationData();
 
   const table = rawTable.derive({
-    donor_fullname: aq.escape((d) =>
-      d.donor_prefix === "นิติบุคคล"
-        ? getFormalBusinessName(d.donor_fullname)
-        : (d.donor_firstname + " " + d.donor_lastname)
-            .replace(/\s+|\/|\\/g, " ")
-            .replace(/ํา/g, "ำ")
-    ),
+    donor_fullname: (d) => d.formatted_name,
     party: aq.escape((d) => NEW_PARTY_LOOKUP[d.party] ?? d.party),
   });
 

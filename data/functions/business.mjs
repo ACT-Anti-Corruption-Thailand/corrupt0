@@ -15,17 +15,6 @@ const DONATION_TABLE = await getDonationData();
 // ╚██████╔╝   ██║   ██║███████╗███████║
 //  ╚═════╝    ╚═╝   ╚═╝╚══════╝╚══════╝
 
-const getFormalName = (donation_full_name) =>
-  donation_full_name
-    .replace(/ํา/g, "ำ")
-    .replace(/บริษัท จำกัด \(มหาชน\)(.+)/g, "บริษัท $1 จำกัด (มหาชน)")
-    .replace(/บริษัท จำกัด(.+)/g, "บริษัท $1 จำกัด")
-    .replace("(มหาชน) จำกัด", "จำกัด (มหาชน)")
-    .replace("หจก.", "ห้างหุ้นส่วนจำกัด ")
-    .replace(/ห้างหุ้นส่วนจำกัด(.)/g, "ห้างหุ้นส่วนจำกัด $1")
-    .replace(/\s+/g, " ")
-    .trim();
-
 const getFileName = (formal_name) =>
   formal_name.replace("ห้างหุ้นส่วนจำกัด", "หจก").replace(/\s+|\/|\\/g, "-");
 
@@ -41,12 +30,12 @@ const getCompanyName = (formal_name) =>
 
 const getBusinessNameFromDonation = () => {
   return DONATION_TABLE.filter((d) => op.equal(d.donor_prefix, "นิติบุคคล"))
-    .select("donor_fullname")
+    .select("donor_fullname", "formatted_name")
     .dedupe()
     .objects()
     .map((e) => {
       const donationName = e.donor_fullname;
-      const formalName = getFormalName(e.donor_fullname);
+      const formalName = e.formatted_name;
       const justName = getCompanyName(formalName);
       const fileName = getFileName(formalName);
 
