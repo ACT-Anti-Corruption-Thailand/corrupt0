@@ -7,7 +7,9 @@ import InfoPopover from "@/components/Info/Popover";
 import { PositionChart } from "@/components/Info/PositionChart";
 import SortByBtn from "@/components/SortByBtn";
 import { Tab } from "@headlessui/react";
+import Link from "next/link";
 
+import POLITICIAN_IMAGES from "@/data/politicianImages.json";
 import _PEOPLE_GROUP_METADATA from "@/data/people_group_metadata.json";
 const PEOPLE_GROUP_METADATA = _PEOPLE_GROUP_METADATA as Record<
   string,
@@ -33,18 +35,47 @@ const PEOPLE_GROUP_METADATA = _PEOPLE_GROUP_METADATA as Record<
   }
 >;
 
+import _PEOPLE_GROUP from "@/data/people_group.json";
+const PEOPLE_GROUP = _PEOPLE_GROUP as Record<
+  string,
+  {
+    name: string;
+    group: string;
+    asset: number;
+    debt: number;
+    subgroup: string;
+  }[]
+>;
+
 interface PositionTabProps {
   position: string;
 }
 
 export default function PositionTab({ position }: PositionTabProps) {
+  const [currentTab, setCurrentTab] = useState(0);
+
   const [subPositionShown, setSubPositionShown] = useState([
     ...PEOPLE_GROUP_METADATA[position].subgroup,
   ]);
   const [personSort, setPersonSort] = useState<"asc" | "desc">("desc");
+  const [displayLimit, setDisplayLimit] = useState(10);
+
+  const data_group =
+    currentTab === 1
+      ? [...PEOPLE_GROUP[position]].sort((a, z) => z.debt - a.debt)
+      : PEOPLE_GROUP[position];
+  const data_filter = data_group.filter((e) => subPositionShown.includes(e.subgroup));
+  const display_data = personSort === "asc" ? [...data_filter].reverse() : data_filter;
 
   return (
-    <Tab.Group>
+    <Tab.Group
+      onChange={(i: number) => {
+        setCurrentTab(i);
+        setSubPositionShown([...PEOPLE_GROUP_METADATA[position].subgroup]);
+        setPersonSort("desc");
+        setDisplayLimit(10);
+      }}
+    >
       <Tab.List className="flex flex-row items-center justify-center">
         <p className="text-gray-4 mr-10 bg-black ">เเสดงข้อมูล</p>
         <div className="text-gray-4 bg-gray-6 rounded-5">
@@ -97,30 +128,37 @@ export default function PositionTab({ position }: PositionTabProps) {
                 <SortByBtn sort={personSort} setSort={setPersonSort} />
               </div>
               <div className="mb-20 lg:mb-30">
-                <EntityBarCard
-                  name="สุชาติ ภิญโญ"
-                  title="สมาชิกวุฒิสภา"
-                  color="white"
-                  amount={1637239}
-                  maxAmount={10000000}
-                  imgPath="/placeholders/person.png"
-                />
-                <EntityBarCard
-                  name="สุชาติ ภิญโญ"
-                  title="สมาชิกวุฒิสภา"
-                  color="white"
-                  amount={1637239}
-                  maxAmount={10000000}
-                  imgPath="/placeholders/person.png"
-                />
-                <EntityBarCard
-                  name="สุชาติ ภิญโญ"
-                  title="สมาชิกวุฒิสภา"
-                  color="white"
-                  amount={1637239}
-                  maxAmount={10000000}
-                  imgPath="/placeholders/person.png"
-                />
+                {display_data.length > 0 &&
+                  display_data.slice(0, displayLimit).map((e) => (
+                    <Link
+                      key={e.name}
+                      href={"/info/" + e.name}
+                      className="block no-underline w-full"
+                    >
+                      <EntityBarCard
+                        name={e.name.replace(/-/g, " ")}
+                        title={e.subgroup}
+                        color="white"
+                        amount={e.asset}
+                        maxAmount={data_filter[0].asset}
+                        imgPath={
+                          (POLITICIAN_IMAGES as Record<string, string | null>)[e.name] ??
+                          "/placeholders/person.png"
+                        }
+                      />
+                    </Link>
+                  ))}
+                {displayLimit < display_data.length && (
+                  <button
+                    type="button"
+                    className="border-b border-b-gray-4 text-gray-4"
+                    onClick={() => setDisplayLimit((e) => e + 10)}
+                  >
+                    {display_data.length - displayLimit < 10
+                      ? `+ ดูอีก ${display_data.length - displayLimit} คนที่เหลือ`
+                      : `+ ดูเพิ่มอีก 10 คน`}
+                  </button>
+                )}
               </div>
             </>
           )}
@@ -165,30 +203,37 @@ export default function PositionTab({ position }: PositionTabProps) {
                 <SortByBtn sort={personSort} setSort={setPersonSort} />
               </div>
               <div className="mb-20 lg:mb-30 w-[90vw] lg:w-[70vw]">
-                <EntityBarCard
-                  name="สุชาติ ภิญโญ"
-                  title="สมาชิกวุฒิสภา"
-                  color="white"
-                  amount={1637239}
-                  maxAmount={10000000}
-                  imgPath="/placeholders/person.png"
-                />
-                <EntityBarCard
-                  name="สุชาติ ภิญโญ"
-                  title="สมาชิกวุฒิสภา"
-                  color="white"
-                  amount={1637239}
-                  maxAmount={10000000}
-                  imgPath="/placeholders/person.png"
-                />
-                <EntityBarCard
-                  name="สุชาติ ภิญโญ"
-                  title="สมาชิกวุฒิสภา"
-                  color="white"
-                  amount={1637239}
-                  maxAmount={10000000}
-                  imgPath="/placeholders/person.png"
-                />
+                {display_data.length > 0 &&
+                  display_data.slice(0, displayLimit).map((e) => (
+                    <Link
+                      key={e.name}
+                      href={"/info/" + e.name}
+                      className="block no-underline w-full"
+                    >
+                      <EntityBarCard
+                        name={e.name.replace(/-/g, " ")}
+                        title={e.subgroup}
+                        color="white"
+                        amount={e.debt}
+                        maxAmount={data_filter[0].debt}
+                        imgPath={
+                          (POLITICIAN_IMAGES as Record<string, string | null>)[e.name] ??
+                          "/placeholders/person.png"
+                        }
+                      />
+                    </Link>
+                  ))}
+                {displayLimit < display_data.length && (
+                  <button
+                    type="button"
+                    className="border-b border-b-gray-4 text-gray-4"
+                    onClick={() => setDisplayLimit((e) => e + 10)}
+                  >
+                    {display_data.length - displayLimit < 10
+                      ? `+ ดูอีก ${display_data.length - displayLimit} คนที่เหลือ`
+                      : `+ ดูเพิ่มอีก 10 คน`}
+                  </button>
+                )}
               </div>
             </>
           )}
