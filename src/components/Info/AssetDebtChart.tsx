@@ -75,6 +75,18 @@ function FilterCheckbox({
   color,
   disabled = false,
 }: FilterCheckboxProps) {
+  if (count === 0) {
+    return (
+      <div className="flex gap-5 items-center b4 text-white text-left opacity-40 select-none">
+        <div
+          className={`w-[15px] h-[15px] rounded-[2px] border flex items-center justify-center ${FILTERCHECKBOX_COLOR_CLASS[color]}`}
+          arid-hidden="true"
+        />
+        <span className="nobr">{name}</span>
+        <span className="text-gray-4 nobr">0 คน</span>
+      </div>
+    );
+  }
   return (
     <Switch
       checked={show}
