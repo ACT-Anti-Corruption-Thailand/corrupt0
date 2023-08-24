@@ -35,7 +35,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: InfoPageProps): Promise<Metadata> {
   const name = decodeURI(params.name);
-  const spacedName = name.replace(/-/g, " ");
+  const spacedName = name.replace(/-/g, " ").replace("กระทรวงข้าราช", "กระทรวง/ข้าราช");
 
   let ogImageUrl;
   switch (true) {

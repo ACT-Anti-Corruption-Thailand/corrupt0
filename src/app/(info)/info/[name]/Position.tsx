@@ -18,6 +18,7 @@ const PEOPLE = DATA_PEOPLE.filter((e) => e.at(-1) === "|").map((e) => {
 
 export default function Position({ params }: { params: { name: string } }) {
   const position = params.name;
+  const formalPosition = position.replace("กระทรวงข้าราช", "กระทรวง/ข้าราช");
 
   return (
     <>
@@ -58,9 +59,9 @@ export default function Position({ params }: { params: { name: string } }) {
           />
           <span>สำรวจตามกลุ่มตำแหน่ง</span>
         </Link>
-        <p className="h3 font-black text-white my-10 lg:my-20 lg:h2">{position}</p>
+        <p className="h3 font-black text-white my-10 lg:my-20 lg:h2">{formalPosition}</p>
         <div className="text-center b6 lg:b5 pb-10 lg:pb-30 w-[90vw] lg:w-[70vw]">
-          <PositionTab position={position} />
+          <PositionTab position={formalPosition} />
         </div>
       </section>
     </>

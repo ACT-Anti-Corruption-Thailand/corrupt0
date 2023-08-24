@@ -19,7 +19,7 @@ interface GraphCardProps {
 const InfoHistChart = (props: GraphCardProps) => {
   return (
     <Link
-      href={`/info/${props.title}`}
+      href={`/info/${props.title?.replace(/\//g, "")}`}
       className="bg-white/10 text-gray-4 rounded-5 p-10 lg:p-20 my-10 flex gap-5 lg:gap-20 w-full no-underline"
     >
       <div className="flex-2 flex flex-col text-left">
