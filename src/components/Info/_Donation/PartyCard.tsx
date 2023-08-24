@@ -7,6 +7,7 @@ const PARTY_ASSETS = _PARTY_ASSETS as Record<
   string,
   { color: string | null; image: string | null }
 >;
+import PARTY_LOOKUP from "@/data/party_lookup.json";
 
 import { formatThousands, thaiMoneyFormatter } from "@/functions/moneyFormatter";
 import { hasCorrupt0Page } from "@/functions/navigation";
@@ -38,6 +39,8 @@ export default function InfoDonationPartyCard({
     statements.reduce((a, c) => a + c.amount, 0)
   );
 
+  const latestName = (PARTY_LOOKUP as Record<string, string | undefined>)[name] ?? name;
+
   return (
     <Accordion
       className="bg-white/10 py-5 px-10 rounded-5"
@@ -52,8 +55,8 @@ export default function InfoDonationPartyCard({
               height={25}
             />
             <span className="b2 font-bold">{name}</span>
-            {hasCorrupt0Page(`พรรค${name}`) && (
-              <Link href={`/info/พรรค${name}`} target="_blank">
+            {hasCorrupt0Page(`พรรค${latestName}`) && (
+              <Link href={`/info/พรรค${latestName}`} target="_blank">
                 <Image
                   src="/icons/new_tab.svg"
                   alt="ดูข้อมูลพรรค"

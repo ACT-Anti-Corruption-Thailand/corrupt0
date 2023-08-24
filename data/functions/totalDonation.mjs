@@ -9,16 +9,18 @@ const getTotalDonation = async () => {
 
   const table = rawTable.derive({
     donor_fullname: (d) => d.formatted_name,
+  });
+  const newPartyTable = table.derive({
     party: aq.escape((d) => NEW_PARTY_LOOKUP[d.party] ?? d.party),
   });
 
-  const totalPerYearTable = table
+  const totalPerYearTable = newPartyTable
     .select("year", "amount")
     .groupby("year")
     .rollup({ total: (d) => op.sum(d.amount) })
     .orderby(aq.desc((d) => d.total));
 
-  const totalTable = table
+  const totalTable = newPartyTable
     .select("amount")
     .rollup({ total: (d) => op.sum(d.amount) })
     .derive({ year: () => "ทุกปี" });
@@ -41,13 +43,13 @@ const getTotalDonation = async () => {
       return acc;
     }, {});
 
-  const partyPerYearTable = table
+  const partyPerYearTable = newPartyTable
     .select("party", "year", "amount")
     .rename({ amount: "_amount" })
     .groupby("year", "party")
     .rollup({ amount: (d) => op.sum(d._amount) });
 
-  const totalPerPartyTable = table
+  const totalPerPartyTable = newPartyTable
     .select("party", "amount")
     .groupby("party")
     .rollup({ amount: (d) => op.sum(d.amount) })
