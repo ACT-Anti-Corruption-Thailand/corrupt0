@@ -305,6 +305,27 @@ export default function AssetDebtChart() {
       </div>
       <div className="flex flex-col gap-5 text-left">
         <div className="text-white b3 font-bold">ดูเฉพาะ</div>
+        <ul className="flex flex-wrap gap-5 max-w-[300px]">
+          {selectedPeople.map((e) => (
+            <li key={e} className="b6 rounded-full bg-gray-4 px-10 flex gap-5 text-black">
+              {e}
+              <button
+                type="button"
+                onClick={() => {
+                  setSelectedPeople((v) => v.filter((p) => p !== e));
+                }}
+              >
+                <Image
+                  className="w-[11px] h-auto aspect-square"
+                  src="/icons/cross-small.svg"
+                  width={11}
+                  height={11}
+                  alt="ลบ"
+                />
+              </button>
+            </li>
+          ))}
+        </ul>
         <div>
           <Combobox
             value={selectedPeople}
@@ -315,7 +336,6 @@ export default function AssetDebtChart() {
               <Combobox.Input
                 className="flex-1 min-w-0 b4 rounded-full placeholder:text-gray-5 placeholder:opacity-100 px-10 py-2 bg-white text-black placeholder-shown:bg-gray-4 outline-none truncate"
                 onChange={(event) => setQuery(event.target.value)}
-                displayValue={(people: string[]) => people.join(", ")}
                 placeholder="พิมพ์ชื่อ-นามสกุล"
               />
               {selectedPeople.length > 0 && (
