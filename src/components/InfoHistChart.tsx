@@ -2,6 +2,7 @@ import Image from "next/image";
 import { moneyFormatter, formatThousands } from "@/functions/moneyFormatter";
 import { BarChart, Bar, XAxis, ResponsiveContainer, ReferenceLine } from "recharts";
 import Link from "next/link";
+import { MiniPositionChart } from "./Info/MiniPositionChart";
 
 interface GraphCardProps {
   number: [number, string];
@@ -9,22 +10,11 @@ interface GraphCardProps {
   min: [number, string];
   title?: string;
   refValue?: number;
+  data: {
+    x: number;
+    y?: number;
+  }[];
 }
-
-const data = [
-  {
-    name: 1000000,
-    amount: 2,
-  },
-  {
-    name: 4234567,
-    amount: 13,
-  },
-  {
-    name: 5000000,
-    amount: 8,
-  },
-];
 
 const InfoHistChart = (props: GraphCardProps) => {
   return (
@@ -37,26 +27,11 @@ const InfoHistChart = (props: GraphCardProps) => {
         <p className="b6 lg:b4">{props.number.join(" ")}</p>
       </div>
       <div className="flex-2 min-w-0 pointer-events-none flex items-center">
-        <ResponsiveContainer height={110}>
-          <BarChart width={200} height={150} data={data}>
-            {props.refValue && (
-              <ReferenceLine
-                x={props.refValue}
-                stroke="#EC1C24"
-                isFront
-                strokeDasharray="3 3"
-              />
-            )}
-            <XAxis
-              type="number"
-              dataKey="name"
-              fill="3F3F3F"
-              domain={["auto", "auto"]}
-              tickFormatter={moneyFormatter}
-            />
-            <Bar dataKey="amount" fill="#fff" minPointSize={1} />
-          </BarChart>
-        </ResponsiveContainer>
+        <MiniPositionChart
+          data={props.data}
+          refValue={props.refValue}
+          hasData={props.number[0] > 0}
+        />
       </div>
       <div className="flex-1 flex flex-col items-end min-w-[60px]">
         <p className="b6 lg:b4 text-value-positive-text">

@@ -57,6 +57,10 @@
   .b7 {
     @apply text-14 md:text-20 font-body;
   }
+
+  .b8 {
+    @apply text-10 md:text-18 font-body;
+  }
 }
 
 @layer components {

@@ -68,6 +68,7 @@ export default function InfoTab() {
               key={g}
               title={g}
               number={[PEOPLE_GROUP_METADATA[g].count, "คน"]}
+              data={PEOPLE_GROUP_METADATA[g].asset.chartData}
               max={thaiMoneyFormatter(PEOPLE_GROUP_METADATA[g].asset.max)}
               min={thaiMoneyFormatter(PEOPLE_GROUP_METADATA[g].asset.min)}
               refValue={1801090.878}
@@ -104,6 +105,7 @@ export default function InfoTab() {
               key={g}
               title={g}
               number={[PEOPLE_GROUP_METADATA[g].count, "คน"]}
+              data={PEOPLE_GROUP_METADATA[g].debt.chartData}
               max={thaiMoneyFormatter(PEOPLE_GROUP_METADATA[g].debt.max)}
               min={thaiMoneyFormatter(PEOPLE_GROUP_METADATA[g].debt.min)}
               refValue={205679}
