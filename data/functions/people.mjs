@@ -463,7 +463,9 @@ let DATA = {
 
   // statement lookup
   STATEMENT_TYPE: await safeLoadCSV("data/raw/statement_type.csv"),
-  STATEMENT_DETAIL_TYPE: await safeLoadCSV("data/raw/statement_detail_type.csv"),
+  // FIXME: Use real data
+  // TODO: Properly join id
+  STATEMENT_DETAIL_TYPE: await safeLoadCSV("data/constants/statement_detail_type.csv"),
 };
 
 const ASSET_CATEGORY = DATA.ASSET_TYPE.dedupe("asset_type_main_type_name").array(
@@ -799,6 +801,7 @@ export const createShareholderTable = async () => {
   return tables.reduce((all, curr) => all.concat(curr));
 };
 
+// FIXME: Use real data
 const CONST_DIR = "data/constants";
 
 const createCredenTable = async () => {

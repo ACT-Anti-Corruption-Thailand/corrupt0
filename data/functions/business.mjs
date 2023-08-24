@@ -4,6 +4,7 @@ import path from "path";
 import { safeLoadCSV } from "../utils/csv.mjs";
 import { getDonationData } from "./donation.mjs";
 
+// FIXME: Use real data
 const CONST_DIR = "data/constants";
 const RAW_DIR = "data/raw";
 const DONATION_TABLE = await getDonationData();

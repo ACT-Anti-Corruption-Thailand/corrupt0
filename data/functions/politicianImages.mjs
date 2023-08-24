@@ -1,4 +1,5 @@
 import fs from "fs/promises";
+// TODO: Make Fetcher
 import PEOPLE_ASSETS from "../constants/politicianAssets.json" assert { type: "json" };
 
 export const generatePoliticianImages = async () => {

@@ -3,7 +3,8 @@ import fs from "fs/promises";
 import { safeLoadCSV } from "../utils/csv.mjs";
 
 const DATA_NACC = await safeLoadCSV("data/raw/nacc_detail.csv");
-const DATA_OLD_NAME = await safeLoadCSV("data/raw/submitter_old_name.csv");
+// FIXME: Use real data (use modified file for testing)
+const DATA_OLD_NAME = await safeLoadCSV("data/constants/submitter_old_name.csv");
 
 const nacc_original_names = Object.fromEntries(
   DATA_NACC.derive({
