@@ -126,19 +126,6 @@ export default function Person({ params }: { params: { name: string } }) {
     ...YEARS,
   ];
 
-  const [SPOUSE_COUNT, CHILD_COUNT] = relationship.reduce(
-    (a: [number, number], c: { relationship_name: string }) => {
-      switch (c.relationship_name) {
-        case "บุตร":
-          return [a[0], a[1] + 1];
-        case "คู่สมรส":
-          return [a[0] + 1, a[1]];
-      }
-      return a;
-    },
-    [0, 0]
-  );
-
   return (
     <>
       <Navbar
@@ -383,8 +370,6 @@ export default function Person({ params }: { params: { name: string } }) {
               data={statement}
               years={YEARS}
               compareYears={COMPARE_YEARS}
-              spouseCount={SPOUSE_COUNT}
-              childCount={CHILD_COUNT}
               assetsData={topAssets}
               naccYear={NACC_YEAR}
               nacc={nacc}

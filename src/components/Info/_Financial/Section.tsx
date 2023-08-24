@@ -103,8 +103,6 @@ const calcMax = (
 
 interface InfoFinancialSectionProps {
   name: string;
-  spouseCount: number;
-  childCount: number;
   years: DropdownDetailedData[];
   compareYears: DropdownDetailedData[];
   data: Record<string, InfoFinancial>;
@@ -117,13 +115,11 @@ interface InfoFinancialSectionProps {
     }
   >;
   naccYear: Record<string | number, number>;
-  nacc: any;
+  nacc: Record<string, any>;
 }
 
 export default function InfoFinancialSection({
   name,
-  spouseCount,
-  childCount,
   years,
   compareYears,
   data,
@@ -142,6 +138,9 @@ export default function InfoFinancialSection({
   const compareYearData = data[compareYear.data];
 
   const max = calcMax(compareYear.data, currentYearData, compareYearData);
+
+  const spouseCount = nacc[currentYear.data].spouse ?? 0;
+  const childCount = nacc[currentYear.data].child ?? 0;
 
   return (
     <>

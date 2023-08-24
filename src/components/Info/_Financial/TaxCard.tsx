@@ -183,7 +183,7 @@ export const InfoFinancialCompareTaxCard = ({
           {showSpouse && spouseCount > 0 && (
             <div className="opacity-80 flex-1 flex">
               <div className={clsx(showActor && "mx-auto")}>
-                <span className="block b7 leading-1">คู่สมรส {spouseCount} คน</span>
+                <span className="block b7 leading-1">คู่สมรส</span>
                 <span className="block b4">{f$(taxSpouse1)}</span>
                 <span className="block b4">{f$(taxSpouse2)}</span>
               </div>

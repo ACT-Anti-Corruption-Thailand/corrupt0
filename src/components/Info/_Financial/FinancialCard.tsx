@@ -267,7 +267,7 @@ export const InfoFinancialCompareCard = ({
           {showSpouse && spouseCount > 0 && (
             <div className="flex-1 opacity-80 flex">
               <div className={clsx(showActor && "mx-auto")}>
-                <span className="block b7 leading-1">คู่สมรส {spouseCount} คน</span>
+                <span className="block b7 leading-1">คู่สมรส</span>
                 <span className="block b4">{f$(spouse1Total)}</span>
                 <span className="block b4">{f$(spouse2Total)}</span>
               </div>
@@ -276,7 +276,7 @@ export const InfoFinancialCompareCard = ({
           {showChild && childCount > 0 && (
             <div className="flex-1 opacity-60 flex">
               <div className={clsx((showActor || showSpouse) && "mx-auto")}>
-                <span className="block b7 leading-1">บุตร {childCount} คน</span>
+                <span className="block b7 leading-1">บุตร</span>
                 <span className="block b4">{f$(child1Total)}</span>
                 <span className="block b4">{f$(child2Total)}</span>
               </div>

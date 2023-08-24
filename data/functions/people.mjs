@@ -312,13 +312,7 @@ export const getRelationship = async (nacc_id) => {
   return DATA_RELATIVES.params({ nacc_id })
     .filter((d) => op.equal(d.nacc_id, nacc_id))
     .select("full_name", "relationship_name")
-    .objects()
-    .sort((a, z) => a.full_name.localeCompare(z.full_name))
-    .sort(
-      (a, z) =>
-        getRelationshipRank(a.relationship_name) -
-        getRelationshipRank(z.relationship_name)
-    );
+    .objects();
 };
 
 // ██╗      █████╗ ██╗    ██╗███████╗██╗   ██╗██╗████████╗
@@ -1103,11 +1097,35 @@ export const generatePeople = async () => {
     let relationship = [];
     for (let nid of nacc_ids) {
       const d = await getRelationship(+nid);
+
+      if (nid in formattedNacc) {
+        const [SPOUSE_COUNT, CHILD_COUNT] = d.reduce(
+          (a, c) => {
+            switch (c.relationship_name) {
+              case "บุตร":
+                return [a[0], a[1] + 1];
+              case "คู่สมรส":
+                return [a[0] + 1, a[1]];
+            }
+            return a;
+          },
+          [0, 0]
+        );
+
+        formattedNacc[nid].spouse = SPOUSE_COUNT;
+        formattedNacc[nid].child = CHILD_COUNT;
+      }
+
       relationship.push(d);
     }
-    relationship = [...new Set(relationship.flat().map((e) => JSON.stringify(e)))].map(
-      (e) => JSON.parse(e)
-    );
+    relationship = [...new Set(relationship.flat().map((e) => JSON.stringify(e)))]
+      .map((e) => JSON.parse(e))
+      .sort((a, z) => a.full_name.localeCompare(z.full_name))
+      .sort(
+        (a, z) =>
+          getRelationshipRank(a.relationship_name) -
+          getRelationshipRank(z.relationship_name)
+      );
 
     let assets = {};
     for (let nid of nacc_ids) {
