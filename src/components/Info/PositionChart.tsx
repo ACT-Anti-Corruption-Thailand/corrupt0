@@ -27,7 +27,7 @@ const ChartLabelList = ({ props }: { props: any }) => {
         textAnchor="middle"
       >
         <tspan x={x + width / 2} dy="0em">
-          {value} %
+          {Math.round(+value * 100) / 100} %
         </tspan>
       </text>
     );
