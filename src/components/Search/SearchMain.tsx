@@ -11,6 +11,7 @@ import PARTY_ASSETS from "@/data/color/partyAssets.json";
 import BUSINESS_DONATION from "@/data/donation/donor.json";
 import PARTY_DONATION from "@/data/donation/partyPerYearWithTotal.json";
 import DATA_PARTY from "@/data/parties.json";
+import PARTIES_ID from "@/data/parties_id.json";
 import DATA_PEOPLE from "@/data/people_search.json";
 import POLITICIAN_IMAGES from "@/data/politicianImages.json";
 import _TOP_INCOME_ASSETS from "@/data/top_income_assets.json";
@@ -37,6 +38,7 @@ const PEOPLE = DATA_PEOPLE.map((e) => {
 
 const PARTIES = DATA_PARTY.map((e) => ({
   name: e.replace("พรรค", ""),
+  pid: (PARTIES_ID as Record<any, string | undefined>)[e],
   link: e,
   image: (PARTY_ASSETS as Record<string, { color: string | null; image: string | null }>)[
     e.replace("พรรค", "")
@@ -76,6 +78,7 @@ interface DataEntry {
   name: string;
   link: string;
   position?: string;
+  pid?: string;
   image?: string | null;
 }
 
@@ -216,6 +219,16 @@ function SearchResult({
                       }}
                     />
                   )}
+                  {e.pid && (
+                    <span
+                      className="b5 leading-1 text-gray-6 block"
+                      dangerouslySetInnerHTML={{
+                        __html:
+                          "รหัสพรรคการเมือง " +
+                          highlightChar(e.pid.padStart(3, "0"), query),
+                      }}
+                    />
+                  )}
                 </div>
               </Link>
             </li>
@@ -257,7 +270,9 @@ export const SearchMain = () => {
       : [];
   const partyResult: DataEntry[] =
     query !== "" && (group === "ทั้งหมด" || group === "พรรค")
-      ? PARTIES.filter((e) => e.name.includes(query))
+      ? PARTIES.filter(
+          (e) => e.name.includes(query) || e.pid?.padStart(3, "0")?.includes(query)
+        )
       : [];
 
   return (

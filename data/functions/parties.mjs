@@ -50,6 +50,7 @@ export const getPartyDonor = async (party) => {
 
 export const generateParties = async () => {
   const parties = await getPartiesFileNameFromDonation();
+  const parties_id = {};
 
   await fs.writeFile(`src/data/parties.json`, JSON.stringify(parties));
   for (let party of parties) {
@@ -59,11 +60,15 @@ export const generateParties = async () => {
       .sort((a, z) => z.index - a.index)
       .map((f) => f.party_name.replace("พรรค", ""));
 
+    parties_id[party] = ect_id;
+
     await fs.writeFile(
       `src/data/info/${party}.json`,
       JSON.stringify({ ect_id, names, donor })
     );
   }
+
+  await fs.writeFile(`src/data/parties_id.json`, JSON.stringify(parties_id));
 };
 
 console.info(`ℹ Generating Parties`);
