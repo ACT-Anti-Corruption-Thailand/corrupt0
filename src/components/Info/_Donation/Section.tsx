@@ -119,7 +119,10 @@ export default function InfoDonationSection({
 }: InfoDonationSection) {
   const typedData = rawData as DonationData[];
 
-  const YEARS = useMemo(() => ["ทุกปี", ...allYears.map((e) => "" + e)], [allYears]);
+  const YEARS = useMemo(
+    () => ["ทุกปี", ...allYears.map((e) => "" + e).sort((a, z) => +z - +a)],
+    [allYears]
+  );
   const PARTIES = useMemo(() => ["ทุกพรรค", ...allParties], [allParties]);
 
   const [year, setYear] = useState(YEARS[0]);
