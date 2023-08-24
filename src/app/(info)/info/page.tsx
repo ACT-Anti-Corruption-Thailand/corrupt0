@@ -2,7 +2,7 @@ import ImgCard from "@/components/ImgCard";
 import Navbar from "@/components/Navbar";
 import Search from "@/components/Search";
 import Image from "next/image";
-import MainTab from "@/components/Info/MainTab";
+import InfoTab from "@/components/Info/InfoTab";
 
 import { openGraph, twitter } from "@/app/layout";
 import DATA_PEOPLE from "@/data/people_search.json";
@@ -61,7 +61,7 @@ export default function Info() {
           สำรวจตามกลุ่มตำแหน่ง
         </p>
         <div className="flex flex-col items-center text-center b6 lg:b5 pb-10 lg:pb-30 w-[90vw] min-w-[300px] max-w-[850px]">
-          <MainTab />
+          <InfoTab />
         </div>
       </section>
     </>

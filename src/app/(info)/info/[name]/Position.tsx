@@ -60,7 +60,7 @@ export default function Position({ params }: { params: { name: string } }) {
         </Link>
         <p className="h3 font-black text-white my-10 lg:my-20 lg:h2">{position}</p>
         <div className="text-center b6 lg:b5 pb-10 lg:pb-30 w-[90vw] lg:w-[70vw]">
-          <PositionTab />
+          <PositionTab position={position} />
         </div>
       </section>
     </>

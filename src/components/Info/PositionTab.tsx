@@ -8,10 +8,39 @@ import { PositionChart } from "@/components/Info/PositionChart";
 import SortByBtn from "@/components/SortByBtn";
 import { Tab } from "@headlessui/react";
 
-const SUB_POSITION = ["ทุกตำแหน่ง", "นายกรัฐมนตรี", "รัฐมนตรี"];
+import _PEOPLE_GROUP_METADATA from "@/data/people_group_metadata.json";
+const PEOPLE_GROUP_METADATA = _PEOPLE_GROUP_METADATA as Record<
+  string,
+  {
+    asset: {
+      chartData: {
+        x: number;
+        y?: number;
+      }[];
+      max: number;
+      min: number;
+    };
+    debt: {
+      chartData: {
+        x: number;
+        y?: number;
+      }[];
+      max: number;
+      min: number;
+    };
+    count: number;
+    subgroup: string[];
+  }
+>;
 
-export default function PositionTab() {
-  const [subPositionShown, setSubPositionShown] = useState([...SUB_POSITION]);
+interface PositionTabProps {
+  position: string;
+}
+
+export default function PositionTab({ position }: PositionTabProps) {
+  const [subPositionShown, setSubPositionShown] = useState([
+    ...PEOPLE_GROUP_METADATA[position].subgroup,
+  ]);
   const [personSort, setPersonSort] = useState<"asc" | "desc">("desc");
 
   return (
@@ -48,13 +77,16 @@ export default function PositionTab() {
             </InfoPopover>
           </div>
           <div className="-ml-10 -mr-10">
-            <PositionChart refValue={1801090.878} />
+            <PositionChart
+              refValue={1801090.878}
+              data={PEOPLE_GROUP_METADATA[position].asset.chartData}
+            />
           </div>
           <p className="text-gray-5 b6">ปริมาณทรัพย์สิน (บาท)</p>
           <div className="flex flex-row items-center justify-center gap-10 my-10 lg:mb-20">
             <p className="text-gray-4 b4 lg:b3">ดู</p>
             <Dropdown
-              data={SUB_POSITION}
+              data={PEOPLE_GROUP_METADATA[position].subgroup}
               value={subPositionShown}
               setValue={setSubPositionShown}
               multiple
@@ -108,13 +140,16 @@ export default function PositionTab() {
             </InfoPopover>
           </div>
           <div className="-ml-10 -mr-10">
-            <PositionChart refValue={205679} />
+            <PositionChart
+              refValue={205679}
+              data={PEOPLE_GROUP_METADATA[position].debt.chartData}
+            />
           </div>
           <p className="text-gray-5 b6">ปริมาณหนี้สิน (บาท)</p>
           <div className="flex flex-row items-center justify-center gap-10 my-10 lg:mb-20">
-            <p className="text-gray-4 b4 lg:b3">ในปี</p>
+            <p className="text-gray-4 b4 lg:b3">ดู</p>
             <Dropdown
-              data={SUB_POSITION}
+              data={PEOPLE_GROUP_METADATA[position].subgroup}
               value={subPositionShown}
               setValue={setSubPositionShown}
               multiple

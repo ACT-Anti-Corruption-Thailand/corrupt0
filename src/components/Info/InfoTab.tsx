@@ -4,9 +4,23 @@ import InfoPopover from "@/components/Info/Popover";
 import InfoHistChart from "@/components/InfoHistChart";
 import { Tab } from "@headlessui/react";
 
+import PEOPLE_GROUP_METADATA from "@/data/people_group_metadata.json";
+
 import { thaiMoneyFormatter } from "@/functions/moneyFormatter";
 
-export default function MainTab() {
+const GROUPS = [
+  "นายกรัฐมนตรีและรัฐมนตรี",
+  "สมาชิกสภาผู้แทนราษฎร",
+  "สมาชิกวุฒิสภา",
+  "สมาชิกสภานิติบัญญัติแห่งชาติ",
+  "ข้าราชการการเมือง",
+  "ตุลาการศาลรัฐธรรมนูญ",
+  "ผู้ดำรงตำแหน่งในองค์กรอิสระ",
+  "ผู้บริหารกระทรวง/ข้าราชการระดับสูง",
+  "องค์กรปกครองส่วนท้องถิ่น",
+] as const;
+
+export default function InfoTab() {
   return (
     <Tab.Group>
       <Tab.List className="flex flex-row items-center">
@@ -49,69 +63,16 @@ export default function MainTab() {
               <span className="text-value-positive-text">สูงสุด</span> - ต่ำสุด
             </div>
           </div>
-          <InfoHistChart
-            title="นายกรัฐมนตรีและรัฐมนตรี"
-            number={[194, "คน"]}
-            max={thaiMoneyFormatter(474816.92)}
-            min={thaiMoneyFormatter(5064)}
-            refValue={1801090.878}
-          />
-          <InfoHistChart
-            title="สมาชิกสภาผู้แทนราษฎร"
-            number={[491, "คน"]}
-            max={thaiMoneyFormatter(474816.92)}
-            min={thaiMoneyFormatter(5064)}
-            refValue={1801090.878}
-          />
-          <InfoHistChart
-            title="สมาชิกวุฒิสภา"
-            number={[491, "คน"]}
-            max={thaiMoneyFormatter(474816.92)}
-            min={thaiMoneyFormatter(5064)}
-            refValue={1801090.878}
-          />
-          <InfoHistChart
-            title="สมาชิกสภานิติบัญญัติแห่งชาติ"
-            number={[194, "คน"]}
-            max={thaiMoneyFormatter(474816.92)}
-            min={thaiMoneyFormatter(5064)}
-            refValue={1801090.878}
-          />
-          <InfoHistChart
-            title="ข้าราชการการเมือง"
-            number={[491, "คน"]}
-            max={thaiMoneyFormatter(474816.92)}
-            min={thaiMoneyFormatter(5064)}
-            refValue={1801090.878}
-          />
-          <InfoHistChart
-            title="ตุลาการศาลรัฐธรรมนูญ"
-            number={[491, "คน"]}
-            max={thaiMoneyFormatter(474816.92)}
-            min={thaiMoneyFormatter(5064)}
-            refValue={1801090.878}
-          />
-          <InfoHistChart
-            title="ผู้ดำรงตำแหน่งในองค์กรอิสระ"
-            number={[194, "คน"]}
-            max={thaiMoneyFormatter(474816.92)}
-            min={thaiMoneyFormatter(5064)}
-            refValue={1801090.878}
-          />
-          <InfoHistChart
-            title="ผู้บริหารกระทรวงข้าราชการระดับสูง"
-            number={[491, "คน"]}
-            max={thaiMoneyFormatter(474816.92)}
-            min={thaiMoneyFormatter(5064)}
-            refValue={1801090.878}
-          />
-          <InfoHistChart
-            title="องค์กรปกครองส่วนท้องถิ่น"
-            number={[491, "คน"]}
-            max={thaiMoneyFormatter(474816.92)}
-            min={thaiMoneyFormatter(5064)}
-            refValue={1801090.878}
-          />
+          {GROUPS.map((g) => (
+            <InfoHistChart
+              key={g}
+              title={g}
+              number={[PEOPLE_GROUP_METADATA[g].count, "คน"]}
+              max={thaiMoneyFormatter(PEOPLE_GROUP_METADATA[g].asset.max)}
+              min={thaiMoneyFormatter(PEOPLE_GROUP_METADATA[g].asset.min)}
+              refValue={1801090.878}
+            />
+          ))}
         </Tab.Panel>
         <Tab.Panel>
           {/* หนี้สิน */}
@@ -138,69 +99,16 @@ export default function MainTab() {
               <span className="text-value-positive-text">สูงสุด</span> - ต่ำสุด
             </div>
           </div>
-          <InfoHistChart
-            title="นายกรัฐมนตรีและรัฐมนตรี"
-            number={[194, "คน"]}
-            max={thaiMoneyFormatter(474816.92)}
-            min={thaiMoneyFormatter(5064)}
-            refValue={205679}
-          />
-          <InfoHistChart
-            title="สมาชิกสภาผู้แทนราษฎร"
-            number={[491, "คน"]}
-            max={thaiMoneyFormatter(474816.92)}
-            min={thaiMoneyFormatter(5064)}
-            refValue={205679}
-          />
-          <InfoHistChart
-            title="สมาชิกวุฒิสภา"
-            number={[491, "คน"]}
-            max={thaiMoneyFormatter(474816.92)}
-            min={thaiMoneyFormatter(5064)}
-            refValue={205679}
-          />
-          <InfoHistChart
-            title="สมาชิกสภานิติบัญญัติแห่งชาติ"
-            number={[194, "คน"]}
-            max={thaiMoneyFormatter(474816.92)}
-            min={thaiMoneyFormatter(5064)}
-            refValue={205679}
-          />
-          <InfoHistChart
-            title="ข้าราชการการเมือง"
-            number={[491, "คน"]}
-            max={thaiMoneyFormatter(474816.92)}
-            min={thaiMoneyFormatter(5064)}
-            refValue={205679}
-          />
-          <InfoHistChart
-            title="ตุลาการศาลรัฐธรรมนูญ"
-            number={[491, "คน"]}
-            max={thaiMoneyFormatter(474816.92)}
-            min={thaiMoneyFormatter(5064)}
-            refValue={205679}
-          />
-          <InfoHistChart
-            title="ผู้ดำรงตำแหน่งในองค์กรอิสระ"
-            number={[194, "คน"]}
-            max={thaiMoneyFormatter(474816.92)}
-            min={thaiMoneyFormatter(5064)}
-            refValue={205679}
-          />
-          <InfoHistChart
-            title="ผู้บริหารกระทรวงข้าราชการระดับสูง"
-            number={[491, "คน"]}
-            max={thaiMoneyFormatter(474816.92)}
-            min={thaiMoneyFormatter(5064)}
-            refValue={205679}
-          />
-          <InfoHistChart
-            title="องค์กรปกครองส่วนท้องถิ่น"
-            number={[491, "คน"]}
-            max={thaiMoneyFormatter(474816.92)}
-            min={thaiMoneyFormatter(5064)}
-            refValue={205679}
-          />
+          {GROUPS.map((g) => (
+            <InfoHistChart
+              key={g}
+              title={g}
+              number={[PEOPLE_GROUP_METADATA[g].count, "คน"]}
+              max={thaiMoneyFormatter(PEOPLE_GROUP_METADATA[g].debt.max)}
+              min={thaiMoneyFormatter(PEOPLE_GROUP_METADATA[g].debt.min)}
+              refValue={205679}
+            />
+          ))}
         </Tab.Panel>
         <Tab.Panel>
           {/* ทั้งคู่ Scatterplot */}

@@ -886,6 +886,98 @@ const getPersonBusiness = async (name) => {
     .objects();
 };
 
+//  ██████╗ ██████╗  ██████╗ ██╗   ██╗██████╗     ███╗   ███╗███████╗████████╗ █████╗ ██████╗  █████╗ ████████╗ █████╗
+// ██╔════╝ ██╔══██╗██╔═══██╗██║   ██║██╔══██╗    ████╗ ████║██╔════╝╚══██╔══╝██╔══██╗██╔══██╗██╔══██╗╚══██╔══╝██╔══██╗
+// ██║  ███╗██████╔╝██║   ██║██║   ██║██████╔╝    ██╔████╔██║█████╗     ██║   ███████║██║  ██║███████║   ██║   ███████║
+// ██║   ██║██╔══██╗██║   ██║██║   ██║██╔═══╝     ██║╚██╔╝██║██╔══╝     ██║   ██╔══██║██║  ██║██╔══██║   ██║   ██╔══██║
+// ╚██████╔╝██║  ██║╚██████╔╝╚██████╔╝██║         ██║ ╚═╝ ██║███████╗   ██║   ██║  ██║██████╔╝██║  ██║   ██║   ██║  ██║
+//  ╚═════╝ ╚═╝  ╚═╝ ╚═════╝  ╚═════╝ ╚═╝         ╚═╝     ╚═╝╚══════╝   ╚═╝   ╚═╝  ╚═╝╚═════╝ ╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝
+
+const GROUPS = [
+  "นายกรัฐมนตรีและรัฐมนตรี",
+  "สมาชิกสภาผู้แทนราษฎร",
+  "สมาชิกวุฒิสภา",
+  "สมาชิกสภานิติบัญญัติแห่งชาติ",
+  "ข้าราชการการเมือง",
+  "ตุลาการศาลรัฐธรรมนูญ",
+  "ผู้ดำรงตำแหน่งในองค์กรอิสระ",
+  "ผู้บริหารกระทรวง/ข้าราชการระดับสูง",
+  "องค์กรปกครองส่วนท้องถิ่น",
+];
+
+const chartTier = [1, 10, 100, 1e3, 10e3, 100e3, 1e6, 10e6, 100e6, 1e9, 10e9, 100e9];
+
+const generateGroupMetadata = async (people_data_by_group) => {
+  const metadataByGroup = Object.fromEntries(
+    GROUPS.map((e) => [
+      e,
+      {
+        asset: {
+          chartData: Object.entries(
+            people_data_by_group[e].reduce((a, c) => {
+              const val = c.asset;
+              for (const tier of [...chartTier].reverse()) {
+                if (val >= tier) return { ...a, [tier]: (a[tier] ?? 0) + 1 };
+              }
+              return { ...a, 1: (a[1] ?? 0) + 1 };
+            }, Object.fromEntries(chartTier.map((e) => [e, undefined])))
+          )
+            .map((f) => ({
+              x: +f[0],
+              y:
+                f[1] === undefined
+                  ? undefined
+                  : (f[1] / people_data_by_group[e].length) * 100,
+            }))
+            .sort((a, z) => a.x - z.x),
+          max:
+            people_data_by_group[e].length > 0
+              ? Math.max(...people_data_by_group[e].map((e) => e.asset))
+              : 0,
+          min:
+            people_data_by_group[e].length > 0
+              ? Math.min(...people_data_by_group[e].map((e) => e.asset))
+              : 0,
+        },
+        debt: {
+          chartData: Object.entries(
+            people_data_by_group[e].reduce((a, c) => {
+              const val = c.debt;
+              for (const tier of [...chartTier].reverse()) {
+                if (val >= tier) return { ...a, [tier]: (a[tier] ?? 0) + 1 };
+              }
+              return { ...a, 1: (a[1] ?? 0) + 1 };
+            }, Object.fromEntries(chartTier.map((e) => [e, undefined])))
+          )
+            .map((f) => ({
+              x: +f[0],
+              y:
+                f[1] === undefined
+                  ? undefined
+                  : (f[1] / people_data_by_group[e].length) * 100,
+            }))
+            .sort((a, z) => a.x - z.x),
+          max:
+            people_data_by_group[e].length > 0
+              ? Math.max(...people_data_by_group[e].map((e) => e.debt))
+              : 0,
+          min:
+            people_data_by_group[e].length > 0
+              ? Math.min(...people_data_by_group[e].map((e) => e.debt))
+              : 0,
+        },
+        count: people_data_by_group[e].length,
+        subgroup: [...new Set(people_data_by_group[e].map((e) => e.subgroup))],
+      },
+    ])
+  );
+
+  await fs.writeFile(
+    `src/data/people_group_metadata.json`,
+    JSON.stringify(metadataByGroup)
+  );
+};
+
 // ███╗   ███╗ █████╗ ██╗███╗   ██╗
 // ████╗ ████║██╔══██╗██║████╗  ██║
 // ██╔████╔██║███████║██║██╔██╗ ██║
@@ -912,6 +1004,8 @@ export const generatePeople = async () => {
   const incomeValueList = [];
   const debtAssetList = [];
   const lawsuitCountList = [];
+
+  const peopleByGroup = Object.fromEntries(GROUPS.map((e) => [e, []]));
 
   // let idx = 1;
   // const ppllen = namesAndId.length;
@@ -1073,19 +1167,30 @@ export const generatePeople = async () => {
         person_data_json?.group &&
         latestStatement?.ทรัพย์สิน &&
         latestStatement?.หนี้สิน
-      )
-        debtAssetList.push({
+      ) {
+        const pA = latestStatement.ทรัพย์สิน
+          ?.map((e) => e.value)
+          ?.flat()
+          ?.reduce((a, c) => a + c);
+        const pD = latestStatement.หนี้สิน
+          ?.map((e) => e.value)
+          ?.flat()
+          ?.reduce((a, c) => a + c);
+
+        const dD = {
           name: dashed_full_name,
           group: person_data_json.group,
-          asset: latestStatement.ทรัพย์สิน
-            ?.map((e) => e.value)
-            ?.flat()
-            ?.reduce((a, c) => a + c),
-          debt: latestStatement.หนี้สิน
-            ?.map((e) => e.value)
-            ?.flat()
-            ?.reduce((a, c) => a + c),
+          asset: pA,
+          debt: pD,
+        };
+
+        debtAssetList.push(dD);
+
+        peopleByGroup[person_data_json.group].push({
+          ...dD,
+          subgroup: person_data_json.subgroup,
         });
+      }
     }
 
     const data = {
@@ -1132,6 +1237,13 @@ export const generatePeople = async () => {
     `src/data/nacc_debtasset.json`,
     JSON.stringify(debtAssetList.sort((a, z) => a.name.localeCompare(z.name)))
   );
+
+  for (const group in peopleByGroup) {
+    peopleByGroup[group].sort((a, z) => z.asset - a.asset);
+  }
+  await fs.writeFile(`src/data/people_group.json`, JSON.stringify(peopleByGroup));
+
+  await generateGroupMetadata(peopleByGroup);
 };
 
 console.info(`ℹ Generating People`);
