@@ -23,6 +23,7 @@ const NACC_DEBTASSET = _NACC_DEBTASSET as {
   name: string;
   asset: number;
   debt: number;
+  group: string;
 }[];
 
 import {
@@ -33,7 +34,6 @@ import {
 import { highlightChar } from "@/functions/searchHighlighter";
 
 import type { Dispatch, SetStateAction } from "react";
-import type { Payload } from "recharts/types/component/DefaultTooltipContent";
 
 type PeopleType =
   | "สส"
@@ -62,7 +62,7 @@ interface FilterCheckboxProps {
   show: boolean;
   setShow: Dispatch<SetStateAction<boolean>>;
   name: string;
-  count: number;
+  count: number | undefined;
   color: PeopleType;
   disabled?: boolean;
 }
@@ -98,7 +98,7 @@ function FilterCheckbox({
         />
       </div>
       <span className="nobr">{name}</span>
-      <span className="text-gray-4 nobr">{count} คน</span>
+      {count !== undefined && <span className="text-gray-4 nobr">{count} คน</span>}
     </Switch>
   );
 }
@@ -113,7 +113,7 @@ const StyledTooltip = ({ payload }: { payload: Record<any, any> }) => {
   return (
     <div className="rounded-5 bg-white text-left text-black b6 p-10">
       <h3 className="b3 font-bold">{payload.name.replace(/-/g, " ")}</h3>
-      <p className="text-gray-5">[ตำแหน่ง]</p>
+      <p className="text-gray-5">{payload.group}</p>
       <hr className="py-5 border-t border-t-gray-2" />
       <p>
         ทรัพย์สิน
@@ -134,26 +134,33 @@ const StyledTooltip = ({ payload }: { payload: Record<any, any> }) => {
   );
 };
 
-const CHARTDATA: {
-  name: string;
-  asset: number;
-  debt: number;
-  color: string;
-  active: boolean;
-}[] = [
-  ...NACC_DEBTASSET.map((e) => ({
-    ...e,
-    color: "#5849FF",
-    active: true,
-  })),
-  {
-    name: "Test",
-    asset: 5e6,
-    debt: 5e7,
-    color: "#5849FF",
-    active: false,
-  },
-];
+const POSITION_COLOR: Record<string, string | undefined> = {
+  สมาชิกสภาผู้แทนราษฎร: "#5849FF",
+  สมาชิกวุฒิสภา: "#62a1ff",
+  สมาชิกสภานิติบัญญัติแห่งชาติ: "#0C832D",
+  นายกรัฐมนตรีและรัฐมนตรี: "#FF6283",
+  ข้าราชการการเมือง: "#F3AF00",
+  ตุลาการศาลรัฐธรรมนูญ: "#CD6200",
+  ผู้ดำรงตำแหน่งในองค์กรอิสระ: "#D88AFC",
+  "ผู้บริหารกระทรวง/ข้าราชการระดับสูง": "#3CD59E",
+  องค์กรปกครองส่วนท้องถิ่น: "#25939A",
+};
+const DISABLED_COLOR = "#3F3F3F";
+
+const POSITION_COUNT: Record<string, number> = {
+  สมาชิกสภาผู้แทนราษฎร: 0,
+  สมาชิกวุฒิสภา: 0,
+  สมาชิกสภานิติบัญญัติแห่งชาติ: 0,
+  นายกรัฐมนตรีและรัฐมนตรี: 0,
+  ข้าราชการการเมือง: 0,
+  ตุลาการศาลรัฐธรรมนูญ: 0,
+  ผู้ดำรงตำแหน่งในองค์กรอิสระ: 0,
+  "ผู้บริหารกระทรวง/ข้าราชการระดับสูง": 0,
+  องค์กรปกครองส่วนท้องถิ่น: 0,
+};
+NACC_DEBTASSET.forEach((e) => {
+  POSITION_COUNT[e.group] = (POSITION_COUNT[e.group] ?? 0) + 1;
+});
 
 const PEOPLE = NACC_DEBTASSET.map((e) => e.name.replace(/-/g, " "));
 
@@ -177,6 +184,26 @@ export default function AssetDebtChart() {
   const [showCatg7, setShowCatg7] = useState(true);
   const [showCatg8, setShowCatg8] = useState(true);
   const [showCatg9, setShowCatg9] = useState(true);
+
+  const ACTIVE_CATG = [
+    showCatg1 && "นายกรัฐมนตรีและรัฐมนตรี",
+    showCatg2 && "สมาชิกสภาผู้แทนราษฎร",
+    showCatg3 && "สมาชิกวุฒิสภา",
+    showCatg4 && "สมาชิกสภานิติบัญญัติแห่งชาติ",
+    showCatg5 && "ข้าราชการการเมือง",
+    showCatg6 && "ตุลาการศาลรัฐธรรมนูญ",
+    showCatg7 && "ผู้ดำรงตำแหน่งในองค์กรอิสระ",
+    showCatg8 && "ผู้บริหารกระทรวง/ข้าราชการระดับสูง",
+    showCatg9 && "องค์กรปกครองส่วนท้องถิ่น",
+  ].filter((e) => e);
+
+  const FILTERED_CHARTDATA = NACC_DEBTASSET.map((e) => ({
+    ...e,
+    active:
+      selectedPeople.length > 0
+        ? selectedPeople.includes(e.name.replace(/-/g, " "))
+        : ACTIVE_CATG.includes(e.group),
+  }));
 
   return (
     <div className="flex flex-col gap-10 lg:gap-30 lg:flex-row">
@@ -260,11 +287,15 @@ export default function AssetDebtChart() {
                   e.payload?.length && <StyledTooltip payload={e.payload[0].payload} />
                 }
               />
-              <Scatter data={CHARTDATA} fill="transparent" strokeWidth={1}>
-                {CHARTDATA.map((entry, index) => (
+              <Scatter data={FILTERED_CHARTDATA} fill="transparent" strokeWidth={1}>
+                {FILTERED_CHARTDATA.map((entry, index) => (
                   <Cell
                     key={`cell-${index}`}
-                    stroke={entry.active ? entry.color : "#3F3F3F"}
+                    stroke={
+                      entry.active
+                        ? POSITION_COLOR[entry.group] ?? "#fff"
+                        : DISABLED_COLOR
+                    }
                   />
                 ))}
               </Scatter>
@@ -336,7 +367,7 @@ export default function AssetDebtChart() {
           setShow={setShowCatg1}
           color="นายก"
           name="นายกรัฐมนตรีและรัฐมนตรี"
-          count={0}
+          count={POSITION_COUNT["นายกรัฐมนตรีและรัฐมนตรี"]}
           disabled={selectedPeople.length > 0}
         />
         <FilterCheckbox
@@ -344,7 +375,7 @@ export default function AssetDebtChart() {
           setShow={setShowCatg2}
           color="สส"
           name="สมาชิกสภาผู้แทนราษฎร"
-          count={0}
+          count={POSITION_COUNT["สมาชิกสภาผู้แทนราษฎร"]}
           disabled={selectedPeople.length > 0}
         />
         <FilterCheckbox
@@ -352,7 +383,7 @@ export default function AssetDebtChart() {
           setShow={setShowCatg3}
           color="สว"
           name="สมาชิกวุฒิสภา"
-          count={0}
+          count={POSITION_COUNT["สมาชิกวุฒิสภา"]}
           disabled={selectedPeople.length > 0}
         />
         <FilterCheckbox
@@ -360,7 +391,7 @@ export default function AssetDebtChart() {
           setShow={setShowCatg4}
           color="สนช"
           name="สมาชิกสภานิติบัญญัติแห่งชาติ"
-          count={0}
+          count={POSITION_COUNT["สมาชิกสภานิติบัญญัติแห่งชาติ"]}
           disabled={selectedPeople.length > 0}
         />
         <FilterCheckbox
@@ -368,7 +399,7 @@ export default function AssetDebtChart() {
           setShow={setShowCatg5}
           color="ข้าราชการ"
           name="ข้าราชการการเมือง"
-          count={0}
+          count={POSITION_COUNT["ข้าราชการการเมือง"]}
           disabled={selectedPeople.length > 0}
         />
         <FilterCheckbox
@@ -376,7 +407,7 @@ export default function AssetDebtChart() {
           setShow={setShowCatg6}
           color="ตุลาการ"
           name="ตุลาการศาลรัฐธรรมนูญ"
-          count={0}
+          count={POSITION_COUNT["ตุลาการศาลรัฐธรรมนูญ"]}
           disabled={selectedPeople.length > 0}
         />
         <FilterCheckbox
@@ -384,7 +415,7 @@ export default function AssetDebtChart() {
           setShow={setShowCatg7}
           color="องค์กรอิสระ"
           name="ผู้ดำรงตำแหน่งในองค์กรอิสระ"
-          count={0}
+          count={POSITION_COUNT["ผู้ดำรงตำแหน่งในองค์กรอิสระ"]}
           disabled={selectedPeople.length > 0}
         />
         <FilterCheckbox
@@ -392,7 +423,7 @@ export default function AssetDebtChart() {
           setShow={setShowCatg8}
           color="กระทรวง"
           name="ผู้บริหารกระทรวง/ข้าราชการระดับสูง"
-          count={0}
+          count={POSITION_COUNT["ผู้บริหารกระทรวง/ข้าราชการระดับสูง"]}
           disabled={selectedPeople.length > 0}
         />
         <FilterCheckbox
@@ -400,7 +431,7 @@ export default function AssetDebtChart() {
           setShow={setShowCatg9}
           color="อปท"
           name="องค์กรปกครองส่วนท้องถิ่น"
-          count={0}
+          count={POSITION_COUNT["องค์กรปกครองส่วนท้องถิ่น"]}
           disabled={selectedPeople.length > 0}
         />
       </div>

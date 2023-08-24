@@ -1069,14 +1069,19 @@ export const generatePeople = async () => {
         });
       }
 
-      if (latestStatement?.ทรัพย์สิน && latestStatement?.หนี้สิน)
+      if (
+        person_data_json?.group &&
+        latestStatement?.ทรัพย์สิน &&
+        latestStatement?.หนี้สิน
+      )
         debtAssetList.push({
           name: dashed_full_name,
-          asset: latestStatement?.ทรัพย์สิน
+          group: person_data_json.group,
+          asset: latestStatement.ทรัพย์สิน
             ?.map((e) => e.value)
             ?.flat()
             ?.reduce((a, c) => a + c),
-          debt: latestStatement?.หนี้สิน
+          debt: latestStatement.หนี้สิน
             ?.map((e) => e.value)
             ?.flat()
             ?.reduce((a, c) => a + c),
