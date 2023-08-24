@@ -386,13 +386,11 @@ let DATA = {
   ASSET: await safeLoadCSV("data/raw/asset.csv").then((value) =>
     value.derive({
       actor: (d) => {
-        return d.owner_by_submitter === "TRUE"
-          ? "ผู้ยื่น"
-          : d.owner_by_spouse === "TRUE"
+        return d.owner_by_spouse === "TRUE"
           ? "คู่สมรส"
           : d.owner_by_child === "TRUE"
           ? "บุตร"
-          : "ไม่ระบุ";
+          : "ผู้ยื่น";
       },
       name: (d) => d.asset_name,
       value: (d) => d.valuation ?? 0,
@@ -478,8 +476,7 @@ const ASSET_CATEGORY = DATA.ASSET_TYPE.dedupe("asset_type_main_type_name").array
   "asset_type_main_type_name"
 );
 
-const getAssetActorRank = (actor) =>
-  ["ผู้ยื่น", "คู่สมรส", "บุตร", "ไม่ระบุ"].indexOf(actor);
+const getAssetActorRank = (actor) => ["ผู้ยื่น", "คู่สมรส", "บุตร"].indexOf(actor);
 
 /**
  * @param {number} [nacc_id]
