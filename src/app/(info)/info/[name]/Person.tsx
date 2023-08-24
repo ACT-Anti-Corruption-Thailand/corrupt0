@@ -160,7 +160,7 @@ export default function Person({ params }: { params: { name: string } }) {
                       <Sharer />
                     </div>
                   </div>
-                  {(age || position || previous_jobs) && (
+                  {(age || position || previous_jobs || names.length > 1) && (
                     <div className="text-left">
                       {age && (
                         <>
@@ -218,7 +218,7 @@ export default function Person({ params }: { params: { name: string } }) {
                         <Accordion
                           trigger={
                             <div className="flex b6 text-gray-5 items-center">
-                              <span>ดูชื่ออื่นๆ</span>
+                              <span>ชื่อ-นามสกุล ก่อนหน้า</span>
                               <Image
                                 className="ui-open:rotate-180 ml-2"
                                 src="/icons/caret-g.svg"

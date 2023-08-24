@@ -1,8 +1,7 @@
-import fs from "fs/promises";
-import { getDonationData } from "./donation.mjs";
-import { op } from "arquero";
 import * as aq from "arquero";
-import { NEW_PARTY_LOOKUP } from "../utils/partyNames.mjs";
+import fs from "fs/promises";
+import { NEW_PARTY_LOOKUP, PARTY_ID, PARTY_NAMES_BY_ID } from "../utils/partyNames.mjs";
+import { getDonationData } from "./donation.mjs";
 
 const RAW_DONATION_TABLE = await getDonationData();
 const DONATION_TABLE = RAW_DONATION_TABLE.derive({
@@ -55,7 +54,15 @@ export const generateParties = async () => {
   await fs.writeFile(`src/data/parties.json`, JSON.stringify(parties));
   for (let party of parties) {
     const donor = await getPartyDonor(party.replace("พรรค", ""));
-    await fs.writeFile(`src/data/info/${party}.json`, JSON.stringify(donor));
+    const ect_id = PARTY_ID[party.replace("พรรค", "")];
+    const names = [...(PARTY_NAMES_BY_ID[ect_id] ?? [])]
+      .sort((a, z) => z.index - a.index)
+      .map((f) => f.party_name.replace("พรรค", ""));
+
+    await fs.writeFile(
+      `src/data/info/${party}.json`,
+      JSON.stringify({ ect_id, names, donor })
+    );
   }
 };
 
