@@ -1,6 +1,5 @@
 import fs from "fs/promises";
-// TODO: Make Fetcher
-import data from "../constants/partyAssets.json" assert { type: "json" };
+import data from "../raw/pu_party.json" assert { type: "json" };
 
 export const generatePartyAssets = async () => {
   let party = Object.fromEntries(

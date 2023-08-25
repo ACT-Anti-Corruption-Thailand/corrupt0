@@ -31,6 +31,32 @@ export const removeExistedData = async () => {
   console.info("ℹ `" + DIRECTORY_PATH + "` Cleared");
 };
 
+const fetchWVData = async () => {
+  console.info("ℹ Fetching PU...");
+
+  try {
+    const resp = await fetch(
+      "https://sheets.wevis.info/api/v1/db/public/shared-view/572c5e5c-a3d8-440f-9a70-3c4c773543ec/rows?limit=1000&fields=Name,Images"
+    );
+    const text = await resp.text();
+    await fs.writeFile(path.join(DIRECTORY_PATH, "pu_politician.json"), text);
+  } catch (e) {
+    console.error(`🛑 Error occurred in \`pu_politician.json\`: ${e.message}`);
+    console.error(`🛑 Skipping...`);
+  }
+
+  try {
+    const resp = await fetch(
+      "https://sheets.wevis.info/api/v1/db/public/shared-view/40065196-c978-4d7a-b3fb-fb84694383a7/rows?limit=1000&fields=Name,Color,Images"
+    );
+    const text = await resp.text();
+    await fs.writeFile(path.join(DIRECTORY_PATH, "pu_party.json"), text);
+  } catch (e) {
+    console.error(`🛑 Error occurred in \`pu_party.json\`: ${e.message}`);
+    console.error(`🛑 Skipping...`);
+  }
+};
+
 export const fetchData = async (files) => {
   console.info("ℹ Fetching...");
 
@@ -78,6 +104,10 @@ export const fetchSubData = async () => {
     try {
       const parsedContent = JSON5.parse(fileContent);
       switch (file) {
+        case "pu_party.json":
+        case "pu_politician.json":
+          subFetchList[i] = [];
+          break;
         case "co003_opendata_path.json":
         case "co004_opendata_path.json":
           subFetchList[i] = parsedContent.database_format;
@@ -99,6 +129,7 @@ export const fetchSubData = async () => {
 };
 
 await removeExistedData();
+await fetchWVData();
 await fetchData(FILES);
 await fetchSubData();
 
