@@ -460,13 +460,13 @@ let DATA = {
       },
     })
   ),
-
-  // statement lookup
-  STATEMENT_TYPE: await safeLoadCSV("data/raw/statement_type.csv"),
-  // FIXME: Use real data
-  // TODO: Properly join id
-  STATEMENT_DETAIL_TYPE: await safeLoadCSV("data/constants/statement_detail_type.csv"),
 };
+
+const STATEMENT_TYPE = await safeLoadCSV("data/raw/statement_type.csv");
+// FIXME: Use real data
+const STATEMENT_DETAIL_TYPE = await safeLoadCSV(
+  "data/constants/statement_detail_type.csv"
+).then((e) => e.join_left(STATEMENT_TYPE, "statement_type_id"));
 
 const ASSET_CATEGORY = DATA.ASSET_TYPE.dedupe("asset_type_main_type_name").array(
   "asset_type_main_type_name"
@@ -517,7 +517,7 @@ export const getAsset = async (nacc_id) => {
 
   let statement_detail = DATA.STATEMENT_DETAIL.params({ nacc_id })
     .filter((d) => op.equal(d.nacc_id, nacc_id))
-    .join_left(DATA.STATEMENT_DETAIL_TYPE, "statement_detail_type_id");
+    .join_left(STATEMENT_DETAIL_TYPE, "statement_detail_type_id");
 
   let assetData = {};
   ASSET_CATEGORY.forEach((cat) => {
@@ -680,12 +680,12 @@ export const getStatement = async (nacc_id) => {
 
   statementData = DATA.STATEMENT_DETAIL.params({ nacc_id })
     .filter((d) => op.equal(d.nacc_id, nacc_id))
-    .join_left(DATA.STATEMENT_DETAIL_TYPE, "statement_detail_type_id")
+    .join_left(STATEMENT_DETAIL_TYPE, "statement_detail_type_id")
     .select(
       "valuation_submitter",
       "valuation_spouse",
       "valuation_child",
-      "statement_type_id",
+      "statement_type_name",
       "statement_detail_sub_type_name"
     )
     .derive({
@@ -693,13 +693,13 @@ export const getStatement = async (nacc_id) => {
       valuation_spouse: (d) => d.valuation_spouse ?? 0,
       valuation_child: (d) => d.valuation_child ?? 0,
     })
-    .groupby("statement_type_id", "statement_detail_sub_type_name")
+    .groupby("statement_type_name", "statement_detail_sub_type_name")
     .rollup({
       a: (d) => op.sum(d.valuation_submitter),
       b: (d) => op.sum(d.valuation_spouse),
       c: (d) => op.sum(d.valuation_child),
     })
-    .groupby("statement_type_id")
+    .groupby("statement_type_name")
     .objects({ grouped: "object" });
 
   for (const catg in statementData) {
@@ -709,10 +709,12 @@ export const getStatement = async (nacc_id) => {
     }));
   }
 
-  const tax = DATA.STATEMENT.params({ nacc_id })
-    .filter(
-      (d) => op.equal(d.nacc_id, nacc_id) && op.equal(d.statement_type_id, 5) // NOTE - Assuming that tax is always id 5
-    )
+  const taxId = STATEMENT_TYPE.objects().find(
+    (e) => e.statement_type_name.trim() === "ภาษี"
+  ).statement_type_id;
+
+  const tax = DATA.STATEMENT.params({ nacc_id, taxId })
+    .filter((d) => op.equal(d.nacc_id, nacc_id) && op.equal(d.statement_type_id, taxId))
     .select("valuation_submitter", "valuation_spouse")
     .objects()[0];
 
