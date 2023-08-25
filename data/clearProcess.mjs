@@ -2,6 +2,7 @@ import fs from "fs/promises";
 import path from "path";
 
 const PUBLICDATA_PATH = path.join("public", "data");
+const PUBLICPDF_PATH = path.join("public", "pdf");
 const SRCDATA_PATH = path.join("src", "data");
 const INFO_PATH = path.join(SRCDATA_PATH, "info");
 
@@ -29,6 +30,11 @@ export const removeExistedData = async () => {
   console.info(`ℹ \`${PUBLICDATA_PATH}\` Created`);
   await removeFiles(PUBLICDATA_PATH);
   console.info(`ℹ \`${PUBLICDATA_PATH}\` is Ready`);
+
+  await fs.mkdir(PUBLICPDF_PATH, { recursive: true });
+  console.info(`ℹ \`${PUBLICPDF_PATH}\` Created`);
+  await removeFiles(PUBLICPDF_PATH);
+  console.info(`ℹ \`${PUBLICPDF_PATH}\` is Ready`);
 };
 
 await removeExistedData();

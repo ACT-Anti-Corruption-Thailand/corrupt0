@@ -972,6 +972,25 @@ const generateGroupMetadata = async (people_data_by_group) => {
   );
 };
 
+// ██████╗ ██████╗ ███████╗
+// ██╔══██╗██╔══██╗██╔════╝
+// ██████╔╝██║  ██║█████╗
+// ██╔═══╝ ██║  ██║██╔══╝
+// ██║     ██████╔╝██║
+// ╚═╝     ╚═════╝ ╚═╝
+
+/**
+ * @param {{id:number, pdf:string}[]} pdfList
+ */
+const getPdfs = async (pdfList) => {
+  for (const pdf of pdfList) {
+    const resp = await fetch(pdf.pdf);
+    const abuffer = await resp.arrayBuffer();
+
+    await fs.writeFile(path.join("public", "pdf", pdf.id + ".pdf"), Buffer.from(abuffer));
+  }
+};
+
 // ███╗   ███╗ █████╗ ██╗███╗   ██╗
 // ████╗ ████║██╔══██╗██║████╗  ██║
 // ██╔████╔██║███████║██║██╔██╗ ██║
@@ -1000,6 +1019,7 @@ export const generatePeople = async () => {
   const lawsuitCountList = [];
 
   const peopleByGroup = Object.fromEntries(GROUPS.map((e) => [e, []]));
+  const pdfList = [];
 
   // let idx = 1;
   // const ppllen = namesAndId.length;
@@ -1043,6 +1063,10 @@ export const generatePeople = async () => {
           .map((e) => e.full_name)
           .reverse()
       : [dashed_full_name];
+
+    if (formattedNacc) {
+      pdfList.push(Object.entries(formattedNacc).map(([id, { pdf }]) => ({ id, pdf })));
+    }
 
     let person_data_json = {};
     for (let dfname of [
@@ -1262,6 +1286,8 @@ export const generatePeople = async () => {
   await fs.writeFile(`src/data/people_group.json`, JSON.stringify(peopleByGroup));
 
   await generateGroupMetadata(peopleByGroup);
+
+  await getPdfs(pdfList.flat().filter((e) => e.pdf));
 };
 
 console.info(`ℹ Generating People`);
