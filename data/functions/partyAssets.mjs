@@ -1,9 +1,9 @@
 import fs from "fs/promises";
-import data from "../raw/pu_party.json" assert { type: "json" };
+import PARTY_ASSETS from "../raw/pu_party.json" assert { type: "json" };
 
 export const generatePartyAssets = async () => {
   let party = Object.fromEntries(
-    data.list.map((e) => [
+    PARTY_ASSETS.data.list.map((e) => [
       e.Name,
       {
         color: e.Color,
