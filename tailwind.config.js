@@ -103,6 +103,7 @@ module.exports = {
       dropdown: "0 2px 4px rgba(0, 0, 0, 0.25);",
       popover: "0 1px 5px rgba(0, 0, 0, 0.25)",
       search: "-1px 1px 4px rgba(0, 0, 0, 0.25)",
+      pdf: "0 0 10px rgba(0, 0, 0, 0.25)",
     },
     extend: {
       backgroundImage: {
