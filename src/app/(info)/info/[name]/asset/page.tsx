@@ -6,7 +6,6 @@ import InfoAssetMain from "@/components/Info/Asset/Main";
 import InfoAssetPopover from "@/components/Info/Asset/Popover";
 import DownloadMenu from "@/components/Info/DownloadMenu";
 import Navbar from "@/components/Navbar";
-import Link from "next/link";
 
 import { openGraph, twitter } from "@/app/layout";
 import PEOPLE_NACC from "@/data/people_nacc.json";
@@ -117,7 +116,7 @@ export default function Asset({ params }: AssetPageProps) {
 
         <div className="flex gap-5 mt-10 mb-20 max-w-[850px] mx-auto">
           <DownloadMenu data={nacc} />
-          <Link
+          <a
             href={`/data/${name}.json`}
             className="b4 flex-1 flex gap-5 p-5 items-center border border-gray-6 justify-center rounded-5 no-underline text-white hover:bg-white hover:text-black"
             download
@@ -137,7 +136,7 @@ export default function Asset({ params }: AssetPageProps) {
               />
             </svg>
             <span>ดาวน์โหลดข้อมูล</span>
-          </Link>
+          </a>
         </div>
       </main>
     </>

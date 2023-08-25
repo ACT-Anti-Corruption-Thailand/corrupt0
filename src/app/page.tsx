@@ -283,7 +283,7 @@ export default function Home() {
         <hr className="w-3/5 mx-auto" />
         <div className="flex gap-5 items-center justify-center leading-1">
           <span>Share</span>
-          <Sharer desktopBigger />
+          <Sharer desktopBigger fallback="https://corrupt0.actai.co/" />
         </div>
         <hr className="w-3/5 mx-auto" />
         <div className="flex gap-8 items-center justify-center">

@@ -6,8 +6,14 @@ import clsx from "clsx";
 
 let didInit = false;
 
-export default function Sharer({ desktopBigger }: { desktopBigger?: boolean }) {
-  const [encodedURL, setEncodedURL] = useState("");
+export default function Sharer({
+  desktopBigger,
+  fallback,
+}: {
+  desktopBigger?: boolean;
+  fallback?: string;
+}) {
+  const [encodedURL, setEncodedURL] = useState(encodeURIComponent(fallback ?? ""));
 
   useEffect(() => {
     if (!didInit && typeof window !== "undefined") {

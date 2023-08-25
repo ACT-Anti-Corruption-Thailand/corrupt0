@@ -157,7 +157,7 @@ export default function Person({ params }: { params: { name: string } }) {
                     />
                     <span className="block b7 mb-2">แชร์โปรไฟล์นี้</span>
                     <div className="flex gap-4 justify-center">
-                      <Sharer />
+                      <Sharer fallback={`https://corrupt0.actai.co/info/${name}`} />
                     </div>
                   </div>
                   {(age || position || previous_jobs || names.length > 1) && (

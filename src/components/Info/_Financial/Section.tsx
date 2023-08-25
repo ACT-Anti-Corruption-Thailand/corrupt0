@@ -10,7 +10,6 @@ import { TopAssetCard } from "./AssetCard";
 import InfoFinancialCheckboxes from "./Checkboxes";
 import { InfoFinancialCompareCard, InfoFinancialSingleCard } from "./FinancialCard";
 import { InfoFinancialCompareTaxCard, InfoFinancialSingleTaxCard } from "./TaxCard";
-import Link from "next/link";
 
 import { formatMillion, formatThousands } from "@/functions/moneyFormatter";
 

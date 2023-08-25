@@ -128,7 +128,7 @@ export default function Business({ params }: { params: { name: string } }) {
                 </div>
                 <div className="flex gap-4 justify-center mb-5 items-center">
                   <span className="block b7 mr-4">แชร์โปรไฟล์นี้</span>
-                  <Sharer />
+                  <Sharer fallback={`https://corrupt0.actai.co/info/${params.name}`} />
                 </div>
                 <div className="flex justify-center gap-5">
                   <a
