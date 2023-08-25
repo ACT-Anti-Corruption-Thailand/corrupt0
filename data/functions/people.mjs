@@ -728,36 +728,28 @@ export const getStatement = async (nacc_id) => {
 };
 
 const getLatestStatementSummary = (latestNaccYear, latestNaccId, statements) => {
-  try {
-    const s = statements[latestNaccId];
-    const lastestStatement = {
-      year: latestNaccYear + 543,
-      รายได้:
-        s["รายได้"]
-          ?.map((e) => e.value)
-          ?.flat()
-          ?.reduce((a, c) => a + c) ?? 0,
-      รายจ่าย:
-        s["รายจ่าย"]
-          ?.map((e) => e.value)
-          ?.flat()
-          ?.reduce((a, c) => a + c) ?? 0,
-      ทรัพย์สิน:
-        s["ทรัพย์สิน"]
-          ?.map((e) => e.value)
-          ?.flat()
-          ?.reduce((a, c) => a + c) ?? 0,
-      หนี้สิน:
-        s["หนี้สิน"]
-          ?.map((e) => e.value)
-          ?.flat()
-          ?.reduce((a, c) => a + c) ?? 0,
-    };
+  const s = statements[latestNaccId];
+  const lastestStatement = {
+    year: latestNaccYear + 543,
+    รายได้: s?.["รายได้"]
+      ?.map((e) => e?.value ?? 0)
+      ?.flat()
+      ?.reduce((a, c) => a + c),
+    รายจ่าย: s?.["รายจ่าย"]
+      ?.map((e) => e?.value ?? 0)
+      ?.flat()
+      ?.reduce((a, c) => a + c),
+    ทรัพย์สิน: s?.["ทรัพย์สิน"]
+      ?.map((e) => e?.value ?? 0)
+      ?.flat()
+      ?.reduce((a, c) => a + c),
+    หนี้สิน: s?.["หนี้สิน"]
+      ?.map((e) => e?.value ?? 0)
+      ?.flat()
+      ?.reduce((a, c) => a + c),
+  };
 
-    return lastestStatement;
-  } catch (e) {
-    return;
-  }
+  return lastestStatement;
 };
 
 // ██████╗  ██████╗ ███╗   ██╗ █████╗ ████████╗██╗ ██████╗ ███╗   ██╗
