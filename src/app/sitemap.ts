@@ -4,7 +4,18 @@ import BUSINESSES from "@/data/businesses.json";
 import PARTIES from "@/data/parties.json";
 import PEOPLE_GEN from "@/data/people_gen.json";
 import PEOPLE_NACC from "@/data/people_nacc.json";
-import { POSITION_GROUP } from "./(info)/info/[name]/page";
+
+const POSITION_GROUP = [
+  "นายกรัฐมนตรีและรัฐมนตรี",
+  "สมาชิกสภาผู้แทนราษฎร",
+  "สมาชิกวุฒิสภา",
+  "สมาชิกสภานิติบัญญัติแห่งชาติ",
+  "ข้าราชการการเมือง",
+  "ตุลาการศาลรัฐธรรมนูญ",
+  "ผู้ดำรงตำแหน่งในองค์กรอิสระ",
+  "ผู้บริหารกระทรวงข้าราชการระดับสูง",
+  "องค์กรปกครองส่วนท้องถิ่น",
+];
 
 const URLS = [
   "https://corrupt0.actai.co/",

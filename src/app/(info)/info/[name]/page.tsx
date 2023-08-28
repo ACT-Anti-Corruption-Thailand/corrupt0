@@ -15,7 +15,7 @@ import type { Metadata } from "next";
 
 const PEOPLE = [...PEOPLE_NACC, ...PEOPLE_GEN];
 
-export const POSITION_GROUP = [
+const POSITION_GROUP = [
   "นายกรัฐมนตรีและรัฐมนตรี",
   "สมาชิกสภาผู้แทนราษฎร",
   "สมาชิกวุฒิสภา",
