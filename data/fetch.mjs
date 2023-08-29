@@ -15,6 +15,7 @@ const FILES = [
   "https://storage.googleapis.com/act_datacatalog/master_data/ds_007/001/public_sector_high_ranking_officer/public_sector_high_ranking_officer.csv",
   "https://storage.googleapis.com/act_datacatalog/corrupt0/co_003/001/nacc/co003_opendata_path.json",
   "https://storage.googleapis.com/act_datacatalog/corrupt0/co_004/001/ect/co004_opendata_path.json",
+  "https://storage.googleapis.com/act_datacatalog/corrupt0/co_005/co005_opendata_path.json",
   "https://storage.googleapis.com/act_opendata/opendata/master_data/ds_002/001/ds002_opendata_path.json",
   "https://storage.googleapis.com/act_datacatalog/master_data/ds_009/001/ds009_opendata_path.json",
   "https://storage.googleapis.com/act_datacatalog/master_data/ds_009/001/co004_opendata_path.json",
@@ -111,6 +112,9 @@ export const fetchSubData = async () => {
         case "co003_opendata_path.json":
         case "co004_opendata_path.json":
           subFetchList[i] = parsedContent.database_format;
+          break;
+        case "co005_opendata_path.json":
+          subFetchList[i] = [parsedContent.shareholder_path, parsedContent.director_path];
           break;
         case "ds002_opendata_path.json":
         case "ds009_opendata_path.json":
