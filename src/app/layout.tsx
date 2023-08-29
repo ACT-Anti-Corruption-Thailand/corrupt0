@@ -1,5 +1,10 @@
 import "../styles/globals.css";
+
+import PdpaBanner from "@/components/PdpaBanner";
+import Script from "next/script";
+
 import localFont from "next/font/local";
+
 import type { Metadata } from "next";
 
 const normal_font = localFont({
@@ -71,7 +76,28 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="th" className={`${normal_font.variable} ${expanded_font.variable}`}>
       <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#ec1c24" />
-      <body>{children}</body>
+      <body>
+        <Script id="gtag-pre">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+
+            gtag('consent', 'default', {
+              'ad_storage': 'denied',
+              'analytics_storage': 'denied'
+            });
+          `}
+        </Script>
+        <Script src="https://www.googletagmanager.com/gtag/js?id=G-EZ5S2KT8JS" />
+        <Script id="gtag-init">
+          {`
+            gtag('js', new Date());
+            gtag('config', 'G-EZ5S2KT8JS');
+          `}
+        </Script>
+        <PdpaBanner />
+        {children}
+      </body>
     </html>
   );
 }
