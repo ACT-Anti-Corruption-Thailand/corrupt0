@@ -67,14 +67,14 @@ export const createBusinessInfoTable = async () => {
   const c5ShareholderOgTable = await safeLoadCSV(co005ShareholderPath);
 
   const c5DirectorTable = c5DirectorOgTable
-    .filter((d) => d.is_have_data === "True")
+    .filter((d) => op.lower(d.is_have_data) === "true")
     .derive({
       name: (d) => d.company_name_th,
       businessdomain: (d) => d.submit_obj_big_type + " " + d.obj_tname,
     })
     .select("name", "businessdomain");
   const c5ShareholderTable = c5ShareholderOgTable
-    .filter((d) => d.is_have_data === "True")
+    .filter((d) => op.lower(d.is_have_data) === "true")
     .derive({
       name: (d) => d.company_name_th,
       businessdomain: (d) => d.submit_obj_big_type + " " + d.obj_tname,

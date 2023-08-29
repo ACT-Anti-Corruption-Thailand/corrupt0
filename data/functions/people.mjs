@@ -380,9 +380,9 @@ let DATA = {
   ASSET: await safeLoadCSV("data/raw/asset.csv").then((value) =>
     value.derive({
       actor: (d) => {
-        return d.owner_by_spouse === "TRUE"
+        return op.lower(d.owner_by_spouse) === "true"
           ? "คู่สมรส"
-          : d.owner_by_child === "TRUE"
+          : op.lower(d.owner_by_child) === "true"
           ? "บุตร"
           : "ผู้ยื่น";
       },
@@ -463,7 +463,6 @@ let DATA = {
 };
 
 const STATEMENT_TYPE = await safeLoadCSV("data/raw/statement_type.csv");
-// FIXME: Recheck Tax ID
 const STATEMENT_DETAIL_TYPE = await safeLoadCSV(
   "data/raw/statement_detail_type.csv"
 ).then((e) => e.join_left(STATEMENT_TYPE, "statement_type_id"));
@@ -814,7 +813,7 @@ const createCredenTable = async () => {
   const c5ShareholderOgTable = await safeLoadCSV(co005ShareholderPath);
 
   const c5DirectorTable = c5DirectorOgTable
-    .filter((d) => d.is_have_data === "True")
+    .filter((d) => op.lower(d.is_have_data) === "true")
     .derive({
       position: (_) => "คณะกรรมการบริษัท",
       full_name: (d) => op.replace(d.query_name, /\s+/g, "-"),
@@ -824,7 +823,7 @@ const createCredenTable = async () => {
     .select("position", "full_name", "business_name", "type");
 
   const c5ShareholderTable = c5ShareholderOgTable
-    .filter((d) => d.is_have_data === "True")
+    .filter((d) => op.lower(d.is_have_data) === "true")
     .derive({
       position: (_) => "ผู้ถือหุ้น",
       full_name: (d) => op.replace(d.query_name, /\s+/g, "-"),
