@@ -4,8 +4,6 @@ import path from "path";
 import { safeLoadCSV } from "../utils/csv.mjs";
 import { getDonationData } from "./donation.mjs";
 
-// FIXME: Use real data
-const CONST_DIR = "data/constants";
 const RAW_DIR = "data/raw";
 const DONATION_TABLE = await getDonationData();
 
@@ -55,14 +53,14 @@ export const createBusinessInfoTable = async () => {
     .filter((file) => file.toLowerCase().includes("act_company_split_"))
     .map((file) => path.join(RAW_DIR, file));
 
-  const co005Files = await fs.readdir(CONST_DIR);
+  const co005Files = await fs.readdir(RAW_DIR);
   const co005DirectorPath = path.join(
-    CONST_DIR,
-    co005Files.find((f) => f.toLowerCase().includes("corrupt0_co_005_director"))
+    RAW_DIR,
+    co005Files.find((f) => f.toLowerCase().includes("creden_director"))
   );
   const co005ShareholderPath = path.join(
-    CONST_DIR,
-    co005Files.find((f) => f.toLowerCase().includes("corrupt0_co_005_shareholder"))
+    RAW_DIR,
+    co005Files.find((f) => f.toLowerCase().includes("creden_shareholder"))
   );
 
   const c5DirectorOgTable = await safeLoadCSV(co005DirectorPath);

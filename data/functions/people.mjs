@@ -463,9 +463,9 @@ let DATA = {
 };
 
 const STATEMENT_TYPE = await safeLoadCSV("data/raw/statement_type.csv");
-// FIXME: Use real data
+// FIXME: Recheck Tax ID
 const STATEMENT_DETAIL_TYPE = await safeLoadCSV(
-  "data/constants/statement_detail_type.csv"
+  "data/raw/statement_detail_type.csv"
 ).then((e) => e.join_left(STATEMENT_TYPE, "statement_type_id"));
 
 const ASSET_CATEGORY = DATA.ASSET_TYPE.dedupe("asset_type_main_type_name").array(
@@ -799,18 +799,15 @@ export const createShareholderTable = async () => {
   return tables.reduce((all, curr) => all.concat(curr));
 };
 
-// FIXME: Use real data
-const CONST_DIR = "data/constants";
-
 const createCredenTable = async () => {
-  const co005Files = await fs.readdir(CONST_DIR);
+  const co005Files = await fs.readdir("data/raw");
   const co005DirectorPath = path.join(
-    CONST_DIR,
-    co005Files.find((f) => f.toLowerCase().includes("corrupt0_co_005_director"))
+    "data/raw",
+    co005Files.find((f) => f.toLowerCase().includes("creden_director"))
   );
   const co005ShareholderPath = path.join(
-    CONST_DIR,
-    co005Files.find((f) => f.toLowerCase().includes("corrupt0_co_005_shareholder"))
+    "data/raw",
+    co005Files.find((f) => f.toLowerCase().includes("creden_shareholder"))
   );
 
   const c5DirectorOgTable = await safeLoadCSV(co005DirectorPath);
@@ -906,13 +903,16 @@ const generateGroupMetadata = async (people_data_by_group) => {
       {
         asset: {
           chartData: Object.entries(
-            people_data_by_group[e].reduce((a, c) => {
-              const val = c.asset;
-              for (const tier of [...chartTier].reverse()) {
-                if (val >= tier) return { ...a, [tier]: (a[tier] ?? 0) + 1 };
-              }
-              return { ...a, 1: (a[1] ?? 0) + 1 };
-            }, Object.fromEntries(chartTier.map((e) => [e, undefined])))
+            people_data_by_group[e].reduce(
+              (a, c) => {
+                const val = c.asset;
+                for (const tier of [...chartTier].reverse()) {
+                  if (val >= tier) return { ...a, [tier]: (a[tier] ?? 0) + 1 };
+                }
+                return { ...a, 1: (a[1] ?? 0) + 1 };
+              },
+              Object.fromEntries(chartTier.map((e) => [e, undefined]))
+            )
           )
             .map((f) => ({
               x: +f[0],
@@ -933,13 +933,16 @@ const generateGroupMetadata = async (people_data_by_group) => {
         },
         debt: {
           chartData: Object.entries(
-            people_data_by_group[e].reduce((a, c) => {
-              const val = c.debt;
-              for (const tier of [...chartTier].reverse()) {
-                if (val >= tier) return { ...a, [tier]: (a[tier] ?? 0) + 1 };
-              }
-              return { ...a, 1: (a[1] ?? 0) + 1 };
-            }, Object.fromEntries(chartTier.map((e) => [e, undefined])))
+            people_data_by_group[e].reduce(
+              (a, c) => {
+                const val = c.debt;
+                for (const tier of [...chartTier].reverse()) {
+                  if (val >= tier) return { ...a, [tier]: (a[tier] ?? 0) + 1 };
+                }
+                return { ...a, 1: (a[1] ?? 0) + 1 };
+              },
+              Object.fromEntries(chartTier.map((e) => [e, undefined]))
+            )
           )
             .map((f) => ({
               x: +f[0],
