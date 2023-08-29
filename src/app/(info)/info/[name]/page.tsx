@@ -28,6 +28,12 @@ const POSITION_GROUP = [
 ];
 
 export async function generateStaticParams() {
+  if (process.env.NODE_ENV === "development") {
+    return [...POSITION_GROUP, ...PEOPLE, ...BUSINESSES, ...PARTIES].map((name) => ({
+      name: encodeURIComponent(name),
+    }));
+  }
+
   return [...POSITION_GROUP, ...PEOPLE, ...BUSINESSES, ...PARTIES].map((name) => ({
     name,
   }));

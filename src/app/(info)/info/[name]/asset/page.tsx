@@ -14,6 +14,12 @@ import type { DropdownDetailedData } from "@/components/BareDropdown";
 import type { Metadata } from "next";
 
 export async function generateStaticParams() {
+  if (process.env.NODE_ENV === "development") {
+    return PEOPLE_NACC.map((name) => ({
+      name: encodeURIComponent(name),
+    }));
+  }
+
   return PEOPLE_NACC.map((name) => ({
     name,
   }));
