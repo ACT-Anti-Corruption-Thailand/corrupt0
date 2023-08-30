@@ -145,7 +145,34 @@ export default function Person({ params }: { params: { name: string } }) {
                 <span className="b6 text-gray-5">
                   อัปเดตข้อมูลเมื่อวันที่ {new Date().toLocaleDateString("th")}
                 </span>
-                <span className="h2">{spacedName}</span>
+                <span className="h2 leading-1">{spacedName}</span>
+                {names.length > 1 && (
+                  <Accordion
+                    className="-mt-5"
+                    trigger={
+                      <div className="flex b6 text-gray-5 items-center justify-center">
+                        <span>ชื่อ-นามสกุล เดิม</span>
+                        <Image
+                          className="ui-open:rotate-180 ml-2"
+                          src="/icons/caret-g.svg"
+                          width={10}
+                          height={10}
+                          alt=""
+                        />
+                      </div>
+                    }
+                  >
+                    <div className="rounded-5 bg-gray-2 b7 text-gray-5 p-5">
+                      <ul className="flex flex-col gap-5 fake-bullet">
+                        {names
+                          .filter((n: string) => n !== name)
+                          .map((n: string) => (
+                            <li key={n}>{n.replace(/-/g, " ")}</li>
+                          ))}
+                      </ul>
+                    </div>
+                  </Accordion>
+                )}
                 <div className="flex gap-15 justify-center">
                   <div className="flex flex-col min-w-[105px] items-center">
                     <Image
@@ -160,7 +187,7 @@ export default function Person({ params }: { params: { name: string } }) {
                       <Sharer fallback={`https://poldata.actai.co/info/${name}`} />
                     </div>
                   </div>
-                  {(age || position || previous_jobs || names.length > 1) && (
+                  {(age || position || previous_jobs) && (
                     <div className="text-left">
                       {age && (
                         <>
@@ -210,32 +237,6 @@ export default function Person({ params }: { params: { name: string } }) {
                                       </li>
                                     )
                                 )}
-                            </ul>
-                          </div>
-                        </Accordion>
-                      )}
-                      {names.length > 1 && (
-                        <Accordion
-                          trigger={
-                            <div className="flex b6 text-gray-5 items-center">
-                              <span>ชื่อ-นามสกุล ก่อนหน้า</span>
-                              <Image
-                                className="ui-open:rotate-180 ml-2"
-                                src="/icons/caret-g.svg"
-                                width={10}
-                                height={10}
-                                alt=""
-                              />
-                            </div>
-                          }
-                        >
-                          <div className="rounded-5 bg-gray-2 b7 text-gray-5 p-5">
-                            <ul className="flex flex-col gap-5 fake-bullet">
-                              {names
-                                .filter((n: string) => n !== name)
-                                .map((n: string) => (
-                                  <li key={n}>{n.replace(/-/g, " ")}</li>
-                                ))}
                             </ul>
                           </div>
                         </Accordion>
