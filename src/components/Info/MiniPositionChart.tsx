@@ -31,7 +31,6 @@ const ChartLabelList = ({ props, maxYIndex }: { props: any; maxYIndex: number })
         </tspan>
       </text>
     );
-  return;
 };
 
 interface MiniPositionChartProps {

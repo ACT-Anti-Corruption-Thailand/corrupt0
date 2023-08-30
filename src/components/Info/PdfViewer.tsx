@@ -23,11 +23,11 @@ export default function PdfViewer({
   situation,
   setPdfViewerOpen,
 }: PdfViewerProps) {
-  const [numPages, setNumPages] = useState<number | null>(null);
+  const [pageCount, setPageCount] = useState<number | null>(null);
   const [isError, setIsError] = useState(false);
 
   function onDocumentLoadSuccess({ numPages }: { numPages: number }): void {
-    setNumPages(numPages);
+    setPageCount(numPages);
   }
 
   function onDocumentLoadError() {
@@ -63,7 +63,7 @@ export default function PdfViewer({
               onLoadSuccess={onDocumentLoadSuccess}
               onLoadError={onDocumentLoadError}
             >
-              {Array.from(new Array(numPages), (_, index) => (
+              {Array.from(new Array(pageCount), (_, index) => (
                 <Page
                   key={`page_${index + 1}`}
                   pageNumber={index + 1}

@@ -75,7 +75,7 @@ export default function DownloadMenu({ data }: DownloadMenuProps) {
             <span>ดูเอกสารจริง</span>
           </Menu.Button>
           <Menu.Items className="absolute z-10 min-w-full w-max select-none rounded-5 overflow-hidden translate-y-5 shadow-dropdown">
-            {dataEntries.map(([nacc_id, data]) => (
+            {dataEntries.map(([nacc_id, nacc_data]) => (
               <Menu.Item key={nacc_id}>
                 <button
                   type="button"
@@ -83,16 +83,16 @@ export default function DownloadMenu({ data }: DownloadMenuProps) {
                   onClick={() => {
                     setPdfData({
                       nacc_id,
-                      year: new Date(data.date).getFullYear() + 543 + "",
-                      situation: data.case.replace("กรณี", "") + data.position,
+                      year: new Date(nacc_data.date).getFullYear() + 543 + "",
+                      situation: nacc_data.case.replace("กรณี", "") + nacc_data.position,
                     });
                     setPdfViewerOpen(true);
                   }}
                 >
                   <span className="b5 font-bold">
-                    {new Date(data.date).getFullYear() + 543}
+                    {new Date(nacc_data.date).getFullYear() + 543}
                   </span>{" "}
-                  ({data.case.replace("กรณี", "") + data.position})
+                  ({nacc_data.case.replace("กรณี", "") + nacc_data.position})
                 </button>
               </Menu.Item>
             ))}

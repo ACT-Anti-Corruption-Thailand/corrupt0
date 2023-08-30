@@ -31,7 +31,6 @@ const ChartLabelList = ({ props }: { props: any }) => {
         </tspan>
       </text>
     );
-  return;
 };
 
 interface PositionChartProps {

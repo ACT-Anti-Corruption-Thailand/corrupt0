@@ -22,18 +22,18 @@ export default function Accordion({
   return (
     <div className={className}>
       <Disclosure defaultOpen={open}>
-        {({ open }) => (
+        {({ open: _open }) => (
           <>
             <Disclosure.Button className="w-full">{trigger}</Disclosure.Button>
             <Disclosure.Panel
               static
               className={clsx(
                 "grid will-change-[grid-template-rows] transition-all overflow-hidden grid-rows-[0fr]",
-                open && "grid-rows-[1fr]"
+                _open && "grid-rows-[1fr]"
               )}
-              aria-hidden={!open}
+              aria-hidden={!_open}
             >
-              <div className={clsx("min-h-0 transition-all", !open && "!m-0")}>
+              <div className={clsx("min-h-0 transition-all", !_open && "!m-0")}>
                 {children}
               </div>
             </Disclosure.Panel>

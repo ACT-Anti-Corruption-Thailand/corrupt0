@@ -1,8 +1,8 @@
 import Image from "next/image";
-import { moneyFormatter, formatThousands } from "@/functions/moneyFormatter";
-import { BarChart, Bar, XAxis, ResponsiveContainer, ReferenceLine } from "recharts";
 import Link from "next/link";
 import { MiniPositionChart } from "./Info/MiniPositionChart";
+
+import { formatThousands } from "@/functions/moneyFormatter";
 
 interface GraphCardProps {
   number: [number, string];

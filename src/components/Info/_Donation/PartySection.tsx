@@ -62,10 +62,10 @@ export default function InfoPartyDonationSection(props: PartySectionProps) {
 
   let DATA = YEARS.slice(1)
     .reverse()
-    .map((year: string) => ({
-      x: year,
+    .map((_year: string) => ({
+      x: _year,
       [props.party]: props.data
-        .filter((item: any) => String(item.year) === year)
+        .filter((item: any) => String(item.year) === _year)
         .reduce((acc: any, curr: any) => acc + +curr.amount, 0),
     }));
 
@@ -74,11 +74,11 @@ export default function InfoPartyDonationSection(props: PartySectionProps) {
       props.data
         .filter((item: any) => String(item.year) === year)
         .reduce((acc: any, curr: any) => {
-          const { amount, month } = curr;
+          const { amount: _amount, month } = curr;
           if (month in acc) {
-            acc[month][props.party] += amount;
+            acc[month][props.party] += _amount;
           } else {
-            acc[month] = { x: month, [props.party]: amount };
+            acc[month] = { x: month, [props.party]: _amount };
           }
           return acc;
         }, {})
@@ -95,10 +95,10 @@ export default function InfoPartyDonationSection(props: PartySectionProps) {
   } else {
     DATA = YEARS.slice(1)
       .reverse()
-      .map((year: string) => ({
-        x: year,
+      .map((_year: string) => ({
+        x: _year,
         [props.party]: props.data
-          .filter((item: any) => String(item.year) === year)
+          .filter((item: any) => String(item.year) === _year)
           .reduce((acc: any, curr: any) => acc + +curr.amount, 0),
       }));
   }

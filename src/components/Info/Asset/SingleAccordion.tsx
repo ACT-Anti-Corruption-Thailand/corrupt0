@@ -128,7 +128,7 @@ export interface CashProps {
 const Cash = ({ name, statements = [], showActor, showSpouse, showChild }: CashProps) => {
   const filteredS = statements.filter((e) =>
     [showActor && "ผู้ยื่น", showSpouse && "คู่สมรส", showChild && "บุตร"]
-      .filter((e) => e)
+      .filter((f) => f)
       .includes(e.actor)
   );
 
@@ -174,7 +174,7 @@ export interface LandProps {
 const Land = ({ statements = [], showActor, showSpouse, showChild }: LandProps) => {
   const filteredS = statements.filter((e) =>
     [showActor && "ผู้ยื่น", showSpouse && "คู่สมรส", showChild && "บุตร"]
-      .filter((e) => e)
+      .filter((f) => f)
       .includes(e.actor)
   );
 
@@ -245,7 +245,7 @@ const Concession = ({
 }: ConcessionProps) => {
   const filteredS = statements.filter((e) =>
     [showActor && "ผู้ยื่น", showSpouse && "คู่สมรส", showChild && "บุตร"]
-      .filter((e) => e)
+      .filter((f) => f)
       .includes(e.actor)
   );
 
@@ -307,7 +307,7 @@ const Building = ({
 }: BuildingProps) => {
   const filteredS = statements.filter((e) =>
     [showActor && "ผู้ยื่น", showSpouse && "คู่สมรส", showChild && "บุตร"]
-      .filter((e) => e)
+      .filter((f) => f)
       .includes(e.actor)
   );
 
@@ -371,7 +371,7 @@ export interface VehicleProps {
 const Vehicle = ({ statements = [], showActor, showSpouse, showChild }: VehicleProps) => {
   const filteredS = statements.filter((e) =>
     [showActor && "ผู้ยื่น", showSpouse && "คู่สมรส", showChild && "บุตร"]
-      .filter((e) => e)
+      .filter((f) => f)
       .includes(e.actor)
   );
 
@@ -455,9 +455,9 @@ const ValuableGroup = ({ name, statements }: ValuableGroupProps) => {
       }
     >
       <ul>
-        {statements.map(({ value, actor, name, count, receiveDate, unit }, i) => (
+        {statements.map(({ value, actor, name: sname, count, receiveDate, unit }, i) => (
           <DetailsBlock key={i}>
-            <DetailsFirstLine actor={actor} name={name} value={value} />
+            <DetailsFirstLine actor={actor} name={sname} value={value} />
             <DetailsListContainer>
               <DetailsListList value={count} extension={unit ?? "หน่วย"} />
               <DetailsListList label="วันที่ได้มา" value={receiveDate} />
@@ -481,7 +481,7 @@ const filterValuableStatement = (
     const c = catg as keyof InfoAssetValuableStatement;
     s[c] = s[c]?.filter((e) =>
       [showActor && "ผู้ยื่น", showSpouse && "คู่สมรส", showChild && "บุตร"]
-        .filter((e) => e)
+        .filter((f) => f)
         .includes(e.actor)
     );
   }

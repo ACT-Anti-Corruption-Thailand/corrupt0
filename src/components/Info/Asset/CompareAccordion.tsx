@@ -85,10 +85,6 @@ const DetailsBlock = ({ children }: { children: ReactNode }) => {
   );
 };
 
-interface DetailsFirstLineProps extends InfoAssetStatement {
-  name?: string;
-}
-
 const DetailsActor = ({ actor }: Omit<InfoAssetStatement, "value">) => {
   return (
     <span
@@ -100,27 +96,6 @@ const DetailsActor = ({ actor }: Omit<InfoAssetStatement, "value">) => {
       )}
     >
       {actor}
-    </span>
-  );
-};
-
-const DetailsFirstLine = ({ actor, name, value }: DetailsFirstLineProps) => {
-  return (
-    <span className="flex items-center">
-      <span
-        className={clsx(
-          "inline-block rounded-5 b7 px-5 whitespace-nowrap",
-          actor === "ผู้ยื่น" && "bg-black text-white",
-          actor === "คู่สมรส" && "bg-black/40",
-          actor === "บุตร" && "bg-black/20"
-        )}
-      >
-        {actor}
-      </span>
-      {name && <span className="b5 ml-5">{name}</span>}
-      {notUndefinedOrNull(value) && (
-        <span className="b5 font-bold ml-auto">{value.toLocaleString("th-TH")}</span>
-      )}
     </span>
   );
 };
@@ -174,12 +149,12 @@ const Cash = ({
 }: CashProps) => {
   const filteredS1 = statements1.filter((e) =>
     [showActor && "ผู้ยื่น", showSpouse && "คู่สมรส", showChild && "บุตร"]
-      .filter((e) => e)
+      .filter((f) => f)
       .includes(e.actor)
   );
   const filteredS2 = statements2.filter((e) =>
     [showActor && "ผู้ยื่น", showSpouse && "คู่สมรส", showChild && "บุตร"]
-      .filter((e) => e)
+      .filter((f) => f)
       .includes(e.actor)
   );
 
@@ -250,12 +225,12 @@ const Land = ({
 }: LandProps) => {
   const filteredS1 = statements1.filter((e) =>
     [showActor && "ผู้ยื่น", showSpouse && "คู่สมรส", showChild && "บุตร"]
-      .filter((e) => e)
+      .filter((f) => f)
       .includes(e.actor)
   );
   const filteredS2 = statements2.filter((e) =>
     [showActor && "ผู้ยื่น", showSpouse && "คู่สมรส", showChild && "บุตร"]
-      .filter((e) => e)
+      .filter((f) => f)
       .includes(e.actor)
   );
 
@@ -360,12 +335,12 @@ const Concession = ({
 }: ConcessionProps) => {
   const filteredS1 = statements1.filter((e) =>
     [showActor && "ผู้ยื่น", showSpouse && "คู่สมรส", showChild && "บุตร"]
-      .filter((e) => e)
+      .filter((f) => f)
       .includes(e.actor)
   );
   const filteredS2 = statements2.filter((e) =>
     [showActor && "ผู้ยื่น", showSpouse && "คู่สมรส", showChild && "บุตร"]
-      .filter((e) => e)
+      .filter((f) => f)
       .includes(e.actor)
   );
 
@@ -461,12 +436,12 @@ const Building = ({
 }: BuildingProps) => {
   const filteredS1 = statements1.filter((e) =>
     [showActor && "ผู้ยื่น", showSpouse && "คู่สมรส", showChild && "บุตร"]
-      .filter((e) => e)
+      .filter((f) => f)
       .includes(e.actor)
   );
   const filteredS2 = statements2.filter((e) =>
     [showActor && "ผู้ยื่น", showSpouse && "คู่สมรส", showChild && "บุตร"]
-      .filter((e) => e)
+      .filter((f) => f)
       .includes(e.actor)
   );
 
@@ -582,12 +557,12 @@ const Vehicle = ({
 }: VehicleProps) => {
   const filteredS1 = statements1.filter((e) =>
     [showActor && "ผู้ยื่น", showSpouse && "คู่สมรส", showChild && "บุตร"]
-      .filter((e) => e)
+      .filter((f) => f)
       .includes(e.actor)
   );
   const filteredS2 = statements2.filter((e) =>
     [showActor && "ผู้ยื่น", showSpouse && "คู่สมรส", showChild && "บุตร"]
-      .filter((e) => e)
+      .filter((f) => f)
       .includes(e.actor)
   );
 
@@ -715,35 +690,39 @@ const ValuableGroup = ({ name, statements1, statements2 }: ValuableGroupProps) =
     >
       <div className="flex">
         <ul className="flex-1">
-          {statements1.map(({ value, actor, name, count, receiveDate, unit }, i) => (
-            <DetailsBlock key={i}>
-              <DetailsActor actor={actor} />
-              <span className="b5">{name}</span>
-              <DetailsListContainer>
-                <DetailsListList value={count} extension={unit ?? "หน่วย"} />
-                <DetailsListList label="วันที่ได้มา" value={receiveDate} />
-              </DetailsListContainer>
-              {notUndefinedOrNull(value) && (
-                <span className="b5 font-bold">{value.toLocaleString("th-TH")}</span>
-              )}
-            </DetailsBlock>
-          ))}
+          {statements1.map(
+            ({ value, actor, name: s1name, count, receiveDate, unit }, i) => (
+              <DetailsBlock key={i}>
+                <DetailsActor actor={actor} />
+                <span className="b5">{s1name}</span>
+                <DetailsListContainer>
+                  <DetailsListList value={count} extension={unit ?? "หน่วย"} />
+                  <DetailsListList label="วันที่ได้มา" value={receiveDate} />
+                </DetailsListContainer>
+                {notUndefinedOrNull(value) && (
+                  <span className="b5 font-bold">{value.toLocaleString("th-TH")}</span>
+                )}
+              </DetailsBlock>
+            )
+          )}
         </ul>
         <div className="w-1 bg-gray-3" />
         <ul className="flex-1">
-          {statements2.map(({ value, actor, name, count, receiveDate, unit }, i) => (
-            <DetailsBlock key={i}>
-              <DetailsActor actor={actor} />
-              <span className="b5">{name}</span>
-              <DetailsListContainer>
-                <DetailsListList value={count} extension={unit ?? "หน่วย"} />
-                <DetailsListList label="วันที่ได้มา" value={receiveDate} />
-              </DetailsListContainer>
-              {notUndefinedOrNull(value) && (
-                <span className="b5 font-bold">{value.toLocaleString("th-TH")}</span>
-              )}
-            </DetailsBlock>
-          ))}
+          {statements2.map(
+            ({ value, actor, name: s2name, count, receiveDate, unit }, i) => (
+              <DetailsBlock key={i}>
+                <DetailsActor actor={actor} />
+                <span className="b5">{s2name}</span>
+                <DetailsListContainer>
+                  <DetailsListList value={count} extension={unit ?? "หน่วย"} />
+                  <DetailsListList label="วันที่ได้มา" value={receiveDate} />
+                </DetailsListContainer>
+                {notUndefinedOrNull(value) && (
+                  <span className="b5 font-bold">{value.toLocaleString("th-TH")}</span>
+                )}
+              </DetailsBlock>
+            )
+          )}
         </ul>
       </div>
     </Accordion>
@@ -762,7 +741,7 @@ const filterValuableStatement = (
     const c = catg as keyof InfoAssetValuableStatement;
     s[c] = s[c]?.filter((e) =>
       [showActor && "ผู้ยื่น", showSpouse && "คู่สมรส", showChild && "บุตร"]
-        .filter((e) => e)
+        .filter((f) => f)
         .includes(e.actor)
     );
   }
