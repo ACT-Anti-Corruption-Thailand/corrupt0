@@ -18,15 +18,15 @@ const POSITION_GROUP = [
 ];
 
 const URLS = [
-  "https://corrupt0.actai.co/",
-  "https://corrupt0.actai.co/terms",
-  "https://corrupt0.actai.co/search",
-  "https://corrupt0.actai.co/donation",
-  "https://corrupt0.actai.co/info",
+  "https://poldata.actai.co/",
+  "https://poldata.actai.co/terms",
+  "https://poldata.actai.co/search",
+  "https://poldata.actai.co/donation",
+  "https://poldata.actai.co/info",
   ...[...POSITION_GROUP, ...PEOPLE_NACC, ...PEOPLE_GEN, ...BUSINESSES, ...PARTIES].map(
-    (e) => "https://corrupt0.actai.co/info/" + e
+    (e) => "https://poldata.actai.co/info/" + e
   ),
-  ...[...PEOPLE_NACC].map((e) => "https://corrupt0.actai.co/info/" + e + "/asset"),
+  ...[...PEOPLE_NACC].map((e) => "https://poldata.actai.co/info/" + e + "/asset"),
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {

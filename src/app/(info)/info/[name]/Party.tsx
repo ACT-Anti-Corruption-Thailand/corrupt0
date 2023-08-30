@@ -73,7 +73,7 @@ export default function Party({ params }: { params: { name: string } }) {
                   />
                   <div className="flex gap-5 justify-center">
                     <span className="b7 -mr-1">แชร์โปรไฟล์นี้</span>
-                    <Sharer fallback={`https://corrupt0.actai.co/info/${name}`} />
+                    <Sharer fallback={`https://poldata.actai.co/info/${name}`} />
                   </div>
                 </div>
                 <div className="text-left">

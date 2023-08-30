@@ -39,7 +39,7 @@ export const commonOpenGraph: Metadata["openGraph"] = {
   description:
     "ร่วมเป็นส่วนหนึ่งในการค้นหาและตรวจสอบเพื่อสร้างความโปร่งใสทางการเมือง (Political Transparency) ไปกับ ACT Ai",
   images: {
-    url: "https://corrupt0.actai.co/og.png",
+    url: "https://poldata.actai.co/og.png",
     type: "image/png",
     width: 1201,
     height: 630,
@@ -47,7 +47,7 @@ export const commonOpenGraph: Metadata["openGraph"] = {
 };
 
 export const openGraph: Metadata["openGraph"] = {
-  url: "https://corrupt0.actai.co/",
+  url: "https://poldata.actai.co/",
   type: "website",
   ...commonOpenGraph,
 };
@@ -58,7 +58,7 @@ export const twitter: Metadata["twitter"] = {
 };
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://corrupt0.actai.co/"),
+  metadataBase: new URL("https://poldata.actai.co/"),
   title: "Corrupt0 — ACT Ai",
   description:
     "ร่วมเป็นส่วนหนึ่งในการค้นหาและตรวจสอบเพื่อสร้างความโปร่งใสทางการเมือง (Political Transparency) ไปกับ ACT Ai",

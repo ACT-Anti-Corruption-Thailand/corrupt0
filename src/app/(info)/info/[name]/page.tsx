@@ -46,16 +46,16 @@ export async function generateMetadata({ params }: InfoPageProps): Promise<Metad
   let ogImageUrl;
   switch (true) {
     case PEOPLE_NACC.includes(name):
-      ogImageUrl = "https://corrupt0.actai.co/og_politician.png";
+      ogImageUrl = "https://poldata.actai.co/og_politician.png";
       break;
     case PEOPLE_GEN.includes(name):
-      ogImageUrl = "https://corrupt0.actai.co/og_person.png";
+      ogImageUrl = "https://poldata.actai.co/og_person.png";
       break;
     case BUSINESSES.includes(name):
-      ogImageUrl = "https://corrupt0.actai.co/og_business.png";
+      ogImageUrl = "https://poldata.actai.co/og_business.png";
       break;
     case PARTIES.includes(name):
-      ogImageUrl = "https://corrupt0.actai.co/og_party.png";
+      ogImageUrl = "https://poldata.actai.co/og_party.png";
       break;
   }
   const ogEntry = ogImageUrl

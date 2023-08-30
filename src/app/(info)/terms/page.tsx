@@ -70,11 +70,11 @@ export default function Terms() {
           ติดตาม ตรวจสอบข้อมูลย้อนหลังได้ ผ่าน{" "}
           <a
             className="underline"
-            href="https://corrupt0.actai.co/"
+            href="https://poldata.actai.co/"
             target="_blank"
             rel="nofollow noopener noreferrer"
           >
-            https://corrupt0.actai.co/
+            https://poldata.actai.co/
           </a>{" "}
           ผู้ใช้บริการและผู้ใช้ข้อมูลสามารถเข้าใช้ข้อมูลในเว็บไซต์นี้ได้
           ภายใต้การยอมรับข้อกำหนดและเงื่อนไขการอนุญาตให้ใช้ข้อมูลเพื่อการต่อต้านทุจริตคอร์รัปชัน
@@ -108,11 +108,11 @@ export default function Terms() {
             ที่เข้าใช้บริการเว็บไซต์ และใช้ข้อมูลซึ่งเผยแพร่บน{" "}
             <a
               className="underline"
-              href="https://corrupt0.actai.co/"
+              href="https://poldata.actai.co/"
               target="_blank"
               rel="nofollow noopener noreferrer"
             >
-              https://corrupt0.actai.co/
+              https://poldata.actai.co/
             </a>{" "}
             และตกลงยอมรับเงื่อนไขการใช้ข้อมูลภายใต้ข้อกำหนด
             <br />
@@ -129,11 +129,11 @@ export default function Terms() {
               <strong>การยอมรับข้อตกลง</strong> ในการเข้าใช้บริการเว็บไซต์{" "}
               <a
                 className="underline"
-                href="https://corrupt0.actai.co/"
+                href="https://poldata.actai.co/"
                 target="_blank"
                 rel="nofollow noopener noreferrer"
               >
-                https://corrupt0.actai.co/
+                https://poldata.actai.co/
               </a>{" "}
               ผู้ใช้บริการจะต้องอ่านและทำความเข้าใจข้อตกลงนี้อย่างละเอียด
               เพื่อให้ทราบสิทธิและข้อผูกพันระหว่างผู้ใช้บริการกับ องค์กรต่อต้านคอร์รัปชัน
@@ -174,11 +174,11 @@ export default function Terms() {
             เว็บไซต์{" "}
             <a
               className="underline"
-              href="https://corrupt0.actai.co/"
+              href="https://poldata.actai.co/"
               target="_blank"
               rel="nofollow noopener noreferrer"
             >
-              https://corrupt0.actai.co/
+              https://poldata.actai.co/
             </a>{" "}
             เปิดใช้งานให้แก่ผู้ที่สนใจเพื่อประโยชน์ของสาธารณะในการติดตามและตรวจสอบการดำเนินงานของหน่วยงานหรือองค์กร
             ให้มีความโปร่งใสและเป็นเครื่องมือในการส่งเสริมความโปร่งใสในกระบวนการทางการเมือง
@@ -415,11 +415,11 @@ export default function Terms() {
             ผู้ใช้ข้อมูล มีสิทธิและหน้าที่ในการใช้ข้อมูลบน{" "}
             <a
               className="underline"
-              href="https://corrupt0.actai.co/"
+              href="https://poldata.actai.co/"
               target="_blank"
               rel="nofollow noopener noreferrer"
             >
-              https://corrupt0.actai.co/
+              https://poldata.actai.co/
             </a>{" "}
             ดังนี้
           </p>
@@ -452,7 +452,7 @@ export default function Terms() {
             ผู้ใช้ข้อมูลต้องใช้ข้อมูลเพื่อวัตถุประสงค์อันชอบด้วยกฎหมายและไม่ขัดต่อความสงบเรียบร้อยหรือศีลธรรมอันดีของประชาชน
           </p>
         </TermsAccordion>
-        <TermsAccordion name="การอ้างอิงข้อมูลจาก https://corrupt0.actai.co/">
+        <TermsAccordion name="การอ้างอิงข้อมูลจาก https://poldata.actai.co/">
           <p>
             ในการนำข้อมูลไม่ว่าทั้งหมดหรือบางส่วนไปใช้งาน
             หรือดำเนินการอื่นเพื่อวัตถุประสงค์ใด ๆ อันชอบด้วยกฎหมายของผู้ใช้ข้อมูล
@@ -466,11 +466,11 @@ export default function Terms() {
             การระงับชั่วคราวหรือยกเลิกการเผยแพร่ข้อมูลบน{" "}
             <a
               className="underline"
-              href="https://corrupt0.actai.co/"
+              href="https://poldata.actai.co/"
               target="_blank"
               rel="nofollow noopener noreferrer"
             >
-              https://corrupt0.actai.co/
+              https://poldata.actai.co/
             </a>{" "}
             หรือยกเลิกการให้ข้อมูลต่อไปไม่ว่ากรณีใด ๆ โดยไม่จำต้องบอกกล่าวล่วงหน้า
             และไม่ก่อให้เกิดความรับผิดชอบใด ๆ แก่องค์กรต่อต้านคอร์รัปชัน (ประเทศไทย)
@@ -594,11 +594,11 @@ export default function Terms() {
             จัดทำและเปิดเผยผ่านเว็บไซต์{" "}
             <a
               className="underline"
-              href="https://corrupt0.actai.co/"
+              href="https://poldata.actai.co/"
               target="_blank"
               rel="nofollow noopener noreferrer"
             >
-              https://corrupt0.actai.co/
+              https://poldata.actai.co/
             </a>{" "}
             และ (2)Source Code ที่องค์กรฯ พัฒนาขึ้นเพื่อใช้วิเคราะห์และนำเสนอข้อมูล
             มีจุดประสงค์เปิดอนุญาตให้บุคคลทั่วไปใช้สิทธิในข้อมูล และ Source Code
