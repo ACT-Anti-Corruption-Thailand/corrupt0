@@ -1,12 +1,5 @@
 import Image from "next/image";
-import { thaiMoneyFormatter } from "@/functions/moneyFormatter";
-
-import _PARTY_ASSETS from "@data/color/partyAssets.json";
-
-const PARTY_ASSETS = _PARTY_ASSETS as Record<
-  string,
-  { color: string | null; image: string | null }
->;
+import { formatThousands, thaiMoneyFormatter } from "@/functions/moneyFormatter";
 
 interface PersonCardProps {
   name: string;
@@ -24,34 +17,52 @@ interface barProps {
   assets: { party: string; color: string | null; image: string | null }[];
 }
 
-const Bar = (props: barProps) => {
-  const progress =
-    Number((props.amount / props.maxAmount) * 100)
-      .toFixed(0)
-      .toString() + "%";
+const Bar = ({ amount, assets, maxAmount, party }: barProps) => {
+  const progress = (amount / maxAmount) * 100 + "%";
 
   return (
     <div
-      style={
-        {
-          "--progress": progress,
-          backgroundColor:
-            props.assets.find((d) => d.party === props.party)?.color ?? "#fff",
-        } as React.CSSProperties
-      }
-      className="h-10 lg:h-20 w-[var(--progress)]"
+      style={{
+        width: progress,
+        backgroundColor: assets.find((d) => d.party === party)?.color ?? "#fff",
+      }}
+      className="h-10 lg:h-20"
     />
   );
 };
 
-const EntityStackedBarCard = (props: PersonCardProps) => {
-  const [money, unit] = thaiMoneyFormatter(props.data.reduce((a, b) => a + b.amount, 0));
+const groupBy = <T, K extends keyof any>(
+  arr: T[],
+  groupFn: (element: T) => K
+): Record<K, T[]> =>
+  arr.reduce(
+    (r, v, _i, _a, k = groupFn(v)) => ((r[k] || (r[k] = [])).push(v), r),
+    {} as Record<K, T[]>
+  );
+
+const EntityStackedBarCard = ({
+  assets,
+  data,
+  imgPath,
+  maxAmount,
+  name,
+  title,
+}: PersonCardProps) => {
+  const total = data.reduce((a, b) => a + b.amount, 0);
+  const [money, unit] = thaiMoneyFormatter(total);
+
+  const grouppedData = Object.entries(groupBy(data, (e) => e.party))
+    .map(
+      ([party, entries]) =>
+        [party, entries.reduce((a, b) => a + b.amount, 0)] as [string, number]
+    )
+    .sort((a, z) => z[1] - a[1]);
 
   return (
     <div className="flex flex-col bg-white bg-opacity-10 text-gray-4 rounded-5 py-10 px-5 lg:px-20 lg:py-20 my-10 b6 w-full">
       <div className="flex gap-5 lg:gap-10 items-start">
         <Image
-          src={props.imgPath}
+          src={imgPath}
           width={40}
           height={40}
           alt=""
@@ -59,11 +70,11 @@ const EntityStackedBarCard = (props: PersonCardProps) => {
         />
         <div className="flex flex-col w-full">
           <div className="flex justify-between text-gray-2">
-            <p className="b3">{props.name}</p>
-            <p className="b4">{money}</p>
+            <p className="b3">{name}</p>
+            <p className="b4">{formatThousands(money)}</p>
           </div>
           <div className="flex justify-between text-right b6">
-            <p>{props.title}</p>
+            <p>{title}</p>
             <p>{unit}</p>
           </div>
         </div>
@@ -75,19 +86,23 @@ const EntityStackedBarCard = (props: PersonCardProps) => {
           alt=""
         />
       </div>
-      <div className="mt-5 ml-30 mr-20 lg:ml-50 lg:mr-[35px] flex">
-        {props.data
-          .sort((a, b) => b.amount - a.amount)
-          .sort((a, z) => a.party.localeCompare(z.party))
-          .map((item, index) => (
+      <div className="mt-5 ml-30 mr-20 lg:ml-50 lg:mr-[35px]">
+        <div
+          className="flex min-w-[1px]"
+          style={{
+            width: (total / maxAmount) * 100 + "%",
+          }}
+        >
+          {grouppedData.map(([party, amount]) => (
             <Bar
-              key={index}
-              party={item.party}
-              amount={item.amount}
-              maxAmount={props.maxAmount}
-              assets={props.assets}
+              key={party}
+              party={party}
+              amount={amount}
+              maxAmount={total}
+              assets={assets}
             />
           ))}
+        </div>
       </div>
     </div>
   );

@@ -47,6 +47,7 @@ const EntityBarCard = (props: PersonCardProps) => {
       </div>
       <div className="h-10 lg:h-20 mt-5 ml-30 mr-20 lg:ml-50 lg:mr-[35px] flex">
         <div
+          className="min-w-[1px]"
           style={{
             width: bar,
             backgroundColor: props.color,
