@@ -87,7 +87,7 @@ interface Top3Entry extends DataEntry {
 }
 
 const TOP3PERSON: Top3Entry[] = TOP_INCOME_ASSETS.assets.slice(0, 3).map((e) => {
-  const data = PEOPLE.find((e) => e.link === e.name);
+  const data = PEOPLE.find((f) => f.link === e.name);
 
   return {
     name: e.name.replace(/-/g, " "),
