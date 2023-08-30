@@ -89,7 +89,7 @@ export function IndividualSection() {
 
   const [individualSort, setIndividualSort] = useState<"asc" | "desc">("desc");
 
-  const donorResult = sortData(DONOR_DATA, individualSort).filter((items: any) =>
+  const donorResult = DONOR_DATA.filter((items: any) =>
     individualFilterType === "ทุกประเภทบุคคล"
       ? true
       : items.title === individualFilterType
@@ -201,34 +201,37 @@ export function IndividualSection() {
             />
           </Link>
         ) : (
-          donorResult.slice(0, individualView).map((individual: any) => (
-            <Link
-              href={
-                "/info/" +
-                (individual.title === "นิติบุคคล"
-                  ? getFileName(getFormalName(individual.name))
-                  : getFileName(individual.name))
-              }
-              className="block no-underline w-full"
-              key={individual.name}
-            >
-              <EntityStackedBarCard
-                name={individual.name}
-                title={
-                  PEOPLE_POSITION[individual.name.replace(/\s/g, "-")] ?? individual.title
-                }
-                data={individual.donation}
-                maxAmount={donorResult[0].total}
-                imgPath={
-                  POLITICIAN_IMAGES[individual.name.replace(/\s/g, "-")] ||
+          sortData(donorResult, individualSort)
+            .slice(0, individualView)
+            .map((individual: any) => (
+              <Link
+                href={
+                  "/info/" +
                   (individual.title === "นิติบุคคล"
-                    ? "/placeholders/business.png"
-                    : "/placeholders/person.png")
+                    ? getFileName(getFormalName(individual.name))
+                    : getFileName(individual.name))
                 }
-                assets={selected_assets}
-              />
-            </Link>
-          ))
+                className="block no-underline w-full"
+                key={individual.name}
+              >
+                <EntityStackedBarCard
+                  name={individual.name}
+                  title={
+                    PEOPLE_POSITION[individual.name.replace(/\s/g, "-")] ??
+                    individual.title
+                  }
+                  data={individual.donation}
+                  maxAmount={donorResult[0].total}
+                  imgPath={
+                    POLITICIAN_IMAGES[individual.name.replace(/\s/g, "-")] ||
+                    (individual.title === "นิติบุคคล"
+                      ? "/placeholders/business.png"
+                      : "/placeholders/person.png")
+                  }
+                  assets={selected_assets}
+                />
+              </Link>
+            ))
         )}
       </div>
       {individualView < donorResult.length && (
