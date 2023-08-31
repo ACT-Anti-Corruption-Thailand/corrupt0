@@ -160,7 +160,17 @@ export default function InfoPartyDonationSection(props: PartySectionProps) {
           data={DATA}
           isMonth={year === "ทุกปี" ? false : true}
         />
-        <p className="b6 text-gray-4">หมายเหตุ: แสดงเฉพาะยอดบริจาคที่เกิน 5,000 บาท</p>
+        <p className="b6 text-gray-4">
+          หมายเหตุ: แสดงข้อมูลตามเอกสารที่ถูกประกาศอยู่บน
+          <a
+            className="underline"
+            href="https://www.ect.go.th/ect_th/th/db_119_ect_th_download_22"
+            target="_blank"
+            rel="nofollow noopener noreferrer"
+          >
+            เว็บไซต์ของ กกต.
+          </a>
+        </p>
         <div className="flex flex-row items-center gap-10 my-10 lg:my-30">
           <p className="text-gray-4 b4 lg:b3">แสดง</p>
           <Dropdown data={DONATION_TYPES} value={type} setValue={setType} />
