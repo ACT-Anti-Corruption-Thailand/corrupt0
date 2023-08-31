@@ -55,7 +55,7 @@ export default function Party({ params }: { params: { name: string } }) {
 
         <InfoDesktopAligner
           left={
-            <section className="flex flex-col gap-5 bg-white text-black text-center pt-15 pb-10 px-30">
+            <section className="flex flex-col gap-5 bg-white text-black text-center pt-15 pb-10 px-30 flex-1">
               {/* Basic Information */}
               <span className="b6 text-gray-5">
                 อัปเดตข้อมูลเมื่อวันที่ {new Date().toLocaleDateString("th")}
