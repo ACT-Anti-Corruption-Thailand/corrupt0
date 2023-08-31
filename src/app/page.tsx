@@ -54,7 +54,11 @@ export default function Home() {
         <p className="text-white h3 mb-20 lg:h1">มีอะไรให้ดูในเว็บไซต์นี้?</p>
         <section className="flex flex-col lg:flex-row justify-center gap-10 px-10 md:px-20">
           <div className="flex-1 min-w-0 p-10 bg-white rounded-10 mb-10 flex flex-col">
-            <ImgCard href="/info" imgPath="/images/asset_politician.png">
+            <ImgCard
+              href="/info"
+              imgPath="/images/asset_politician.png"
+              className="hover:grayscale hover:contrast-150 transition-all duration-100 ease-linear"
+            >
               <div className="flex justify-between">
                 <p className="h3">
                   ดูข้อมูลนักการเมือง
@@ -153,7 +157,11 @@ export default function Home() {
             </Slider>
           </div>
           <div className="flex-1 min-w-0 p-10 bg-white rounded-10 mb-10 flex flex-col">
-            <ImgCard href="/donation" imgPath="/images/asset_donation.png">
+            <ImgCard
+              href="/donation"
+              imgPath="/images/asset_donation.png"
+              className="hover:grayscale hover:contrast-150 transition-all duration-100 ease-linear"
+            >
               <div className="flex justify-between">
                 <p className="h3">
                   ดูข้อมูลเงินบริจาค
