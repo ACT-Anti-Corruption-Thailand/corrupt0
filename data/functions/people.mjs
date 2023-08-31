@@ -1208,19 +1208,17 @@ export const generatePeople = async () => {
         });
       }
 
-      if (
-        person_data_json?.group &&
-        latestStatement?.ทรัพย์สิน &&
-        latestStatement?.หนี้สิน
-      ) {
-        const pA = latestStatement.ทรัพย์สิน
-          ?.map((e) => e.value)
-          ?.flat()
-          ?.reduce((a, c) => a + c);
-        const pD = latestStatement.หนี้สิน
-          ?.map((e) => e.value)
-          ?.flat()
-          ?.reduce((a, c) => a + c);
+      if (person_data_json?.group) {
+        const pA =
+          latestStatement.ทรัพย์สิน
+            ?.map((e) => e.value)
+            ?.flat()
+            ?.reduce((a, c) => a + c) ?? 1; // FIXME - 0
+        const pD =
+          latestStatement.หนี้สิน
+            ?.map((e) => e.value)
+            ?.flat()
+            ?.reduce((a, c) => a + c) ?? 1; // FIXME - 0
 
         const dD = {
           name: dashed_full_name,
