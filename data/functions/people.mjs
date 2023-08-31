@@ -802,15 +802,25 @@ export const createShareholderTable = async () => {
 };
 
 const createCredenTable = async () => {
-  const co005Files = await fs.readdir("data/raw");
+  // FIXME: use real file
+  const co005Files = await fs.readdir("data/constants");
   const co005DirectorPath = path.join(
-    "data/raw",
+    "data/constants",
     co005Files.find((f) => f.toLowerCase().includes("creden_director"))
   );
   const co005ShareholderPath = path.join(
-    "data/raw",
+    "data/constants",
     co005Files.find((f) => f.toLowerCase().includes("creden_shareholder"))
   );
+  // const co005Files = await fs.readdir("data/raw");
+  // const co005DirectorPath = path.join(
+  //   "data/raw",
+  //   co005Files.find((f) => f.toLowerCase().includes("creden_director"))
+  // );
+  // const co005ShareholderPath = path.join(
+  //   "data/raw",
+  //   co005Files.find((f) => f.toLowerCase().includes("creden_shareholder"))
+  // );
 
   const c5DirectorOgTable = await safeLoadCSV(co005DirectorPath);
   const c5ShareholderOgTable = await safeLoadCSV(co005ShareholderPath);
@@ -821,7 +831,13 @@ const createCredenTable = async () => {
       position: (_) => "คณะกรรมการบริษัท",
       full_name: (d) => op.replace(d.query_name, /\s+/g, "-"),
       business_name: (d) => d.company_name_th,
-      type: (d) => d.submit_obj_big_type + " " + d.obj_tname,
+      type: aq.escape((d) => {
+        const tname = d.obj_tname && d.obj_tname !== "-" ? d.obj_tname : undefined;
+        if (d.submit_obj_big_type && tname) return `(${d.submit_obj_big_type}) ${tname}`;
+        if (d.submit_obj_big_type) return `(${d.submit_obj_big_type})`;
+        if (tname) return `${tname}`;
+        return undefined;
+      }),
     })
     .select("position", "full_name", "business_name", "type");
 
@@ -831,7 +847,13 @@ const createCredenTable = async () => {
       position: (_) => "ผู้ถือหุ้น",
       full_name: (d) => op.replace(d.query_name, /\s+/g, "-"),
       business_name: (d) => d.company_name_th,
-      type: (d) => d.submit_obj_big_type + " " + d.obj_tname,
+      type: aq.escape((d) => {
+        const tname = d.obj_tname && d.obj_tname !== "-" ? d.obj_tname : undefined;
+        if (d.submit_obj_big_type && tname) return `(${d.submit_obj_big_type}) ${tname}`;
+        if (d.submit_obj_big_type) return `(${d.submit_obj_big_type})`;
+        if (tname) return `${tname}`;
+        return undefined;
+      }),
     })
     .select("position", "full_name", "business_name", "type");
 

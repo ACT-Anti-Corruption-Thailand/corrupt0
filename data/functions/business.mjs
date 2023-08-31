@@ -1,4 +1,4 @@
-import { op } from "arquero";
+import { escape, op } from "arquero";
 import fs from "fs/promises";
 import path from "path";
 import { safeLoadCSV } from "../utils/csv.mjs";
@@ -53,15 +53,26 @@ export const createBusinessInfoTable = async () => {
     .filter((file) => file.toLowerCase().includes("act_company_split_"))
     .map((file) => path.join(RAW_DIR, file));
 
-  const co005Files = await fs.readdir(RAW_DIR);
+  // FIXME: use real file
+  const CONST_DIR = "data/constants";
+  const co005Files = await fs.readdir(CONST_DIR);
   const co005DirectorPath = path.join(
-    RAW_DIR,
+    CONST_DIR,
     co005Files.find((f) => f.toLowerCase().includes("creden_director"))
   );
   const co005ShareholderPath = path.join(
-    RAW_DIR,
+    CONST_DIR,
     co005Files.find((f) => f.toLowerCase().includes("creden_shareholder"))
   );
+  // const co005Files = await fs.readdir(RAW_DIR);
+  // const co005DirectorPath = path.join(
+  //   RAW_DIR,
+  //   co005Files.find((f) => f.toLowerCase().includes("creden_director"))
+  // );
+  // const co005ShareholderPath = path.join(
+  //   RAW_DIR,
+  //   co005Files.find((f) => f.toLowerCase().includes("creden_shareholder"))
+  // );
 
   const c5DirectorOgTable = await safeLoadCSV(co005DirectorPath);
   const c5ShareholderOgTable = await safeLoadCSV(co005ShareholderPath);
@@ -70,14 +81,26 @@ export const createBusinessInfoTable = async () => {
     .filter((d) => op.lower(d.is_have_data) === "true")
     .derive({
       name: (d) => d.company_name_th,
-      businessdomain: (d) => d.submit_obj_big_type + " " + d.obj_tname,
+      businessdomain: escape((d) => {
+        const tname = d.obj_tname && d.obj_tname !== "-" ? d.obj_tname : undefined;
+        if (d.submit_obj_big_type && tname) return `(${d.submit_obj_big_type}) ${tname}`;
+        if (d.submit_obj_big_type) return `(${d.submit_obj_big_type})`;
+        if (tname) return `${tname}`;
+        return undefined;
+      }),
     })
     .select("name", "businessdomain");
   const c5ShareholderTable = c5ShareholderOgTable
     .filter((d) => op.lower(d.is_have_data) === "true")
     .derive({
       name: (d) => d.company_name_th,
-      businessdomain: (d) => d.submit_obj_big_type + " " + d.obj_tname,
+      businessdomain: escape((d) => {
+        const tname = d.obj_tname && d.obj_tname !== "-" ? d.obj_tname : undefined;
+        if (d.submit_obj_big_type && tname) return `(${d.submit_obj_big_type}) ${tname}`;
+        if (d.submit_obj_big_type) return `(${d.submit_obj_big_type})`;
+        if (tname) return `${tname}`;
+        return undefined;
+      }),
     })
     .select("name", "businessdomain");
 
@@ -88,7 +111,19 @@ export const createBusinessInfoTable = async () => {
     tables.push(await safeLoadCSV(file));
   }
 
-  return tables.reduce((all, curr) => all.concat(curr)).concat(c5Table);
+  const donationTable = tables
+    .reduce((all, curr) => all.concat(curr))
+    .derive({
+      businessdomain: escape((d) => {
+        if (d.businessdomain) {
+          const [id, ...text] = d.businessdomain.split(" ");
+          return `(${id}) ${text.join(" ")}`;
+        }
+        return undefined;
+      }),
+    });
+
+  return donationTable.concat(c5Table);
 };
 
 const BUSINESS_INFO_TABLE = await createBusinessInfoTable();
