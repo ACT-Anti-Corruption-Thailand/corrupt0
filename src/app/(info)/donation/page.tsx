@@ -9,14 +9,14 @@ import { openGraph, twitter } from "@/app/layout";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "ข้อมูลเงินบริจากพรรคการเมือง | Corrupt0 — ACT Ai",
+  title: "ข้อมูลเงินบริจาคพรรคการเมือง | Corrupt0 — ACT Ai",
   openGraph: {
     ...openGraph,
-    title: "ข้อมูลเงินบริจากพรรคการเมือง | Corrupt0 — ACT Ai",
+    title: "ข้อมูลเงินบริจาคพรรคการเมือง | Corrupt0 — ACT Ai",
   },
   twitter: {
     ...twitter,
-    title: "ข้อมูลเงินบริจากพรรคการเมือง | Corrupt0 — ACT Ai",
+    title: "ข้อมูลเงินบริจาคพรรคการเมือง | Corrupt0 — ACT Ai",
   },
 };
 
@@ -39,7 +39,7 @@ export default function Donation() {
               height={100}
               alt="financial"
             />
-            <p className="font-black text-center h1">ดูข้อมูลเงินบริจากพรรคการเมือง</p>
+            <p className="font-black text-center h1">ดูข้อมูลเงินบริจาคพรรคการเมือง</p>
           </div>
         </ImgCard>
         <p className="text-gray-5 b3 lg:b6 mt-20">

@@ -103,7 +103,7 @@ export function IndividualSection() {
         />
         ผู้บริจาคเงิน
       </div>
-      <p className="b6 text-gray-4">หมายเหตุ: แสดงเฉพาะยอดบริจากที่เกิน 5,000 บาท</p>
+      <p className="b6 text-gray-4">หมายเหตุ: แสดงเฉพาะยอดบริจาคที่เกิน 5,000 บาท</p>
       <div className="flex flex-wrap items-center justify-center gap-10 my-10 lg:my-30 px-20">
         <div className="flex items-center gap-10">
           <p className="text-gray-4 b4 lg:b3">แสดง</p>

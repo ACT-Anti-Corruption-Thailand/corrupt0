@@ -160,7 +160,7 @@ export default function InfoPartyDonationSection(props: PartySectionProps) {
           data={DATA}
           isMonth={year === "ทุกปี" ? false : true}
         />
-        <p className="b6 text-gray-4">หมายเหตุ: แสดงเฉพาะยอดบริจากที่เกิน 5,000 บาท</p>
+        <p className="b6 text-gray-4">หมายเหตุ: แสดงเฉพาะยอดบริจาคที่เกิน 5,000 บาท</p>
         <div className="flex flex-row items-center gap-10 my-10 lg:my-30">
           <p className="text-gray-4 b4 lg:b3">แสดง</p>
           <Dropdown data={DONATION_TYPES} value={type} setValue={setType} />
