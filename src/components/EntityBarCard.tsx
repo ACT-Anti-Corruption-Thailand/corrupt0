@@ -32,9 +32,9 @@ const EntityBarCard = (props: PersonCardProps) => {
             <p className="b3">{props.name}</p>
             <p className="b4">{formatThousands(money)}</p>
           </div>
-          <div className="flex justify-between text-right b6">
+          <div className="flex justify-between b6 text-left">
             <p>{props.title}</p>
-            <p>{unit}</p>
+            <p className="text-right">{unit}</p>
           </div>
         </div>
         <Image
