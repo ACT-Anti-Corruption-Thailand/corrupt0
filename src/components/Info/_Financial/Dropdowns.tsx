@@ -39,11 +39,12 @@ export default function InfoFinancialDropdowns({
   setCompareYear,
   light = false,
 }: FinancialDropdownsProps) {
+  const currentData = data.filter((e) => e.data !== compareYear.data);
   const compareData = compare.filter((e) => e.data !== currentYear.data);
   return (
     <>
       <BareDropdown
-        data={data}
+        data={currentData}
         value={currentYear}
         setValue={setCurrentYear}
         arrowSrc={light ? "/icons/caret-k.svg" : "/icons/caret-w.svg"}
