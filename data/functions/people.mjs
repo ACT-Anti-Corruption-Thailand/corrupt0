@@ -899,6 +899,41 @@ const getPersonBusiness = async (name) => {
     .objects();
 };
 
+/**
+ * @param {{position: "คณะกรรมการบริษัท" | "ผู้ถือหุ้น", business_name: string, businessdomain?: string}[]} business
+ * @returns {{position: string, business_name: string, businessdomain: string}[]}
+ */
+const processBusinessList = (business) => {
+  const biz_names = business
+    .map((e) => e.business_name)
+    .sort((a, z) => a.length - z.length);
+
+  for (let i = biz_names.length - 1; i > 0; i--) {
+    for (let j = 0; j < i; j++) {
+      if (biz_names[i].includes(biz_names[j])) {
+        biz_names[i] = null;
+        break;
+      }
+    }
+  }
+
+  const unique_name = biz_names.filter((e) => e);
+
+  const new_data = unique_name
+    .map((e) => {
+      const biz = business.filter((f) => f.business_name === e);
+      if (biz.length === 1) return biz[0];
+      return {
+        position: "กรรมการบริษัทและผู้ถือหุ้น",
+        business_name: e,
+        businessdomain: biz[0].businessdomain,
+      };
+    })
+    .sort((a, z) => a.business_name.localeCompare(z.business_name));
+
+  return new_data;
+};
+
 //  ██████╗ ██████╗  ██████╗ ██╗   ██╗██████╗     ███╗   ███╗███████╗████████╗ █████╗ ██████╗  █████╗ ████████╗ █████╗
 // ██╔════╝ ██╔══██╗██╔═══██╗██║   ██║██╔══██╗    ████╗ ████║██╔════╝╚══██╔══╝██╔══██╗██╔══██╗██╔══██╗╚══██╔══╝██╔══██╗
 // ██║  ███╗██████╔╝██║   ██║██║   ██║██████╔╝    ██╔████╔██║█████╗     ██║   ███████║██║  ██║███████║   ██║   ███████║
@@ -1128,7 +1163,7 @@ export const generatePeople = async () => {
       business.push(await getPersonBusiness(dfname));
     }
     donation = donation.flat();
-    business = business.flat();
+    business = processBusinessList(business.flat());
 
     if (business.length > 1 && nacc_info) {
       businessCount.push({
