@@ -15,6 +15,7 @@ import PARTIES_ID from "@/data/parties_id.json";
 import DATA_PEOPLE from "@/data/people_search.json";
 import POLITICIAN_IMAGES from "@/data/politicianImages.json";
 import _TOP_INCOME_ASSETS from "@/data/top_income_assets.json";
+import PARTY_ID from "@/data/parties_id.json";
 
 const TOP_INCOME_ASSETS = _TOP_INCOME_ASSETS as {
   assets: { name: string; value: number }[];
@@ -98,14 +99,20 @@ const TOP3PERSON: Top3Entry[] = TOP_INCOME_ASSETS.assets.slice(0, 3).map((e) => 
   };
 });
 
-const TOP3PARTY: Top3Entry[] = PARTY_DONATION.ทุกปี.slice(0, 3).map((e) => ({
-  name: e.party,
-  value: e.amount,
-  image: (PARTY_ASSETS as Record<string, { color: string | null; image: string | null }>)[
-    e.party
-  ]?.image,
-  link: "พรรค" + e.party,
-}));
+const TOP3PARTY: Top3Entry[] = PARTY_DONATION.ทุกปี.slice(0, 3).map((e) => {
+  const pid = (PARTY_ID as Record<string, string>)["พรรค" + e.party];
+  const position = pid ? "รหัสพรรคการเมือง " + pid.padStart(3, "0") : undefined;
+
+  return {
+    name: e.party,
+    position,
+    value: e.amount,
+    image: (
+      PARTY_ASSETS as Record<string, { color: string | null; image: string | null }>
+    )[e.party]?.image,
+    link: "พรรค" + e.party,
+  };
+});
 
 const normalizeName = (name: string) =>
   name.trim().replace(/\s+/g, " ").replace(/ํา/g, "ำ");
