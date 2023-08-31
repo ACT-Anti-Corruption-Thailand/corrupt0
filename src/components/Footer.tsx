@@ -13,7 +13,7 @@ export default function Footer({ className }: { className?: string }) {
       <div className="mx-auto max-w-[600px] w-max md:w-auto flex flex-col gap-10 md:gap-20">
         <a
           className="block mr-auto"
-          href="https://actai.co/"
+          href="https://poldata.actai.co/"
           target="_blank"
           rel="nofollow noopener noreferrer"
         >
@@ -22,18 +22,18 @@ export default function Footer({ className }: { className?: string }) {
             src="/logos/c0-k.svg"
             width={26.8}
             height={20}
-            alt="ไปเว็บไซต์ actai.co"
+            alt="หน้าหลัก"
           />
         </a>
         <div className="flex gap-20 text-balance justify-between">
           <ul className="flex flex-col gap-10 font-bold">
-            <li>
+            <li className="nobr">
               <Link href="/">หน้าแรก</Link>
             </li>
-            <li>
+            <li className="nobr">
               <Link href="/info">ข้อมูลบุคคล</Link>
             </li>
-            <li>
+            <li className="nobr">
               <Link href="/donation">ข้อมูลเงินบริจาค</Link>
             </li>
           </ul>
