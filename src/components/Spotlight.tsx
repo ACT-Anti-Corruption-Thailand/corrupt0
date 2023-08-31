@@ -135,27 +135,42 @@ const Spotlight = ({ update }: { update: string }) => {
       <div className="text-center">
         <div className="b4 flex flex-wrap items-center justify-center gap-5 md:gap-10">
           <span className="font-bold">ร่วมพัฒนาโดย</span>
-          <Image
-            className="w-auto h-20 md:h-[35px]"
-            src="/logos/act-w.svg"
-            width={20}
-            height={20}
-            alt="act"
-          />
-          <Image
-            className="w-auto h-[12px] md:h-[21px]"
-            src="/logos/hand-w.svg"
-            width={33.71}
-            height={12}
-            alt="hand"
-          />
-          <Image
-            className="w-auto h-[12.57px] md:h-[21px]"
-            src="/logos/pu-w.svg"
-            width={43.43}
-            height={12.57}
-            alt="punch up"
-          />
+          <a href="https://actai.co/" target="_blank" rel="nofollow noopener noreferrer">
+            <Image
+              className="w-auto h-20 md:h-[35px]"
+              src="/logos/act-w.svg"
+              width={20}
+              height={20}
+              alt="act"
+            />
+          </a>
+          <a
+            href="https://hand.co.th/"
+            target="_blank"
+            rel="nofollow noopener noreferrer"
+          >
+            <Image
+              className="w-auto h-[12px] md:h-[21px]"
+              src="/logos/hand-w.svg"
+              width={33.71}
+              height={12}
+              alt="hand"
+            />
+          </a>
+          <a
+            href="https://punchup.world/"
+            target="_blank"
+            rel="nofollow noopener noreferrer"
+          >
+            <Image
+              className="w-auto h-[12.57px] md:h-[21px]"
+              src="/logos/pu-w.svg"
+              width={43.43}
+              height={12.57}
+              alt="punch up"
+            />
+          </a>
+          {/* TODO: Add BML */}
         </div>
         <p className="opacity-50 b5">อัปเดตล่าสุด: {update}</p>
       </div>

@@ -299,20 +299,33 @@ export default function Home() {
         </div>
         <div className="flex gap-8 items-center justify-center">
           <span>Co-Developed by</span>
-          <Image
-            className="w-auto h-20 md:h-30"
-            src="/logos/pu.svg"
-            width={50.12}
-            height={14.5}
-            alt="punch up"
-          />
-          <Image
-            className="w-auto h-20 md:h-30"
-            src="/logos/hand.svg"
-            width={43.68}
-            height={16}
-            alt="hand"
-          />
+          <a
+            href="https://hand.co.th/"
+            target="_blank"
+            rel="nofollow noopener noreferrer"
+          >
+            <Image
+              className="w-auto h-20 md:h-30"
+              src="/logos/hand.svg"
+              width={43.68}
+              height={16}
+              alt="hand"
+            />
+          </a>
+          <a
+            href="https://punchup.world/"
+            target="_blank"
+            rel="nofollow noopener noreferrer"
+          >
+            <Image
+              className="w-auto h-20 md:h-30"
+              src="/logos/pu.svg"
+              width={50.12}
+              height={14.5}
+              alt="punch up"
+            />
+          </a>
+          {/* TODO: Add BML */}
         </div>
       </section>
       <Footer className="bg-gray-2 !rounded-0" />
