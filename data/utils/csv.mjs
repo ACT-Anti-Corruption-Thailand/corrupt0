@@ -9,7 +9,7 @@ export const safeLoadCSV = async (path) => {
     const table = fileContent
       .split("\n")[0]
       .split(",")
-      .map((e) => [e, []]);
+      .map((f) => [f, []]);
     return aq.table(table);
   }
 };

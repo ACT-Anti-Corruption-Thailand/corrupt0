@@ -910,7 +910,7 @@ const generateGroupMetadata = async (people_data_by_group) => {
                 }
                 return { ...a, 1: (a[1] ?? 0) + 1 };
               },
-              Object.fromEntries(chartTier.map((e) => [e, undefined]))
+              Object.fromEntries(chartTier.map((f) => [f, undefined]))
             )
           )
             .map((f) => ({
@@ -923,11 +923,11 @@ const generateGroupMetadata = async (people_data_by_group) => {
             .sort((a, z) => a.x - z.x),
           max:
             people_data_by_group[e].length > 0
-              ? Math.max(...people_data_by_group[e].map((e) => e.asset))
+              ? Math.max(...people_data_by_group[e].map((f) => f.asset))
               : 0,
           min:
             people_data_by_group[e].length > 0
-              ? Math.min(...people_data_by_group[e].map((e) => e.asset))
+              ? Math.min(...people_data_by_group[e].map((f) => f.asset))
               : 0,
         },
         debt: {
@@ -940,7 +940,7 @@ const generateGroupMetadata = async (people_data_by_group) => {
                 }
                 return { ...a, 1: (a[1] ?? 0) + 1 };
               },
-              Object.fromEntries(chartTier.map((e) => [e, undefined]))
+              Object.fromEntries(chartTier.map((f) => [f, undefined]))
             )
           )
             .map((f) => ({
@@ -953,15 +953,15 @@ const generateGroupMetadata = async (people_data_by_group) => {
             .sort((a, z) => a.x - z.x),
           max:
             people_data_by_group[e].length > 0
-              ? Math.max(...people_data_by_group[e].map((e) => e.debt))
+              ? Math.max(...people_data_by_group[e].map((f) => f.debt))
               : 0,
           min:
             people_data_by_group[e].length > 0
-              ? Math.min(...people_data_by_group[e].map((e) => e.debt))
+              ? Math.min(...people_data_by_group[e].map((f) => f.debt))
               : 0,
         },
         count: people_data_by_group[e].length,
-        subgroup: [...new Set(people_data_by_group[e].map((e) => e.subgroup))],
+        subgroup: [...new Set(people_data_by_group[e].map((f) => f.subgroup))],
       },
     ])
   );
