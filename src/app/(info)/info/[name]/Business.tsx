@@ -156,7 +156,9 @@ export default function Business({ params }: { params: { name: string } }) {
                     />
                   </a>
                   <a
-                    href={`https://actai.co/Project?search="${encodeURIComponent(name)}"`}
+                    href={`https://actai.co/Supplier?search="${encodeURIComponent(
+                      name
+                    )}"`}
                     className="py-4 px-10 b7 border border-gray-2 rounded-5 flex flex-col justify-center"
                     target="_blank"
                     rel="nofollow noopener noreferrer"
@@ -171,7 +173,13 @@ export default function Business({ params }: { params: { name: string } }) {
                       />
                       ดูข้อมูลความเกี่ยวข้องกับโครงการภาครัฐ
                     </span>
-                    <span className="block text-gray-4">www.actai.co</span>
+                    <Image
+                      className="h-[10px] w-auto mx-auto mt-5 mb-1 md:h-[12px] md:mb-4"
+                      src="/logos/actai.svg"
+                      width={10}
+                      height={10}
+                      alt=""
+                    />
                   </a>
                 </div>
               </section>
