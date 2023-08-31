@@ -90,14 +90,16 @@ export default function PositionTab({ position }: PositionTabProps) {
       <Tab.Panels>
         <Tab.Panel>
           {/* ทรัพย์สิน */}
-          <div className="flex items-center justify-center gap-5 my-10 lg:my-20 text-act no-balance -mx-5">
-            <div className="w-20 border-1 border-dashed" />
-            <p className="leading-1">
-              ทรัพย์สินเฉลี่ยต่อครัวเรือน ปี 2564 = <strong>1.8 ล้านบาท</strong>
-            </p>
-            <InfoPopover buttonImg="/icons/info.svg">
-              <p className="b5 no-balance">ที่มา: สำนักงานสถิติแห่งชาติ</p>
-            </InfoPopover>
+          <div className="flex items-center justify-center gap-5 my-10 lg:my-20 text-act no-balance -mx-5 text-left">
+            <div className="w-20 border-1 border-dashed flex-[0_0_20px]" />
+            <div>
+              <p className="leading-1 inline mr-5">
+                ทรัพย์สินเฉลี่ยต่อครัวเรือน ปี 2564 = <strong>1,801,090.878 บาท</strong>
+              </p>
+              <InfoPopover buttonImg="/icons/info.svg">
+                <p className="b5 no-balance">ที่มา: สำนักงานสถิติแห่งชาติ</p>
+              </InfoPopover>
+            </div>
           </div>
           <div className="flex items-center gap-5 mb-5 text-center md:text-left">
             <p>การกระจายตัวของคนในแต่ละช่วงทรัพย์สิน (%)</p>
@@ -165,14 +167,16 @@ export default function PositionTab({ position }: PositionTabProps) {
         </Tab.Panel>
         <Tab.Panel>
           {/* หนี้สิน */}
-          <div className="flex items-center justify-center gap-5 my-10 lg:my-20 text-act no-balance -mx-5">
-            <div className="w-20 border-1 border-dashed" />
-            <p className="leading-1">
-              หนี้สินเฉลี่ยต่อครัวเรือน ปี 2564 = <strong>0.2 ล้านบาท</strong>
-            </p>
-            <InfoPopover buttonImg="/icons/info.svg">
-              <p className="b5 no-balance">ที่มา: สำนักงานสถิติแห่งชาติ</p>
-            </InfoPopover>
+          <div className="flex items-center justify-center gap-5 my-10 lg:my-20 text-act no-balance -mx-5 text-left">
+            <div className="w-20 border-1 border-dashed flex-[0_0_20px]" />
+            <div>
+              <p className="leading-1 inline mr-5">
+                หนี้สินเฉลี่ยต่อครัวเรือน ปี 2564 = <strong>205,679 บาท</strong>
+              </p>
+              <InfoPopover buttonImg="/icons/info.svg">
+                <p className="b5 no-balance">ที่มา: สำนักงานสถิติแห่งชาติ</p>
+              </InfoPopover>
+            </div>
           </div>
           <div className="flex items-center gap-5 mb-5 text-center md:text-left">
             <p>การกระจายตัวของคนในแต่ละช่วงหนี้สิน (%)</p>
