@@ -1083,7 +1083,7 @@ export const generatePeople = async () => {
       searchIndexer.push(
         dashed_full_name +
           "|" +
-          (person_data_json.group || person_data_json.position) +
+          (person_data_json.group || person_data_json.position.split(" ")[0]) +
           (nacc_info ? "|" : "")
       );
     else searchIndexer.push(dashed_full_name);
