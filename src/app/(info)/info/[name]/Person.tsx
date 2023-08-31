@@ -414,6 +414,7 @@ export default function Person({ params }: { params: { name: string } }) {
               rawData={donation}
               allParties={donationAllParties}
               allYears={donationAllYears}
+              isPerson
             />
           )}
 

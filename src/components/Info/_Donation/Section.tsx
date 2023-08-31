@@ -32,6 +32,7 @@ interface InfoDonationSection {
   allYears: number[];
   allParties: string[];
   name: string;
+  isPerson?: boolean;
 }
 
 type ChartData = {
@@ -116,6 +117,7 @@ export default function InfoDonationSection({
   allYears,
   allParties,
   name,
+  isPerson,
 }: InfoDonationSection) {
   const typedData = rawData as DonationData[];
 
@@ -185,6 +187,7 @@ export default function InfoDonationSection({
               name={d.name}
               isTop10={DONOR_DATA?.top10?.includes(d.name)}
               statements={d.statements}
+              isPerson={isPerson}
             />
           ))}
         </div>

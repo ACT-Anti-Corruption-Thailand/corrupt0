@@ -23,12 +23,14 @@ interface InfoDonationPartyCardProps {
   name: string;
   isTop10?: boolean;
   statements: DonationStatement[];
+  isPerson?: boolean;
 }
 
 export default function InfoDonationPartyCard({
   name,
   isTop10,
   statements,
+  isPerson,
 }: InfoDonationPartyCardProps) {
   const partyInfo = PARTY_ASSETS[name];
 
@@ -86,7 +88,8 @@ export default function InfoDonationPartyCard({
           />
           {isTop10 && (
             <div className="rounded-full b7 text-yellow bg-yellow/10 py-1 px-5 mr-auto leading-1">
-              1 ใน 10 อันดับ นิติบุคคลที่บริจาคเงินให้พรรคการเมืองมากที่สุด
+              1 ใน 10 อันดับ {isPerson ? "" : "นิติ"}
+              บุคคลที่บริจาคเงินให้พรรคการเมืองมากที่สุด
             </div>
           )}
           <div className="flex gap-5 items-baseline leading-1 b4 -mt-5">
