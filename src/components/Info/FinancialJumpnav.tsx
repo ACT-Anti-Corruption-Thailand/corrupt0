@@ -81,8 +81,8 @@ export function FinancialJumpnav({ latestStatement }: FinancialJumpnavProps) {
               </>
             ) : (
               <>
-                <span className="b2 font-bold leading-1">-</span>
-                <span className="opacity-60 b6">ไม่มีข้อมูล</span>
+                <span className="b2 font-bold leading-1">ไม่มีข้อมูล</span>
+                <span className="opacity-60 b6">&nbsp;</span>
               </>
             )}
           </div>
@@ -100,8 +100,8 @@ export function FinancialJumpnav({ latestStatement }: FinancialJumpnavProps) {
               </>
             ) : (
               <>
-                <span className="b2 font-bold leading-1">-</span>
-                <span className="opacity-60 b6">ไม่มีข้อมูล</span>
+                <span className="b2 font-bold leading-1">ไม่มีข้อมูล</span>
+                <span className="opacity-60 b6">&nbsp;</span>
               </>
             )}
           </div>
@@ -124,8 +124,8 @@ export function FinancialJumpnav({ latestStatement }: FinancialJumpnavProps) {
               </>
             ) : (
               <>
-                <span className="b2 font-bold leading-1">-</span>
-                <span className="opacity-60 b6">ไม่มีข้อมูล</span>
+                <span className="b2 font-bold leading-1">ไม่มีข้อมูล</span>
+                <span className="opacity-60 b6">&nbsp;</span>
               </>
             )}
           </div>
@@ -143,8 +143,8 @@ export function FinancialJumpnav({ latestStatement }: FinancialJumpnavProps) {
               </>
             ) : (
               <>
-                <span className="b2 font-bold leading-1">-</span>
-                <span className="opacity-60 b6">ไม่มีข้อมูล</span>
+                <span className="b2 font-bold leading-1">ไม่มีข้อมูล</span>
+                <span className="opacity-60 b6">&nbsp;</span>
               </>
             )}
           </div>
