@@ -26,16 +26,6 @@ import type { DropdownDetailedData } from "@/components/BareDropdown";
 const getFileName = (formal_name: string) =>
   formal_name.replace("ห้างหุ้นส่วนจำกัด", "หจก").replace(/\s+|\/|\\/g, "-");
 
-function RelativeLink({ dashedFullName }: { dashedFullName: string }) {
-  return (
-    hasCorrupt0Page(dashedFullName) && (
-      <Link href={"/info/" + dashedFullName} target="_blank">
-        <Image className="ml-5" src="/icons/new_tab.svg" alt="" width={15} height={15} />
-      </Link>
-    )
-  );
-}
-
 export default function Person({ params }: { params: { name: string } }) {
   const name = params.name;
   const spacedName = name.replace(/-/g, " ");
@@ -498,18 +488,38 @@ export default function Person({ params }: { params: { name: string } }) {
                   <span>ชื่อ นามสกุล</span>
                   <span className="ml-auto">ความเกี่ยวข้อง</span>
                 </div>
-                {relationship.map((r: any, i: number) => (
-                  <div
-                    key={i}
-                    className="flex py-10 items-center border-b border-b-gray-6"
-                  >
-                    <div className="b4 font-bold leading-1">{r.full_name}</div>
-                    <div className="text-center ml-auto">
-                      <div className="b5 font-bold">{r.relationship_name}</div>
+                {relationship.map((r: any) =>
+                  hasCorrupt0Page(r.full_name.replace(/\s+/g, "-")) ? (
+                    <Link
+                      href={"/info/" + r.full_name.replace(/\s+/g, "-")}
+                      target="_blank"
+                      key={r.full_name}
+                      className="flex py-10 items-center border-b border-b-gray-6"
+                    >
+                      <div className="b4 font-bold leading-1 flex gap-5 items-center">
+                        <span>{r.full_name}</span>
+                        <Image
+                          className="w-15 h-auto aspect-square md:w-[18px]"
+                          src="/icons/new_tab.svg"
+                          alt=""
+                          width={15}
+                          height={15}
+                        />
+                      </div>
+                      <div className="ml-auto b5 font-bold">{r.relationship_name}</div>
+                    </Link>
+                  ) : (
+                    <div
+                      key={r.full_name}
+                      className="flex py-10 items-center border-b border-b-gray-6"
+                    >
+                      <div className="b4 font-bold leading-1 flex gap-5 items-center">
+                        <span>{r.full_name}</span>
+                      </div>
+                      <div className="ml-auto b5 font-bold">{r.relationship_name}</div>
                     </div>
-                    <RelativeLink dashedFullName={r.full_name.replace(/\s+/g, "-")} />
-                  </div>
-                ))}
+                  )
+                )}
               </div>
             </section>
           )}
