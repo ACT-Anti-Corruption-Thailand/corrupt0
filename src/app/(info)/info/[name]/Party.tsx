@@ -85,7 +85,7 @@ export default function Party({ params }: { params: { name: string } }) {
                     <Accordion
                       trigger={
                         <div className="flex b6 text-gray-5 items-center">
-                          <span>ชื่อก่อนหน้าของพรรค</span>
+                          <span>ชื่อเดิมของพรรค</span>
                           <Image
                             className="ui-open:rotate-180 ml-2"
                             src="/icons/caret-g.svg"
@@ -99,7 +99,7 @@ export default function Party({ params }: { params: { name: string } }) {
                       <div className="rounded-5 bg-gray-2 b7 text-gray-5 p-5">
                         <ul className="flex flex-col gap-5 fake-bullet">
                           {partyData.names
-                            .filter((n: string) => n !== name)
+                            .filter((n: string) => n !== name.replace("พรรค", ""))
                             .map((n: string) => (
                               <li key={n}>{n}</li>
                             ))}
