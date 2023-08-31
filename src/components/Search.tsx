@@ -37,6 +37,7 @@ interface SearchProps<T extends SearchData> {
   selected?: T;
   setSelected?: Dispatch<SetStateAction<T | null>>;
   className?: string;
+  unit: string;
 }
 
 function Search<T extends SearchData>(props: SearchProps<T>) {
@@ -105,7 +106,8 @@ function Search<T extends SearchData>(props: SearchProps<T>) {
               ))}
               {filteredPeople.length > 10 && (
                 <div className="b3 py-5 px-10 cursor-default">
-                  ... อีก {(filteredPeople.length - 10).toLocaleString("th-TH")} คน
+                  ... อีก {(filteredPeople.length - 10).toLocaleString("th-TH")}{" "}
+                  {props.unit}
                 </div>
               )}
             </>

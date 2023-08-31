@@ -44,7 +44,7 @@ export default function Position({ params }: { params: { name: string } }) {
         <p className="text-gray-5 b3 lg:b6 mt-20">
           อัปเดตข้อมูลเมื่อวันที่ {new Date().toLocaleDateString("th")}
         </p>
-        <Search placeholder="ค้นหาด้วยชื่อ/นามสกุล" data={PEOPLE} />
+        <Search placeholder="ค้นหาด้วยชื่อ/นามสกุล" data={PEOPLE} unit="คน" />
         <div className="w-[90vw] border-1 border-gray-4 lg:mt-20 lg:w-full" />
         <Link
           href="/info"
