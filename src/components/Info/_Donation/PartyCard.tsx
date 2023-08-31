@@ -54,16 +54,23 @@ export default function InfoDonationPartyCard({
               width={25}
               height={25}
             />
-            <span className="b2 font-bold">{name}</span>
-            {hasCorrupt0Page(`พรรค${latestName}`) && (
-              <Link href={`/info/พรรค${latestName}`} target="_blank">
+            {hasCorrupt0Page(`พรรค${latestName}`) ? (
+              <Link
+                href={`/info/พรรค${latestName}`}
+                target="_blank"
+                className="flex gap-5 items-center"
+              >
+                <span className="b2 font-bold">{name}</span>
                 <Image
+                  className="w-15 h-auto aspect-square md:w-[18px]"
                   src="/icons/new_tab.svg"
-                  alt="ดูข้อมูลพรรค"
+                  alt=""
                   width={15}
                   height={15}
                 />
               </Link>
+            ) : (
+              <span className="b2 font-bold">{name}</span>
             )}
             <Image
               className="ui-open:rotate-180 ml-auto"
