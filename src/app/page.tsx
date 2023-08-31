@@ -333,7 +333,19 @@ export default function Home() {
               alt="punch up"
             />
           </a>
-          {/* TODO: Add BML */}
+          <a
+            href="https://www.boonmeelab.com/"
+            target="_blank"
+            rel="nofollow noopener noreferrer"
+          >
+            <Image
+              className="w-auto h-20 md:h-30"
+              src="/logos/bml.svg"
+              width={50.12}
+              height={14.5}
+              alt="boonmee lab"
+            />
+          </a>
         </div>
       </section>
       <Footer className="bg-gray-2 !rounded-0" />

@@ -170,7 +170,19 @@ const Spotlight = ({ update }: { update: string }) => {
               alt="punch up"
             />
           </a>
-          {/* TODO: Add BML */}
+          <a
+            href="https://www.boonmeelab.com/"
+            target="_blank"
+            rel="nofollow noopener noreferrer"
+          >
+            <Image
+              className="w-auto h-[12px] md:h-[21px]"
+              src="/logos/bml.svg"
+              width={41.48}
+              height={12}
+              alt="boonmee lab"
+            />
+          </a>
         </div>
         <p className="opacity-50 b5">อัปเดตล่าสุด: {update}</p>
       </div>
