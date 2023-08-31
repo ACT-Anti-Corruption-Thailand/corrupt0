@@ -205,6 +205,9 @@ export interface InfoAssetLandStatement extends InfoAssetStatement {
   receiveDate?: string;
   receiveFrom?: string;
   land_doc_number?: string;
+  rai?: string;
+  ngan?: string;
+  sq_wa?: string;
 }
 
 export interface LandProps {
@@ -258,13 +261,34 @@ const Land = ({
         <ul className="flex-1">
           {filteredS1.map(
             (
-              { value, actor, name, address, receiveDate, receiveFrom, land_doc_number },
+              {
+                value,
+                actor,
+                name,
+                address,
+                receiveDate,
+                receiveFrom,
+                land_doc_number,
+                rai,
+                ngan,
+                sq_wa,
+              },
               i
             ) => (
               <DetailsBlock key={i}>
                 <DetailsActor actor={actor} />
                 <span className="b5">{`${name} เลขที่ ${land_doc_number}`}</span>
                 <DetailsListContainer>
+                  <DetailsListList
+                    value={[
+                      rai && `${rai} ไร่`,
+                      ngan && `${ngan} งาน`,
+                      sq_wa && `${sq_wa} ตร.ว`,
+                    ]
+                      .filter((e) => e)
+                      .join(" ")
+                      .trim()}
+                  />
                   <DetailsListList value={address} />
                   {receiveDate && (
                     <DetailsListList label="วันที่ได้มา" value={receiveDate} />
@@ -284,13 +308,34 @@ const Land = ({
         <ul className="flex-1">
           {filteredS2.map(
             (
-              { value, actor, name, address, receiveDate, receiveFrom, land_doc_number },
+              {
+                value,
+                actor,
+                name,
+                address,
+                receiveDate,
+                receiveFrom,
+                land_doc_number,
+                rai,
+                ngan,
+                sq_wa,
+              },
               i
             ) => (
               <DetailsBlock key={i}>
                 <DetailsActor actor={actor} />
                 <span className="b5">{`${name} เลขที่ ${land_doc_number}`}</span>
                 <DetailsListContainer>
+                  <DetailsListList
+                    value={[
+                      rai && `${rai} ไร่`,
+                      ngan && `${ngan} งาน`,
+                      sq_wa && `${sq_wa} ตร.ว`,
+                    ]
+                      .filter((e) => e)
+                      .join(" ")
+                      .trim()}
+                  />
                   <DetailsListList value={address} />
                   {receiveDate && (
                     <DetailsListList label="วันที่ได้มา" value={receiveDate} />

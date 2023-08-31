@@ -161,6 +161,9 @@ export interface InfoAssetLandStatement extends InfoAssetStatement {
   receiveDate?: string;
   receiveFrom?: string;
   land_doc_number?: string;
+  rai?: string;
+  ngan?: string;
+  sq_wa?: string;
 }
 
 export interface LandProps {
@@ -199,7 +202,18 @@ const Land = ({ statements = [], showActor, showSpouse, showChild }: LandProps) 
       <ul>
         {filteredS.map(
           (
-            { value, actor, name, address, receiveDate, receiveFrom, land_doc_number },
+            {
+              value,
+              actor,
+              name,
+              address,
+              receiveDate,
+              receiveFrom,
+              land_doc_number,
+              rai,
+              ngan,
+              sq_wa,
+            },
             i
           ) => (
             <DetailsBlock key={i}>
@@ -209,6 +223,16 @@ const Land = ({ statements = [], showActor, showSpouse, showChild }: LandProps) 
                 value={value}
               />
               <DetailsListContainer>
+                <DetailsListList
+                  value={[
+                    rai && `${rai} ไร่`,
+                    ngan && `${ngan} งาน`,
+                    sq_wa && `${sq_wa} ตร.ว`,
+                  ]
+                    .filter((e) => e)
+                    .join(" ")
+                    .trim()}
+                />
                 <DetailsListList value={address} />
                 {receiveDate && (
                   <DetailsListList label="วันที่ได้มา" value={receiveDate} />

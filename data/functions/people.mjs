@@ -555,7 +555,10 @@ export const getAsset = async (nacc_id) => {
             "endDate",
             "receiveFrom",
             "province",
-            "vehicle_model"
+            "vehicle_model",
+            "rai",
+            "ngan",
+            "sq_wa"
           )
           .objects()
           .sort((a, z) => z.value - a.value)
