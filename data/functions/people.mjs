@@ -228,7 +228,7 @@ const getPersonalData = async (name) => {
     const previous_jobs = all_positions
       .filter((d) => d.position_period_type_id !== 1)
       .map((d) => ({
-        position_title: d.position + " " + d.workplace,
+        position_title: d.position,
         start_year: d.start_year
           ? d.start_year + 543
           : d.date_acquiring_type_id === 3
@@ -243,7 +243,7 @@ const getPersonalData = async (name) => {
 
     person_data_json = {
       age: DATA_PERSONAL_SUBMITTER_TRANSFORMED.get("age", found_row),
-      position: current_position.position + " " + current_position.workplace,
+      position: current_position.position,
       group: current_group?.corrupt0_category,
       subgroup: current_group?.nacc_sub_category,
       previous_jobs,
