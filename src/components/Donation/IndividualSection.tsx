@@ -51,12 +51,7 @@ const PARTY_ASSETS = _PARTY_ASSETS as Record<
 >;
 
 const YEARS = Object.keys(PARTY_DONATION).reverse();
-const DONATION_TYPES = [
-  "ทุกประเภทบุคคล",
-  "บุคคล",
-  "นิติบุคคล",
-  "ผู้ดำรงตำแหน่งทางการเมือง",
-];
+const DONATION_TYPES = ["ทุกประเภท", "บุคคล", "นิติบุคคล", "ผู้ดำรงตำแหน่งทางการเมือง"];
 
 type IndividualDonorSchema = (typeof DONOR_DATA)[number];
 
@@ -90,9 +85,7 @@ export function IndividualSection() {
   const [individualSort, setIndividualSort] = useState<"asc" | "desc">("desc");
 
   const donorResult = DONOR_DATA.filter((items: any) =>
-    individualFilterType === "ทุกประเภทบุคคล"
-      ? true
-      : items.title === individualFilterType
+    individualFilterType === "ทุกประเภท" ? true : items.title === individualFilterType
   );
 
   return (
