@@ -785,13 +785,13 @@ const getPersonDonation = async (name) => {
   return (
     DONATION_FULLNAME.params({ name })
       .filter((d) => d.full_name === name)
-      .select("year", "month", "party", "amount")
+      .select("year", "month", "date", "party", "amount")
       // .rename({ amount: "_amount" })
-      .orderby("year", "month")
+      .orderby("year", "month", "date")
       // .groupby("year", "month", "party")
       // .rollup({ amount: (d) => op.sum(d._amount) })
       // .ungroup()
-      .select("year", "month", "party", "amount")
+      .select("year", "month", "date", "party", "amount")
       .objects()
   );
 };

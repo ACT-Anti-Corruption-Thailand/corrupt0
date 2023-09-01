@@ -35,7 +35,7 @@ export const getPartyDonor = async (party) => {
     .filter(aq.escape((d) => (NEW_PARTY_LOOKUP[d.party] ?? d.party) === party))
     .objects()
     .map((obj) => {
-      const { party, ...rest } = obj;
+      const { party: _, ...rest } = obj;
       return rest;
     })
     .sort((a, b) => b.amount - a.amount);

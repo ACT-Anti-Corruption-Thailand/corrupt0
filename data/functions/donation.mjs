@@ -42,7 +42,13 @@ export const getDonationData = async () => {
 
   let tables = [];
   for (let file of filePaths) {
-    tables.push(await safeLoadCSV(file));
+    tables.push(
+      await safeLoadCSV(file).then((e) =>
+        e.derive({
+          date: aq.escape((d) => d.date ?? null),
+        })
+      )
+    );
   }
 
   return tables

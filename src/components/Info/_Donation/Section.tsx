@@ -21,6 +21,7 @@ const PARTY_ASSETS = _PARTY_ASSETS as Record<
 import { formatThousands, thaiMoneyFormatter } from "@/functions/moneyFormatter";
 
 interface DonationData {
+  date?: number;
   year: number;
   month: number;
   party: string;
@@ -106,7 +107,9 @@ const getDonationByParty = (data: DonationData[]): PartyDonationDetail[] => {
   return Object.entries(dataByParty).map(([party, details]) => ({
     name: party,
     statements: details.map((d) => ({
-      date: `${(d.month + "").padStart(2, "0")}/${d.year}`,
+      date: d.date
+        ? `${(d.date + "").padStart(2, "0")}/${(d.month + "").padStart(2, "0")}/${d.year}`
+        : `${(d.month + "").padStart(2, "0")}/${d.year}`,
       amount: d.amount,
     })),
   }));
