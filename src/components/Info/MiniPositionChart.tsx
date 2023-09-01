@@ -60,11 +60,7 @@ const ChartTick = ({ props }: { props: any }) =>
     <g transform={`translate(${props.x},${props.y})`}>
       <text
         fill="#666"
-        orientation="bottom"
-        x="0"
-        y="0"
-        stroke="none"
-        className="recharts-text recharts-cartesian-axis-tick-value"
+        className="recharts-text recharts-cartesian-axis-tick-value b8"
         text-anchor="middle"
       >
         <tspan dy="0.71em">{histMoneyFormatter(props.payload.value)}</tspan>
@@ -114,9 +110,6 @@ export function MiniPositionChart({ refValue, data, hasData }: MiniPositionChart
             interval={0}
             domain={[1, 1e12]}
             tick={(props) => <ChartTick props={props} />}
-            angle={-30}
-            fill="#3F3F3F"
-            className="b8"
             axisLine={{ style: { stroke: "#666", strokeWidth: 1 } }}
           />
           <Bar dataKey="y" fill="#fff" xAxisId="data">
@@ -175,9 +168,6 @@ export function MiniPositionChart({ refValue, data, hasData }: MiniPositionChart
             interval={0}
             domain={[1, 1e12]}
             tick={(props) => <ChartTick props={props} />}
-            angle={-30}
-            fill="#3F3F3F"
-            className="b8"
             axisLine={{ style: { stroke: "#666", strokeWidth: 1 } }}
           />
         </BarChart>

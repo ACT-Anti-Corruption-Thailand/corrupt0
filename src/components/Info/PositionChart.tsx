@@ -63,16 +63,12 @@ const ChartTick = ({ props }: { props: any }) =>
     <g transform={`translate(${props.x},${props.y})`}>
       <text
         fill="#666"
-        orientation="bottom"
-        x="0"
-        y="0"
-        stroke="none"
-        className="recharts-text recharts-cartesian-axis-tick-value"
+        className="recharts-text recharts-cartesian-axis-tick-value b7"
         textAnchor="end"
         style={{
           transformBox: "fill-box",
           transformOrigin: "top right",
-          transform: "rotate(-45deg)",
+          transform: "rotate(-30deg)",
         }}
       >
         <tspan dy="0.71em">{histMoneyFormatter(props.payload.value)}</tspan>
@@ -121,9 +117,6 @@ export function PositionChart({ refValue, data, hasData }: PositionChartProps) {
             domain={[1, 1e12]}
             interval={0}
             tick={(props) => <ChartTick props={props} />}
-            fill="#3F3F3F"
-            className="b7"
-            angle={-45}
             axisLine={false}
           />
           <Bar dataKey="y" fill="#fff" xAxisId="data">

@@ -155,11 +155,7 @@ const ChartTick = ({ props }: { props: any }) => (
     {props.index === 0 ? (
       <text
         fill="#666"
-        orientation="bottom"
-        x="0"
-        y="0"
-        stroke="none"
-        className="recharts-text recharts-cartesian-axis-tick-value"
+        className="recharts-text recharts-cartesian-axis-tick-value b7"
         textAnchor="middle"
       >
         <tspan x="0" dy="0.71em">
@@ -172,16 +168,12 @@ const ChartTick = ({ props }: { props: any }) => (
     ) : (
       <text
         fill="#666"
-        orientation="bottom"
-        x="0"
-        y="0"
-        stroke="none"
-        className="recharts-text recharts-cartesian-axis-tick-value"
+        className="recharts-text recharts-cartesian-axis-tick-value b7"
         textAnchor="end"
         style={{
           transformBox: "fill-box",
           transformOrigin: "top right",
-          transform: "rotate(-45deg)",
+          transform: "rotate(-30deg)",
         }}
       >
         <tspan dy="0.5em">{histMoneyFormatter(props.payload.value)}</tspan>
@@ -327,9 +319,6 @@ export default function AssetDebtChart() {
                 tick={(props) => <ChartTick props={props} />}
                 domain={[1, 1e12]}
                 interval={0}
-                fill="#3F3F3F"
-                className="b7"
-                angle={-45}
                 axisLine={false}
               >
                 <Label
