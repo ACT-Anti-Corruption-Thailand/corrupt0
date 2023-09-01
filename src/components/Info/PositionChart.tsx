@@ -13,7 +13,31 @@ import {
 } from "recharts";
 
 const ChartLabelList = ({ props }: { props: any }) => {
-  const { x, y, width, height, value } = props;
+  const { x, y, width, height, value, index } = props;
+
+  if (index === 0 && value)
+    return (
+      <text
+        x={x + width / 2}
+        y={value >= 50 ? y + 15 : y - 45}
+        width={width}
+        height={height}
+        fill="#808080"
+        offset="5"
+        className="recharts-text b7"
+        textAnchor="middle"
+      >
+        <tspan x={x + width / 2} dy="0em">
+          ไม่มี
+        </tspan>
+        <tspan x={x + width / 2} dy="1em">
+          ข้อมูล
+        </tspan>
+        <tspan x={x + width / 2} dy="1em">
+          {Math.round(+value * 100) / 100} %
+        </tspan>
+      </text>
+    );
 
   if (value)
     return (
@@ -33,6 +57,28 @@ const ChartLabelList = ({ props }: { props: any }) => {
       </text>
     );
 };
+
+const ChartTick = ({ props }: { props: any }) =>
+  props.index !== 0 && (
+    <g transform={`translate(${props.x},${props.y})`}>
+      <text
+        fill="#666"
+        orientation="bottom"
+        x="0"
+        y="0"
+        stroke="none"
+        className="recharts-text recharts-cartesian-axis-tick-value"
+        textAnchor="end"
+        style={{
+          transformBox: "fill-box",
+          transformOrigin: "top right",
+          transform: "rotate(-45deg)",
+        }}
+      >
+        <tspan dy="0.71em">{histMoneyFormatter(props.payload.value)}</tspan>
+      </text>
+    </g>
+  );
 
 interface PositionChartProps {
   refValue?: number;
@@ -68,16 +114,13 @@ export function PositionChart({ refValue, data, hasData }: PositionChartProps) {
           <XAxis
             type="number"
             dataKey="x"
-            tickFormatter={histMoneyFormatter}
             scale="log"
             ticks={[
               0.1, 1, 10, 100, 1e3, 10e3, 100e3, 1e6, 10e6, 100e6, 1e9, 10e9, 100e9, 1e12,
             ]}
             domain={[1, 1e12]}
             interval={0}
-            tick={{
-              textAnchor: "end",
-            }}
+            tick={(props) => <ChartTick props={props} />}
             fill="#3F3F3F"
             className="b7"
             angle={-45}

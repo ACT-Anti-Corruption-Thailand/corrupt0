@@ -150,6 +150,46 @@ const StyledTooltip = ({ payload }: { payload: Record<any, any> }) => {
   );
 };
 
+const ChartTick = ({ props }: { props: any }) => (
+  <g transform={`translate(${props.x},${props.y})`}>
+    {props.index === 0 ? (
+      <text
+        fill="#666"
+        orientation="bottom"
+        x="0"
+        y="0"
+        stroke="none"
+        className="recharts-text recharts-cartesian-axis-tick-value"
+        textAnchor="middle"
+      >
+        <tspan x="0" dy="0.71em">
+          ไม่มี
+        </tspan>
+        <tspan x="0" dy="0.71em">
+          ข้อมูล
+        </tspan>
+      </text>
+    ) : (
+      <text
+        fill="#666"
+        orientation="bottom"
+        x="0"
+        y="0"
+        stroke="none"
+        className="recharts-text recharts-cartesian-axis-tick-value"
+        textAnchor="end"
+        style={{
+          transformBox: "fill-box",
+          transformOrigin: "top right",
+          transform: "rotate(-45deg)",
+        }}
+      >
+        <tspan dy="0.5em">{histMoneyFormatter(props.payload.value)}</tspan>
+      </text>
+    )}
+  </g>
+);
+
 const POSITION_COLOR: Record<string, string | undefined> = {
   สมาชิกสภาผู้แทนราษฎร: "#5849FF",
   สมาชิกวุฒิสภา: "#62a1ff",
@@ -279,12 +319,12 @@ export default function AssetDebtChart() {
               <XAxis
                 type="number"
                 dataKey="asset"
-                tickFormatter={histMoneyFormatter}
                 scale="log"
                 ticks={[
                   0.1, 1, 10, 100, 1e3, 10e3, 100e3, 1e6, 10e6, 100e6, 1e9, 10e9, 100e9,
                   1e12,
                 ]}
+                tick={(props) => <ChartTick props={props} />}
                 domain={[1, 1e12]}
                 interval={0}
                 fill="#3F3F3F"

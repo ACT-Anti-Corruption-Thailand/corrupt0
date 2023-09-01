@@ -55,6 +55,23 @@ const ChartLabelList = ({ props, maxYIndex }: { props: any; maxYIndex: number })
     );
 };
 
+const ChartTick = ({ props }: { props: any }) =>
+  props.index % 2 && (
+    <g transform={`translate(${props.x},${props.y})`}>
+      <text
+        fill="#666"
+        orientation="bottom"
+        x="0"
+        y="0"
+        stroke="none"
+        className="recharts-text recharts-cartesian-axis-tick-value"
+        text-anchor="middle"
+      >
+        <tspan dy="0.71em">{histMoneyFormatter(props.payload.value)}</tspan>
+      </text>
+    </g>
+  );
+
 interface MiniPositionChartProps {
   refValue?: number;
   data: {
@@ -90,16 +107,13 @@ export function MiniPositionChart({ refValue, data, hasData }: MiniPositionChart
           <XAxis
             type="number"
             dataKey="x"
-            tickFormatter={histMoneyFormatter}
             scale="log"
             ticks={[
               0.1, 1, 10, 100, 1e3, 10e3, 100e3, 1e6, 10e6, 100e6, 1e9, 10e9, 100e9, 1e12,
             ]}
             interval={0}
             domain={[1, 1e12]}
-            tick={{
-              textAnchor: "end",
-            }}
+            tick={(props) => <ChartTick props={props} />}
             angle={-30}
             fill="#3F3F3F"
             className="b8"
@@ -160,9 +174,7 @@ export function MiniPositionChart({ refValue, data, hasData }: MiniPositionChart
             ]}
             interval={0}
             domain={[1, 1e12]}
-            tick={{
-              textAnchor: "end",
-            }}
+            tick={(props) => <ChartTick props={props} />}
             angle={-30}
             fill="#3F3F3F"
             className="b8"
