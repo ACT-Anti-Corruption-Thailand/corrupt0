@@ -97,6 +97,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </Script>
         <PdpaBanner />
         {children}
+        <Script
+          id="plausible"
+          defer
+          data-domain="poldata.actai.co"
+          src="https://analytics.punchup.world/js/plausible.js"
+        />
       </body>
     </html>
   );
