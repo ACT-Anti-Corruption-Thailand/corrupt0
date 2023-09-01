@@ -6,6 +6,7 @@ import { Switch } from "@headlessui/react";
 import Image from "next/image";
 
 import { initClarity } from "@/functions/clarity";
+import clsx from "clsx";
 
 interface ConsentList {
   ad_storage: "granted" | "denied";
@@ -55,7 +56,12 @@ export default function PdpaBanner() {
 
   return (
     showConsent && (
-      <section className="fixed z-20 bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[850px] b5 text-black flex flex-col h-full max-h-[70vh] md:max-h-[50vh]">
+      <section
+        className={clsx(
+          "fixed z-20 bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[850px] b5 text-black flex flex-col max-h-[70vh] md:max-h-[50vh]",
+          showDetails && "h-full"
+        )}
+      >
         <div className="flex flex-col items-center md:flex-row md:gap-5 rounded-t-10 p-15 bg-white md:p-20 mt-auto">
           <div className="flex-1">
             <p>
