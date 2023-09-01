@@ -5,3 +5,6 @@ import PARTIES from "@/data/parties.json";
 
 export const hasCorrupt0Page = (dash_separated_name: string) =>
   [...PEOPLE_NACC, ...PEOPLE_GEN, ...BUSINESS, ...PARTIES].includes(dash_separated_name);
+
+export const getFullBusinessPage = (name: string) =>
+  BUSINESS.find((e) => e.includes(name));

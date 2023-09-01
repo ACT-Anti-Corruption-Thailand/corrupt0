@@ -19,7 +19,7 @@ import Link from "next/link";
 import POLITICIAN_IMAGES from "@/data/politicianImages.json";
 
 import { formatThousands } from "@/functions/moneyFormatter";
-import { hasCorrupt0Page } from "@/functions/navigation";
+import { getFullBusinessPage, hasCorrupt0Page } from "@/functions/navigation";
 
 import type { DropdownDetailedData } from "@/components/BareDropdown";
 
@@ -88,7 +88,7 @@ export default function Person({ params }: { params: { name: string } }) {
     : 0;
 
   const businessInCorrupt0 = business.filter((b: any) =>
-    hasCorrupt0Page(getFileName(b.business_name))
+    getFullBusinessPage(getFileName(b.business_name))
   ).length;
 
   const NACC_YEAR = Object.fromEntries(

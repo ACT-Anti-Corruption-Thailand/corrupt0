@@ -1,7 +1,7 @@
-import path from "path";
+import clsx from "clsx";
 import fs from "fs";
 import { notFound } from "next/navigation";
-import clsx from "clsx";
+import path from "path";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -13,7 +13,7 @@ const DONOR = _DONOR as {
 }[];
 
 import { thaiMoneyFormatter } from "@/functions/moneyFormatter";
-import { hasCorrupt0Page } from "@/functions/navigation";
+import { getFullBusinessPage } from "@/functions/navigation";
 
 // from /data/functions/business.mjs
 const getFileName = (formal_name: string) =>
@@ -30,11 +30,10 @@ export default function InfoBusinessCard({
   type,
   relation,
 }: InfoBusinessCardProps) {
-  const fileName = getFileName(name);
-  const hasPage = hasCorrupt0Page(fileName);
+  const fileName = getFullBusinessPage(getFileName(name));
 
   let pageData: Record<any, any> = {};
-  if (hasPage) {
+  if (fileName) {
     try {
       const filePath = path.join(
         process.cwd(),
@@ -54,11 +53,14 @@ export default function InfoBusinessCard({
 
   const mostDonatedParty = hasDonation
     ? Object.entries(
-        donation.reduce((a: Record<string, number>, c: { party: string }) => {
-          if (a[c.party]) a[c.party] += 1;
-          else a[c.party] = 1;
-          return a;
-        }, {} as Record<string, number>)
+        donation.reduce(
+          (a: Record<string, number>, c: { party: string }) => {
+            if (a[c.party]) a[c.party] += 1;
+            else a[c.party] = 1;
+            return a;
+          },
+          {} as Record<string, number>
+        )
       ).sort((a, z) => (z[1] as number) - (a[1] as number))[0][0]
     : "";
   const totalDonation = hasDonation
@@ -70,20 +72,20 @@ export default function InfoBusinessCard({
 
   return (
     <article className="rounded-5 bg-white/10 p-10 flex flex-col gap-5">
-      <div className="flex justify-between">
+      {fileName ? (
+        <Link href={`/info/${fileName}`} target="_blank" className="flex gap-5">
+          <span className="b3 font-bold">{name}</span>
+          <Image
+            src="/icons/new_tab.svg"
+            alt=""
+            width={15}
+            height={15}
+            className="w-15 h-auto md:w-20"
+          />
+        </Link>
+      ) : (
         <span className="b3 font-bold">{name}</span>
-        {hasPage && (
-          <Link href={`/info/${fileName}`} target="_blank">
-            <Image
-              src="/icons/new_tab.svg"
-              alt=""
-              width={15}
-              height={15}
-              className="w-15 h-auto md:w-20"
-            />
-          </Link>
-        )}
-      </div>
+      )}
       <ul className="b6 -mt-5">
         {type && (
           <li>
