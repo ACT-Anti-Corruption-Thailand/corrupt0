@@ -212,7 +212,6 @@ const getPersonalData = async (name) => {
         "position_period_type_id",
         "position",
         "position_category_type_id",
-        "workplace",
         "date_acquiring_type_id",
         "start_year",
         "date_ending_type_id",
@@ -225,8 +224,24 @@ const getPersonalData = async (name) => {
       (d) => d.position_category_id === current_position.position_category_type_id
     );
 
+    const other_jobs = all_positions
+      .filter((d) => d.position_period_type_id === 2)
+      .map((d) => ({
+        position_title: d.position,
+        start_year: d.start_year
+          ? d.start_year + 543
+          : d.date_acquiring_type_id === 3
+          ? new Date().getFullYear() + 543
+          : undefined,
+        end_year: d.end_year
+          ? d.end_year + 543
+          : d.date_ending_type_id === 2 || d.date_ending_type_id === 3
+          ? new Date().getFullYear() + 543
+          : undefined,
+      }));
+
     const previous_jobs = all_positions
-      .filter((d) => d.position_period_type_id !== 1)
+      .filter((d) => d.position_period_type_id === 3)
       .map((d) => ({
         position_title: d.position,
         start_year: d.start_year
@@ -246,6 +261,7 @@ const getPersonalData = async (name) => {
       position: current_position.position,
       group: current_group?.corrupt0_category,
       subgroup: current_group?.nacc_sub_category,
+      other_jobs,
       previous_jobs,
     };
 

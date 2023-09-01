@@ -45,6 +45,7 @@ export default function Person({ params }: { params: { name: string } }) {
   const {
     age,
     position,
+    other_jobs,
     previous_jobs,
     relationship,
     donation,
@@ -166,25 +167,62 @@ export default function Person({ params }: { params: { name: string } }) {
                       <Sharer fallback={`https://poldata.actai.co/info/${name}`} />
                     </div>
                   </div>
-                  {(age || position || previous_jobs) && (
+                  {(age ||
+                    position ||
+                    other_jobs.length > 0 ||
+                    previous_jobs.length > 0) && (
                     <div className="text-left">
                       {age && (
                         <>
                           <span className="block b6 text-gray-5">อายุ ณ ปีที่ยื่น</span>
-                          <span className="block b4 font-bold">
-                            {politicianData.age} ปี
-                          </span>
+                          <span className="block b4 font-bold">{age} ปี</span>
                         </>
                       )}
                       {position && (
                         <>
                           <span className="block b6 text-gray-5">ตำแหน่งปัจจุบัน</span>
                           <span className="block b4 no-balance">
-                            <span className="font-bold">{politicianData.position}</span>
+                            <span className="font-bold">{position}</span>
                           </span>
                         </>
                       )}
-                      {previous_jobs && (
+                      {other_jobs.length > 0 && (
+                        <Accordion
+                          trigger={
+                            <div className="flex b6 text-gray-5 items-center">
+                              <span>ดูตำแหน่งอื่นๆ</span>
+                              <Image
+                                className="ui-open:rotate-180 ml-2"
+                                src="/icons/caret-g.svg"
+                                width={10}
+                                height={10}
+                                alt=""
+                              />
+                            </div>
+                          }
+                        >
+                          <div className="rounded-5 bg-gray-2 b7 text-gray-5 p-5">
+                            <ul className="flex flex-col gap-5 fake-bullet">
+                              {[...other_jobs]
+                                .sort((a, z) => +(z?.end_year ?? 0) - +(a?.end_year ?? 0))
+                                .sort(
+                                  (a, z) => +(z?.start_year ?? 0) - +(a?.start_year ?? 0)
+                                )
+                                .map(
+                                  (job: any, i: number) =>
+                                    job.position_title && (
+                                      <li key={i}>
+                                        {job.position_title} ({job.start_year}
+                                        {job.start_year && job.end_year && "–"}
+                                        {job.end_year})
+                                      </li>
+                                    )
+                                )}
+                            </ul>
+                          </div>
+                        </Accordion>
+                      )}
+                      {previous_jobs.length > 0 && (
                         <Accordion
                           trigger={
                             <div className="flex b6 text-gray-5 items-center">
@@ -201,7 +239,7 @@ export default function Person({ params }: { params: { name: string } }) {
                         >
                           <div className="rounded-5 bg-gray-2 b7 text-gray-5 p-5">
                             <ul className="flex flex-col gap-5 fake-bullet">
-                              {[...politicianData.previous_jobs]
+                              {[...previous_jobs]
                                 .sort((a, z) => +(z?.end_year ?? 0) - +(a?.end_year ?? 0))
                                 .sort(
                                   (a, z) => +(z?.start_year ?? 0) - +(a?.start_year ?? 0)
