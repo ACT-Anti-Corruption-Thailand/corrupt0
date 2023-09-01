@@ -185,10 +185,10 @@ export default function InfoPartyDonationSection(props: PartySectionProps) {
                 ? getFileName(getFormalName(d.donor_fullname))
                 : getFileName(d.donor_fullname),
           }))}
-          unit="บุคคล"
+          unit="ราย"
         />
         <p className="b3 text-center text-gray-4 lg:pt-30">
-          ทั้งหมด {displayData.length.toLocaleString()} บุคคล
+          ทั้งหมด {displayData.length.toLocaleString()} ราย
         </p>
         {sortData(displayData, individualSort)
           .slice(0, individualView)
@@ -224,7 +224,7 @@ export default function InfoPartyDonationSection(props: PartySectionProps) {
             setIndividualView(individualView + 10);
           }}
         >
-          + ดูเพิ่มเติมอีก 10 บุคคล
+          + ดูเพิ่มเติมอีก 10 ราย
         </button>
       </div>
     </section>

@@ -174,7 +174,7 @@ export function IndividualSection() {
         data={DONOR_DATA}
         selected={individualSearch}
         setSelected={setIndividualSearch}
-        unit="บุคคล"
+        unit="ราย"
       />
       <div className="flex flex-col items-center text-center b4 pb-10 lg:pb-30 w-[90vw] min-w-[300px] max-w-[850px]">
         {individualSearch ? (
