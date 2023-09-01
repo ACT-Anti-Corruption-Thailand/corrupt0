@@ -1,4 +1,7 @@
 "use client";
+import "react-pdf/dist/Page/AnnotationLayer.css";
+import "react-pdf/dist/Page/TextLayer.css";
+
 import { Dialog } from "@headlessui/react";
 import Image from "next/image";
 import type { Dispatch, SetStateAction } from "react";
@@ -52,7 +55,7 @@ export default function PdfViewer({
         >
           <Image src="/icons/cross-w.svg" alt="ปิด" width={20} height={20} />
         </button>
-        <div className="flex-1 overflow-scroll p-10 bg-gray-3 text-black flex flex-col min-h-0 min-w-0">
+        <div className="flex-1 overflow-scroll p-10 bg-gray-3 text-black min-h-0 min-w-0">
           {isError ? (
             <span className="text-red text-center">
               เกิดข้อผิดพลาดขึ้นขณะโหลดไฟล์ กรุณาลองใหม่อีกครั้ง
@@ -62,12 +65,13 @@ export default function PdfViewer({
               file={`/pdf/${nacc_id}.pdf`}
               onLoadSuccess={onDocumentLoadSuccess}
               onLoadError={onDocumentLoadError}
+              className="flex flex-col gap-10"
             >
               {Array.from(new Array(pageCount), (_, index) => (
                 <Page
                   key={`page_${index + 1}`}
                   pageNumber={index + 1}
-                  className="select-none"
+                  className="select-none m-auto"
                   onContextMenu={(e) => {
                     e.preventDefault();
                     e.stopPropagation();
