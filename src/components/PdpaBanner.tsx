@@ -1,4 +1,5 @@
 "use client";
+import { initClarity } from "@/functions/clarity";
 import { useLocalStorageValue } from "@react-hookz/web/esm/useLocalStorageValue";
 import { useEffect } from "react";
 
@@ -35,6 +36,9 @@ export default function PdpaBanner() {
     ) {
       if (typeof window !== "undefined" && "gtag" in window) {
         (window as any).gtag("consent", "update", consentList);
+        if (consentList.analytics_storage === "granted") {
+          initClarity();
+        }
       }
     }
   }, [consentList]);
@@ -48,23 +52,12 @@ export default function PdpaBanner() {
             type="button"
             onClick={() =>
               grantConsent({
-                ad_storage: "granted",
-                analytics_storage: "granted",
-              })
-            }
-          >
-            Accept All
-          </button>
-          <button
-            type="button"
-            onClick={() =>
-              grantConsent({
                 ad_storage: "denied",
                 analytics_storage: "granted",
               })
             }
           >
-            Accept Analytics
+            Accept All
           </button>
           <button
             type="button"
