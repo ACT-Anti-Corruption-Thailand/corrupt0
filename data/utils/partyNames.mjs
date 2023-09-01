@@ -1,8 +1,7 @@
 import fs from "fs/promises";
 import { safeLoadCSV } from "../utils/csv.mjs";
 
-// FIXME: Use real data
-const PARTY_BASE = await safeLoadCSV("data/constants/party.csv");
+const PARTY_BASE = await safeLoadCSV("data/raw/party.csv");
 const _PARTY_ID = {};
 
 export const PARTY_NAMES_BY_ID = PARTY_BASE.groupby("ect_party_id").objects({
