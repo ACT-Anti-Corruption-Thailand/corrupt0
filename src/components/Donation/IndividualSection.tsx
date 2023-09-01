@@ -9,7 +9,6 @@ import Image from "next/image";
 import Link from "next/link";
 
 import _PARTY_ASSETS from "@/data/color/partyAssets.json";
-import NACC_PPL from "@/data/people_nacc.json";
 import DATA_PEOPLE from "@/data/people_search.json";
 import _POLITICIAN_IMAGES from "@/data/politicianImages.json";
 import _DONOR_DATA from "@data/donation/donor.json";
@@ -38,20 +37,14 @@ const getFileName = (formal_name: string) =>
   formal_name.replace("ห้างหุ้นส่วนจำกัด", "หจก").replace(/\s+|\/|\\/g, "-");
 
 const PARTY_DONATION = _PARTY_DONATION as any;
-const DONOR_DATA = (_DONOR_DATA as any).map((d: any) => {
-  return d.title === "บุคคล"
-    ? NACC_PPL.includes(d.name.replace(/\s+/g, "-"))
-      ? { ...d, title: "ผู้ดำรงตำแหน่งทางการเมือง" }
-      : { ...d, title: "บุคคล" }
-    : d;
-});
+const DONOR_DATA = _DONOR_DATA as any;
 const PARTY_ASSETS = _PARTY_ASSETS as Record<
   string,
   { color: string | null; image: string | null }
 >;
 
 const YEARS = Object.keys(PARTY_DONATION).reverse();
-const DONATION_TYPES = ["ทุกประเภท", "บุคคล", "นิติบุคคล", "ผู้ดำรงตำแหน่งทางการเมือง"];
+const DONATION_TYPES = ["ทุกประเภท", "บุคคล", "นิติบุคคล"];
 
 type IndividualDonorSchema = (typeof DONOR_DATA)[number];
 
