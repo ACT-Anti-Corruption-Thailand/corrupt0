@@ -213,9 +213,12 @@ export default function Person({ params }: { params: { name: string } }) {
                                   (job: any, i: number) =>
                                     job.position_title && (
                                       <li key={i}>
-                                        {job.position_title} ({job.start_year}
+                                        {job.position_title}{" "}
+                                        {job.start_year && job.end_year && "("}
+                                        {job.start_year}
                                         {job.start_year && job.end_year && "–"}
-                                        {job.end_year})
+                                        {job.end_year}
+                                        {job.start_year && job.end_year && ")"}
                                       </li>
                                     )
                                 )}
@@ -249,9 +252,12 @@ export default function Person({ params }: { params: { name: string } }) {
                                   (job: any, i: number) =>
                                     job.position_title && (
                                       <li key={i}>
-                                        {job.position_title} ({job.start_year}
+                                        {job.position_title}{" "}
+                                        {job.start_year && job.end_year && "("}
+                                        {job.start_year}
                                         {job.start_year && job.end_year && "–"}
-                                        {job.end_year})
+                                        {job.end_year}
+                                        {job.start_year && job.end_year && ")"}
                                       </li>
                                     )
                                 )}
