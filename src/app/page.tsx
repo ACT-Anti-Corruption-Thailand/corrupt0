@@ -56,7 +56,7 @@ export default function Home() {
           <div className="flex-1 min-w-0 p-10 bg-white rounded-10 mb-10 flex flex-col">
             <ImgCard
               href="/info"
-              imgPath="/images/asset_politician.png"
+              imgPath="/images/asset_politician.webp"
               className="hover:grayscale hover:contrast-150 transition-all duration-100 ease-linear"
             >
               <div className="flex justify-between">
@@ -93,7 +93,7 @@ export default function Home() {
                   amount={TOP_INCOME_ASSETS.assets[0].value}
                   icon={
                     POLITICIAN_IMAGES[TOP_INCOME_ASSETS.assets[0].name] ||
-                    "/placeholders/person.png"
+                    "/placeholders/person.webp"
                   }
                   link={TOP_INCOME_ASSETS.assets[0].name}
                 />
@@ -102,7 +102,7 @@ export default function Home() {
                   title="มีทรัพย์สินมากที่สุด"
                   color="red"
                   name="ไม่มีข้อมูล"
-                  icon="/placeholders/person.png"
+                  icon="/placeholders/person.webp"
                 />
               )}
               {TOP_INCOME_ASSETS.income.length > 0 ? (
@@ -116,7 +116,7 @@ export default function Home() {
                   amount={TOP_INCOME_ASSETS.income[0].value}
                   icon={
                     POLITICIAN_IMAGES[TOP_INCOME_ASSETS.income[0].name] ||
-                    "/placeholders/person.png"
+                    "/placeholders/person.webp"
                   }
                   link={TOP_INCOME_ASSETS.income[0].name}
                 />
@@ -125,7 +125,7 @@ export default function Home() {
                   title="มีรายได้มากที่สุด"
                   color="red"
                   name="ไม่มีข้อมูล"
-                  icon="/placeholders/person.png"
+                  icon="/placeholders/person.webp"
                 />
               )}
               <IndexDataCard
@@ -137,7 +137,7 @@ export default function Home() {
                 unit="ธุรกิจ"
                 icon={
                   POLITICIAN_IMAGES[PERSON_BUSINESS_COUNT[0].name] ||
-                  "/placeholders/person.png"
+                  "/placeholders/person.webp"
                 }
                 link={PERSON_BUSINESS_COUNT[0].name}
               />
@@ -150,7 +150,7 @@ export default function Home() {
                 unit="คดีความ"
                 icon={
                   POLITICIAN_IMAGES[PERSON_LAWSUIT_COUNT[0].name] ||
-                  "/placeholders/person.png"
+                  "/placeholders/person.webp"
                 }
                 link={PERSON_LAWSUIT_COUNT[0].name}
               />
@@ -159,7 +159,7 @@ export default function Home() {
           <div className="flex-1 min-w-0 p-10 bg-white rounded-10 mb-10 flex flex-col">
             <ImgCard
               href="/donation"
-              imgPath="/images/asset_donation.png"
+              imgPath="/images/asset_donation.webp"
               className="hover:grayscale hover:contrast-150 transition-all duration-100 ease-linear"
             >
               <div className="flex justify-between">
@@ -193,7 +193,7 @@ export default function Home() {
                       string,
                       { color: string | null; image: string | null }
                     >
-                  )[TOP_PARTY.party]?.image ?? "/placeholders/party.png"
+                  )[TOP_PARTY.party]?.image ?? "/placeholders/party.webp"
                 }
                 link={"พรรค" + TOP_PARTY.party}
               />
@@ -202,7 +202,7 @@ export default function Home() {
                 color="purple"
                 name={TOP_BUSINESS.name}
                 amount={TOP_BUSINESS.total}
-                icon="/placeholders/business.png"
+                icon="/placeholders/business.webp"
                 link={getFileName(TOP_BUSINESS.name)}
               />
               <IndexDataCard
@@ -216,7 +216,7 @@ export default function Home() {
                 amount={TOP_POLITICIAN.total}
                 icon={
                   POLITICIAN_IMAGES[TOP_POLITICIAN.name.replace(/\s/g, "-")] ||
-                  "/placeholders/person.png"
+                  "/placeholders/person.webp"
                 }
                 link={TOP_POLITICIAN.name.replace(/\s/g, "-")}
               />
@@ -226,7 +226,7 @@ export default function Home() {
                 name={TOP_PERSON.name}
                 type="บุคคล"
                 amount={TOP_PERSON.total}
-                icon="/placeholders/person.png"
+                icon="/placeholders/person.webp"
                 link={TOP_PERSON.name.replace(/\s/g, "-")}
               />
             </Slider>
@@ -235,13 +235,13 @@ export default function Home() {
 
         <section
           style={{
-            backgroundImage: "url('/images/asset_political_transparency_bg.png')",
+            backgroundImage: "url('/images/asset_political_transparency_bg.webp')",
           }}
           className="flex flex-col justify-center items-center bg-cover bg-center bg-no-repeat mb-20 lg:mb-30 b5 lg:b3 px-10 lg:px-[12.5vw]"
         >
           <Image
             className="h-[208px] w-[208px] lg:h-[310px] lg:w-[310px] object-cover mb-20 mt-40 lg:mb-40 lg:mt-[200px]"
-            src="/images/asset_glass.png"
+            src="/images/asset_glass.webp"
             width={310}
             height={310}
             alt="political-transparency"
@@ -265,7 +265,7 @@ export default function Home() {
             href="https://bit.ly/actdataentry"
             className="flex items-center my-30 py-[25px] px-30 md:py-[65px] md:px-[150px] bg-cover bg-center text-white border border-gray-5 rounded-5"
             style={{
-              backgroundImage: `url('/images/asset_digital_data.png')`,
+              backgroundImage: `url('/images/asset_digital_data.webp')`,
             }}
             target="_blank"
             rel="nofollow noopener noreferrer"

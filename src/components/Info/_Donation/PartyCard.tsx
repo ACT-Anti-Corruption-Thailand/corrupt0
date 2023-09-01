@@ -35,7 +35,7 @@ export default function InfoDonationPartyCard({
   const partyInfo = PARTY_ASSETS[name];
 
   const color = partyInfo?.color ?? "#fff";
-  const logo = partyInfo?.image ?? "/placeholders/party.png";
+  const logo = partyInfo?.image ?? "/placeholders/party.webp";
 
   const [totalAmount, totalUnit] = thaiMoneyFormatter(
     statements.reduce((a, c) => a + c.amount, 0)

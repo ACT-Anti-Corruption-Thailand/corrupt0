@@ -306,7 +306,7 @@ export const SearchMain = () => {
       {query !== "" && (
         <SearchResult
           data={peopleResult}
-          placeholderImage="/placeholders/person.png"
+          placeholderImage="/placeholders/person.webp"
           type="บุคคล"
           hidden={!(group === "ทั้งหมด" || group === "บุคคล")}
           query={query}
@@ -316,7 +316,7 @@ export const SearchMain = () => {
       {query !== "" && (
         <SearchResult
           data={partyResult}
-          placeholderImage="/placeholders/party.png"
+          placeholderImage="/placeholders/party.webp"
           type="พรรค"
           hidden={!(group === "ทั้งหมด" || group === "พรรค")}
           query={query}
@@ -326,7 +326,7 @@ export const SearchMain = () => {
       {query !== "" && (
         <SearchResult
           data={businessResult}
-          placeholderImage="/placeholders/business.png"
+          placeholderImage="/placeholders/business.webp"
           type="นิติบุคคล"
           hidden={!(group === "ทั้งหมด" || group === "นิติบุคคล")}
           query={query}
@@ -335,21 +335,21 @@ export const SearchMain = () => {
 
       <Top3Thing
         name="บุคคลที่มีทรัพย์สินมากที่สุด"
-        placeholderImage="/placeholders/person.png"
+        placeholderImage="/placeholders/person.webp"
         data={TOP3PERSON}
         hidden={!(query === "" && (group === "ทั้งหมด" || group === "บุคคล"))}
       />
 
       <Top3Thing
         name="พรรคที่ได้รับเงินบริจาคมากที่สุด"
-        placeholderImage="/placeholders/party.png"
+        placeholderImage="/placeholders/party.webp"
         data={TOP3PARTY}
         hidden={!(query === "" && (group === "ทั้งหมด" || group === "พรรค"))}
       />
 
       <Top3Thing
         name="นิติบุคคลที่บริจาคเงินให้พรรคการเมืองมากที่สุด"
-        placeholderImage="/placeholders/business.png"
+        placeholderImage="/placeholders/business.webp"
         data={TOP3BUSINESS}
         hidden={!(query === "" && (group === "ทั้งหมด" || group === "นิติบุคคล"))}
       />

@@ -39,7 +39,7 @@ export default function Party({ params }: { params: { name: string } }) {
   }
 
   const partyInfo = PARTY_ASSETS[name.replace("พรรค", "")];
-  const logo = partyInfo?.image ?? "/placeholders/party.png";
+  const logo = partyInfo?.image ?? "/placeholders/party.webp";
   const color = partyInfo?.color ?? "#CCD8DD";
 
   return (

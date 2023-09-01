@@ -210,8 +210,8 @@ export default function InfoPartyDonationSection(props: PartySectionProps) {
                 imgPath={
                   POLITICIAN_IMAGES[d.donor_fullname.replace(/\s/g, "-")] ||
                   (d.donor_prefix === "นิติบุคคล"
-                    ? "/placeholders/business.png"
-                    : "/placeholders/person.png")
+                    ? "/placeholders/business.webp"
+                    : "/placeholders/person.webp")
                 }
                 amount={d.amount}
                 maxAmount={displayData[0].amount}

@@ -95,7 +95,9 @@ export function PartySection() {
               color={PARTY_ASSETS[partySearch.name]?.color ?? "#fff"}
               amount={partySearch.amount}
               maxAmount={PARTY_DONATION[partyFilterYear][0].amount}
-              imgPath={PARTY_ASSETS[partySearch.name]?.image ?? "/placeholders/party.png"}
+              imgPath={
+                PARTY_ASSETS[partySearch.name]?.image ?? "/placeholders/party.webp"
+              }
             />
           </Link>
         ) : (
@@ -113,7 +115,7 @@ export function PartySection() {
                   color={PARTY_ASSETS[party.party]?.color ?? "#fff"}
                   amount={party.amount}
                   maxAmount={PARTY_DONATION[partyFilterYear][0].amount}
-                  imgPath={PARTY_ASSETS[party.party]?.image ?? "/placeholders/party.png"}
+                  imgPath={PARTY_ASSETS[party.party]?.image ?? "/placeholders/party.webp"}
                 />
               </Link>
             ))

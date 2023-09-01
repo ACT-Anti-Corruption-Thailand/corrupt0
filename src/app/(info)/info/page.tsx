@@ -40,7 +40,7 @@ export default function Info() {
         }}
       />
       <section className="flex flex-col items-center">
-        <ImgCard imgPath="/images/asset_politician.png" className="w-full">
+        <ImgCard imgPath="/images/asset_politician.webp" className="w-full">
           <div className="flex flex-col justify-center my-auto py-30 lg:mx-[20vw] lg:p-[70px]">
             <Image
               className="self-center mb-10 h-[45px] lg:h-100"

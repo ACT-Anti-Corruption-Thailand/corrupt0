@@ -158,7 +158,7 @@ export default function Person({ params }: { params: { name: string } }) {
                   <div className="flex flex-col min-w-[105px] items-center">
                     <Image
                       className="bg-gray-2 rounded-5 border border-black mb-5"
-                      src={image ?? "/placeholders/person.png"}
+                      src={image ?? "/placeholders/person.webp"}
                       width={90}
                       height={90}
                       alt=""

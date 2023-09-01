@@ -108,7 +108,7 @@ module.exports = {
     },
     extend: {
       backgroundImage: {
-        asset_explore: "url(/images/asset_explore.png)",
+        asset_explore: "url(/images/asset_explore.webp)",
       },
       gridTemplateRows: {},
       gridTemplateColumns: {

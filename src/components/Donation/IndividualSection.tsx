@@ -178,8 +178,8 @@ export function IndividualSection() {
               imgPath={
                 POLITICIAN_IMAGES[individualSearch.name.replace(/\s/g, "-")] ||
                 (individualSearch.title === "นิติบุคคล"
-                  ? "/placeholders/business.png"
-                  : "/placeholders/person.png")
+                  ? "/placeholders/business.webp"
+                  : "/placeholders/person.webp")
               }
               assets={selected_assets}
             />
@@ -209,8 +209,8 @@ export function IndividualSection() {
                   imgPath={
                     POLITICIAN_IMAGES[individual.name.replace(/\s/g, "-")] ||
                     (individual.title === "นิติบุคคล"
-                      ? "/placeholders/business.png"
-                      : "/placeholders/person.png")
+                      ? "/placeholders/business.webp"
+                      : "/placeholders/person.webp")
                   }
                   assets={selected_assets}
                 />

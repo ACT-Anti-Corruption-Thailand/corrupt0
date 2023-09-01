@@ -145,7 +145,7 @@ export default function PositionTab({ position }: PositionTabProps) {
                         maxAmount={data_filter[0].asset}
                         imgPath={
                           (POLITICIAN_IMAGES as Record<string, string | null>)[e.name] ??
-                          "/placeholders/person.png"
+                          "/placeholders/person.webp"
                         }
                       />
                     </Link>
@@ -222,7 +222,7 @@ export default function PositionTab({ position }: PositionTabProps) {
                         maxAmount={data_filter[0].debt}
                         imgPath={
                           (POLITICIAN_IMAGES as Record<string, string | null>)[e.name] ??
-                          "/placeholders/person.png"
+                          "/placeholders/person.webp"
                         }
                       />
                     </Link>
