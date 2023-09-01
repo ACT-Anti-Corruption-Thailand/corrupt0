@@ -48,8 +48,6 @@ const DONATION_TYPES = ["ทุกประเภท", "บุคคล", "น�
 
 type IndividualDonorSchema = (typeof DONOR_DATA)[number];
 
-const removeNull = (element: any): element is Exclude<typeof element, null> => !!element;
-
 const sortData = (data: any[], sortby: "asc" | "desc") =>
   sortby === "asc" ? [...data].reverse() : data;
 
@@ -62,18 +60,12 @@ export function IndividualSection() {
   const [individualFilterYear, setIndividualFilterYear] = useState(YEARS[0]);
   const [individualFilterType, setIndividualFilterType] = useState(DONATION_TYPES[0]);
 
-  const selected_assets = PARTY_DONATION["ทุกปี"]
-    .map((d: any) =>
-      PARTY_ASSETS[d.party]?.color && PARTY_ASSETS[d.party]?.color != "#CCD8DD"
-        ? {
-            party: d.party,
-            color: PARTY_ASSETS[d.party]?.color,
-            image: PARTY_ASSETS[d.party]?.image,
-          }
-        : null
-    )
-    .filter(removeNull)
-    .slice(0, 10);
+  const selected_assets = PARTY_DONATION["ทุกปี"].map((d: any) => ({
+    party: d.party,
+    color: PARTY_ASSETS[d.party]?.color ?? "#fff",
+    image: PARTY_ASSETS[d.party]?.image,
+  }));
+  const [showAllPartyColor, setShowAllPartyColor] = useState(false);
 
   const [individualSort, setIndividualSort] = useState<"asc" | "desc">("desc");
 
@@ -134,32 +126,27 @@ export function IndividualSection() {
       </div>
       <div className="flex flex-col px-10 py-10 my-10 lg:my-30 border-1 rounded-5 border-gray-6 items-start w-[85vw] max-w-[800px]">
         <p className="b4 text-gray-3">สี = พรรค</p>
-        <div className="flex gap-x-10 flex-wrap">
-          {selected_assets.map((obj: any, index: number) => (
-            <div key={index} className="flex justify-center items-center gap-5">
-              <div
-                style={
-                  {
+        <div className="w-full xs:columns-2 sm:columns-3">
+          {(showAllPartyColor ? selected_assets : selected_assets.slice(0, 10)).map(
+            (obj: any) => (
+              <div key={obj.party} className="flex items-center gap-5">
+                <div
+                  style={{
                     backgroundColor: obj.color,
-                  } as CSSProperties
-                }
-                className="w-8 h-8"
-                key={index}
-              />
-              <p className="text-gray-3 b4">{obj.party}</p>
-            </div>
-          ))}
-          <div className="flex justify-center items-center gap-5">
-            <div
-              style={
-                {
-                  backgroundColor: "#fff",
-                } as CSSProperties
-              }
-              className="w-8 h-8"
-            />
-            <p className="text-gray-3 b4">พรรคอื่น ๆ</p>
-          </div>
+                  }}
+                  className="w-8 h-8"
+                />
+                <p className="text-gray-3 b4">{obj.party}</p>
+              </div>
+            )
+          )}
+          <button
+            className="text-gray-3 b4 underline"
+            type="button"
+            onClick={() => setShowAllPartyColor((e) => !e)}
+          >
+            {showAllPartyColor ? "ซ่อน..." : "ดูทั้งหมด..."}
+          </button>
         </div>
       </div>
       <Search
