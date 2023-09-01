@@ -46,7 +46,7 @@ export default function InfoTab() {
               <p className="leading-1 inline mr-5">
                 ทรัพย์สินเฉลี่ยต่อครัวเรือน ปี 2564 = <strong>1,801,090.878 บาท</strong>
               </p>
-              <InfoPopover buttonImg="/icons/info.svg">
+              <InfoPopover buttonImg="/icons/info.svg" className="top-2">
                 <p className="b5 no-balance">ที่มา: สำนักงานสถิติแห่งชาติ</p>
               </InfoPopover>
             </div>
@@ -85,7 +85,7 @@ export default function InfoTab() {
               <p className="leading-1 inline mr-5">
                 หนี้สินเฉลี่ยต่อครัวเรือน ปี 2564 = <strong>205,679 บาท</strong>
               </p>
-              <InfoPopover buttonImg="/icons/info.svg">
+              <InfoPopover buttonImg="/icons/info.svg" className="top-2">
                 <p className="b5 no-balance">ที่มา: สำนักงานสถิติแห่งชาติ</p>
               </InfoPopover>
             </div>
@@ -124,8 +124,8 @@ export default function InfoTab() {
               <div>
                 <p className="leading-1 text-red inline mr-5">
                   ทรัพย์สินเฉลี่ยต่อครัวเรือน ปี 2564 = <strong>1,801,090.878 บาท</strong>
-                </p>{" "}
-                <InfoPopover buttonImg="/icons/info.svg">
+                </p>
+                <InfoPopover buttonImg="/icons/info.svg" className="top-[3px]">
                   <p className="b5 no-balance">ที่มา: สำนักงานสถิติแห่งชาติ</p>
                 </InfoPopover>
               </div>
@@ -136,8 +136,8 @@ export default function InfoTab() {
                 <p className="leading-1 text-gray-4 inline mr-5">
                   ทรัพย์สินเฉลี่ย 50 อันดับเศรษฐีไทย ปี 2566 ={" "}
                   <strong>120,208,600,000 บาท</strong>
-                </p>{" "}
-                <InfoPopover buttonImg="/icons/info.svg">
+                </p>
+                <InfoPopover buttonImg="/icons/info.svg" className="top-[3px]">
                   <p className="b5 no-balance">ที่มา: Forbes</p>
                 </InfoPopover>
               </div>
@@ -147,8 +147,8 @@ export default function InfoTab() {
               <div>
                 <p className="leading-1 text-red inline mr-5">
                   หนี้สินเฉลี่ยต่อครัวเรือน ปี 2564 = <strong>205,679 บาท</strong>
-                </p>{" "}
-                <InfoPopover buttonImg="/icons/info.svg">
+                </p>
+                <InfoPopover buttonImg="/icons/info.svg" className="top-[3px]">
                   <p className="b5 no-balance">ที่มา: สำนักงานสถิติแห่งชาติ</p>
                 </InfoPopover>
               </div>

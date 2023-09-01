@@ -96,7 +96,7 @@ export default function PositionTab({ position }: PositionTabProps) {
               <p className="leading-1 inline mr-5">
                 ทรัพย์สินเฉลี่ยต่อครัวเรือน ปี 2564 = <strong>1,801,090.878 บาท</strong>
               </p>
-              <InfoPopover buttonImg="/icons/info.svg">
+              <InfoPopover buttonImg="/icons/info.svg" className="top-[3px]">
                 <p className="b5 no-balance">ที่มา: สำนักงานสถิติแห่งชาติ</p>
               </InfoPopover>
             </div>
@@ -173,7 +173,7 @@ export default function PositionTab({ position }: PositionTabProps) {
               <p className="leading-1 inline mr-5">
                 หนี้สินเฉลี่ยต่อครัวเรือน ปี 2564 = <strong>205,679 บาท</strong>
               </p>
-              <InfoPopover buttonImg="/icons/info.svg">
+              <InfoPopover buttonImg="/icons/info.svg" className="top-[3px]">
                 <p className="b5 no-balance">ที่มา: สำนักงานสถิติแห่งชาติ</p>
               </InfoPopover>
             </div>
