@@ -818,25 +818,15 @@ export const createShareholderTable = async () => {
 };
 
 const createCredenTable = async () => {
-  // FIXME: use real file
-  const co005Files = await fs.readdir("data/constants");
+  const co005Files = await fs.readdir("data/raw");
   const co005DirectorPath = path.join(
-    "data/constants",
+    "data/raw",
     co005Files.find((f) => f.toLowerCase().includes("creden_director"))
   );
   const co005ShareholderPath = path.join(
-    "data/constants",
+    "data/raw",
     co005Files.find((f) => f.toLowerCase().includes("creden_shareholder"))
   );
-  // const co005Files = await fs.readdir("data/raw");
-  // const co005DirectorPath = path.join(
-  //   "data/raw",
-  //   co005Files.find((f) => f.toLowerCase().includes("creden_director"))
-  // );
-  // const co005ShareholderPath = path.join(
-  //   "data/raw",
-  //   co005Files.find((f) => f.toLowerCase().includes("creden_shareholder"))
-  // );
 
   const c5DirectorOgTable = await safeLoadCSV(co005DirectorPath);
   const c5ShareholderOgTable = await safeLoadCSV(co005ShareholderPath);

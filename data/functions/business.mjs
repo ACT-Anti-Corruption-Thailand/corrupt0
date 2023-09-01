@@ -53,26 +53,15 @@ export const createBusinessInfoTable = async () => {
     .filter((file) => file.toLowerCase().includes("act_company_split_"))
     .map((file) => path.join(RAW_DIR, file));
 
-  // FIXME: use real file
-  const CONST_DIR = "data/constants";
-  const co005Files = await fs.readdir(CONST_DIR);
+  const co005Files = await fs.readdir(RAW_DIR);
   const co005DirectorPath = path.join(
-    CONST_DIR,
+    RAW_DIR,
     co005Files.find((f) => f.toLowerCase().includes("creden_director"))
   );
   const co005ShareholderPath = path.join(
-    CONST_DIR,
+    RAW_DIR,
     co005Files.find((f) => f.toLowerCase().includes("creden_shareholder"))
   );
-  // const co005Files = await fs.readdir(RAW_DIR);
-  // const co005DirectorPath = path.join(
-  //   RAW_DIR,
-  //   co005Files.find((f) => f.toLowerCase().includes("creden_director"))
-  // );
-  // const co005ShareholderPath = path.join(
-  //   RAW_DIR,
-  //   co005Files.find((f) => f.toLowerCase().includes("creden_shareholder"))
-  // );
 
   const c5DirectorOgTable = await safeLoadCSV(co005DirectorPath);
   const c5ShareholderOgTable = await safeLoadCSV(co005ShareholderPath);
