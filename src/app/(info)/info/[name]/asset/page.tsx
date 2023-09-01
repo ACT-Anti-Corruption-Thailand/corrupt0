@@ -64,18 +64,22 @@ export default function Asset({ params }: AssetPageProps) {
 
   if (JSON.stringify(assets) === "{}") notFound();
 
-  const YEARS: DropdownDetailedData[] = Object.keys(assets).map((nacc_id) => ({
-    data: nacc_id,
-    label: (
-      <>
-        <span className="b5 font-bold">
-          {new Date(nacc[nacc_id]?.date).getFullYear() + 543}
-        </span>{" "}
-        {nacc[nacc_id]?.case.replace("กรณี", "")}
-        {nacc[nacc_id]?.position}
-      </>
-    ),
-  }));
+  const YEARS: DropdownDetailedData[] = Object.keys(assets).map((nacc_id) => {
+    const date = nacc[nacc_id]?.date as number | undefined;
+
+    return {
+      data: nacc_id,
+      label: (
+        <>
+          <span className="b5 font-bold">
+            {date ? new Date(date).getFullYear() + 543 : "(ไม่พบปี)"}
+          </span>{" "}
+          {nacc[nacc_id]?.case.replace("กรณี", "")}
+          {nacc[nacc_id]?.position}
+        </>
+      ),
+    };
+  });
 
   const COMPARE_YEARS: DropdownDetailedData[] = [
     {

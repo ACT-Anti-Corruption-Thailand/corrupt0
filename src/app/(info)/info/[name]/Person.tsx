@@ -93,10 +93,11 @@ export default function Person({ params }: { params: { name: string } }) {
   ).length;
 
   const NACC_YEAR = Object.fromEntries(
-    Object.entries(nacc ?? {}).map((e) => [
-      e[0],
-      new Date((e[1] as { date: number })?.date).getFullYear() + 543,
-    ])
+    Object.entries(nacc ?? {}).map((e) => {
+      const date = (e[1] as { date: number | undefined })?.date;
+
+      return [e[0], date ? new Date(date).getFullYear() + 543 : "(ไม่พบปี)"];
+    })
   );
 
   const YEARS: DropdownDetailedData[] = Object.keys(statement ?? {}).map((nacc_id) => ({

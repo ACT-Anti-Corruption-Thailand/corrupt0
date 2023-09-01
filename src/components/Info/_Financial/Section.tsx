@@ -113,7 +113,7 @@ interface InfoFinancialSectionProps {
       baseCatg: string;
     }
   >;
-  naccYear: Record<string | number, number>;
+  naccYear: Record<string | number, number | string>;
   nacc: Record<string, any>;
 }
 
