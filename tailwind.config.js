@@ -50,6 +50,7 @@ module.exports = {
       red: "#f00",
       purple: "#9B8CCD",
       yellow: "#EAEF00",
+      sky: "#4993FE",
       value: {
         "positive-text": "#00C8C8",
         "negative-text": "#FF543D",
