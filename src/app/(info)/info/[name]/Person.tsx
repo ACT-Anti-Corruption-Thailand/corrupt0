@@ -152,7 +152,7 @@ export default function Person({ params }: { params: { name: string } }) {
                     </ul>
                   </AltNames>
                 )}
-
+                <hr className="border-t-gray-2 mb-10" />
                 <div className="flex gap-15 justify-center">
                   <div className="flex flex-col min-w-[105px] items-center">
                     <Image
@@ -169,8 +169,8 @@ export default function Person({ params }: { params: { name: string } }) {
                   </div>
                   {(age ||
                     position ||
-                    other_jobs.length > 0 ||
-                    previous_jobs.length > 0) && (
+                    other_jobs?.length > 0 ||
+                    previous_jobs?.length > 0) && (
                     <div className="text-left">
                       {age && (
                         <>
@@ -186,7 +186,7 @@ export default function Person({ params }: { params: { name: string } }) {
                           </span>
                         </>
                       )}
-                      {other_jobs.length > 0 && (
+                      {other_jobs?.length > 0 && (
                         <Accordion
                           trigger={
                             <div className="flex b6 text-gray-5 items-center">
@@ -222,7 +222,7 @@ export default function Person({ params }: { params: { name: string } }) {
                           </div>
                         </Accordion>
                       )}
-                      {previous_jobs.length > 0 && (
+                      {previous_jobs?.length > 0 && (
                         <Accordion
                           trigger={
                             <div className="flex b6 text-gray-5 items-center">
