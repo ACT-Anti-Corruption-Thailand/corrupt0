@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import path from "path";
 
 import Accordion from "@/components/Accordion";
+import AltNames from "@/components/Info/AltNames";
 import InfoBusinessCard from "@/components/Info/BusinessCard";
 import InfoDesktopAligner from "@/components/Info/DesktopAligner";
 import { FinancialJumpnav } from "@/components/Info/FinancialJumpnav";
@@ -137,32 +138,20 @@ export default function Person({ params }: { params: { name: string } }) {
                 </span>
                 <span className="h2 leading-1">{spacedName}</span>
                 {names.length > 1 && (
-                  <Accordion
-                    className="-mt-5"
-                    trigger={
-                      <div className="flex b6 text-gray-5 items-center justify-center">
-                        <span>ชื่อ-นามสกุล เดิม</span>
-                        <Image
-                          className="ui-open:rotate-180 ml-2"
-                          src="/icons/caret-g.svg"
-                          width={10}
-                          height={10}
-                          alt=""
-                        />
-                      </div>
-                    }
-                  >
-                    <div className="rounded-5 bg-gray-2 b7 text-gray-5 p-5">
-                      <ul className="flex flex-col gap-5 fake-bullet">
-                        {names
-                          .filter((n: string) => n !== name)
-                          .map((n: string) => (
-                            <li key={n}>{n.replace(/-/g, " ")}</li>
-                          ))}
-                      </ul>
-                    </div>
-                  </Accordion>
+                  <AltNames>
+                    <ul className="flex flex-col gap-5">
+                      {names
+                        .filter((n: string) => n !== name)
+                        .map((n: string) => (
+                          <li key={n}>
+                            <span className="not-sr-only">&bull;</span>{" "}
+                            {n.replace(/-/g, " ")}
+                          </li>
+                        ))}
+                    </ul>
+                  </AltNames>
                 )}
+
                 <div className="flex gap-15 justify-center">
                   <div className="flex flex-col min-w-[105px] items-center">
                     <Image
