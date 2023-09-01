@@ -28,6 +28,7 @@ export default function Navbar({ back }: NavbarProps) {
             width={40.54}
             height={43}
             alt="Act AI"
+            priority
           />
         </Link>
         <Link
@@ -52,6 +53,7 @@ export default function Navbar({ back }: NavbarProps) {
             width={18}
             height={18}
             alt="ค้นหา"
+            priority
           />
         </Link>
       </nav>

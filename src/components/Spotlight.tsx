@@ -116,6 +116,7 @@ const Spotlight = ({ update }: { update: string }) => {
           alt="logo"
           width={240}
           height={240}
+          priority
         />
         <Image
           className="h-auto w-[160px] md:w-[250px] lg:w-[350px]"
@@ -123,6 +124,7 @@ const Spotlight = ({ update }: { update: string }) => {
           alt="logo"
           width={240}
           height={240}
+          priority
         />
         <p className="text-black text-center b3 select-none md:-mt-5 lg:-mt-10">
           ค้นหาและตรวจสอบข้อมูล
@@ -142,6 +144,7 @@ const Spotlight = ({ update }: { update: string }) => {
               width={20}
               height={20}
               alt="act"
+              priority
             />
           </a>
           <a
@@ -155,6 +158,7 @@ const Spotlight = ({ update }: { update: string }) => {
               width={33.71}
               height={12}
               alt="hand"
+              priority
             />
           </a>
           <a
@@ -168,6 +172,7 @@ const Spotlight = ({ update }: { update: string }) => {
               width={43.43}
               height={12.57}
               alt="punch up"
+              priority
             />
           </a>
           <a
@@ -181,6 +186,7 @@ const Spotlight = ({ update }: { update: string }) => {
               width={41.48}
               height={12}
               alt="boonmee lab"
+              priority
             />
           </a>
         </div>
