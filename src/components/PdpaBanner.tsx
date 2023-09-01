@@ -6,7 +6,6 @@ import { Switch } from "@headlessui/react";
 import Image from "next/image";
 
 import { initClarity } from "@/functions/clarity";
-import clsx from "clsx";
 
 interface ConsentList {
   ad_storage: "granted" | "denied";
@@ -56,13 +55,8 @@ export default function PdpaBanner() {
 
   return (
     showConsent && (
-      <section
-        className={clsx(
-          "fixed z-20 bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[850px] b5 text-black flex flex-col max-h-[70vh] md:max-h-[50vh]",
-          showDetails && "h-full"
-        )}
-      >
-        <div className="flex flex-col items-center md:flex-row md:gap-5 rounded-t-10 p-15 bg-white md:p-20 mt-auto">
+      <section className="fixed z-20 bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[850px] b5 text-black">
+        <div className="flex flex-col items-center md:flex-row md:gap-5 rounded-t-10 p-15 bg-white md:p-20 mt-auto border-0">
           <div className="flex-1">
             <p>
               เว็บไซต์นี้ใช้คุกกี้เพื่อเพิ่มประสิทธิภาพและประสบการณ์ที่ดีในการใช้งานเว็บไซต์
@@ -84,7 +78,7 @@ export default function PdpaBanner() {
           </button>
         </div>
         {showDetails && (
-          <div className="flex-1 bg-gray-2 p-15 md:p-20 overflow-y-auto">
+          <div className="bg-gray-2 p-15 md:p-20 overflow-y-auto h-full max-h-[60vh] md:max-h-[40vh]">
             <p>
               <strong className="block b4">องค์กรต่อต้านคอร์รัปชัน (ประเทศไทย)</strong>
               มีความจำเป็นต้องใช้คุกกี้ในการทำงานหลายส่วนของเว็บไซต์เพื่อรับประกันการให้บริการของเว็บไซต์ที่จะอำนวยความสะดวกในการใช้บริการเว็บไซต์ของท่าน
@@ -116,7 +110,6 @@ export default function PdpaBanner() {
               Google Analytics, Plausible และ Clarity
               ในการเก็บข้อมูลการใช้บริการเว็บไซต์ของท่าน
             </p>
-
             <p className="mt-15">
               <strong className="block b4">สิทธิของเจ้าของข้อมูล</strong>
               องค์กรรับทราบ และเคารพสิทธิของท่านในฐานะเจ้าของข้อมูลตามกฎหมาย
@@ -180,7 +173,7 @@ export default function PdpaBanner() {
                 </button>
                 <button
                   type="button"
-                  className="b4 font-bold px-20 py-2 bg-black text-white rounded-full self-end md:m-auto"
+                  className="b4 font-bold px-20 py-2 border border-black bg-black text-white rounded-full self-end md:m-auto"
                   onClick={() => grantConsent(true)}
                 >
                   ยอมรับทั้งหมด
