@@ -8,6 +8,7 @@ import {
   CartesianGrid,
   Cell,
   Label,
+  ReferenceArea,
   ReferenceLine,
   ResponsiveContainer,
   Scatter,
@@ -28,7 +29,8 @@ const NACC_DEBTASSET = _NACC_DEBTASSET as {
 
 import {
   formatThousands,
-  moneyFormatter,
+  histMoneyFormatter,
+  histMoneyFormatterHideZero,
   thaiMoneyFormatter,
 } from "@/functions/moneyFormatter";
 import { highlightChar } from "@/functions/searchHighlighter";
@@ -119,8 +121,10 @@ function FilterCheckbox({
 const StyledTooltip = ({ payload }: { payload: Record<any, any> }) => {
   if (!payload.active) return;
 
-  const [assetVal, assetUnit] = thaiMoneyFormatter(payload.asset);
-  const [debtVal, debtUnit] = thaiMoneyFormatter(payload.debt);
+  const [assetVal, assetUnit] = thaiMoneyFormatter(
+    payload.specialAsset ? 0 : payload.asset
+  );
+  const [debtVal, debtUnit] = thaiMoneyFormatter(payload.specialDebt ? 0 : payload.debt);
 
   return (
     <div className="rounded-5 bg-white text-left text-black b6 p-10">
@@ -211,10 +215,14 @@ export default function AssetDebtChart() {
 
   const FILTERED_CHARTDATA = NACC_DEBTASSET.map((e) => ({
     ...e,
+    asset: e.asset < 0.1 ? 0.1 : e.asset,
+    debt: e.debt < 0.1 ? 0.1 : e.debt,
     active:
       selectedPeople.length > 0
         ? selectedPeople.includes(e.name.replace(/-/g, " "))
         : ACTIVE_CATG.includes(e.group),
+    specialAsset: e.asset < 0.1,
+    specialDebt: e.debt < 0.1,
   }));
 
   return (
@@ -246,13 +254,36 @@ export default function AssetDebtChart() {
                 strokeDasharray="3 3"
               />
               <ReferenceLine y={205679} stroke="#EC1C24" isFront strokeDasharray="3 3" />
+              <ReferenceArea
+                x1={0.1}
+                x2={0.9}
+                y1={0.3}
+                y2={0.9}
+                fill="#000"
+                stroke="#000"
+                fillOpacity="1"
+                strokeOpacity="1"
+                strokeWidth="2"
+              />
+              <ReferenceArea
+                x1={0.3}
+                x2={0.9}
+                y1={0.1}
+                y2={0.9}
+                fill="#000"
+                stroke="#000"
+                fillOpacity="1"
+                strokeOpacity="1"
+                strokeWidth="2"
+              />
               <XAxis
                 type="number"
                 dataKey="asset"
-                tickFormatter={moneyFormatter}
+                tickFormatter={histMoneyFormatter}
                 scale="log"
                 ticks={[
-                  1, 10, 100, 1e3, 10e3, 100e3, 1e6, 10e6, 100e6, 1e9, 10e9, 100e9, 1e12,
+                  0.1, 1, 10, 100, 1e3, 10e3, 100e3, 1e6, 10e6, 100e6, 1e9, 10e9, 100e9,
+                  1e12,
                 ]}
                 domain={[1, 1e12]}
                 interval={0}
@@ -272,10 +303,11 @@ export default function AssetDebtChart() {
               <YAxis
                 type="number"
                 dataKey="debt"
-                tickFormatter={moneyFormatter}
+                tickFormatter={histMoneyFormatterHideZero}
                 scale="log"
                 ticks={[
-                  1, 10, 100, 1e3, 10e3, 100e3, 1e6, 10e6, 100e6, 1e9, 10e9, 100e9, 1e12,
+                  0.1, 1, 10, 100, 1e3, 10e3, 100e3, 1e6, 10e6, 100e6, 1e9, 10e9, 100e9,
+                  1e12,
                 ]}
                 domain={[1, 1e12]}
                 interval={0}

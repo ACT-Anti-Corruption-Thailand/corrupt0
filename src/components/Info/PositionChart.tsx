@@ -1,9 +1,10 @@
 "use client";
-import { moneyFormatter } from "@/functions/moneyFormatter";
+import { histMoneyFormatter } from "@/functions/moneyFormatter";
 import {
   Bar,
   BarChart,
   CartesianGrid,
+  Cell,
   LabelList,
   ReferenceLine,
   ResponsiveContainer,
@@ -67,10 +68,10 @@ export function PositionChart({ refValue, data, hasData }: PositionChartProps) {
           <XAxis
             type="number"
             dataKey="x"
-            tickFormatter={moneyFormatter}
+            tickFormatter={histMoneyFormatter}
             scale="log"
             ticks={[
-              1, 10, 100, 1e3, 10e3, 100e3, 1e6, 10e6, 100e6, 1e9, 10e9, 100e9, 1e12,
+              0.1, 1, 10, 100, 1e3, 10e3, 100e3, 1e6, 10e6, 100e6, 1e9, 10e9, 100e9, 1e12,
             ]}
             domain={[1, 1e12]}
             interval={0}
@@ -83,6 +84,21 @@ export function PositionChart({ refValue, data, hasData }: PositionChartProps) {
             axisLine={false}
           />
           <Bar dataKey="y" fill="#fff" xAxisId="data">
+            {data.map((_, index) =>
+              index === 0 ? (
+                <Cell
+                  key={`cell-${index}`}
+                  fill="#666"
+                  style={{
+                    transformBox: "fill-box",
+                    transformOrigin: "bottom",
+                    transform: "scaleX(.75)",
+                  }}
+                />
+              ) : (
+                <Cell key={`cell-${index}`} />
+              )
+            )}
             <LabelList
               dataKey="y"
               content={(props) => <ChartLabelList props={props} />}

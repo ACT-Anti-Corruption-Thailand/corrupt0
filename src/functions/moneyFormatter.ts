@@ -4,6 +4,22 @@ export const moneyFormatter = (value: number): string =>
     maximumFractionDigits: 2,
   }).format(value);
 
+export const histMoneyFormatter = (value: number): string =>
+  value === 0.1
+    ? "0"
+    : Intl.NumberFormat("en-US", {
+        notation: "compact",
+        maximumFractionDigits: 2,
+      }).format(value);
+
+export const histMoneyFormatterHideZero = (value: number): string =>
+  value === 0.1
+    ? ""
+    : Intl.NumberFormat("en-US", {
+        notation: "compact",
+        maximumFractionDigits: 2,
+      }).format(value);
+
 export const thaiMoneyFormatter = (
   value: number
 ): [reducedValue: number, unit: string] => {

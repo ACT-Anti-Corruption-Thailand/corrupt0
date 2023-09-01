@@ -969,7 +969,7 @@ const GROUPS = [
   "องค์กรปกครองส่วนท้องถิ่น",
 ];
 
-const chartTier = [1, 10, 100, 1e3, 10e3, 100e3, 1e6, 10e6, 100e6, 1e9, 10e9, 100e9];
+const chartTier = [0.1, 1, 10, 100, 1e3, 10e3, 100e3, 1e6, 10e6, 100e6, 1e9, 10e9, 100e9];
 
 const generateGroupMetadata = async (people_data_by_group) => {
   const metadataByGroup = Object.fromEntries(
@@ -984,7 +984,7 @@ const generateGroupMetadata = async (people_data_by_group) => {
                 for (const tier of [...chartTier].reverse()) {
                   if (val >= tier) return { ...a, [tier]: (a[tier] ?? 0) + 1 };
                 }
-                return { ...a, 1: (a[1] ?? 0) + 1 };
+                return { ...a, 0.1: (a[1] ?? 0) + 1 };
               },
               Object.fromEntries(chartTier.map((f) => [f, undefined]))
             )
@@ -1014,7 +1014,7 @@ const generateGroupMetadata = async (people_data_by_group) => {
                 for (const tier of [...chartTier].reverse()) {
                   if (val >= tier) return { ...a, [tier]: (a[tier] ?? 0) + 1 };
                 }
-                return { ...a, 1: (a[1] ?? 0) + 1 };
+                return { ...a, 0.1: (a[1] ?? 0) + 1 };
               },
               Object.fromEntries(chartTier.map((f) => [f, undefined]))
             )
@@ -1286,12 +1286,12 @@ export const generatePeople = async () => {
           latestStatement.ทรัพย์สิน
             ?.map((e) => e.value)
             ?.flat()
-            ?.reduce((a, c) => a + c) ?? 1; // FIXME - 0
+            ?.reduce((a, c) => a + c) ?? 0;
         const pD =
           latestStatement.หนี้สิน
             ?.map((e) => e.value)
             ?.flat()
-            ?.reduce((a, c) => a + c) ?? 1; // FIXME - 0
+            ?.reduce((a, c) => a + c) ?? 0;
 
         const dD = {
           name: dashed_full_name,

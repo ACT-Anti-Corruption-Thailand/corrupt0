@@ -118,6 +118,9 @@ module.exports = {
       flex: {
         2: "2 2 0%",
       },
+      screens: {
+        xs: "480px",
+      },
     },
   },
   plugins: [require("@headlessui/tailwindcss")],
