@@ -192,6 +192,7 @@ const DATA_SUBMITTER_POSITION_GROUP_TRANSFORMED = DATA_SUBMITTER_POSITION_GROUP.
 const getPersonalData = async (name) => {
   let person_data_json = {};
   let found_row = null;
+  const spaced_name = name.replace(/-/g, " ");
 
   DATA_PERSONAL_SUBMITTER_TRANSFORMED.scan((row, data, stop) => {
     if (data.full_name.data[row] === name) {
@@ -256,6 +257,21 @@ const getPersonalData = async (name) => {
           : undefined,
       }));
 
+    const high_rank_prev_jobs = DATA_HIGH_RANK.select(
+      "position",
+      "full_name",
+      "start_date",
+      "end_date"
+    )
+      .params({ spaced_name })
+      .filter((d) => d.full_name === spaced_name)
+      .objects()
+      .map((d) => ({
+        position_title: d.position,
+        start_year: d.start_date ? new Date(d.start_date).getFullYear() + 543 : undefined,
+        end_year: d.end_date ? new Date(d.end_date).getFullYear() + 543 : undefined,
+      }));
+
     person_data_json = {
       age: DATA_PERSONAL_SUBMITTER_TRANSFORMED.get("age", found_row),
       position: current_position.position,
@@ -263,6 +279,7 @@ const getPersonalData = async (name) => {
       subgroup: current_group?.nacc_sub_category,
       other_jobs,
       previous_jobs,
+      high_rank_prev_jobs,
     };
 
     return person_data_json;
