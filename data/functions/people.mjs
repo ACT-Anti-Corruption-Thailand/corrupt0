@@ -254,7 +254,15 @@ const getPersonalData = async (name) => {
           : d.date_ending_type_id === 2 || d.date_ending_type_id === 3
           ? new Date().getFullYear() + 543
           : undefined,
-      }));
+      }))
+      .sort(
+        (a, z) =>
+          +(z?.end_year ?? z?.start_year ?? 0) - +(a?.end_year ?? a?.start_year ?? 0)
+      )
+      .sort(
+        (a, z) =>
+          +(z?.start_year ?? z?.end_year ?? 0) - +(a?.start_year ?? a?.end_year ?? 0)
+      );
 
     const previous_jobs = all_positions
       .filter((d) => d.position_period_type_id === 3)
@@ -270,7 +278,16 @@ const getPersonalData = async (name) => {
           : d.date_ending_type_id === 2 || d.date_ending_type_id === 3
           ? new Date().getFullYear() + 543
           : undefined,
-      }));
+      }))
+      .concat(high_rank_prev_jobs)
+      .sort(
+        (a, z) =>
+          +(z?.end_year ?? z?.start_year ?? 0) - +(a?.end_year ?? a?.start_year ?? 0)
+      )
+      .sort(
+        (a, z) =>
+          +(z?.start_year ?? z?.end_year ?? 0) - +(a?.start_year ?? a?.end_year ?? 0)
+      );
 
     person_data_json = {
       age: DATA_PERSONAL_SUBMITTER_TRANSFORMED.get("age", found_row),
@@ -279,8 +296,6 @@ const getPersonalData = async (name) => {
       subgroup: current_group?.nacc_sub_category,
       other_jobs,
       previous_jobs,
-      high_rank_prev_jobs:
-        high_rank_prev_jobs.length > 0 ? high_rank_prev_jobs : undefined,
     };
 
     return person_data_json;
@@ -302,9 +317,16 @@ const getPersonalData = async (name) => {
           /None/g,
           "null"
         ) ?? "[]"
-      ),
-      high_rank_prev_jobs:
-        high_rank_prev_jobs.length > 0 ? high_rank_prev_jobs : undefined,
+      )
+        .concat(high_rank_prev_jobs)
+        .sort(
+          (a, z) =>
+            +(z?.end_year ?? z?.start_year ?? 0) - +(a?.end_year ?? a?.start_year ?? 0)
+        )
+        .sort(
+          (a, z) =>
+            +(z?.start_year ?? z?.end_year ?? 0) - +(a?.start_year ?? a?.end_year ?? 0)
+        ),
     };
   }
 
