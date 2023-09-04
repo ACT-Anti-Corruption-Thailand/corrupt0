@@ -319,7 +319,14 @@ const getPersonalData = async (name) => {
           /None/g,
           "null"
         ) ?? "[]"
-      ).sort((a, z) => a.position_title.localeCompare(z.position_title)),
+      )
+        .map((e) => ({
+          ...e,
+          position_title: [e?.position_title, e?.company?.title]
+            .filter((f) => f)
+            .join(" "),
+        }))
+        .sort((a, z) => a.position_title.localeCompare(z.position_title)),
       previous_jobs: JSON5.parse(
         DATA_PERSONAL_INFO_TRANSFORMED.get("previous_jobs", found_row)?.replace(
           /None/g,
