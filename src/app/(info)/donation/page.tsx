@@ -34,7 +34,7 @@ export default function Donation() {
           <div className="flex flex-col justify-center my-auto py-30 lg:mx-[15vw] lg:p-[70px]">
             <Image
               className="self-center mb-10 h-[45px] lg:h-100"
-              src="./icons/donate.svg"
+              src="/icons/donate.svg"
               width={100}
               height={100}
               alt="financial"

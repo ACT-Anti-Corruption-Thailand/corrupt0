@@ -67,7 +67,7 @@ export default function Home() {
                 </p>
                 <Image
                   className="w-auto h-[17px] -rotate-90 md:h-40"
-                  src="./icons/arr-w.svg"
+                  src="/icons/arr-w.svg"
                   width={17}
                   height={17}
                   alt=""
@@ -170,7 +170,7 @@ export default function Home() {
                 </p>
                 <Image
                   className="w-auto h-[17px] -rotate-90 md:h-40"
-                  src="./icons/arr-w.svg"
+                  src="/icons/arr-w.svg"
                   width={17}
                   height={17}
                   alt=""

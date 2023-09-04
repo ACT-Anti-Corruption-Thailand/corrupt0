@@ -45,7 +45,7 @@ export function PartySection() {
         className="flex justify-center items-center gap-10 bg-gray-6 w-screen py-10 my-10 lg:py-15 lg:my-30 h3"
       >
         <Image
-          src="./icons/borrow.svg"
+          src="/icons/borrow.svg"
           width={60}
           height={60}
           alt="borrow"
