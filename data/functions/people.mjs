@@ -311,7 +311,9 @@ const getPersonalData = async (name) => {
   if (found_row !== null) {
     person_data_json = {
       age: DATA_PERSONAL_INFO_TRANSFORMED.get("age", found_row),
-      position: DATA_PERSONAL_INFO_TRANSFORMED.get("position", found_row),
+      position: DATA_PERSONAL_INFO_TRANSFORMED.get("position", found_row)?.split(
+        " "
+      )?.[0],
       other_jobs: JSON5.parse(
         DATA_PERSONAL_INFO_TRANSFORMED.get("additional_positions", found_row)?.replace(
           /None/g,
