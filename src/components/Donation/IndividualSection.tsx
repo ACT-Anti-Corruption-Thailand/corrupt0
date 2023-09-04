@@ -16,8 +16,6 @@ import _PARTY_DONATION from "@data/donation/partyPerYearWithTotal.json";
 
 const POLITICIAN_IMAGES = _POLITICIAN_IMAGES as Record<string, string | null>;
 
-import type { CSSProperties } from "react";
-
 const PEOPLE_POSITION = Object.fromEntries(
   DATA_PEOPLE.map((e) => e.split("|")).filter((e) => e[1])
 );

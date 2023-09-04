@@ -13,6 +13,7 @@ const nextConfig = {
 
     return config;
   },
+  trailingSlash: true,
 };
 
 module.exports = nextConfig;
