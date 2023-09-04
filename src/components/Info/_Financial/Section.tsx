@@ -297,7 +297,6 @@ export default function InfoFinancialSection({
 
         {/* เจาะลึกทรัพย์สิน */}
         <TopAssetCard
-          name={name}
           year1={naccYear[currentYear.data]}
           year2={naccYear[compareYear.data]}
           property1={assetsData[currentYear.data]}

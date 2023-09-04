@@ -23,7 +23,6 @@ export interface TopPropertyData {
 }
 
 interface TopAssetCardProps {
-  name: string;
   year1: string | number;
   property1: TopPropertyData;
   year2?: string | number;
@@ -31,7 +30,6 @@ interface TopAssetCardProps {
 }
 
 export function TopAssetCard({
-  name,
   year1,
   property1,
   year2,
@@ -44,7 +42,7 @@ export function TopAssetCard({
 
   return (
     <Link
-      href={`${name}/asset`}
+      href="./asset"
       className="block rounded-10 bg-white border border-white overflow-hidden mb-10 mx-10"
     >
       <header className="py-[17px] px-10 bg-asset_explore bg-center bg-cover">
