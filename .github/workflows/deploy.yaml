@@ -1,0 +1,49 @@
+name: Deploy
+
+on:
+  schedule:
+    - cron: "0 19 1 * *" # MM01 1900 UTC (MM02 0200 GMT+7)
+  workflow_dispatch:
+
+concurrency:
+  group: main
+  cancel-in-progress: true
+
+jobs:
+  main:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8.6.1
+      - name: Install Dependencies
+        run: pnpm i
+      - name: Fetch Data
+        run: pnpm run fetch
+      - name: Process Data
+        run: pnpm process
+      - name: Build Pages
+        run: pnpm build
+      - name: Upload data
+        id: rsync01
+        continue-on-error: true
+        uses: burnett01/rsync-deployments@6.0.0
+        with:
+          switches: -avzr --omit-dir-times --no-owner --no-group --no-perms --delete
+          path: out/
+          remote_path: ${{ secrets.DEPLOY_PATH }}
+          remote_host: ${{ secrets.DEPLOY_HOST }}
+          remote_user: ${{ secrets.DEPLOY_USER }}
+          remote_key: ${{ secrets.DEPLOY_KEY }}
+      - name: Upload data (Retry if the 1st attempt fail)
+        uses: burnett01/rsync-deployments@6.0.0
+        if: steps.rsync01.outcome == 'failure'
+        with:
+          switches: -avzr --omit-dir-times --no-owner --no-group --no-perms --delete
+          path: out/
+          remote_path: ${{ secrets.DEPLOY_PATH }}
+          remote_host: ${{ secrets.DEPLOY_HOST }}
+          remote_user: ${{ secrets.DEPLOY_USER }}
+          remote_key: ${{ secrets.DEPLOY_KEY }}
