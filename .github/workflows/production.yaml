@@ -27,19 +27,7 @@ jobs:
       - name: Build Pages
         run: pnpm build
       - name: Upload data
-        id: rsync01
-        continue-on-error: true
         uses: burnett01/rsync-deployments@6.0.0
-        with:
-          switches: -avzr --omit-dir-times --no-owner --no-group --no-perms --delete
-          path: out/
-          remote_path: ${{ secrets.DEPLOY_PATH }}
-          remote_host: ${{ secrets.DEPLOY_HOST }}
-          remote_user: ${{ secrets.DEPLOY_USER }}
-          remote_key: ${{ secrets.DEPLOY_KEY }}
-      - name: Upload data (Retry if the 1st attempt fail)
-        uses: burnett01/rsync-deployments@6.0.0
-        if: steps.rsync01.outcome == 'failure'
         with:
           switches: -avzr --omit-dir-times --no-owner --no-group --no-perms --delete
           path: out/
