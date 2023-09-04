@@ -33,7 +33,7 @@ export default function Position({ params }: { params: { name: string } }) {
           <div className="flex flex-col justify-center my-auto py-30 lg:mx-[20vw] lg:p-[70px]">
             <Image
               className="self-center mb-10 h-[45px] lg:h-100"
-              src="../icons/financial.svg"
+              src="/icons/financial.svg"
               width={100}
               height={100}
               alt="financial"
