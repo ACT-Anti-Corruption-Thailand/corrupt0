@@ -166,7 +166,7 @@ export const generateNamesAndId = async () => {
 const DATA_PERSONAL_INFO = await safeLoadCSV("data/raw/political_office_holder.csv");
 const DATA_PERSONAL_INFO_TRANSFORMED = DATA_PERSONAL_INFO.derive({
   full_name: (d) => op.replace(d.first_name_th + " " + d.last_name_th, /\s+/g, "-"),
-}).select("position", "full_name", "age", "previous_jobs");
+}).select("position", "full_name", "age", "additional_positions", "previous_jobs");
 
 const DATA_PERSONAL_SUBMITTER = await safeLoadCSV("data/raw/submitter_info.csv");
 const DATA_PERSONAL_SUBMITTER_TRANSFORMED = DATA_PERSONAL_SUBMITTER.derive({
@@ -312,6 +312,12 @@ const getPersonalData = async (name) => {
     person_data_json = {
       age: DATA_PERSONAL_INFO_TRANSFORMED.get("age", found_row),
       position: DATA_PERSONAL_INFO_TRANSFORMED.get("position", found_row),
+      other_jobs: JSON5.parse(
+        DATA_PERSONAL_INFO_TRANSFORMED.get("additional_positions", found_row)?.replace(
+          /None/g,
+          "null"
+        ) ?? "[]"
+      ).sort((a, z) => a.position_title.localeCompare(z.position_title)),
       previous_jobs: JSON5.parse(
         DATA_PERSONAL_INFO_TRANSFORMED.get("previous_jobs", found_row)?.replace(
           /None/g,
