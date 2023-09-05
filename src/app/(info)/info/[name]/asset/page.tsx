@@ -30,14 +30,14 @@ export async function generateMetadata({ params }: AssetPageProps): Promise<Meta
   const formalName = name.replace(/-/g, " ");
 
   return {
-    title: `เจาะลึกทรัพย์สิน ${formalName} | Corrupt0 — ACT Ai`,
+    title: `เจาะลึกทรัพย์สิน ${formalName} | ACT Ai Politics Data — ACT Ai`,
     openGraph: {
       ...openGraph,
-      title: `เจาะลึกทรัพย์สิน ${formalName} | Corrupt0 — ACT Ai`,
+      title: `เจาะลึกทรัพย์สิน ${formalName} | ACT Ai Politics Data — ACT Ai`,
     },
     twitter: {
       ...twitter,
-      title: `เจาะลึกทรัพย์สิน ${formalName} | Corrupt0 — ACT Ai`,
+      title: `เจาะลึกทรัพย์สิน ${formalName} | ACT Ai Politics Data — ACT Ai`,
     },
   };
 }

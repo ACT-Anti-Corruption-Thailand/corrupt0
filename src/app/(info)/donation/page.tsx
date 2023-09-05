@@ -9,14 +9,14 @@ import { openGraph, twitter } from "@/app/layout";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "ข้อมูลเงินบริจาคพรรคการเมือง | Corrupt0 — ACT Ai",
+  title: "ข้อมูลเงินบริจาคพรรคการเมือง | ACT Ai Politics Data — ACT Ai",
   openGraph: {
     ...openGraph,
-    title: "ข้อมูลเงินบริจาคพรรคการเมือง | Corrupt0 — ACT Ai",
+    title: "ข้อมูลเงินบริจาคพรรคการเมือง | ACT Ai Politics Data — ACT Ai",
   },
   twitter: {
     ...twitter,
-    title: "ข้อมูลเงินบริจาคพรรคการเมือง | Corrupt0 — ACT Ai",
+    title: "ข้อมูลเงินบริจาคพรรคการเมือง | ACT Ai Politics Data — ACT Ai",
   },
 };
 

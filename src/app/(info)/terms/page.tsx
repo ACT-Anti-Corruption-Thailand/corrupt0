@@ -34,14 +34,14 @@ const TermsAccordion = ({ name, children }: TermsAccordionProps) => {
 };
 
 export const metadata: Metadata = {
-  title: "Term & Conditions | Corrupt0 — ACT Ai",
+  title: "Term & Conditions | ACT Ai Politics Data — ACT Ai",
   openGraph: {
     ...openGraph,
-    title: "Term & Conditions | Corrupt0 — ACT Ai",
+    title: "Term & Conditions | ACT Ai Politics Data — ACT Ai",
   },
   twitter: {
     ...twitter,
-    title: "Term & Conditions | Corrupt0 — ACT Ai",
+    title: "Term & Conditions | ACT Ai Politics Data — ACT Ai",
   },
 };
 

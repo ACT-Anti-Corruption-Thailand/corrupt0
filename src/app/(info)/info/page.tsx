@@ -19,14 +19,14 @@ const PEOPLE = DATA_PEOPLE.filter((e) => e.slice(-1) === "|").map((e) => {
 });
 
 export const metadata: Metadata = {
-  title: "ข้อมูลนักการเมืองเเละเจ้าหน้าที่รัฐ | Corrupt0 — ACT Ai",
+  title: "ข้อมูลนักการเมืองเเละเจ้าหน้าที่รัฐ | ACT Ai Politics Data — ACT Ai",
   openGraph: {
     ...openGraph,
-    title: "ข้อมูลนักการเมืองเเละเจ้าหน้าที่รัฐ | Corrupt0 — ACT Ai",
+    title: "ข้อมูลนักการเมืองเเละเจ้าหน้าที่รัฐ | ACT Ai Politics Data — ACT Ai",
   },
   twitter: {
     ...twitter,
-    title: "ข้อมูลนักการเมืองเเละเจ้าหน้าที่รัฐ | Corrupt0 — ACT Ai",
+    title: "ข้อมูลนักการเมืองเเละเจ้าหน้าที่รัฐ | ACT Ai Politics Data — ACT Ai",
   },
 };
 

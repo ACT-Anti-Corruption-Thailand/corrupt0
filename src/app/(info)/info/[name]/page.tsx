@@ -70,15 +70,15 @@ export async function generateMetadata({ params }: InfoPageProps): Promise<Metad
     : {};
 
   return {
-    title: `${spacedName} | Corrupt0 — ACT Ai`,
+    title: `${spacedName} | ACT Ai Politics Data — ACT Ai`,
     openGraph: {
       ...openGraph,
-      title: `${spacedName} | Corrupt0 — ACT Ai`,
+      title: `${spacedName} | ACT Ai Politics Data — ACT Ai`,
       ...ogEntry,
     },
     twitter: {
       ...twitter,
-      title: `${spacedName} | Corrupt0 — ACT Ai`,
+      title: `${spacedName} | ACT Ai Politics Data — ACT Ai`,
       ...ogEntry,
     },
   };

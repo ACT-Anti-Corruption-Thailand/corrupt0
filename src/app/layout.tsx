@@ -35,7 +35,7 @@ const expanded_font = localFont({
 });
 
 export const commonOpenGraph: Metadata["openGraph"] = {
-  title: "Corrupt0 — ACT Ai",
+  title: "ACT Ai Politics Data — ACT Ai",
   description:
     "ร่วมเป็นส่วนหนึ่งในการค้นหาและตรวจสอบเพื่อสร้างความโปร่งใสทางการเมือง (Political Transparency) ไปกับ ACT Ai",
   images: {
@@ -59,7 +59,7 @@ export const twitter: Metadata["twitter"] = {
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://poldata.actai.co/"),
-  title: "Corrupt0 — ACT Ai",
+  title: "ACT Ai Politics Data — ACT Ai",
   description:
     "ร่วมเป็นส่วนหนึ่งในการค้นหาและตรวจสอบเพื่อสร้างความโปร่งใสทางการเมือง (Political Transparency) ไปกับ ACT Ai",
   manifest: "/site.webmanifest",
