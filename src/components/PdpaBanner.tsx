@@ -40,16 +40,11 @@ export default function PdpaBanner() {
   };
 
   useEffect(() => {
-    if (
-      consentList &&
-      (consentList.ad_storage !== "denied" || consentList.analytics_storage !== "denied")
-    ) {
+    if (consentList && consentList.analytics_storage === "granted") {
       if (typeof window !== "undefined" && "gtag" in window) {
         (window as any).gtag("consent", "update", consentList);
-        if (consentList.analytics_storage === "granted") {
-          initClarity();
-        }
       }
+      initClarity();
     }
   }, [consentList]);
 

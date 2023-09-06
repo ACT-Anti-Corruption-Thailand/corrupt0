@@ -88,11 +88,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             });
           `}
         </Script>
-        <Script src="https://www.googletagmanager.com/gtag/js?id=G-EZ5S2KT8JS" />
+        <Script src="https://www.googletagmanager.com/gtag/js?id=G-1FSBCVGWK4" />
         <Script id="gtag-init">
           {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+
             gtag('js', new Date());
-            gtag('config', 'G-EZ5S2KT8JS');
+            gtag('config', 'G-1FSBCVGWK4');
           `}
         </Script>
         <PdpaBanner />
