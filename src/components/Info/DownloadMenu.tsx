@@ -92,7 +92,7 @@ export default function DownloadMenu({ data }: DownloadMenuProps) {
                   <span className="b5 font-bold">
                     {new Date(nacc_data.date).getFullYear() + 543}
                   </span>{" "}
-                  ({nacc_data.case.replace("กรณี", "") + nacc_data.position})
+                  {nacc_data.case.replace("กรณี", "") + nacc_data.position}
                 </button>
               </Menu.Item>
             ))}
