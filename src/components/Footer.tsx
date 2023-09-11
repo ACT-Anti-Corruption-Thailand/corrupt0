@@ -40,7 +40,7 @@ export default function Footer({ className }: { className?: string }) {
           <div className="">
             <span className="block mb-5 font-bold">แหล่งข้อมูล</span>
             <ul className="md:columns-2 md:gap-5 [&>li]:mb-5">
-              <li>
+              <li className="nobr">
                 <a
                   href="https://asset.nacc.go.th/dcs-app/"
                   target="_blank"
@@ -49,7 +49,7 @@ export default function Footer({ className }: { className?: string }) {
                   บัญชีทรัพย์สินหนี้สินฯ ป.ป.ช.
                 </a>
               </li>
-              <li>
+              <li className="nobr">
                 <a
                   href="https://www.nacc.go.th/naccCulIncul/naccCulpability.php"
                   target="_blank"
@@ -58,7 +58,7 @@ export default function Footer({ className }: { className?: string }) {
                   คำชี้มูล ป.ป.ช.
                 </a>
               </li>
-              <li>
+              <li className="nobr">
                 <a
                   href="http://www.supremecourt.or.th/division/แผนกคดีอาญาของผู้ดำรงตำแหน่งทางการเมือง/คำพิพากษาคดี"
                   target="_blank"
@@ -67,7 +67,7 @@ export default function Footer({ className }: { className?: string }) {
                   คำพิพากษาศาลฎีกา
                 </a>
               </li>
-              <li>
+              <li className="nobr">
                 <a
                   href="https://market.sec.or.th/public/idisc/th/Enforce/Recent"
                   target="_blank"
@@ -76,7 +76,7 @@ export default function Footer({ className }: { className?: string }) {
                   การบังคับใช้กฎหมายของ ก.ล.ต.
                 </a>
               </li>
-              <li>
+              <li className="nobr">
                 <a
                   href="https://www.ect.go.th/ect_th/th/db_119_ect_th_download_22"
                   target="_blank"
@@ -85,7 +85,7 @@ export default function Footer({ className }: { className?: string }) {
                   ข้อมูลเงินบริจาคพรรคการเมือง
                 </a>
               </li>
-              <li>
+              <li className="nobr">
                 <a
                   href="https://ratchakitcha.soc.go.th"
                   target="_blank"
@@ -94,7 +94,7 @@ export default function Footer({ className }: { className?: string }) {
                   รายชื่อผู้บริหาร/ข้าราชการระดับสูง
                 </a>
               </li>
-              <li>
+              <li className="nobr">
                 <a
                   href="https://www.soc.go.th/?page_id=538"
                   target="_blank"
@@ -103,7 +103,7 @@ export default function Footer({ className }: { className?: string }) {
                   รายชื่อข้าราชการการเมือง
                 </a>
               </li>
-              <li>
+              <li className="nobr">
                 <a
                   href="https://opendata.actai.co"
                   target="_blank"
@@ -112,7 +112,7 @@ export default function Footer({ className }: { className?: string }) {
                   ฐานข้อมูลเปิดเพื่อการต่อต้านคอร์รัปชัน
                 </a>
               </li>
-              <li>
+              <li className="nobr">
                 <a
                   href="https://theyworkforus.wevis.info"
                   target="_blank"
@@ -121,7 +121,7 @@ export default function Footer({ className }: { className?: string }) {
                   ข้อมูลการทำงานของสมาชิกรัฐสภา
                 </a>
               </li>
-              <li>
+              <li className="nobr">
                 <a
                   href="https://creden.co/"
                   target="_blank"
