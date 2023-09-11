@@ -49,19 +49,19 @@ export default function InfoDonationPartyCard({
       trigger={
         <div className="text-left flex flex-col gap-5">
           <div className="flex gap-5 items-center">
-            <Image
-              className="border border-black rounded-full"
-              src={logo}
-              alt=""
-              width={25}
-              height={25}
-            />
             {hasCorrupt0Page(`พรรค${latestName}`) ? (
               <Link
                 href={`/info/พรรค${latestName}`}
                 target="_blank"
                 className="flex gap-5 items-center"
               >
+                <Image
+                  className="border border-black rounded-full"
+                  src={logo}
+                  alt=""
+                  width={25}
+                  height={25}
+                />
                 <span className="b2 font-bold">{name}</span>
                 <Image
                   className="w-15 h-auto aspect-square md:w-[18px]"
@@ -72,7 +72,16 @@ export default function InfoDonationPartyCard({
                 />
               </Link>
             ) : (
-              <span className="b2 font-bold">{name}</span>
+              <>
+                <Image
+                  className="border border-black rounded-full"
+                  src={logo}
+                  alt=""
+                  width={25}
+                  height={25}
+                />
+                <span className="b2 font-bold">{name}</span>
+              </>
             )}
             <Image
               className="ui-open:rotate-180 ml-auto"
