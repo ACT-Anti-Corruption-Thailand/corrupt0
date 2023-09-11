@@ -484,18 +484,18 @@ let DATA = {
   ),
   ASSET_LAND_INFO: await safeLoadCSV("data/raw/asset_land_info.csv").then((value) =>
     value.derive({
-      address_land: (d) => {
-        return `${d.sub_distirict} ${d.distirict} ${d.province}`;
-      },
+      address_land: aq.escape((d) =>
+        [d.sub_distirict, d.distirict, d.province].filter((e) => e).join(" ")
+      ),
     })
   ),
   ASSET_BUILDING_INFO: await aq
     .loadCSV("data/raw/asset_building_info.csv")
     .then((value) =>
       value.derive({
-        address_building: (d) => {
-          return `${d.sub_district} ${d.district} ${d.province}`;
-        },
+        address_building: aq.escape((d) =>
+          [d.sub_distirict, d.distirict, d.province].filter((e) => e).join(" ")
+        ),
       })
     ),
   ASSET_OTHER_ASSET_INFO: await safeLoadCSV("data/raw/asset_other_asset_info.csv"),
