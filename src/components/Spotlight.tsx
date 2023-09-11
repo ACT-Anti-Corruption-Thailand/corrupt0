@@ -137,7 +137,11 @@ const Spotlight = ({ update }: { update: string }) => {
       <div className="text-center">
         <div className="b4 flex flex-wrap items-center justify-center gap-5 md:gap-10">
           <span className="font-bold">ร่วมพัฒนาโดย</span>
-          <a href="https://actai.co/" target="_blank" rel="nofollow noopener noreferrer">
+          <a
+            href="http://www.anticorruption.in.th/"
+            target="_blank"
+            rel="nofollow noopener noreferrer"
+          >
             <Image
               className="w-auto h-20 md:h-[35px]"
               src="/logos/act-w.svg"
