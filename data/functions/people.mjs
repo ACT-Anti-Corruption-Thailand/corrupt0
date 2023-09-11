@@ -1192,9 +1192,7 @@ export const generatePeople = async () => {
     }
 
     let person_data_json = {};
-    for (let dfname of [
-      ...nameFind,
-    ].reverse() /* เอาเก่าสุดขึ้นก่อน ข้อมูลใหม่สุดจะได้เขียนทับ */) {
+    for (let dfname of nameFind) {
       const pd = await getPersonalData(dfname);
       person_data_json = { ...person_data_json, ...pd };
     }
