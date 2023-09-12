@@ -17,7 +17,7 @@ import _PARTY_DONATION from "@data/donation/partyPerYearWithTotal.json";
 const POLITICIAN_IMAGES = _POLITICIAN_IMAGES as Record<string, string | null>;
 
 const PEOPLE_POSITION = Object.fromEntries(
-  DATA_PEOPLE.map((e) => e.split("|")).filter((e) => e[1])
+  DATA_PEOPLE.map((e) => e.split("|")).filter((e) => e[2] === "" && e[1])
 );
 
 const getFormalName = (donation_full_name: string) =>
@@ -167,10 +167,7 @@ export function IndividualSection() {
           >
             <EntityStackedBarCard
               name={individualSearch.name}
-              title={
-                PEOPLE_POSITION[individualSearch.name.replace(/\s/g, "-")] ??
-                individualSearch.title
-              }
+              title={PEOPLE_POSITION[individualSearch.name.replace(/\s/g, "-")]}
               data={individualSearch.donation}
               maxAmount={DONOR_DATA[0].total}
               imgPath={
@@ -198,10 +195,7 @@ export function IndividualSection() {
               >
                 <EntityStackedBarCard
                   name={individual.name}
-                  title={
-                    PEOPLE_POSITION[individual.name.replace(/\s/g, "-")] ??
-                    individual.title
-                  }
+                  title={PEOPLE_POSITION[individual.name.replace(/\s/g, "-")]}
                   data={individual.donation}
                   maxAmount={donorResult[0].total}
                   imgPath={

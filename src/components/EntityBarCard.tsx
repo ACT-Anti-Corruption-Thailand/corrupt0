@@ -1,9 +1,9 @@
-import Image from "next/image";
 import { formatThousands, thaiMoneyFormatter } from "@/functions/moneyFormatter";
+import Image from "next/image";
 
 interface PersonCardProps {
   name: string;
-  title: string;
+  title?: string;
   color: string;
   amount: number;
   maxAmount: number;
@@ -28,13 +28,13 @@ const EntityBarCard = (props: PersonCardProps) => {
           className="aspect-square w-auto h-[25px] lg:h-40 rounded-full"
         />
         <div className="flex flex-col w-full">
-          <div className="flex justify-between text-gray-2 leading-1">
+          <div className="flex justify-between text-gray-2 items-baseline leading-1">
             <p className="b3">{props.name}</p>
             <p className="b4">{formatThousands(money)}</p>
           </div>
-          <div className="flex justify-between b6 text-left">
-            <p>{props.title}</p>
-            <p className="text-right">{unit}</p>
+          <div className="flex b6 text-left">
+            {props.title && <p>{props.title}</p>}
+            <p className="text-right ml-auto">{unit}</p>
           </div>
         </div>
         <Image

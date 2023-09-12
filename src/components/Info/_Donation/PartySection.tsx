@@ -1,17 +1,22 @@
 "use client";
 import { useState } from "react";
 
-import SortByBtn from "@/components/SortByBtn";
 import EntityBarCard from "@/components/EntityBarCard";
 import Search from "@/components/Search";
+import SortByBtn from "@/components/SortByBtn";
 import Image from "next/image";
 import Link from "next/link";
 import Dropdown from "../../Dropdown";
 import InfoDonationChart from "./Chart";
 
+import DATA_PEOPLE from "@/data/people_search.json";
 import _POLITICIAN_IMAGES from "@/data/politicianImages.json";
 
 const POLITICIAN_IMAGES = _POLITICIAN_IMAGES as Record<string, string | null>;
+
+const PEOPLE_POSITION = Object.fromEntries(
+  DATA_PEOPLE.map((e) => e.split("|")).filter((e) => e[2] === "" && e[1])
+);
 
 import { formatThousands, thaiMoneyFormatter } from "@/functions/moneyFormatter";
 
@@ -205,7 +210,7 @@ export default function InfoPartyDonationSection(props: PartySectionProps) {
             >
               <EntityBarCard
                 name={d.donor_fullname}
-                title={d.donor_prefix}
+                title={PEOPLE_POSITION[d.donor_fullname.replace(/\s/g, "-")]}
                 color={props.theme}
                 imgPath={
                   POLITICIAN_IMAGES[d.donor_fullname.replace(/\s/g, "-")] ||
