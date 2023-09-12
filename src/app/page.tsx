@@ -14,8 +14,8 @@ import PARTY_DONATION from "@/data/donation/partyPerYearWithTotal.json";
 import PERSON_LAWSUIT_COUNT from "@/data/lawsuit_count.json";
 import NACC_PPL from "@/data/people_nacc.json";
 import DATA_PEOPLE from "@/data/people_search.json";
-import _TOP_INCOME_ASSETS from "@/data/top_income_assets.json";
 import _POLITICIAN_IMAGES from "@/data/politicianImages.json";
+import _TOP_INCOME_ASSETS from "@/data/top_income_assets.json";
 
 const POLITICIAN_IMAGES = _POLITICIAN_IMAGES as Record<string, string | null>;
 
@@ -348,7 +348,7 @@ export default function Home() {
           </a>
         </div>
       </section>
-      <Footer className="bg-gray-2 !rounded-0" />
+      <Footer home />
     </>
   );
 }
