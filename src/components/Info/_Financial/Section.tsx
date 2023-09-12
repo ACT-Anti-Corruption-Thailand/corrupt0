@@ -130,8 +130,13 @@ export default function InfoFinancialSection({
   const [showSpouse, setShowSpouse] = useState(true);
   const [showChild, setShowChild] = useState(true);
 
-  const [currentYear, setCurrentYear] = useState(years[0]);
-  const [compareYear, setCompareYear] = useState(compareYears[0]);
+  const [leftYear, setLeftYear] = useState(years[0]);
+  const [rightYear, setRightYear] = useState(compareYears[0]);
+
+  const [currentYear, compareYear] =
+    rightYear.data === null || naccYear[leftYear.data] > naccYear[rightYear.data]
+      ? [leftYear, rightYear]
+      : [rightYear, leftYear];
 
   const currentYearData = data[currentYear.data];
   const compareYearData = data[compareYear.data];
@@ -158,10 +163,10 @@ export default function InfoFinancialSection({
             <InfoFinancialDropdowns
               data={years}
               compare={compareYears}
-              currentYear={currentYear}
-              setCurrentYear={setCurrentYear}
-              compareYear={compareYear}
-              setCompareYear={setCompareYear}
+              currentYear={leftYear}
+              setCurrentYear={setLeftYear}
+              compareYear={rightYear}
+              setCompareYear={setRightYear}
             />
           </div>
           {/* การ์ดเงิน */}
