@@ -51,7 +51,7 @@ export default function PdpaBanner() {
   return (
     showConsent && (
       <section className="fixed z-20 bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[850px] b5 text-black">
-        <div className="flex flex-col items-center md:flex-row md:gap-5 rounded-t-10 p-15 bg-white md:p-20 mt-auto border-0">
+        <div className="flex flex-col items-center md:flex-row md:gap-5 rounded-t-10 p-15 bg-white md:p-20 mt-auto border-0 shadow-dropdown">
           <div className="flex-1">
             <p>
               เว็บไซต์นี้ใช้คุกกี้เพื่อเพิ่มประสิทธิภาพและประสบการณ์ที่ดีในการใช้งานเว็บไซต์
