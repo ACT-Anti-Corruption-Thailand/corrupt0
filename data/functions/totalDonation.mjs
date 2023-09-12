@@ -73,10 +73,6 @@ const getTotalDonation = async () => {
       return acc;
     }, {});
 
-  // party: { name: amount } -> entry -> sort -> pick top 10
-  const normalDonateTracker = {};
-  const businessDonateTracker = {};
-
   const individualPerPartyTable = Object.values(
     table
       .select("year", "donor_prefix", "donor_fullname", "party", "amount")
@@ -101,54 +97,9 @@ const getTotalDonation = async () => {
           acc[donor_fullname].total = amount;
         }
 
-        if (donor_prefix === "บุคคล") {
-          if (party in normalDonateTracker) {
-            normalDonateTracker[party][donor_fullname] =
-              (normalDonateTracker[party][donor_fullname] ?? 0) + amount;
-          } else {
-            normalDonateTracker[party] = {
-              [donor_fullname]: amount,
-            };
-          }
-        } else {
-          if (party in businessDonateTracker) {
-            businessDonateTracker[party][donor_fullname] =
-              (businessDonateTracker[party][donor_fullname] ?? 0) + amount;
-          } else {
-            businessDonateTracker[party] = {
-              [donor_fullname]: amount,
-            };
-          }
-        }
-
         return acc;
       }, {})
   ).sort((a, b) => b.total - a.total);
-
-  for (const party in normalDonateTracker) {
-    Object.entries(normalDonateTracker[party])
-      .sort((a, z) => z[1] - a[1])
-      .slice(0, 10)
-      .forEach((e) => {
-        const index = individualPerPartyTable.findIndex((f) => f.name === e[0]);
-        individualPerPartyTable[index].top10 = [
-          ...(individualPerPartyTable[index]?.top10 ?? []),
-          party,
-        ];
-      });
-  }
-  for (const party in businessDonateTracker) {
-    Object.entries(businessDonateTracker[party])
-      .sort((a, z) => z[1] - a[1])
-      .slice(0, 10)
-      .forEach((e) => {
-        const index = individualPerPartyTable.findIndex((f) => f.name === e[0]);
-        individualPerPartyTable[index].top10 = [
-          ...(individualPerPartyTable[index]?.top10 ?? []),
-          party,
-        ];
-      });
-  }
 
   return {
     totalPerYearWithTotalTable,
@@ -173,6 +124,30 @@ export const generateTotalDonation = async () => {
   await fs.writeFile(
     "src/data/donation/donor.json",
     JSON.stringify(Donation.individualPerPartyTable)
+  );
+
+  const DONOR = Donation.individualPerPartyTable;
+  const top10Person = [];
+  const top10Business = [];
+
+  for (
+    let donor_idx = 0;
+    (top10Person.length < 10 || top10Business.length < 10) && donor_idx < DONOR.length;
+    ++donor_idx
+  ) {
+    if (DONOR[donor_idx].title === "บุคคล" && top10Person.length < 10) {
+      top10Person.push(DONOR[donor_idx].name);
+    } else if (DONOR[donor_idx].title === "นิติบุคคล" && top10Business.length < 10) {
+      top10Business.push(DONOR[donor_idx].name);
+    }
+  }
+
+  await fs.writeFile(
+    "src/data/donation/topdonor.json",
+    JSON.stringify({
+      person: top10Person,
+      business: top10Business,
+    })
   );
 };
 

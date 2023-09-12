@@ -8,11 +8,7 @@ import InfoDonationChart from "./Chart";
 import InfoDonationPartyCard from "./PartyCard";
 
 import _PARTY_ASSETS from "@/data/color/partyAssets.json";
-import _DONOR from "@/data/donation/donor.json";
-const DONOR = _DONOR as {
-  name: string;
-  top10: string[];
-}[];
+import TOP_DONOR from "@/data/donation/topdonor.json";
 const PARTY_ASSETS = _PARTY_ASSETS as Record<
   string,
   { color: string | null; image: string | null }
@@ -151,7 +147,9 @@ export default function InfoDonationSection({
 
   const yParty = party === "ทุกพรรค" ? allParties : [party];
 
-  const DONOR_DATA = DONOR.find((e) => e.name === name);
+  const isTop10 = isPerson
+    ? TOP_DONOR.person.includes(name)
+    : TOP_DONOR.business.includes(name);
 
   return (
     <section id="donation">
@@ -195,7 +193,7 @@ export default function InfoDonationSection({
             <InfoDonationPartyCard
               key={d.name}
               name={d.name}
-              isTop10={DONOR_DATA?.top10?.includes(d.name)}
+              isTop10={isTop10}
               statements={d.statements}
               isPerson={isPerson}
             />

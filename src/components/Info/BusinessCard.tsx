@@ -6,11 +6,7 @@ import path from "path";
 import Image from "next/image";
 import Link from "next/link";
 
-import _DONOR from "@/data/donation/donor.json";
-const DONOR = _DONOR as {
-  name: string;
-  top10: string[];
-}[];
+import TOP_DONOR from "@/data/donation/topdonor.json";
 
 import { thaiMoneyFormatter } from "@/functions/moneyFormatter";
 import { getFullBusinessPage } from "@/functions/navigation";
@@ -68,7 +64,7 @@ export default function InfoBusinessCard({
     : 0;
   const [donationAmount, donationUnit] = thaiMoneyFormatter(totalDonation);
 
-  const isTop10 = DONOR.find((e) => e.name === name)?.top10?.includes(mostDonatedParty);
+  const isTop10 = TOP_DONOR.business.includes(name);
 
   return (
     <article className="rounded-5 bg-white/10 p-10 flex flex-col gap-5">
