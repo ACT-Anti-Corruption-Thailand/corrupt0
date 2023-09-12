@@ -106,12 +106,19 @@ const getDonationByParty = (data: DonationData[]): PartyDonationDetail[] => {
 
   return Object.entries(dataByParty).map(([party, details]) => ({
     name: party,
-    statements: details.map((d) => ({
-      date: d.date
-        ? `${(d.date + "").padStart(2, "0")}/${(d.month + "").padStart(2, "0")}/${d.year}`
-        : `${(d.month + "").padStart(2, "0")}/${d.year}`,
-      amount: d.amount,
-    })),
+    statements: details
+      .map((d) => ({
+        jsDate: d.date
+          ? +new Date(d.year, d.month - 1, d.date)
+          : +new Date(d.year, d.month, 0),
+        date: d.date
+          ? `${(d.date + "").padStart(2, "0")}/${(d.month + "").padStart(2, "0")}/${
+              d.year
+            }`
+          : `${(d.month + "").padStart(2, "0")}/${d.year}`,
+        amount: d.amount,
+      }))
+      .sort((a, z) => a.jsDate - z.jsDate),
   }));
 };
 

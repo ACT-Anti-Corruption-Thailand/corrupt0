@@ -31,7 +31,7 @@ export const getPartiesFileNameFromDonation = async () => {
 
 export const getPartyDonor = async (party) => {
   return DONATION_TABLE.params({ party })
-    .select("party", "month", "year", "donor_prefix", "donor_fullname", "amount")
+    .select("party", "month", "year", "date", "donor_prefix", "donor_fullname", "amount")
     .filter(aq.escape((d) => (NEW_PARTY_LOOKUP[d.party] ?? d.party) === party))
     .objects()
     .map((obj) => {

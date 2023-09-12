@@ -159,12 +159,12 @@ const getBusinessInfo = (formal_name) => {
 const getBusinessDonation = (donation_name) => {
   return DONATION_TABLE.params({ donation_name })
     .filter((d) => d.donor_fullname === donation_name)
-    .select("year", "month", "party", "amount")
+    .select("year", "month", "date", "party", "amount")
     .rename({ amount: "_amount" })
-    .groupby("year", "month", "party")
+    .groupby("year", "month", "date", "party")
     .rollup({ amount: (d) => op.sum(d._amount) })
     .ungroup()
-    .select("year", "month", "party", "amount")
+    .select("year", "month", "date", "party", "amount")
     .objects();
 };
 
