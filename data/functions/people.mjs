@@ -971,10 +971,10 @@ const processBusinessList = (business) => {
     .map((e) => e.business_name)
     .sort((a, z) => a.length - z.length);
 
-  for (let i = biz_names.length - 1; i > 0; i--) {
-    for (let j = 0; j < i; j++) {
-      if (biz_names[i].includes(biz_names[j])) {
-        biz_names[i] = null;
+  for (let longer_name = biz_names.length - 1; longer_name > 0; longer_name--) {
+    for (let shorter_name = 0; shorter_name < longer_name; shorter_name++) {
+      if (biz_names[longer_name].includes(biz_names[shorter_name])) {
+        biz_names[longer_name] = null;
         break;
       }
     }
