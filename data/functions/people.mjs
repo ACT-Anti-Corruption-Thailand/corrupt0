@@ -15,7 +15,7 @@ import { getDonationData } from "./donation.mjs";
 // ██║ ╚████║██║  ██║██║ ╚═╝ ██║███████╗    ██║██████╔╝
 // ╚═╝  ╚═══╝╚═╝  ╚═╝╚═╝     ╚═╝╚══════╝    ╚═╝╚═════╝
 
-const DATA_NACC_PDF = await safeLoadCSV("data/raw/nacc.csv");
+const DATA_NACC_PDF = await safeLoadCSV("data/constants/nacc.csv");
 const DATA_NACC = await safeLoadCSV("data/raw/nacc_detail.csv");
 const DATA_HIGH_RANK = await safeLoadCSV(
   "data/raw/public_sector_high_ranking_officer.csv"
@@ -28,7 +28,7 @@ const DONATION_FULLNAME = DONATION_TABLE.derive({
 });
 
 /**
- * @returns {Promise<[{full_name: string, nacc_info: {nacc_id:number,full_name:string,position:string,submitted_case:string,submitted_date:string,pdf_disclosure_start_date:string}[]}[],{full_name: string, nacc_info: undefined}[]]>}
+ * @returns {Promise<[{full_name: string, nacc_info: {nacc_id:number,full_name:string,position:string,submitted_case:string,submitted_date:string,pdf_disclosure_location_url:string}[]}[],{full_name: string, nacc_info: undefined}[]]>}
  */
 export const generateNamesAndId = async () => {
   // NACC
@@ -43,31 +43,11 @@ export const generateNamesAndId = async () => {
     "start_date"
   );
 
-  const nacc_pdf = DATA_NACC_PDF.derive({
-    full_name: (d) => op.replace(d.first_name + " " + d.last_name, /\s+/g, "-"),
-  }).select(
-    "full_name",
-    "position",
-    "document_submitted_type",
-    "submitted_date",
-    "pdf_disclosure_start_date"
-  );
+  const nacc_pdf = DATA_NACC_PDF.select("nacc_id", "pdf_disclosure_location_url");
 
   const nacc_names = nacc.select("full_name").dedupe();
   const nacc_data_table = nacc
-    .join_left(
-      nacc_pdf,
-      (a, b) =>
-        op.equal(a.full_name, b.full_name) &&
-        op.equal(a.position, b.position) &&
-        op.equal(a.submitted_case, b.document_submitted_type) &&
-        op.equal(a.submitted_date, b.submitted_date)
-    )
-    .rename({
-      full_name_1: "full_name",
-      position_1: "position",
-      submitted_date_1: "submitted_date",
-    })
+    .join_left(nacc_pdf, "nacc_id")
     .select(
       "nacc_id",
       "full_name",
@@ -75,7 +55,7 @@ export const generateNamesAndId = async () => {
       "submitted_case",
       "submitted_date",
       "start_date",
-      "pdf_disclosure_start_date"
+      "pdf_disclosure_location_url"
     );
   const nacc_info_by_names = nacc_data_table
     .groupby("full_name")
@@ -1160,7 +1140,7 @@ export const generatePeople = async () => {
                 case: e.submitted_case,
                 date: e.submitted_date, // NOTE - Backward Compatability
                 start_date: e.start_date,
-                pdf: e.pdf_disclosure_start_date,
+                pdf: e.pdf_disclosure_location_url,
               },
             ])
             .sort((a, z) => {

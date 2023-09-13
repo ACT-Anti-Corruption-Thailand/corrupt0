@@ -47,7 +47,7 @@ export default function PdfViewer({
 
       <Dialog.Panel className="flex flex-col rounded-5 md:rounded-10 border-2 border-white max-h-[80vh] w-4/5 md:max-w-[850px] shadow-pdf bg-black overflow-hidden">
         <Dialog.Title className="b3 py-10 px-50 text-center">
-          <span className="font-bold">{year}</span> ({situation})
+          <span className="font-bold">{year}</span> {situation}
         </Dialog.Title>
         <button
           className="absolute top-10 right-10"
