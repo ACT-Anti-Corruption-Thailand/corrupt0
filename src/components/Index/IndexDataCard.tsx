@@ -22,11 +22,11 @@ const IndexDataCard = (props: CardProps) => {
   return (
     <Link
       href={"/info/" + (props.link ?? "")}
-      className="rounded-10 w-[180px] md:w-[260px] bg-black flex flex-col text-white overflow-hidden"
+      className="rounded-10 w-[180px] md:w-[260px] bg-black flex flex-col text-white overflow-hidden group"
     >
       <div
         className={clsx(
-          "b5 min-h-[60px] flex items-center justify-center px-20 md:min-h-[80px] font-bold",
+          "b5 min-h-[60px] flex items-center justify-center px-20 md:min-h-[80px] font-bold group-hover:bg-gray-6 transition-colors duration-100 ease-linear",
           props.color === "red" ? "bg-red" : "bg-purple"
         )}
       >
