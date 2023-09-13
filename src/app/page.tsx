@@ -197,38 +197,44 @@ export default function Home() {
                 }
                 link={"พรรค" + TOP_PARTY.party}
               />
-              <IndexDataCard
-                title="นิติบุคคลที่บริจาคให้พรรคการเมืองมากที่สุด"
-                color="purple"
-                name={TOP_BUSINESS.name}
-                amount={TOP_BUSINESS.total}
-                icon="/placeholders/business.webp"
-                link={getFileName(TOP_BUSINESS.name)}
-              />
-              <IndexDataCard
-                title="ผู้ดำรงตำแหน่งทางการเมืองที่บริจาคเงินเยอะที่สุด"
-                color="purple"
-                name={TOP_POLITICIAN.name}
-                type={
-                  PEOPLE_POSITION[TOP_POLITICIAN.name.replace(/\s/g, "-")] ??
-                  "ไม่พบตำแหน่ง"
-                }
-                amount={TOP_POLITICIAN.total}
-                icon={
-                  POLITICIAN_IMAGES[TOP_POLITICIAN.name.replace(/\s/g, "-")] ||
-                  "/placeholders/person.webp"
-                }
-                link={TOP_POLITICIAN.name.replace(/\s/g, "-")}
-              />
-              <IndexDataCard
-                title="บุคคลที่บริจาคให้พรรคการเมืองมากที่สุด"
-                color="purple"
-                name={TOP_PERSON.name}
-                type="บุคคล"
-                amount={TOP_PERSON.total}
-                icon="/placeholders/person.webp"
-                link={TOP_PERSON.name.replace(/\s/g, "-")}
-              />
+              {TOP_BUSINESS && (
+                <IndexDataCard
+                  title="นิติบุคคลที่บริจาคให้พรรคการเมืองมากที่สุด"
+                  color="purple"
+                  name={TOP_BUSINESS.name}
+                  amount={TOP_BUSINESS.total}
+                  icon="/placeholders/business.webp"
+                  link={getFileName(TOP_BUSINESS.name)}
+                />
+              )}
+              {TOP_POLITICIAN && (
+                <IndexDataCard
+                  title="ผู้ดำรงตำแหน่งทางการเมืองที่บริจาคเงินเยอะที่สุด"
+                  color="purple"
+                  name={TOP_POLITICIAN.name}
+                  type={
+                    PEOPLE_POSITION[TOP_POLITICIAN.name.replace(/\s/g, "-")] ??
+                    "ไม่พบตำแหน่ง"
+                  }
+                  amount={TOP_POLITICIAN.total}
+                  icon={
+                    POLITICIAN_IMAGES[TOP_POLITICIAN.name.replace(/\s/g, "-")] ||
+                    "/placeholders/person.webp"
+                  }
+                  link={TOP_POLITICIAN.name.replace(/\s/g, "-")}
+                />
+              )}
+              {TOP_PERSON && (
+                <IndexDataCard
+                  title="บุคคลที่บริจาคให้พรรคการเมืองมากที่สุด"
+                  color="purple"
+                  name={TOP_PERSON.name}
+                  type="บุคคล"
+                  amount={TOP_PERSON.total}
+                  icon="/placeholders/person.webp"
+                  link={TOP_PERSON.name.replace(/\s/g, "-")}
+                />
+              )}
             </Slider>
           </div>
         </section>
