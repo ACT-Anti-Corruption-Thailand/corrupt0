@@ -134,7 +134,7 @@ export default function InfoFinancialSection({
   const [rightYear, setRightYear] = useState(compareYears[0]);
 
   const [currentYear, compareYear] =
-    rightYear.data === null || naccYear[leftYear.data] > naccYear[rightYear.data]
+    rightYear.data === null || naccYear[leftYear.data] < naccYear[rightYear.data]
       ? [leftYear, rightYear]
       : [rightYear, leftYear];
 
