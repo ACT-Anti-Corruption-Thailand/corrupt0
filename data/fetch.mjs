@@ -5,7 +5,7 @@ import JSON5 from "json5";
 const DIRECTORY_PATH = path.join("data", "raw");
 
 const FILES = [
-  "https://storage.googleapis.com/act_datacatalog/corrupt0/co_003/001/pdf/csv/nacc.csv",
+  "https://storage.googleapis.com/act_datacatalog/corrupt0/co_003/001/pdf/csv/nacc_all.csv",
   "https://storage.googleapis.com/act_datacatalog/corrupt0/co_001/001/nacc_culpability/nacc_culpability.csv",
   "https://storage.googleapis.com/act_datacatalog/corrupt0/co_004/001/pdf/ect.csv",
   "https://storage.googleapis.com/act_datacatalog/corrupt0/co_002/001/sec/sec.csv",

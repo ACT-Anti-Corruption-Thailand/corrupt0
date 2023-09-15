@@ -15,7 +15,7 @@ import { getDonationData } from "./donation.mjs";
 // ██║ ╚████║██║  ██║██║ ╚═╝ ██║███████╗    ██║██████╔╝
 // ╚═╝  ╚═══╝╚═╝  ╚═╝╚═╝     ╚═╝╚══════╝    ╚═╝╚═════╝
 
-const DATA_NACC_PDF = await safeLoadCSV("data/constants/nacc.csv");
+const DATA_NACC_PDF = await safeLoadCSV("data/raw/nacc_all.csv");
 const DATA_NACC = await safeLoadCSV("data/raw/nacc_detail.csv");
 const DATA_HIGH_RANK = await safeLoadCSV(
   "data/raw/public_sector_high_ranking_officer.csv"
@@ -97,7 +97,9 @@ export const generateNamesAndId = async () => {
   // MAP NACC
   const names_arr = names
     .objects()
-    .filter(({ full_name }) => !alt_names_list.includes(full_name));
+    .filter(
+      ({ full_name }) => !alt_names_list.includes(full_name) && full_name !== "null-null"
+    );
   const [has_nacc, non_nacc] = names_arr.reduce(
     (all, { full_name }) => {
       const nacc_info = nacc_info_by_names[full_name];
