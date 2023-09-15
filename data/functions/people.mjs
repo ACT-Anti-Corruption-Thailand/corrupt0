@@ -446,7 +446,7 @@ let DATA = {
           ? "บุตร"
           : "ผู้ยื่น";
       },
-      name: (d) => d.asset_name,
+      name: (d) => (d.asset_type_id === 36 ? d.asset_type_other : d.asset_name),
       value: (d) => d.valuation ?? 0,
       acquiring_year: (d) => {
         let year = op.parse_int(d.acquiring_year);
