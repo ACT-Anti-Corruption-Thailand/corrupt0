@@ -219,7 +219,7 @@ const Land = ({ statements = [], showActor, showSpouse, showChild }: LandProps) 
             <DetailsBlock key={i}>
               <DetailsFirstLine
                 actor={actor}
-                name={`${name} เลขที่ ${land_doc_number}`}
+                name={land_doc_number ? `${name} เลขที่ ${land_doc_number}` : name}
                 value={value}
               />
               <DetailsListContainer>

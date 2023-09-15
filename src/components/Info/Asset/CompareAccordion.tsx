@@ -277,7 +277,9 @@ const Land = ({
             ) => (
               <DetailsBlock key={i}>
                 <DetailsActor actor={actor} />
-                <span className="b5">{`${name} เลขที่ ${land_doc_number}`}</span>
+                <span className="b5">
+                  {land_doc_number ? `${name} เลขที่ ${land_doc_number}` : name}
+                </span>
                 <DetailsListContainer>
                   <DetailsListList
                     value={[
@@ -324,7 +326,9 @@ const Land = ({
             ) => (
               <DetailsBlock key={i}>
                 <DetailsActor actor={actor} />
-                <span className="b5">{`${name} เลขที่ ${land_doc_number}`}</span>
+                <span className="b5">
+                  {land_doc_number ? `${name} เลขที่ ${land_doc_number}` : name}
+                </span>
                 <DetailsListContainer>
                   <DetailsListList
                     value={[
