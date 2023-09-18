@@ -181,7 +181,7 @@ export default function Person({ params }: { params: { name: string } }) {
                       )}
                       {position && (
                         <>
-                          <span className="block b6 text-gray-5">ตำแหน่งปัจจุบัน</span>
+                          <span className="block b6 text-gray-5">ตำแหน่งล่าสุด</span>
                           <span className="block b4 no-balance">
                             <span className="font-bold">{position}</span>
                           </span>
