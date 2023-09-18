@@ -226,7 +226,7 @@ const getPersonalData = async (name) => {
     const other_jobs = all_positions
       .filter((d) => d.position_period_type_id === 2)
       .map((d) => ({
-        position_title: d.position + " " + d.workplace,
+        position_title: d.workplace ? d.position + " " + d.workplace : d.position,
         start_year: d.start_year
           ? d.start_year + 543
           : d.date_acquiring_type_id === 3
@@ -250,7 +250,7 @@ const getPersonalData = async (name) => {
     const previous_jobs = all_positions
       .filter((d) => d.position_period_type_id === 3)
       .map((d) => ({
-        position_title: d.position + " " + d.workplace,
+        position_title: d.workplace ? d.position + " " + d.workplace : d.position,
         start_year: d.start_year
           ? d.start_year + 543
           : d.date_acquiring_type_id === 3
