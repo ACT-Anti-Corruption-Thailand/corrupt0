@@ -40,7 +40,7 @@ export const generateNamesAndId = async () => {
     "position",
     "submitted_case",
     "submitted_date",
-    "start_date"
+    "date_by_submitted_case"
   );
 
   const nacc_pdf = DATA_NACC_PDF.select("nacc_id", "pdf_disclosure_location_url");
@@ -54,7 +54,7 @@ export const generateNamesAndId = async () => {
       "position",
       "submitted_case",
       "submitted_date",
-      "start_date",
+      "date_by_submitted_case",
       "pdf_disclosure_location_url"
     );
   const nacc_info_by_names = nacc_data_table
@@ -1148,7 +1148,7 @@ export const generatePeople = async () => {
                 position: e.position,
                 case: e.submitted_case,
                 date: e.submitted_date, // NOTE - Backward Compatability
-                start_date: e.start_date,
+                start_date: e.date_by_submitted_case,
                 pdf: e.pdf_disclosure_location_url,
               },
             ])
