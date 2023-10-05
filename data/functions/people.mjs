@@ -793,6 +793,9 @@ export const getStatement = async (nacc_id) => {
 
 const getLatestStatementSummary = (latestNaccYear, latestNaccId, statements) => {
   const s = statements[latestNaccId];
+
+  if (!s?.["รายได้"] && !s?.["รายจ่าย"] && !s?.["ทรัพย์สิน"] && !s?.["หนี้สิน"]) return;
+
   const lastestStatement = {
     year: latestNaccYear + 543,
     รายได้: s?.["รายได้"]
@@ -1317,12 +1320,12 @@ export const generatePeople = async () => {
 
       if (person_data_json?.group) {
         const pA =
-          latestStatement.ทรัพย์สิน
+          latestStatement?.ทรัพย์สิน
             ?.map((e) => e.value)
             ?.flat()
             ?.reduce((a, c) => a + c) ?? 0;
         const pD =
-          latestStatement.หนี้สิน
+          latestStatement?.หนี้สิน
             ?.map((e) => e.value)
             ?.flat()
             ?.reduce((a, c) => a + c) ?? 0;
