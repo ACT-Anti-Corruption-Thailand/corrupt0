@@ -54,9 +54,11 @@ export default function Person({ params }: { params: { name: string } }) {
     nacc,
     topAssets,
     latestStatement,
-    names,
+    names: allNames,
     group,
   } = politicianData;
+
+  const names = allNames.filter((n: string) => n !== name);
 
   const { sec, judgement, nacc: nacc_lawsuit } = politicianData.lawsuit;
   const totalLawsuit = sec.length + judgement.length + nacc_lawsuit.length;
@@ -139,17 +141,15 @@ export default function Person({ params }: { params: { name: string } }) {
                   อัปเดตข้อมูลเมื่อวันที่ {new Date().toLocaleDateString("th")}
                 </span>
                 <span className="h2 leading-1">{spacedName}</span>
-                {names.length > 1 && (
+                {names.length > 0 && (
                   <AltNames>
                     <ul className="flex flex-col gap-5">
-                      {names
-                        .filter((n: string) => n !== name)
-                        .map((n: string) => (
-                          <li key={n}>
-                            <span className="not-sr-only">&bull;</span>{" "}
-                            {n.replace(/-/g, " ")}
-                          </li>
-                        ))}
+                      {names.map((n: string) => (
+                        <li key={n}>
+                          <span className="not-sr-only">&bull;</span>{" "}
+                          {n.replace(/-/g, " ")}
+                        </li>
+                      ))}
                     </ul>
                   </AltNames>
                 )}
