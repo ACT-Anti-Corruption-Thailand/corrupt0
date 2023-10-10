@@ -868,12 +868,10 @@ const Valuable = ({
       }
     >
       {VALUABLE_GROUPS.map((name, i) => {
-        const groupStatement1 = filteredS1[name];
-        const groupStatement2 = filteredS2[name];
+        const groupStatement1 = filteredS1[name] ?? [];
+        const groupStatement2 = filteredS2[name] ?? [];
 
         return (
-          groupStatement1 &&
-          groupStatement2 &&
           groupStatement1.length + groupStatement2.length > 0 && (
             <ValuableGroup
               key={i}
