@@ -63,12 +63,12 @@ const Trigger = ({
       <div
         className={twMerge(clsx("flex border-b border-b-gray-3 bg-gray-1", subClassName))}
       >
-        <div className="flex-1 flex justify-between items-baseline px-10">
+        <div className="flex-1 min-w-0 flex justify-between items-baseline px-10">
           <div className="b6">{length1} รายการ</div>
           <div className="b4 font-bold">{value1.toLocaleString("th-TH")}</div>
         </div>
         <div className={twMerge(clsx("w-1 border-r border-r-gray-3", borderClassName))} />
-        <div className="flex-1 flex justify-between items-baseline px-10">
+        <div className="flex-1 min-w-0 flex justify-between items-baseline px-10">
           <div className="b6">{length2} รายการ</div>
           <div className="b4 font-bold">{value2.toLocaleString("th-TH")}</div>
         </div>
@@ -108,13 +108,15 @@ const DetailsListList = ({
   label,
   value,
   extension,
+  className,
 }: {
   label?: string;
   value?: string | number;
   extension?: string;
+  className?: string;
 }) =>
   value && (
-    <li>
+    <li className={className}>
       <span className="-left-5">
         {label && `${label}: `}
         {value} {extension}
@@ -172,7 +174,7 @@ const Cash = ({
       }
     >
       <div className="flex">
-        <ul className="flex-1">
+        <ul className="flex-1 min-w-0">
           {filteredS1.map(({ value, actor }, i) => (
             <DetailsBlock key={i}>
               <DetailsActor actor={actor} />
@@ -183,7 +185,7 @@ const Cash = ({
           ))}
         </ul>
         <div className="w-1 bg-gray-3" />
-        <ul className="flex-1">
+        <ul className="flex-1 min-w-0">
           {filteredS2.map(({ value, actor }, i) => (
             <DetailsBlock key={i}>
               <DetailsActor actor={actor} />
@@ -258,7 +260,7 @@ const Land = ({
       }
     >
       <div className="flex">
-        <ul className="flex-1">
+        <ul className="flex-1 min-w-0">
           {filteredS1.map(
             (
               {
@@ -307,7 +309,7 @@ const Land = ({
           )}
         </ul>
         <div className="w-1 bg-gray-3" />
-        <ul className="flex-1">
+        <ul className="flex-1 min-w-0">
           {filteredS2.map(
             (
               {
@@ -407,7 +409,7 @@ const Concession = ({
       }
     >
       <div className="flex">
-        <ul className="flex-1">
+        <ul className="flex-1 min-w-0">
           {filteredS1.map(({ value, actor, name, receiveDate, endDate }, i) => (
             <DetailsBlock key={i}>
               <DetailsActor actor={actor} />
@@ -431,7 +433,7 @@ const Concession = ({
           ))}
         </ul>
         <div className="w-1 bg-gray-3" />
-        <ul className="flex-1">
+        <ul className="flex-1 min-w-0">
           {filteredS2.map(({ value, actor, name, receiveDate, endDate }, i) => (
             <DetailsBlock key={i}>
               <DetailsActor actor={actor} />
@@ -508,7 +510,7 @@ const Building = ({
       }
     >
       <div className="flex">
-        <ul className="flex-1">
+        <ul className="flex-1 min-w-0">
           {filteredS1.map(
             (
               {
@@ -529,6 +531,7 @@ const Building = ({
                   <DetailsListList
                     label="เอกสารสิทธิ์เลขที่"
                     value={building_doc_number}
+                    className="break-all"
                   />
                   <DetailsListList value={address} />
                   <DetailsListList label="วันที่ได้มา" value={receiveDate} />
@@ -542,7 +545,7 @@ const Building = ({
           )}
         </ul>
         <div className="w-1 bg-gray-3" />
-        <ul className="flex-1">
+        <ul className="flex-1 min-w-0">
           {filteredS2.map(
             (
               {
@@ -563,6 +566,7 @@ const Building = ({
                   <DetailsListList
                     label="เอกสารสิทธิ์เลขที่"
                     value={building_doc_number}
+                    className="break-all"
                   />
                   <DetailsListList value={address} />
                   <DetailsListList label="วันที่ได้มา" value={receiveDate} />
@@ -629,7 +633,7 @@ const Vehicle = ({
       }
     >
       <div className="flex">
-        <ul className="flex-1">
+        <ul className="flex-1 min-w-0">
           {filteredS1.map(
             (
               {
@@ -661,7 +665,7 @@ const Vehicle = ({
           )}
         </ul>
         <div className="w-1 bg-gray-3" />
-        <ul className="flex-1">
+        <ul className="flex-1 min-w-0">
           {filteredS2.map(
             (
               {
@@ -738,7 +742,7 @@ const ValuableGroup = ({ name, statements1, statements2 }: ValuableGroupProps) =
       }
     >
       <div className="flex">
-        <ul className="flex-1">
+        <ul className="flex-1 min-w-0">
           {statements1.map(
             ({ value, actor, name: s1name, count, receiveDate, unit }, i) => (
               <DetailsBlock key={i}>
@@ -756,7 +760,7 @@ const ValuableGroup = ({ name, statements1, statements2 }: ValuableGroupProps) =
           )}
         </ul>
         <div className="w-1 bg-gray-3" />
-        <ul className="flex-1">
+        <ul className="flex-1 min-w-0">
           {statements2.map(
             ({ value, actor, name: s2name, count, receiveDate, unit }, i) => (
               <DetailsBlock key={i}>
