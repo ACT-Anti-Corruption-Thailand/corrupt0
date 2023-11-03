@@ -2,7 +2,7 @@ name: Production Build
 
 on:
   schedule:
-    - cron: "0 19 1 * *" # MM01 1900 UTC (MM02 0200 GMT+7)
+    - cron: "0 17 3 * *" # MM03 1700 UTC (MM04 0000 GMT+7)
   workflow_dispatch:
 
 concurrency:
