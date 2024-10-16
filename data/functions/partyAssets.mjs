@@ -3,7 +3,7 @@ import PARTY_ASSETS from "../raw/pu_party.json" assert { type: "json" };
 
 export const generatePartyAssets = async () => {
   let party = Object.fromEntries(
-    PARTY_ASSETS.data.list.map((e) => [
+    PARTY_ASSETS.list.map((e) => [
       e.Name,
       {
         color: e.Color,
